@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "presentation/modules/shared/components/layout";
-import { ImagesListPage } from "./pages/makeImagesList";
-import { ImageDetailsPage } from "./pages/makeImagesDetail";
+import { ImagesListPage } from "./pages/make-images-list-page";
+import { ImageDetailsPage } from "./pages/make-images-details-page";
 
 export const Router: React.FC = () => (
   <BrowserRouter>

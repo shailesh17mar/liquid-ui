@@ -2,7 +2,7 @@ import Container from "react-bootstrap/Container";
 import styled from "styled-components";
 
 export const MainContainer = styled(Container)`
-  padding: 40px;
+  padding: 20px;
 `;
 
 export const Heading = styled.h1`
@@ -11,5 +11,5 @@ export const Heading = styled.h1`
 `;
 
 export const InnerContainer = styled.div`
-  padding: 40px;
+  padding-top: 40px;
 `;

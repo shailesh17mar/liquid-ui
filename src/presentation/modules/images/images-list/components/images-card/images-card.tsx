@@ -10,13 +10,13 @@ type Props = {
 
 export const ImagesCard: React.FC<Props> = ({ image }: Props) => {
   return (
-    <Link to={`/images/${image.id}`}>
-      <ImageCard>
+    <ImageCard>
+      <Link to={`/images/${image.id}`}>
         <Card.Img variant="top" src={image.url} />
         <Card.Body>
           <p>{image.author}</p>
         </Card.Body>
-      </ImageCard>
-    </Link>
+      </Link>
+    </ImageCard>
   );
 };

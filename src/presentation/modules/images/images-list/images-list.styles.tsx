@@ -3,19 +3,22 @@ import Pagination from "react-bootstrap/Pagination";
 
 export const Grid = styled.div`
   display: grid;
-  grid-template-columns: auto auto auto;
-  grid-template-rows: auto auto;
-  grid-gap: 10px;
-  padding: 10px;
+  grid-gap: 1rem;
   margin: 0 auto;
   justify-items: center;
   max-width: 1200px;
-  margin: 0 auto;
+
+  @media (min-width: 600px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 900px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
 `;
 
 export const GridItem = styled.div`
   text-align: center;
-  padding: 20px 0;
 `;
 
 export const PaginationBar = styled(Pagination)`

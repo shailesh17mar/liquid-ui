@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Grid, GridItem, PaginationBar } from "./images-list.styles";
 import { ImagesCard } from "./components/images-card";
@@ -16,17 +15,40 @@ type Props = {
 export const ImagesList: React.FC<Props> = ({ loadImagesList }: Props) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = searchParams.has("page") ? Number(searchParams.get("page")) : 1;
-  const [{ loading, images }] = useGetImagesList(loadImagesList, page);
+  const [{ loading, images, error }] = useGetImagesList(loadImagesList, page);
 
+  if (error) throw error;
+  if (loading) {
+    return (
+      <Spinner animation="border" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </Spinner>
+    );
+  }
   return (
-    <>
-      {loading ? (
-        <Spinner animation="border" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </Spinner>
-      ) : (
-        images &&
-        images.length > 0 && (
+      images.length > 0 ? (
+        <>
+          <PaginationBar size="lg">
+            <Pagination.Item
+              disabled={page === 1}
+              onClick={() =>
+                setSearchParams({
+                  page: (page - 1) as unknown as string,
+                })
+              }
+            >
+              Prev
+            </Pagination.Item>
+            <Pagination.Item
+              onClick={() =>
+                setSearchParams({
+                  page: (page + 1) as unknown as string,
+                })
+              }
+            >
+              Next
+            </Pagination.Item>
+          </PaginationBar>
           <Grid>
             {images.map((image: Image) => (
               <GridItem key={image.id}>
@@ -34,29 +56,9 @@ export const ImagesList: React.FC<Props> = ({ loadImagesList }: Props) => {
               </GridItem>
             ))}
           </Grid>
-        )
-      )}
-      <PaginationBar size="lg">
-        <Pagination.Item
-          disabled={page === 1}
-          onClick={() =>
-            setSearchParams({
-              page: (page - 1) as unknown as string,
-            })
-          }
-        >
-          Prev
-        </Pagination.Item>
-        <Pagination.Item
-          onClick={() =>
-            setSearchParams({
-              page: (page + 1) as unknown as string,
-            })
-          }
-        >
-          Next
-        </Pagination.Item>
-      </PaginationBar>
-    </>
+        </>
+      ) : (
+        <div> Weird!! No images found. </div>
+      )
   );
 };

@@ -1,6 +1,6 @@
 import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { ErrorFallback } from "../error-boundary/error-boundary";
+import { ErrorFallback } from "../error-fallback/error-fallback";
 import { Outlet } from "react-router-dom";
 import { MainContainer, Heading, InnerContainer } from "./layout.styles";
 

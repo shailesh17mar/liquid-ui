@@ -15,8 +15,8 @@ export const ImageEditForm: React.FC<Props> = ({
   filter,
   onSubmit,
 }: Props) => {
-  const [width, setWidth] = useState<number>(image.width);
-  const [height, setHeight] = useState<number>(image.height);
+  const [width, setWidth] = useState<number>(filter?.dimension?.width || image.width);
+  const [height, setHeight] = useState<number>(filter?.dimension?.height ||image.height);
   const [grayscale, setGrayscale] = useState<boolean>(
     filter?.grayscale || false
   );
@@ -26,6 +26,7 @@ export const ImageEditForm: React.FC<Props> = ({
       <a download={"download.png"} href={image.url}>
         Download
       </a>
+
       <Form.Group className="mb-3" controlId="blur">
         <Form.Label>Blurring</Form.Label>
         <Form.Range
@@ -37,6 +38,7 @@ export const ImageEditForm: React.FC<Props> = ({
           }}
         />
       </Form.Group>
+
       <Form.Group className="mb-3" controlId="grayscale">
         <Form.Label>Grayscaling</Form.Label>
         <Form.Check
@@ -69,6 +71,7 @@ export const ImageEditForm: React.FC<Props> = ({
           }}
         />
       </Form.Group>
+
       <Button
         variant="primary"
         onClick={() => {
