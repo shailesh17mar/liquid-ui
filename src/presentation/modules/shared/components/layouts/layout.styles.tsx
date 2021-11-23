@@ -1,9 +1,4 @@
-import Container from "react-bootstrap/Container";
 import styled from "styled-components";
-
-export const MainContainer = styled(Container)`
-  padding: 20px;
-`;
 
 export const Heading = styled.h1`
   display: flex;

@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./presentation/styles/index.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { Router } from "./main/router";
 import reportWebVitals from "./reportWebVitals";
 
