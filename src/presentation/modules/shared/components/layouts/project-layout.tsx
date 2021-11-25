@@ -14,17 +14,19 @@ import {
   EuiButtonEmpty,
   EuiFieldSearch,
   euiPaletteColorBlind,
-  EuiHeader,
-  EuiHeaderSectionItemButton,
-  EuiButtonIcon,
-  EuiButton,
-  EuiPageContent,
   EuiPageContentBody,
 } from "@elastic/eui";
-import { Outlet, useNavigate } from "react-router-dom";
+import {
+  Link,
+  matchPath,
+  Outlet,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 
 export const ProjectLayout: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [isSideNavOpenOnMobile, setIsSideNavOpenOnMobile] =
     useState<boolean>(false);
   const [isPopoverOpen, setPopover] = useState<boolean>(false);
@@ -50,10 +52,11 @@ export const ProjectLayout: React.FC = () => {
 
   const createItem = (name: string, data: any = {}, to: string = "") => {
     // NOTE: Duplicate `name` values will cause `id` collisions.
+    const match = matchPath(`/projects/:id/${to}`, location.pathname);
     return {
       id: slugify(name),
       name,
-      isSelected: selectedItemName === name,
+      isSelected: selectedItemName === name || Boolean(match),
       onClick: () => {
         selectItem(name);
         if (to) navigate(to);
@@ -151,16 +154,19 @@ export const ProjectLayout: React.FC = () => {
           </EuiPopover>,
         ],
       }}
+      pageContentProps={{ paddingSize: "none" }}
       pageSideBar={
         <EuiPageSideBar paddingSize="m">
           <EuiSideNav
             aria-label="Basic example"
             heading={
-              <EuiAvatar
-                size="l"
-                type="space"
-                name="Workspace here"
-              ></EuiAvatar>
+              <Link to="/" >
+                <EuiAvatar
+                  size="l"
+                  type="space"
+                  name="Workspace here"
+                ></EuiAvatar>
+              </Link>
             }
             mobileTitle="Basic example"
             toggleOpenOnMobile={() => toggleOpenOnMobile()}

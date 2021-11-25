@@ -1,14 +1,11 @@
-import React, { useState, useCallback, ReactElement, useContext } from "react";
+import React, { useState, useCallback, ReactElement } from "react";
 import { fake } from "faker";
 
 import {
   EuiDataGrid,
-  EuiAvatar,
   EuiDataGridStyle,
   EuiBadge,
   euiPaletteColorBlindBehindText,
-  EuiText,
-  EuiPanel,
   transparentize,
   EuiCheckbox,
 } from "@elastic/eui";

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "@elastic/eui/dist/eui_theme_light.css";
 import {
-  EuiEmptyPrompt,
   EuiIcon,
   EuiPageSideBar,
   EuiPageTemplate,
@@ -15,10 +14,17 @@ import {
   EuiButtonEmpty,
   EuiFieldSearch,
 } from "@elastic/eui";
-import { Outlet, useNavigate } from "react-router-dom";
+import {
+  Link,
+  matchPath,
+  Outlet,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 
 export const MainLayout: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [isSideNavOpenOnMobile, setIsSideNavOpenOnMobile] =
     useState<boolean>(false);
   const [isPopoverOpen, setPopover] = useState<boolean>(false);
@@ -44,10 +50,11 @@ export const MainLayout: React.FC = () => {
 
   const createItem = (name: string, to: string, data: any = {}) => {
     // NOTE: Duplicate `name` values will cause `id` collisions.
+    const match = to && matchPath(to, location.pathname);
     return {
       id: slugify(name),
       name,
-      isSelected: selectedItemName === name,
+      isSelected: selectedItemName === name || Boolean(match),
       onClick: () => {
         selectItem(name);
         if (to) navigate(to);
@@ -88,10 +95,10 @@ export const MainLayout: React.FC = () => {
         createItem("Create Project", "", {
           icon: <EuiIcon type="plus" />,
         }),
-        createItem("Project 1", "", {
+        createItem("Project 1", "projects/1", {
           icon: <EuiIcon color="#207af1" type="folderClosed" />,
         }),
-        createItem("Project 2", "", {
+        createItem("Project 2", "projects/2", {
           icon: <EuiIcon color="#207af1" type="folderClosed" />,
         }),
       ],
@@ -106,6 +113,7 @@ export const MainLayout: React.FC = () => {
   return (
     <EuiPageTemplate
       fullHeight
+      paddingSize="none"
       restrictWidth={false}
       pageContentProps={{ paddingSize: "none" }}
       pageHeader={{
@@ -131,10 +139,18 @@ export const MainLayout: React.FC = () => {
         ],
       }}
       pageSideBar={
-        <EuiPageSideBar>
+        <EuiPageSideBar paddingSize="m">
           <EuiSideNav
             aria-label="Basic example"
-            heading="Liquid"
+            heading={
+              <Link to="/">
+                <EuiAvatar
+                  size="l"
+                  type="space"
+                  name="Workspace here"
+                ></EuiAvatar>
+              </Link>
+            }
             mobileTitle="Basic example"
             toggleOpenOnMobile={() => toggleOpenOnMobile()}
             isOpenOnMobile={isSideNavOpenOnMobile}
@@ -144,7 +160,7 @@ export const MainLayout: React.FC = () => {
         </EuiPageSideBar>
       }
     >
-      <Outlet/>
+      <Outlet />
     </EuiPageTemplate>
   );
 };
