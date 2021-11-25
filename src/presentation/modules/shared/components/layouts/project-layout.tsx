@@ -19,6 +19,7 @@ import {
   EuiButtonIcon,
   EuiButton,
   EuiPageContent,
+  EuiPageContentBody,
 } from "@elastic/eui";
 import { Outlet, useNavigate } from "react-router-dom";
 
@@ -170,27 +171,9 @@ export const ProjectLayout: React.FC = () => {
         </EuiPageSideBar>
       }
     >
-      <EuiHeader
-        sections={[
-          {
-            breadcrumbs: breadcrumbs,
-            borders: "right",
-          },
-          {
-            items: [
-              <EuiHeaderSectionItemButton>
-                <EuiButton iconType="share" size="s" fill>
-                  Share
-                </EuiButton>
-              </EuiHeaderSectionItemButton>,
-            ],
-            borders: "none",
-          },
-        ]}
-      />
-      <EuiPageContent paddingSize="m">
+      <EuiPageContentBody paddingSize="m">
         <Outlet />
-      </EuiPageContent>
+      </EuiPageContentBody>
     </EuiPageTemplate>
   );
 };
