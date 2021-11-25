@@ -13,6 +13,7 @@ import {
   useGeneratedHtmlId,
   EuiButtonEmpty,
   EuiFieldSearch,
+  EuiPageContentBody,
 } from "@elastic/eui";
 import {
   Link,
@@ -118,6 +119,7 @@ export const MainLayout: React.FC = () => {
       pageContentProps={{ paddingSize: "none" }}
       pageHeader={{
         iconType: "logoElastic",
+        paddingSize: "m",
         description: (
           <EuiFieldSearch
             placeholder="Search for anything"
@@ -160,7 +162,9 @@ export const MainLayout: React.FC = () => {
         </EuiPageSideBar>
       }
     >
-      <Outlet />
+      <EuiPageContentBody paddingSize="m">
+        <Outlet />
+      </EuiPageContentBody>
     </EuiPageTemplate>
   );
 };
