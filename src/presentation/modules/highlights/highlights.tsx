@@ -1,72 +1,121 @@
-import React, { useState, useCallback, ReactElement } from "react";
+import React, { useState, useCallback, ReactElement, useContext } from "react";
 import { fake } from "faker";
 
 import {
   EuiDataGrid,
   EuiAvatar,
   EuiDataGridStyle,
+  EuiBadge,
+  euiPaletteColorBlindBehindText,
+  EuiText,
+  EuiPanel,
+  transparentize,
+  EuiCheckbox,
 } from "@elastic/eui";
+import moment from "moment";
 
+const visColorsBehindText = euiPaletteColorBlindBehindText();
 const columns = [
   {
-    id: "avatar",
-    initialWidth: 100,
+    id: "content",
+    displayAsText: "Content",
+    initialWidth: 300,
+  },
+  {
+    id: "tags",
+    displayAsText: "Tags",
+  },
+  {
+    id: "note",
+    displayAsText: "Note",
+  },
+  {
+    id: "created",
+    displayAsText: "Created at",
+  },
+  {
+    id: "updated",
+    displayAsText: "Updated at",
   },
   {
     id: "name",
+    displayAsText: "Name",
   },
   {
-    id: "email",
+    id: "role",
+    displayAsText: "Role",
   },
   {
-    id: "city",
+    id: "companySize",
+    displayAsText: "Company Size",
   },
   {
-    id: "country",
-  },
-  {
-    id: "account",
+    id: "annualSpend",
+    displayAsText: "Annual Spend",
   },
 ];
 
 interface IHighlight {
-  avatar: ReactElement;
+  content: ReactElement;
+  tags: ReactElement;
+  note: string;
+  created: string;
+  updated: string;
   name: string;
-  email: string;
-  city: string;
-  country: string;
-  account: string;
+  role: string;
+  companySize: string;
+  annualSpend: string;
   [key: string]: string | ReactElement | null;
 }
 const data: IHighlight[] = [];
 
 for (let i = 1; i < 100; i++) {
+  const color: string = visColorsBehindText[Math.floor(Math.random() * 7)];
   data.push({
-    avatar: (
-      <EuiAvatar
-        size="s"
-        name={fake("{{name.lastName}}, {{name.firstName}}")}
-      />
+    content: (
+      <>
+        <span
+          style={{
+            backgroundColor: transparentize(color, 0.3),
+            paddingTop: "4px",
+          }}
+        >
+          {fake("{{lorem.lines}}")}
+        </span>
+      </>
     ),
-    name: fake("{{name.lastName}}, {{name.firstName}} {{name.suffix}}"),
-    email: fake("{{internet.email}}"),
-    city: fake("{{address.city}}"),
-    country: fake("{{address.country}}"),
-    account: fake("{{finance.account}}"),
+    tags: (
+      <>
+        <EuiBadge color={color}>{fake("{{lorem.words}}")}</EuiBadge>
+        <EuiBadge color={color}>{fake("{{lorem.words}}")}</EuiBadge>
+        <EuiBadge color={color}>{fake("{{lorem.words}}")}</EuiBadge>
+      </>
+    ),
+    note: fake("{{name.firstName}} {{name.lastName}}"),
+    created: moment(fake("{{date.past}}")).fromNow(),
+    updated: moment(fake("{{date.recent}}")).fromNow(),
+    name: fake("{{name.firstName}} {{name.lastName}}"),
+    role: fake("{{music.genre}}"),
+    companySize: fake("{{datatype.number}}"),
+    annualSpend: fake("{{finance.amount}}"),
   } as IHighlight);
 }
 
-// const footerCellValues = {
-//   avatar: "5 accounts",
-// };
-
-// footerCellValues[columnId] || null;
-
+const SelectionHeaderCell = () => (
+  <EuiCheckbox
+    id="selection-toggle"
+    aria-label="Select all rows"
+    onChange={() => {}}
+  />
+);
+const SelectionRowCell = ({ rowIndex }: { rowIndex: number }) => (
+  <EuiCheckbox id={`${rowIndex}`} onChange={() => {}} />
+);
 export const Highlights: React.FC = () => {
   const [borderSelected, setBorderSelected] = useState("none");
-  const [fontSizeSelected, setFontSizeSelected] = useState("s");
-  const [cellPaddingSelected, setCellPaddingSelected] = useState("s");
-  const [stripesSelected, setStripesSelected] = useState(true);
+  const [fontSizeSelected, setFontSizeSelected] = useState("m");
+  const [cellPaddingSelected, setCellPaddingSelected] = useState("m");
+  const [stripesSelected, setStripesSelected] = useState(false);
   const [rowHoverSelected, setRowHoverSelected] = useState("none");
   const [headerSelected, setHeaderSelected] = useState("underline");
   const [footerSelected] = useState("overline");
@@ -78,11 +127,20 @@ export const Highlights: React.FC = () => {
     useState(true);
   const [pagination, setPagination] = useState({
     pageIndex: 0,
-    pageSize: 5,
+    pageSize: 25,
   });
   const [visibleColumns, setVisibleColumns] = useState(
     columns.map(({ id }) => id)
   );
+
+  const leadingControlColumns = [
+    {
+      id: "selection",
+      width: 32,
+      headerCellRender: SelectionHeaderCell,
+      rowCellRender: SelectionRowCell,
+    },
+  ];
 
   const setPageIndex = useCallback(
     (pageIndex) => {
@@ -102,28 +160,26 @@ export const Highlights: React.FC = () => {
     setVisibleColumns(visibleColumns);
 
   const toolbarVisibilityOptions = {
-    showStyleSelector: showStyleSelector,
-    showSortSelector: showSortSelector,
-    showFullScreenSelector: showFullScreenSelector,
+    showStyleSelector: false,
+    showSortSelector: false,
+    showFullScreenSelector: true,
   };
 
-  let toolbarConfig;
-
-  if (toolbarPropTypeIsBoolean) {
-    toolbarConfig = showToolbar;
-  } else {
-    toolbarConfig = toolbarVisibilityOptions;
-  }
+  let toolbarConfig = toolbarVisibilityOptions;
 
   return (
     <EuiDataGrid
-      aria-label="Top EUI contributors"
+      aria-label="Highlights"
       columns={columns}
       columnVisibility={{
         visibleColumns: visibleColumns,
         setVisibleColumns: handleVisibleColumns,
       }}
+      leadingControlColumns={leadingControlColumns}
       rowCount={data.length}
+      rowHeightsOptions={{
+        defaultHeight: "auto",
+      }}
       gridStyle={
         {
           border: borderSelected,
@@ -139,7 +195,7 @@ export const Highlights: React.FC = () => {
       renderCellValue={({ rowIndex, columnId }) => data[rowIndex][columnId]}
       pagination={{
         ...pagination,
-        pageSizeOptions: [5, 10, 25],
+        pageSizeOptions: [5, 10, 25, 50, 100],
         onChangeItemsPerPage: setPageSize,
         onChangePage: setPageIndex,
       }}
