@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import "@elastic/eui/dist/eui_theme_amsterdam_light.css";
 import "./presentation/styles/index.css";
 import { Router } from "./main/router";
 import reportWebVitals from "./reportWebVitals";

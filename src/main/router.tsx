@@ -6,6 +6,7 @@ import {
 } from "presentation/modules/shared/components/layouts";
 import { StoriesPage } from "./pages/make-stories-page";
 import { HighlightsPage } from "./pages/make-highlights-page";
+import { ProjectDetailsPage } from "./pages/make-project-details";
 
 /*
 Side Menu will change
@@ -20,7 +21,7 @@ export const Router: React.FC = () => (
         <Route path="find" element={<>Find</>} />
       </Route>
       <Route path="/projects/:id" element={<ProjectLayout />}>
-        <Route index element={<>Project Readme</>} />
+        <Route index element={<ProjectDetailsPage />} />
         <Route path="stories" element={<StoriesPage />} />
         <Route path="highlights" element={<HighlightsPage />} />
         <Route path="tags" element={<>Tags</>} />

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "@elastic/eui/dist/eui_theme_light.css";
 import {
   EuiIcon,
   EuiPageSideBar,
