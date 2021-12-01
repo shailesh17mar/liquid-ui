@@ -160,6 +160,7 @@ export interface FieldProps {
       object
     >;
     update: (index: number, value: Partial<MetaProperty>) => void;
+    remove: () => void;
   };
   property: MetaProperty;
   name?: string;
@@ -177,8 +178,7 @@ const MetaFieldValue: React.FC<MetaFieldValueProps> = ({ property }) => {
       ? property.selectedOptions && property.selectedOptions?.length > 0
       : Boolean(property.value);
   const value = hasValue ? property.value : "Empty";
-  if (!hasValue)
-    return <EuiTextColor color="subdued">{value}</EuiTextColor>;
+  if (!hasValue) return <EuiTextColor color="subdued">{value}</EuiTextColor>;
   switch (type) {
     case FIELD_TYPES.DATE:
       return (
@@ -189,8 +189,8 @@ const MetaFieldValue: React.FC<MetaFieldValueProps> = ({ property }) => {
     case FIELD_TYPES.MULTI_SELECT:
       return (
         <EuiFlexGroup wrap responsive={false} gutterSize="xs">
-          {property.selectedOptions?.map((option, key) => (
-            <EuiFlexItem key={key} grow={false}>
+          {property.selectedOptions?.map((option, index) => (
+            <EuiFlexItem key={index} grow={false}>
               <EuiBadge color={option.color}>{option.label}</EuiBadge>
             </EuiFlexItem>
           ))}
@@ -219,7 +219,7 @@ const MetaFieldValue: React.FC<MetaFieldValueProps> = ({ property }) => {
 };
 export const MetaField: React.FC<FieldProps> = ({
   property,
-  form: { control, update },
+  form: { control, update, remove },
   index,
 }) => {
   const [isPopoverOpen, setPopover] = useState<boolean>(false);
@@ -308,6 +308,10 @@ export const MetaField: React.FC<FieldProps> = ({
         </EuiContextMenuItem>
       );
     }),
+    <hr />,
+    <EuiContextMenuItem icon={"trash"} onClick={remove}>
+      Delete Property
+    </EuiContextMenuItem>,
   ];
   const button = (
     <EuiButtonEmpty
@@ -320,55 +324,53 @@ export const MetaField: React.FC<FieldProps> = ({
     </EuiButtonEmpty>
   );
   return (
-    <EuiFlexItem>
-      <EuiFlexGroup direction="row">
-        <EuiFlexItem grow={false} style={{ minWidth: 200 }}>
-          <EuiFlexGroup alignItems="flexStart">
-            <EuiPopover
-              id={smallContextMenuPopoverId}
-              button={button}
-              isOpen={isPopoverOpen}
-              closePopover={closePopover}
-              panelPaddingSize="none"
-              anchorPosition="downLeft"
-            >
-              <EuiContextMenuPanel
-                style={{
-                  width: 200,
-                  padding: 16,
-                }}
-                onSelect={(e) => {
-                  console.log(e);
-                }}
-                size="m"
-                items={items}
-              />
-            </EuiPopover>
-          </EuiFlexGroup>
-        </EuiFlexItem>
-        <EuiFlexItem>
-          <EuiFlexGroup alignItems="flexStart">
-            {isInEditMode ? (
-              <Controller
-                name={`properties.${index}.value`}
-                control={control}
-                render={({ field }) => (
-                  <MetaFieldEditor
-                    {...props}
-                    onBlur={() => {
-                      setEditMode(false);
-                    }}
-                  />
-                )}
-              />
-            ) : (
-              <EuiButtonEmpty onClick={onValueButtonClick}>
-                <MetaFieldValue property={property} />
-              </EuiButtonEmpty>
-            )}
-          </EuiFlexGroup>
-        </EuiFlexItem>
-      </EuiFlexGroup>
-    </EuiFlexItem>
+    <EuiFlexGroup direction="row">
+      <EuiFlexItem grow={false} style={{ minWidth: 200 }}>
+        <EuiFlexGroup alignItems="flexStart">
+          <EuiPopover
+            id={smallContextMenuPopoverId}
+            button={button}
+            isOpen={isPopoverOpen}
+            closePopover={closePopover}
+            panelPaddingSize="none"
+            anchorPosition="downLeft"
+          >
+            <EuiContextMenuPanel
+              style={{
+                width: 300,
+                padding: 16,
+              }}
+              onSelect={(e) => {
+                console.log(e);
+              }}
+              size="m"
+              items={items}
+            />
+          </EuiPopover>
+        </EuiFlexGroup>
+      </EuiFlexItem>
+      <EuiFlexItem>
+        <EuiFlexGroup alignItems="flexStart">
+          {isInEditMode ? (
+            <Controller
+              name={`properties.${index}.value`}
+              control={control}
+              render={({ field }) => (
+                <MetaFieldEditor
+                  {...props}
+                  onBlur={() => {
+                    setEditMode(false);
+                  }}
+                />
+              )}
+            />
+          ) : (
+            <EuiButtonEmpty onClick={onValueButtonClick}>
+              <MetaFieldValue property={property} />
+            </EuiButtonEmpty>
+          )}
+        </EuiFlexGroup>
+      </EuiFlexItem>
+    </EuiFlexGroup>
   );
 };

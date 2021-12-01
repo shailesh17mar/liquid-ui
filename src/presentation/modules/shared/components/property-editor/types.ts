@@ -10,6 +10,7 @@ export interface ComboBoxOption {
 }
 
 export interface MetaProperty {
+  id: string;
   type: FIELD_TYPES;
   label?: string;
   value?: string | number;
