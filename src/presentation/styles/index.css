@@ -10,6 +10,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: normal;
+  font-size: 18px;
 }
 
 #root {
@@ -31,10 +32,59 @@ a {
 }*/
 
 /* Placeholder (on every new line) */
+.ProseMirror:focus {
+  outline-style: none;
+}
 .ProseMirror .is-empty::before {
   content: attr(data-placeholder);
   float: left;
   color: #ced4da;
   pointer-events: none;
   height: 0;
+}
+
+.ProseMirror h1 {
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 48px;
+}
+.ProseMirror h2 {
+  font-size: 27px;
+  font-weight: 700;
+  line-height: 40px;
+}
+.ProseMirror h3 {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 32px;
+}
+.ProseMirror h1,
+.ProseMirror h2,
+.ProseMirror h3 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+ul[data-type="taskList"] {
+  list-style: none;
+  padding: 0;
+}
+ul[data-type="taskList"] p {
+  margin: 0;
+}
+ul[data-type="taskList"] li {
+  display: flex;
+}
+ul[data-type="taskList"] li label {
+  flex: 0 0 auto;
+  margin-right: 0.5rem;
+  user-select: none;
+}
+ul[data-type="taskList"] li div {
+  flex: 1 1 auto;
+}
+
+.ProseMirror blockquote {
+  padding-left: 1rem;
+  border-left: 2px solid #ebeef5;
 }

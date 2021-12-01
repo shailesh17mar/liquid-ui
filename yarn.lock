@@ -1993,10 +1993,25 @@
   resolved "https://registry.yarnpkg.com/@tiptap/extension-strike/-/extension-strike-2.0.0-beta.26.tgz#19eda1a61706ac9690ecbc794c711deb4e1efc3e"
   integrity sha512-BA+oqqYOZzRLiMYlHX6BJXlIGaNIR9LObgkHEXAj/JPK7do4wDOcuVaw+dlWS+tzvTebLbC9GYAALfNqVBlTwA==
 
+"@tiptap/extension-task-item@^2.0.0-beta.29":
+  version "2.0.0-beta.29"
+  resolved "https://registry.yarnpkg.com/@tiptap/extension-task-item/-/extension-task-item-2.0.0-beta.29.tgz#789bd2012fd9e89623c29a347da02c9cd6e34906"
+  integrity sha512-6pkY2NoLMJQxfaJsK8XY5Lv/fx0LVJBJ/J15RE8glUEzkDipNhHTBnHWcfzsa4Qzi6UcSy7NJKtT8ixiyqkRmw==
+
+"@tiptap/extension-task-list@^2.0.0-beta.23":
+  version "2.0.0-beta.23"
+  resolved "https://registry.yarnpkg.com/@tiptap/extension-task-list/-/extension-task-list-2.0.0-beta.23.tgz#ca29039de53f7315e5612bfd1fb4ca6d471b9a2f"
+  integrity sha512-NjAQhtWDtkDpeKtJPItNeLi1fLLVACBFMq2yRCtKBXDGYg2X5w9CYPqXzh8gAIM2qs11wIgS60UtvF2No7Crxg==
+
 "@tiptap/extension-text@^2.0.0-beta.15":
   version "2.0.0-beta.15"
   resolved "https://registry.yarnpkg.com/@tiptap/extension-text/-/extension-text-2.0.0-beta.15.tgz#f08cff1b78f1c6996464dfba1fef8ec1e107617f"
   integrity sha512-S3j2+HyV2gsXZP8Wg/HA+YVXQsZ3nrXgBM9HmGAxB0ESOO50l7LWfip0f3qcw1oRlh5H3iLPkA6/f7clD2/TFA==
+
+"@tiptap/extension-underline@^2.0.0-beta.21":
+  version "2.0.0-beta.21"
+  resolved "https://registry.yarnpkg.com/@tiptap/extension-underline/-/extension-underline-2.0.0-beta.21.tgz#42cda46097da32302366e9deefc50336c5f64bc3"
+  integrity sha512-ZiKD2INkLsnIj0psHHO8A5bk6etjO+U1c0NdZu/m8w/3ef6MZYBxynRoXFHOY7to4Mrz06HBXa0ELZNep/SR6g==
 
 "@tiptap/react@^2.0.0-beta.95":
   version "2.0.0-beta.95"
