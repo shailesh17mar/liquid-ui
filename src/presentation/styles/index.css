@@ -10,7 +10,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: normal;
-  font-size: 18px;
+  font-size: 15px;
 }
 
 #root {
@@ -23,13 +23,21 @@ a {
 }
 
 /* Placeholder (at the top) */
-/*.ProseMirror p.is-editor-empty:first-child::before {
+.ProseMirror p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
   float: left;
   color: #ced4da;
   pointer-events: none;
   height: 0;
-}*/
+}
+
+.ProseMirror ul,ol {
+  list-style: disc;
+}
+
+.ProseMirror ol {
+  list-style:decimal;
+}
 
 /* Placeholder (on every new line) */
 .ProseMirror:focus {
@@ -64,21 +72,37 @@ a {
   margin-top: 20px;
   margin-bottom: 20px;
 }
+.ProseMirror p{
+  font-size: 16px;
+  line-height: 24px;
+  margin:8px 0;
+}
 
 ul[data-type="taskList"] {
   list-style: none;
-  padding: 0;
+  padding: 8px 0;
+  margin: 1px 0;
 }
+
 ul[data-type="taskList"] p {
   margin: 0;
+  line-height: 20px;
 }
 ul[data-type="taskList"] li {
   display: flex;
+  margin-bottom: 12px;
 }
 ul[data-type="taskList"] li label {
   flex: 0 0 auto;
   margin-right: 0.5rem;
   user-select: none;
+}
+ul[data-type="taskList"] li label input {
+vertical-align: bottom;
+position: relative;
+width: 18px;
+height: 18px;
+margin-top: 1px;
 }
 ul[data-type="taskList"] li div {
   flex: 1 1 auto;
@@ -87,4 +111,30 @@ ul[data-type="taskList"] li div {
 .ProseMirror blockquote {
   padding-left: 1rem;
   border-left: 2px solid #ebeef5;
+}
+
+.ProseMirror .items {
+  background: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05), 0px 10px 20px rgba(0, 0, 0, 0.1);
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 0.9rem;
+  overflow: hidden;
+  padding: 0.2rem;
+  position: relative;
+}
+
+.ProseMirror .item {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 0.4rem;
+  display: block;
+  margin: 0;
+  padding: 0.2rem 0.4rem;
+  text-align: left;
+  width: 100%;
+}
+
+.ProseMirror .item.is-selected {
+  border-color: #000;
 }

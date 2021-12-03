@@ -234,7 +234,7 @@ export const MenuBar: React.FC<MenuBarProps> = ({ editor }) => {
           aria-label="Task List"
         />
       </EuiFlexItem>
-     &nbsp;&nbsp; 
+      &nbsp;&nbsp;
       <EuiFlexItem grow={false}>
         <EuiButtonGroup
           legend="Attachments"

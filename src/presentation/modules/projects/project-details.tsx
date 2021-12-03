@@ -30,11 +30,11 @@ export const ProjectDetails: React.FC = () => {
       <EuiFlexItem
         style={{
           minHeight: 400,
-          margin:'12px 0'
+          margin: "12px 0",
         }}
       >
         <EuiFlexGroup gutterSize="none">
-          <EuiFlexItem >
+          <EuiFlexItem>
             <Editor />
           </EuiFlexItem>
           <EuiFlexItem grow={false}></EuiFlexItem>
