@@ -109,19 +109,14 @@ const SelectionRowCell = ({ rowIndex }: { rowIndex: number }) => (
   <EuiCheckbox id={`${rowIndex}`} onChange={() => {}} />
 );
 export const Highlights: React.FC = () => {
-  const [borderSelected, setBorderSelected] = useState("none");
-  const [fontSizeSelected, setFontSizeSelected] = useState("m");
-  const [cellPaddingSelected, setCellPaddingSelected] = useState("m");
-  const [stripesSelected, setStripesSelected] = useState(false);
-  const [rowHoverSelected, setRowHoverSelected] = useState("none");
-  const [headerSelected, setHeaderSelected] = useState("underline");
+  const [borderSelected] = useState("none");
+  const [fontSizeSelected] = useState("m");
+  const [cellPaddingSelected] = useState("m");
+  const [stripesSelected] = useState(false);
+  const [rowHoverSelected] = useState("none");
+  const [headerSelected] = useState("underline");
   const [footerSelected] = useState("overline");
-  const [showSortSelector, setShowSortSelector] = useState(true);
-  const [showStyleSelector] = useState(true);
-  const [showFullScreenSelector, setShowFullScreenSelector] = useState(true);
-  const [showToolbar, setShowToolbar] = useState(true);
-  const [toolbarPropTypeIsBoolean, setToolbarPropTypeIsBoolean] =
-    useState(true);
+  useState(true);
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 25,

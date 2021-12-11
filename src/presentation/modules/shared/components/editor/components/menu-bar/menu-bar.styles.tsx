@@ -11,6 +11,6 @@ export const MenuButton = styled(EuiButton)`
 `;
 
 export const vr = styled.div`
-  border-left: 1px solid #ebeef5
+  border-left: 1px solid #ebeef5;
   height: 100%;
 `;

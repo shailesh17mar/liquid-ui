@@ -2,7 +2,6 @@ import {
   EuiButton,
   EuiFlexGroup,
   EuiFlexItem,
-  euiPaletteColorBlind,
   EuiSpacer,
   euiPaletteColorBlindBehindText,
   EuiDraggable,

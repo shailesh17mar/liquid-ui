@@ -1,18 +1,15 @@
 import {
   useGeneratedHtmlId,
-  EuiContextMenuItem,
   EuiAvatar,
   EuiPopover,
-  EuiContextMenuPanel,
   EuiSelectable,
   EuiSelectableOption,
   EuiIcon,
-  EuiSelectableList,
   EuiPopoverTitle,
 } from "@elastic/eui";
 import { Editor } from "@tiptap/react";
 import { Range } from "@tiptap/core";
-import { useState, forwardRef } from "react";
+import { useState } from "react";
 
 interface CommandItem {
   title: string;
