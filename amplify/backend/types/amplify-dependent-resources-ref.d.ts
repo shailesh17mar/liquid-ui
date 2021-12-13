@@ -9,20 +9,17 @@ export type AmplifyDependentResourcesAttributes = {
             "UserPoolArn": "string",
             "UserPoolName": "string",
             "AppClientIDWeb": "string",
-            "AppClientID": "string"
+            "AppClientID": "string",
+            "CreatedSNSRole": "string"
+        },
+        "userPoolGroups": {
+            "AdminGroupRole": "string"
         }
     },
     "storage": {
         "s3liquidstoragedolpdy24rr4fr": {
             "BucketName": "string",
             "Region": "string"
-        }
-    },
-    "video": {
-        "videoservice": {
-            "oVODInputS3": "string",
-            "oVODOutputS3": "string",
-            "oVodOutputUrl": "string"
         }
     }
 }
