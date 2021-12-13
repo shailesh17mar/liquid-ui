@@ -1,13 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "@elastic/eui/dist/eui_theme_amsterdam_light.css";
+import "./presentation/fonts/inter.css";
 import "./presentation/styles/index.css";
-import { Router } from "./main/router";
+import { App } from "./main/router";
 import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router />
+    <App />
   </React.StrictMode>,
   document.getElementById("root")
 );

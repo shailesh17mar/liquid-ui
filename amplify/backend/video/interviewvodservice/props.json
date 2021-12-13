@@ -1,0 +1,46 @@
+{
+    "shared": {
+        "resourceName": "interviewvodservice"
+    },
+    "template": {
+        "type": [
+            "HLS"
+        ],
+        "name": "Amplify_Video_HLS.json"
+    },
+    "sns": {
+        "createTopic": true,
+        "snsFunction": false
+    },
+    "contentDeliveryNetwork": {
+        "signedKey": true,
+        "functionNameSchema": "interviewvodservice-${env}-tokenGen",
+        "enableDistribution": true
+    },
+    "parameters": {
+        "authRoleName": {
+            "Ref": "AuthRoleName"
+        },
+        "GraphQLAPIId": {
+            "Fn::GetAtt": [
+                "apiliquid",
+                "Outputs.GraphQLAPIIdOutput"
+            ]
+        },
+        "GraphQLEndpoint": {
+            "Fn::GetAtt": [
+                "apiliquid",
+                "Outputs.GraphQLAPIEndpointOutput"
+            ]
+        }
+    },
+    "permissions": {
+        "permissionSchema": [
+            "admin"
+        ]
+    },
+    "cms": {
+        "overrideSchema": true,
+        "editAPI": false
+    }
+}

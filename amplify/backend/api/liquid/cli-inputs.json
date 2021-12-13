@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "apiName": "liquid",
+    "serviceName": "AppSync",
+    "gqlSchemaPath": "/Users/shaileshsrivastava/Projects/ux/ui/amplify/backend/api/liquid/schema.graphql",
+    "defaultAuthType": {
+      "mode": "API_KEY",
+      "expirationTime": 7
+    },
+    "additionalAuthTypes": [
+      {
+        "mode": "AMAZON_COGNITO_USER_POOLS",
+        "cognitoUserPoolId": "authliquid"
+      }
+    ]
+  }
+}
