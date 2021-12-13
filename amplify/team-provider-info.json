@@ -13,7 +13,8 @@
     },
     "categories": {
       "auth": {
-        "liquid": {}
+        "liquid": {},
+        "userPoolGroups": {}
       },
       "video": {
         "interviewvodservice": {

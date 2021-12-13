@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { withAuthenticator } from "@aws-amplify/ui-react";
 import {
   MainLayout,
   ProjectLayout,
@@ -31,5 +30,3 @@ export const Router: React.FC = () => (
     </Routes>
   </BrowserRouter>
 );
-
-export const App = withAuthenticator(Router);

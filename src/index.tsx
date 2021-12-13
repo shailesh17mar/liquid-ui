@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import "@elastic/eui/dist/eui_theme_amsterdam_light.css";
 import "./presentation/fonts/inter.css";
 import "./presentation/styles/index.css";
-import { App } from "./main/router";
+import App from "./main/app";
 import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
