@@ -22,6 +22,7 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
+import { Auth } from "aws-amplify";
 
 export const ProjectLayout: React.FC = () => {
   const navigate = useNavigate();
@@ -64,6 +65,14 @@ export const ProjectLayout: React.FC = () => {
     };
   };
 
+  const signOut = async () => {
+    try {
+      await Auth.signOut();
+      closePopover();
+    } catch (error) {
+      console.log("Error signing out: ", error);
+    }
+  };
   const items = [
     <EuiContextMenuItem key="copy" onClick={closePopover}>
       Profile
@@ -71,7 +80,7 @@ export const ProjectLayout: React.FC = () => {
     <EuiContextMenuItem key="edit" onClick={closePopover}>
       Settings
     </EuiContextMenuItem>,
-    <EuiContextMenuItem key="share" onClick={closePopover}>
+    <EuiContextMenuItem key="share" onClick={signOut}>
       Logout
     </EuiContextMenuItem>,
   ];
@@ -159,7 +168,7 @@ export const ProjectLayout: React.FC = () => {
           <EuiSideNav
             aria-label="Basic example"
             heading={
-              <Link to="/" >
+              <Link to="/">
                 <EuiAvatar
                   size="l"
                   type="space"
