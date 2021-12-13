@@ -1,0 +1,14 @@
+{
+  "resourceName": "s3liquidstoragedolpdy24rr4fr",
+  "bucketName": "liquid-storage-dolpdy24rr4fr",
+  "policyUUID": "61fb18c2",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "READ"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ]
+}

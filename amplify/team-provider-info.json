@@ -15,16 +15,6 @@
       "auth": {
         "liquid": {},
         "userPoolGroups": {}
-      },
-      "video": {
-        "interviewvodservice": {
-          "publicKey": "-----BEGIN PUBLIC KEY-----\\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtR8wfKmPnpCaz47WkQzv\\n+9560guRW5c7rsq+Iq66pz6zT2iOaHq2b2jdxHZzDDa7pXMlDXoVCkJYRMSvwklX\\nuNWad4QbeAV+80IBIgwC4FAn8iaoUr9CuYvhVIIZP1OQ2/gZmSLkvqy5x5SxzAG2\\n+M4B4+9vziZ4astSs+HxoFeAPmUHapxuGeXKMIftFvyTJF3OYVYWgaoH511kkiaz\\nPrr/fGcNyWUjaELXKyRuHodF/i6D4q+SrwHpSwbx4VA0WeC4ArRUnOpopL5EHKPQ\\npQhfMITQhoiRXT6suOuqxOA4kD+iCvAwCh8OhjgmkEo+5zt0ccYt2FRHJOaBvGo3\\nJQIDAQAB\\n-----END PUBLIC KEY-----\\n",
-          "rPublicName": "rCloudFrontPublicKeystaginggamq2jod",
-          "publicKeyName": "interviewvodservice-staging-publickey-gamq2jod",
-          "secretPem": "interviewvodservice-staging-pem-gamq2jod",
-          "secretPemArn": "arn:aws:secretsmanager:us-east-2:043715548265:secret:interviewvodservice-staging-pem-gamq2jod-3iQG09",
-          "s3UUID": "9fb93psg"
-        }
       }
     }
   }

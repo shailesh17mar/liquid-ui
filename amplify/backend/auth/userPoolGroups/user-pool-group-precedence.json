@@ -15,7 +15,7 @@
                                 "s3:PutObject",
                                 "s3:DeleteObject"
                             ],
-                            "Resource": "arn:aws:s3:::interviewvodservice-staging-input-cpw42guz/*"
+                            "Resource": "arn:aws:s3:::videoservice-staging-input-1wx1zy8g/*"
                         }
                     ]
                 }

@@ -12,15 +12,14 @@ export type AmplifyDependentResourcesAttributes = {
             "AppClientID": "string"
         }
     },
-    "api": {
-        "liquid": {
-            "GraphQLAPIKeyOutput": "string",
-            "GraphQLAPIIdOutput": "string",
-            "GraphQLAPIEndpointOutput": "string"
+    "storage": {
+        "s3liquidstoragedolpdy24rr4fr": {
+            "BucketName": "string",
+            "Region": "string"
         }
     },
     "video": {
-        "interviewvodservice": {
+        "videoservice": {
             "oVODInputS3": "string",
             "oVODOutputS3": "string",
             "oVodOutputUrl": "string"
