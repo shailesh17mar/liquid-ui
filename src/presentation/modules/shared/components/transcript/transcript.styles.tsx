@@ -40,6 +40,56 @@ export const TranscriptContent = styled(NodeViewContent)`
     font-weight: 500;
   }
 
+  // “:)	Excited
+  mark[data-color="#fbbc04"]:before {
+    content: "😁";
+  }
+  // :( 	Angry
+  mark[data-color="#f28b82"]:before {
+    content: "😡";
+  }
+  // :|	Embarrassed
+  mark[data-color="#fdcfe8"]:before {
+    content: "😳";
+  }
+  // ☇ Pain or problem (symbol is a lightning bolt)
+  mark[data-color="#fff475"]:before {
+    content: "☇";
+  }
+  // ⨅ 	Goal or job-to-be-done (symbol is a soccer/football goal)
+  mark[data-color="#ccff90"]:before {
+    content: "🥅";
+  }
+  // ☐ 	Obstacle
+  mark[data-color="#e6c9a8"]:before {
+    content: "🪨";
+  }
+  // 	Workaround
+  mark[data-color="#d7aefb"]:before {
+    content: "⤴";
+  }
+  // 	Background or context (symbol is a distant mountain)
+  mark[data-color="#aecbfa"]:before {
+    content: "^";
+  }
+  // 	Money or budgets or purchasing process
+  mark[data-color="#178117"]:before {
+    content: "＄";
+  }
+  //  	Feature request or purchasing criteria
+  mark[data-color="#e8eaed"]:before {
+    content: "☑";
+  }
+  //  	Mentioned a specific person or company
+  mark[data-color="#cbf0f8"]:before {
+    content: "♀";
+  }
+  /* ,
+,
+,
+,
+,
+, */
   p {
     color: #202124;
   }

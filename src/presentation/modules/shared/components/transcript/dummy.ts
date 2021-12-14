@@ -9,7 +9,7 @@ export const data = `<p>
     <a href="https://www.amazon.com/Genome-Autobiography-Species-23-Chapters/dp/0060894083">
       <em>Genome</em>
     </a>
-    . I must have six or seven dog-eared copies of it lying around in various
+    . I must have six or ☇ seven dog-eared copies of it lying around in various
     boxes. It helped me define what life is, how it works, why it’s important,
     and placed evolution as a binding principle in the center of my worldview.
     That’s a common theme that runs across Matt’s books.&nbsp;
