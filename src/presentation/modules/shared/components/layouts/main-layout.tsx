@@ -3,7 +3,6 @@ import {
   EuiIcon,
   EuiPageSideBar,
   EuiPageTemplate,
-  EuiSideNav,
   slugify,
   EuiAvatar,
   EuiContextMenuPanel,
@@ -13,7 +12,6 @@ import {
   EuiButtonEmpty,
   EuiFieldSearch,
   EuiPageContentBody,
-  EuiImage,
 } from "@elastic/eui";
 import {
   Link,
@@ -23,7 +21,6 @@ import {
   useNavigate,
 } from "react-router-dom";
 import { Auth } from "aws-amplify";
-import { MenuItem } from "@aws-amplify/ui-react";
 import { Logo, SideNav } from "./layout.styles";
 
 export const MainLayout: React.FC = () => {

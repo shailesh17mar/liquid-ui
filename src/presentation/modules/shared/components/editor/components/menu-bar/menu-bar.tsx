@@ -1,97 +1,11 @@
-import {
-  EuiButtonGroup,
-  useGeneratedHtmlId,
-  EuiFlexGroup,
-  htmlIdGenerator,
-  EuiFlexItem,
-  EuiButtonIcon,
-} from "@elastic/eui";
+import { EuiFlexGroup, EuiFlexItem } from "@elastic/eui";
 import { Editor } from "@tiptap/react";
-import { useState } from "react";
-import { MenuButton, vr } from "./menu-bar.styles";
+import { MenuButton, MenuIconButton } from "./menu-bar.styles";
 
 interface MenuBarProps {
   editor: Editor | null;
 }
 export const MenuBar: React.FC<MenuBarProps> = ({ editor }) => {
-  const idPrefix3 = htmlIdGenerator()();
-  const idHeadingPrefix = htmlIdGenerator()();
-  const idAssetPrefix = htmlIdGenerator()();
-  const multiSelectButtonGroupPrefix = useGeneratedHtmlId({
-    prefix: "multiSelectButtonGroup",
-  });
-
-  const headingButtonIcons = [
-    {
-      id: `${idHeadingPrefix}0`,
-      label: "H1",
-    },
-    {
-      id: `${idHeadingPrefix}1`,
-      label: "H2",
-    },
-    {
-      id: `${idHeadingPrefix}2`,
-      label: "H3",
-    },
-  ];
-
-  const toggleButtonsIcons = [
-    {
-      id: `${idPrefix3}0`,
-      label: "Ordered List",
-      iconType: "editorOrderedList",
-    },
-    {
-      id: `${idPrefix3}1`,
-      label: "Unordered List",
-      iconType: "editorUnorderedList",
-    },
-    {
-      id: `${idPrefix3}2`,
-      label: "Todo List",
-      iconType: "checkInCircleFilled",
-    },
-  ];
-
-  const toggleAssetIcons = [
-    {
-      id: `${idAssetPrefix}0`,
-      label: "Image",
-      iconType: "image",
-    },
-    {
-      id: `${idAssetPrefix}1`,
-      label: "Video",
-      iconType: "videoPlayer",
-    },
-    {
-      id: `${idAssetPrefix}2`,
-      label: "Attachment",
-      iconType: "paperClip",
-    },
-  ];
-
-  const [toggleIconIdSelected, setToggleIconIdSelected] = useState(
-    `${idPrefix3}1`
-  );
-
-  const onChangeIcons = (optionId: string) => {
-    setToggleIconIdSelected(optionId);
-  };
-  const [toggleIconIdToSelectedMapIcon, setToggleIconIdToSelectedMapIcon] =
-    useState<{ [key: string]: boolean }>({});
-
-  const onChangeIconsMultiIcons = (optionId: string) => {
-    const newToggleIconIdToSelectedMapIcon = {
-      ...toggleIconIdToSelectedMapIcon,
-      ...{
-        [optionId]: !toggleIconIdToSelectedMapIcon[optionId],
-      },
-    };
-
-    setToggleIconIdToSelectedMapIcon(newToggleIconIdToSelectedMapIcon);
-  };
   if (!editor) {
     return null;
   }
@@ -138,7 +52,7 @@ export const MenuBar: React.FC<MenuBarProps> = ({ editor }) => {
       </EuiFlexItem>
       &nbsp;&nbsp;
       <EuiFlexItem grow={false}>
-        <EuiButtonIcon
+        <MenuIconButton
           color="text"
           iconType="editorBold"
           iconSize="l"
@@ -150,7 +64,7 @@ export const MenuBar: React.FC<MenuBarProps> = ({ editor }) => {
         />
       </EuiFlexItem>
       <EuiFlexItem grow={false}>
-        <EuiButtonIcon
+        <MenuIconButton
           color="text"
           iconSize="l"
           display="base"
@@ -162,7 +76,7 @@ export const MenuBar: React.FC<MenuBarProps> = ({ editor }) => {
         />
       </EuiFlexItem>
       <EuiFlexItem grow={false}>
-        <EuiButtonIcon
+        <MenuIconButton
           color="text"
           iconSize="l"
           display="base"
@@ -174,7 +88,7 @@ export const MenuBar: React.FC<MenuBarProps> = ({ editor }) => {
         />
       </EuiFlexItem>
       <EuiFlexItem grow={false}>
-        <EuiButtonIcon
+        <MenuIconButton
           color="text"
           iconType="editorStrike"
           iconSize="l"
@@ -186,7 +100,7 @@ export const MenuBar: React.FC<MenuBarProps> = ({ editor }) => {
         />
       </EuiFlexItem>
       <EuiFlexItem grow={false}>
-        <EuiButtonIcon
+        <MenuIconButton
           color="text"
           iconType="quote"
           iconSize="l"
@@ -199,7 +113,7 @@ export const MenuBar: React.FC<MenuBarProps> = ({ editor }) => {
       </EuiFlexItem>
       &nbsp;&nbsp;
       <EuiFlexItem grow={false}>
-        <EuiButtonIcon
+        <MenuIconButton
           color="text"
           iconType="editorOrderedList"
           iconSize="l"
@@ -211,7 +125,7 @@ export const MenuBar: React.FC<MenuBarProps> = ({ editor }) => {
         />
       </EuiFlexItem>
       <EuiFlexItem grow={false}>
-        <EuiButtonIcon
+        <MenuIconButton
           color="text"
           iconType="editorUnorderedList"
           iconSize="l"
@@ -223,7 +137,7 @@ export const MenuBar: React.FC<MenuBarProps> = ({ editor }) => {
         />
       </EuiFlexItem>
       <EuiFlexItem grow={false}>
-        <EuiButtonIcon
+        <MenuIconButton
           color="text"
           iconType="checkInCircleFilled"
           iconSize="l"
@@ -232,16 +146,6 @@ export const MenuBar: React.FC<MenuBarProps> = ({ editor }) => {
           onClick={() => editor.chain().focus().toggleTaskList().run()}
           isSelected={editor.isActive("taskList")}
           aria-label="Task List"
-        />
-      </EuiFlexItem>
-      &nbsp;&nbsp;
-      <EuiFlexItem grow={false}>
-        <EuiButtonGroup
-          legend="Attachments"
-          options={toggleAssetIcons}
-          idSelected={toggleIconIdSelected}
-          onChange={(id) => onChangeIcons(id)}
-          isIconOnly
         />
       </EuiFlexItem>
     </EuiFlexGroup>

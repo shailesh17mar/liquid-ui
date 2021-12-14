@@ -1,4 +1,4 @@
-import Stories from "presentation/modules/stories";
+import { Stories } from "presentation/modules/stories";
 import React from "react";
 
 // export const makeGetImageDetails = (): GetImageDetails =>

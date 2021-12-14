@@ -1,4 +1,4 @@
-import { EuiButton } from "@elastic/eui";
+import { EuiButton, EuiButtonIcon } from "@elastic/eui";
 import styled from "styled-components";
 
 export const MenuButton = styled(EuiButton)`
@@ -7,6 +7,13 @@ export const MenuButton = styled(EuiButton)`
   height: 40px;
   > .euiButton__content {
     padding: 0;
+  }
+  background: rgba(105, 112, 125, 0.03);
+`;
+
+export const MenuIconButton = styled(EuiButtonIcon)`
+  &.euiButtonIcon--text {
+    background-color: rgba(105, 112, 125, 0.03);
   }
 `;
 

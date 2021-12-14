@@ -3,7 +3,6 @@ import {
   EuiIcon,
   EuiPageSideBar,
   EuiPageTemplate,
-  EuiSideNav,
   slugify,
   EuiAvatar,
   EuiContextMenuPanel,
@@ -23,6 +22,7 @@ import {
   useNavigate,
 } from "react-router-dom";
 import { Auth } from "aws-amplify";
+import { Logo, SideNav } from "./layout.styles";
 
 export const ProjectLayout: React.FC = () => {
   const navigate = useNavigate();
@@ -50,7 +50,7 @@ export const ProjectLayout: React.FC = () => {
     setSelectedItem(name);
   };
 
-  const createItem = (name: string, data: any = {}, to: string = "") => {
+  const createItem = (name: string, to: string = "", data: any = {}) => {
     // NOTE: Duplicate `name` values will cause `id` collisions.
     const match = matchPath(`/projects/:id/${to}`, location.pathname);
     return {
@@ -86,36 +86,24 @@ export const ProjectLayout: React.FC = () => {
   ];
   const palette = euiPaletteColorBlind({ direction: "both", order: "append" });
   const sideNav = [
-    createItem("Project 1", {
+    createItem("", "", {
+      onClick: undefined,
       items: [
-        createItem(
-          "Stories",
-          {
-            icon: <EuiIcon color={palette[0]} type="tableOfContents" />,
-          },
-          "stories"
-        ),
-        createItem(
-          "Highlights",
-          {
-            icon: <EuiIcon type="documentEdit" color={palette[1]} />,
-          },
-          "highlights"
-        ),
-        createItem(
-          "Tags",
-          {
-            icon: <EuiIcon color={palette[2]} type="tag" />,
-          },
-          "tags"
-        ),
-        createItem(
-          "Insights",
-          {
-            icon: <EuiIcon color={palette[3]} type="visPie" />,
-          },
-          "insights"
-        ),
+        createItem("Readme", "", {
+          icon: <EuiIcon size="l" color={palette[0]} type="documentation" />,
+        }),
+        createItem("Stories", "stories", {
+          icon: <EuiIcon size="l" color={palette[1]} type="tableOfContents" />,
+        }),
+        createItem("Highlights", "highlights", {
+          icon: <EuiIcon size="l" type="documentEdit" color={palette[2]} />,
+        }),
+        createItem("Tags", "tags", {
+          icon: <EuiIcon size="l" color={palette[3]} type="tag" />,
+        }),
+        createItem("Insights", "insights", {
+          icon: <EuiIcon size="l" color={palette[4]} type="visPie" />,
+        }),
       ],
     }),
   ];
@@ -165,27 +153,22 @@ export const ProjectLayout: React.FC = () => {
       pageContentProps={{ paddingSize: "none" }}
       pageSideBar={
         <EuiPageSideBar paddingSize="m">
-          <EuiSideNav
-            aria-label="Basic example"
+          <SideNav
+            aria-label="Liquid"
             heading={
               <Link to="/">
-                <EuiAvatar
-                  size="l"
-                  type="space"
-                  name="Workspace here"
-                ></EuiAvatar>
+                <Logo size="s" alt="liquid" src="/logo.png" />
               </Link>
             }
             mobileTitle="Basic example"
             toggleOpenOnMobile={() => toggleOpenOnMobile()}
             isOpenOnMobile={isSideNavOpenOnMobile}
-            style={{ width: 192 }}
             items={sideNav}
           />
         </EuiPageSideBar>
       }
     >
-      <EuiPageContentBody paddingSize="m">
+      <EuiPageContentBody style={{ position: "relative" }} paddingSize="none">
         <Outlet />
       </EuiPageContentBody>
     </EuiPageTemplate>

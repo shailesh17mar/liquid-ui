@@ -41,6 +41,7 @@ a {
 .ProseMirror ul,
 ol {
   list-style: disc;
+  padding: 0 2rem;
 }
 
 .ProseMirror ol {
