@@ -13,6 +13,7 @@ import {
   EuiButtonEmpty,
   EuiFieldSearch,
   EuiPageContentBody,
+  EuiImage,
 } from "@elastic/eui";
 import {
   Link,
@@ -22,6 +23,8 @@ import {
   useNavigate,
 } from "react-router-dom";
 import { Auth } from "aws-amplify";
+import { MenuItem } from "@aws-amplify/ui-react";
+import { Logo, SideNav } from "./layout.styles";
 
 export const MainLayout: React.FC = () => {
   const navigate = useNavigate();
@@ -89,13 +92,13 @@ export const MainLayout: React.FC = () => {
       onClick: undefined,
       items: [
         createItem("Home", "/", {
-          icon: <EuiIcon color="rgb(252, 180, 21)" type="home" />,
+          icon: <EuiIcon color="rgb(252, 180, 21)" size="l" type="home" />,
         }),
         createItem("Find", "/find", {
-          icon: <EuiIcon type="search" color="#a21a68" />,
+          icon: <EuiIcon type="search" size="l" color="#a21a68" />,
         }),
         createItem("Drafts", "/drafts", {
-          icon: <EuiIcon color="rgb(137, 137, 137)" type="document" />,
+          icon: <EuiIcon color="rgb(137, 137, 137)" size="l" type="document" />,
         }),
       ],
     }),
@@ -103,13 +106,13 @@ export const MainLayout: React.FC = () => {
       onClick: undefined,
       items: [
         createItem("Create Project", "", {
-          icon: <EuiIcon type="plus" />,
+          icon: <EuiIcon type="plus" size="l" />,
         }),
         createItem("Project 1", "projects/1", {
-          icon: <EuiIcon color="#207af1" type="folderClosed" />,
+          icon: <EuiIcon color="#207af1" size="l" type="folderClosed" />,
         }),
         createItem("Project 2", "projects/2", {
-          icon: <EuiIcon color="#207af1" type="folderClosed" />,
+          icon: <EuiIcon color="#207af1" size="l" type="folderClosed" />,
         }),
       ],
     }),
@@ -151,21 +154,16 @@ export const MainLayout: React.FC = () => {
       }}
       pageSideBar={
         <EuiPageSideBar paddingSize="m">
-          <EuiSideNav
-            aria-label="Basic example"
+          <SideNav
+            aria-label="Liquid"
             heading={
               <Link to="/">
-                <EuiAvatar
-                  size="l"
-                  type="space"
-                  name="Workspace here"
-                ></EuiAvatar>
+                <Logo size="s" alt="liquid" src="/logo.png" />
               </Link>
             }
-            mobileTitle="Basic example"
+            mobileTitle="Liquid"
             toggleOpenOnMobile={() => toggleOpenOnMobile()}
             isOpenOnMobile={isSideNavOpenOnMobile}
-            style={{ width: 192 }}
             items={sideNav}
           />
         </EuiPageSideBar>

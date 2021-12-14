@@ -26,6 +26,9 @@ a {
   cursor: pointer;
 }
 
+.euiPageSideBar {
+  min-width: 320px;
+}
 /* Placeholder (at the top) */
 .ProseMirror p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
