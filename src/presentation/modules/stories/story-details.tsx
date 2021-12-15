@@ -1,7 +1,21 @@
-import { EuiFlexGroup, EuiFlexItem, EuiTitle } from "@elastic/eui";
+import {
+  EuiBadge,
+  EuiBetaBadge,
+  EuiFlexGroup,
+  EuiFlexItem,
+  EuiPageContentBody,
+  EuiPanel,
+  EuiTitle,
+} from "@elastic/eui";
 import { PropertiesEditor } from "../shared/components/property-editor/property-editor";
+import { useScroll } from "react-use";
 import { Editor } from "../shared/components/editor/editor";
 import { data } from "presentation/modules/shared/components/transcript/dummy";
+import { annotationState } from "main/pages/make-storydetails-page";
+import { useRecoilValue } from "recoil";
+import { useLayoutEffect, useMemo, useRef } from "react";
+import { takeRight } from "lodash";
+import { isNoSubstitutionTemplateLiteral } from "typescript";
 
 const DefaultStoryDocument = `
           <h1>
@@ -19,44 +33,110 @@ const DefaultStoryDocument = `
           
         `;
 export const StoryDetails: React.FC = () => {
+  //setup refs array
+  //set it on updates
+  //otherwise just change using layout effect
+  const scrollRef = useRef(null);
+  const { x, y } = useScroll(scrollRef);
+  const annotation = useRecoilValue(annotationState);
+  const annotationRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const positionDictionary = useMemo(
+    () =>
+      (Object.keys(annotation) as string[]).reduce<{
+        [key: string]: number | undefined;
+      }>((dict, id: string) => {
+        const element = document.getElementById(id);
+        const top = element?.getBoundingClientRect().top;
+        dict[id] = top;
+        return dict;
+      }, {}),
+    [annotation]
+  );
+  const updatePositions = () => {
+    (Object.keys(annotation) as string[]).forEach((id: string, index) => {
+      const element = document.getElementById(id);
+      const top = element?.getBoundingClientRect().top;
+      const highlight = annotationRefs.current[index];
+      console.log(top);
+      if (highlight && top) {
+        highlight.style.top = top + "px";
+      }
+    });
+  };
+
   return (
-    <EuiFlexGroup
-      style={{ width: 900, margin: "0 auto" }}
-      justifyContent="spaceAround"
-      direction="column"
+    <EuiPageContentBody
+      className="eui-yScroll"
+      onScroll={() => updatePositions()}
+      paddingSize="none"
     >
-      <EuiFlexItem>
-        <EuiFlexGroup justifyContent="center">
-          <EuiFlexItem>
-            <EuiTitle size="l">
-              <h1>Interview with Shailesh</h1>
-            </EuiTitle>
-          </EuiFlexItem>
-        </EuiFlexGroup>
-      </EuiFlexItem>
-      <hr />
-      <EuiFlexItem>
-        <EuiFlexGroup justifyContent="center">
-          <EuiFlexItem>
-            <PropertiesEditor />
-          </EuiFlexItem>
-        </EuiFlexGroup>
-      </EuiFlexItem>
-      <hr />
-      <EuiFlexItem
-        style={{
-          minHeight: 400,
-          margin: "12px 0",
-        }}
+      <EuiFlexGroup
+        justifyContent="spaceAround"
+        style={{ width: 900, margin: "0 auto" }}
       >
-        <EuiFlexGroup gutterSize="none">
-          <EuiFlexItem>
-            <Editor content={DefaultStoryDocument} />
-          </EuiFlexItem>
-          <EuiFlexItem grow={false}></EuiFlexItem>
-        </EuiFlexGroup>
-      </EuiFlexItem>
-      <hr />
-    </EuiFlexGroup>
+        <EuiFlexItem>
+          <EuiFlexGroup direction="column">
+            <EuiFlexItem grow={false}>
+              <EuiFlexGroup justifyContent="center">
+                <EuiFlexItem>
+                  <EuiTitle size="l">
+                    <h1>Interview with Shailesh</h1>
+                  </EuiTitle>
+                </EuiFlexItem>
+              </EuiFlexGroup>
+            </EuiFlexItem>
+            <hr />
+            <EuiFlexItem grow={false}>
+              <EuiFlexGroup justifyContent="center">
+                <EuiFlexItem>
+                  <PropertiesEditor />
+                </EuiFlexItem>
+              </EuiFlexGroup>
+            </EuiFlexItem>
+            <hr />
+            <EuiFlexItem
+              style={{
+                minHeight: 400,
+                margin: "12px 0",
+              }}
+            >
+              <EuiFlexGroup gutterSize="none">
+                <EuiFlexItem>
+                  <Editor content={DefaultStoryDocument} />
+                </EuiFlexItem>
+                <EuiFlexItem grow={false}></EuiFlexItem>
+              </EuiFlexGroup>
+            </EuiFlexItem>
+            <hr />
+          </EuiFlexGroup>
+        </EuiFlexItem>
+        <EuiFlexItem grow={false}>
+          {Object.keys(annotation).map((id, index) => {
+            return (
+              <div
+                ref={(el) => (annotationRefs.current[index] = el)}
+                key={id}
+                style={{
+                  position: "fixed",
+                  top: positionDictionary[id] + "px",
+                }}
+              >
+                {annotation[id].tags.map((tag, index) => (
+                  <>
+                    <EuiBetaBadge
+                      label={tag.label}
+                      size="m"
+                      key={id + index}
+                      color="hollow"
+                    />{" "}
+                    &nbsp;
+                  </>
+                ))}
+              </div>
+            );
+          })}
+        </EuiFlexItem>
+      </EuiFlexGroup>
+    </EuiPageContentBody>
   );
 };

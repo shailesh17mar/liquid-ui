@@ -168,9 +168,7 @@ export const ProjectLayout: React.FC = () => {
         </EuiPageSideBar>
       }
     >
-      <EuiPageContentBody style={{ position: "relative" }} paddingSize="none">
-        <Outlet />
-      </EuiPageContentBody>
+      <Outlet />
     </EuiPageTemplate>
   );
 };

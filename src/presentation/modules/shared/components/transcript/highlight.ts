@@ -17,11 +17,18 @@ declare module "@tiptap/core" {
       /**
        * Set a highlight mark
        */
-      setHighlight: (attributes?: { color: string }) => ReturnType;
+      setHighlight: (attributes?: {
+        color: string;
+        type: string;
+        id: string;
+      }) => ReturnType;
       /**
        * Toggle a highlight mark
        */
-      toggleHighlight: (attributes?: { color: string }) => ReturnType;
+      toggleHighlight: (attributes?: {
+        color: string;
+        type: string;
+      }) => ReturnType;
       /**
        * Unset a highlight mark
        */
@@ -50,12 +57,25 @@ export const Highlight = Mark.create<HighlightOptions>({
 
     return {
       id: {
-        default: Date.now(),
         parseHTML: (element) => element.id,
         renderHTML: (attributes) => {
           return {
             ...attributes,
             id: attributes.id,
+          };
+        },
+      },
+      type: {
+        default: "goal",
+        parseHTML: (element) => element.getAttribute("data-type"),
+        renderHTML: (attributes) => {
+          if (!attributes.type) {
+            return {};
+          }
+
+          return {
+            ...attributes,
+            "data-type": attributes.type,
           };
         },
       },

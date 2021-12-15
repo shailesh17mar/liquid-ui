@@ -16,7 +16,7 @@ import { Commander } from "./components/commander/commander";
 import TextStyle from "@tiptap/extension-text-style";
 import { BubbleControl } from "./components/bubble-control/bubble-control";
 import { TranscriptComponent } from "../transcript/extension";
-import { ColorControl } from "./components/color-control/color-control";
+import { HighlightControl } from "./components/highlight-control/highlight-control";
 
 const CustomDocument = Document.extend({
   content: "heading block* transcriptComponent*",
@@ -80,11 +80,14 @@ export const Editor: React.FC<EditorProps> = ({ content }) => {
           </BubbleMenu>
           <BubbleMenu
             shouldShow={({ editor, view, state, oldState, from, to }) => {
-              return editor.isActive("transcriptComponent");
+              return editor.isActive("transcriptComponent") && to > from;
             }}
             editor={editor}
           >
-            <ColorControl editor={editor} />
+            <HighlightControl
+              id={editor.getAttributes("highlight").id}
+              editor={editor}
+            />
           </BubbleMenu>
         </>
       )}
