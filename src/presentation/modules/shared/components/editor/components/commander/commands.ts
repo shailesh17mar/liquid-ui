@@ -87,6 +87,7 @@ export default {
         title: "Image",
         icon: "image",
         command: ({ editor, range }: { editor: Editor; range: Range }) => {
+          document.getElementById("imageInput")?.click();
           editor.chain().focus().deleteRange(range).setNode("paragraph").run();
         },
       },

@@ -147,3 +147,7 @@ ul[data-type="taskList"] li div {
 .ProseMirror .item.is-selected {
   border-color: #000;
 }
+
+.ProseMirror .editor-image {
+  width: 100%;
+}

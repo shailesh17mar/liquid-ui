@@ -59,30 +59,32 @@ export const CommandList = (props: Record<string, any>) => {
   );
 
   return (
-    <EuiPopover
-      id={smallContextMenuPopoverId}
-      isOpen={isPopoverOpen}
-      closePopover={closePopover}
-      panelPaddingSize="none"
-      anchorPosition="downLeft"
-    >
-      <EuiSelectable
-        searchable
-        searchProps={{
-          placeholder: "Start typing...",
-          compressed: true,
-        }}
-        singleSelection={true}
-        onChange={(options: any) => onSelect(options)}
-        options={items}
+    <>
+      <EuiPopover
+        id={smallContextMenuPopoverId}
+        isOpen={isPopoverOpen}
+        closePopover={closePopover}
+        panelPaddingSize="none"
+        anchorPosition="downLeft"
       >
-        {(list, search) => (
-          <div style={{ width: 240 }}>
-            <EuiPopoverTitle paddingSize="s">{search}</EuiPopoverTitle>
-            {list}
-          </div>
-        )}
-      </EuiSelectable>
-    </EuiPopover>
+        <EuiSelectable
+          searchable
+          searchProps={{
+            placeholder: "Start typing...",
+            compressed: true,
+          }}
+          singleSelection={true}
+          onChange={(options: any) => onSelect(options)}
+          options={items}
+        >
+          {(list, search) => (
+            <div style={{ width: 240 }}>
+              <EuiPopoverTitle paddingSize="s">{search}</EuiPopoverTitle>
+              {list}
+            </div>
+          )}
+        </EuiSelectable>
+      </EuiPopover>
+    </>
   );
 };

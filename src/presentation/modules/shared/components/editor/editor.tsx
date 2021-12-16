@@ -19,7 +19,7 @@ import { TranscriptComponent } from "../transcript/extension";
 import { HighlightControl } from "./components/highlight-control/highlight-control";
 
 const CustomDocument = Document.extend({
-  content: "heading block* transcriptComponent*",
+  content: "heading block*  transcriptComponent*",
 });
 
 interface EditorProps {
@@ -31,7 +31,11 @@ export const Editor: React.FC<EditorProps> = ({ content }) => {
       CustomDocument,
       Underline,
       TaskList,
-      Image,
+      Image.configure({
+        HTMLAttributes: {
+          class: "editor-image",
+        },
+      }),
       DropCursor,
       TextStyle,
       Highlight.configure({
@@ -68,6 +72,25 @@ export const Editor: React.FC<EditorProps> = ({ content }) => {
 
   return (
     <>
+      {editor && (
+        <form style={{ display: "none" }}>
+          <input
+            type="file"
+            id="imageInput"
+            accept="image/*"
+            onChange={(e: any) => {
+              const files = e.target.files;
+              editor
+                .chain()
+                .focus()
+                .setImage({
+                  src: window.URL.createObjectURL(files[0]),
+                })
+                .run();
+            }}
+          />
+        </form>
+      )}
       {editor && (
         <>
           <BubbleMenu
