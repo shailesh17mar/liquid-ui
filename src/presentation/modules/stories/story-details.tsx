@@ -1,43 +1,52 @@
 import {
-  EuiBadge,
   EuiBetaBadge,
   EuiFlexGroup,
   EuiFlexItem,
   EuiPageContentBody,
-  EuiPanel,
   EuiTitle,
 } from "@elastic/eui";
 import { PropertiesEditor } from "../shared/components/property-editor/property-editor";
-import { useScroll } from "react-use";
 import { Editor } from "../shared/components/editor/editor";
 import { data } from "presentation/modules/shared/components/transcript/dummy";
 import { annotationState } from "main/pages/make-storydetails-page";
 import { useRecoilValue } from "recoil";
-import { useLayoutEffect, useMemo, useRef } from "react";
-import { takeRight } from "lodash";
-import { isNoSubstitutionTemplateLiteral } from "typescript";
+import { useMemo, useRef } from "react";
+import { JSONContent } from "@tiptap/react";
 
-const DefaultStoryDocument = `
-          <h1>
-            It’ll always have a heading
-          </h1>
-          <p>
-            We're a remote company since Day 1. As the team grows, it's vital to learn from our experiments. Slite is the tool we use to do so. It helps us keep in-sync. It helps us grow. Slack/Google Docs just weren’t cutting it for knowledge preservation. The thing that shocked me the most is how teammates have ambient exposure to shared knowledge, without them being notified, or having to search for it. We're a remote company since Day 1. As the team grows, it's vital to learn from our experiments. Slite is the tool we use to do so. It helps us keep in-sync. It helps us grow.
-          </p>
-          <p>
-          It took us forever to find the right tool for our company, we tried Evernote, Notion, Google docs, Confluence. But in one way or another, they didn’t work for us. When we tried Slite, we found something that worked great, simple, focused but also flexible. I implemented Slite at our office as a knowledge base for all of our processes and everyone has LOVED it. We now use it for all of our client meeting minutes, as personal notebooks, and training/reference material. It is amazing to have one workspace where we have all documentation from employee onboarding to guides and even technical documentation. I love how it structures documentations and you can find any information from all docs in the workspace.
-          </p>
-          <transcript>
-          ${data}
-          </transcript>
-          
-        `;
+const DefaultStoryDocument = {
+  type: "doc",
+  content: [
+    {
+      type: "heading",
+      attrs: { level: 1 },
+      content: [{ type: "text", text: "It’ll always have a heading" }],
+    },
+    {
+      type: "paragraph",
+      content: [
+        {
+          type: "text",
+          text: "We're a remote company since Day 1. As the team grows, it's vital to learn from our experiments. Slite is the tool we use to do so. It helps us keep in-sync. It helps us grow. Slack/Google Docs just weren’t cutting it for knowledge preservation. The thing that shocked me the most is how teammates have ambient exposure to shared knowledge, without them being notified, or having to search for it. We're a remote company since Day 1. As the team grows, it's vital to learn from our experiments. Slite is the tool we use to do so. It helps us keep in-sync. It helps us grow.",
+        },
+      ],
+    },
+    {
+      type: "paragraph",
+      content: [
+        {
+          type: "text",
+          text: "It took us forever to find the right tool for our company, we tried Evernote, Notion, Google docs, Confluence. But in one way or another, they didn’t work for us. When we tried Slite, we found something that worked great, simple, focused but also flexible. I implemented Slite at our office as a knowledge base for all of our processes and everyone has LOVED it. We now use it for all of our client meeting minutes, as personal notebooks, and training/reference material. It is amazing to have one workspace where we have all documentation from employee onboarding to guides and even technical documentation. I love how it structures documentations and you can find any information from all docs in the workspace.",
+        },
+      ],
+    },
+    // {
+    //   type: "transcriptComponent",
+    //   content: data,
+    // },
+  ],
+} as JSONContent;
+
 export const StoryDetails: React.FC = () => {
-  //setup refs array
-  //set it on updates
-  //otherwise just change using layout effect
-  const scrollRef = useRef(null);
-  const { x, y } = useScroll(scrollRef);
   const annotation = useRecoilValue(annotationState);
   const annotationRefs = useRef<Array<HTMLDivElement | null>>([]);
   const positionDictionary = useMemo(

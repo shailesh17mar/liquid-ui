@@ -84,12 +84,7 @@ export const TranscriptContent = styled(NodeViewContent)`
   mark[data-color="#cbf0f8"]:before {
     content: "♀";
   }
-  /* ,
-,
-,
-,
-,
-, */
+
   p {
     color: #202124;
   }

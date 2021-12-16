@@ -1,7 +1,13 @@
 import Placeholder from "@tiptap/extension-placeholder";
 import Document from "@tiptap/extension-document";
 import Underline from "@tiptap/extension-underline";
-import { EditorContent, useEditor, BubbleMenu } from "@tiptap/react";
+import {
+  EditorContent,
+  useEditor,
+  BubbleMenu,
+  generateJSON,
+  JSONContent,
+} from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import TaskList from "@tiptap/extension-task-list";
 import DropCursor from "@tiptap/extension-dropcursor";
@@ -23,7 +29,7 @@ const CustomDocument = Document.extend({
 });
 
 interface EditorProps {
-  content: string;
+  content: JSONContent | string;
 }
 export const Editor: React.FC<EditorProps> = ({ content }) => {
   const editor = useEditor({
@@ -95,7 +101,7 @@ export const Editor: React.FC<EditorProps> = ({ content }) => {
         <>
           <BubbleMenu
             shouldShow={({ editor, view, state, oldState, from, to }) => {
-              return !editor.isActive("transcriptComponent");
+              return !editor.isActive("transcriptComponent") && to > from;
             }}
             editor={editor}
           >

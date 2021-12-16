@@ -13,6 +13,16 @@ export const annotationState = atom<Annotation>({
   key: "annotationState",
   default: {},
 });
+
+export interface Story {
+  id?: string;
+  video?: string;
+  annotations: Annotation;
+}
+export const storyState = atom<any>({
+  key: "storyDetailsState",
+  default: {},
+});
 export const StoryDetailsPage: React.FC = () => {
   return (
     <RecoilRoot>
