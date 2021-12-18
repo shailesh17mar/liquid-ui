@@ -9,7 +9,7 @@ import {
   EuiContextMenuPanel,
   euiPaletteColorBlind,
 } from "@elastic/eui";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { HeaderActionButton } from "./layout.styles";
 import { makeProjectQueryController } from "main/factories/project-factory";
 import { useQuery } from "react-query";
@@ -24,12 +24,11 @@ interface Props {
 }
 
 const palette = euiPaletteColorBlind({ direction: "both", order: "append" });
-const ProjectNavItems = [
+const makeProjectNavItems = (id: string = "") => [
   {
     label: "About",
-    isIndex: true,
     icon: "documentation",
-    path: "",
+    path: `/projects/${id}`,
     route: "/projects/:id",
     color: palette[0],
   },
@@ -80,7 +79,8 @@ const MainNavItems = [
   },
 ];
 export const Layout: React.FC<Props> = ({ isProjectLayout }) => {
-  const navItems = isProjectLayout ? ProjectNavItems : MainNavItems;
+  const { id } = useParams();
+  const navItems = isProjectLayout ? makeProjectNavItems(id) : MainNavItems;
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
   const { user } = useAuth();
