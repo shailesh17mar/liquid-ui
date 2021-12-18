@@ -6,8 +6,10 @@ import { Logo, SideNav } from "./layout.styles";
 
 export interface Item {
   label: string;
+  isIndex?: boolean;
   icon: string;
   path: string;
+  route: string | string[];
   color: string;
 }
 interface Props {
@@ -17,18 +19,40 @@ interface Props {
 }
 
 export const SideBar: React.FC<Props> = ({ projects, items, hasProjects }) => {
-  const [selectedItemName, setSelectedItem] = useState("Time stuff");
+  const [selectedItemName, setSelectedItem] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
   const selectItem = (name: string) => {
     setSelectedItem(name);
   };
-  const createItem = (name: string, to: string, data: any = {}) => {
-    const match = to && matchPath(to, location.pathname);
+  const createItem = (
+    name: string,
+    to: string,
+    data: any = {},
+    route?: string | string[]
+  ) => {
+    const match = route
+      ? Array.isArray(route)
+        ? route.find((path) =>
+            matchPath(
+              {
+                path: path,
+              },
+              location.pathname
+            )
+          )
+        : matchPath(
+            {
+              path: route,
+            },
+            location.pathname
+          )
+      : false;
+
     return {
       id: slugify(name),
       name,
-      isSelected: selectedItemName === name || Boolean(match),
+      isSelected: route ? selectedItemName === name || Boolean(match) : false,
       onClick: () => {
         selectItem(name);
         if (to) navigate(to);
@@ -41,9 +65,14 @@ export const SideBar: React.FC<Props> = ({ projects, items, hasProjects }) => {
     createItem("", "", {
       onClick: undefined,
       items: items.map((item) =>
-        createItem(item.label, item.path, {
-          icon: <EuiIcon color={item.color} size="l" type={item.icon} />,
-        })
+        createItem(
+          item.label,
+          item.path,
+          {
+            icon: <EuiIcon color={item.color} size="l" type={item.icon} />,
+          },
+          item.route
+        )
       ),
     }),
   ];
@@ -54,11 +83,16 @@ export const SideBar: React.FC<Props> = ({ projects, items, hasProjects }) => {
         items:
           projects && projects.length > 0
             ? projects.map((project) =>
-                createItem(project.name, `/projects/${project.id}`, {
-                  icon: (
-                    <EuiIcon color="#207af1" size="l" type="folderClosed" />
-                  ),
-                })
+                createItem(
+                  project.name,
+                  `/projects/${project.id}`,
+                  {
+                    icon: (
+                      <EuiIcon color="#207af1" size="l" type="folderClosed" />
+                    ),
+                  },
+                  "/projects/:id"
+                )
               )
             : [
                 createItem("No Projects", "", {

@@ -27,46 +27,55 @@ const palette = euiPaletteColorBlind({ direction: "both", order: "append" });
 const ProjectNavItems = [
   {
     label: "About",
+    isIndex: true,
     icon: "documentation",
     path: "",
+    route: "/projects/:id",
     color: palette[0],
   },
   {
     label: "Stories",
     icon: "tableOfContents",
     path: "stories",
+    route: ["/stories/:id", "/projects/:id/stories"],
     color: palette[1],
   },
   {
     label: "Highlights",
     icon: "documentEdit",
     path: "highlights",
+    route: "/projects/:id/highlights",
     color: palette[2],
   },
   {
     label: "Tags",
     icon: "tag",
     path: "tags",
+    route: "/projects/:id/tags",
     color: palette[3],
   },
   {
     label: "Insights",
     icon: "visPie",
     path: "insights",
+    route: "/projects/:id/insights",
     color: palette[4],
   },
 ];
 const MainNavItems = [
   {
     label: "Home",
+    isIndex: true,
     icon: "home",
-    path: "/home",
+    path: "/",
+    route: "/",
     color: "rgb(252, 180, 21)",
   },
   {
     label: "Find",
     icon: "search",
     path: "/find",
+    route: "/find",
     color: "#a21a68",
   },
 ];
