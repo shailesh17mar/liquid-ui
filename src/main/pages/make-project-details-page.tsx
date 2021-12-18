@@ -4,3 +4,5 @@ import React from "react";
 export const ProjectDetailsPage: React.FC = () => {
   return <ProjectDetails />;
 };
+
+export default ProjectDetailsPage;

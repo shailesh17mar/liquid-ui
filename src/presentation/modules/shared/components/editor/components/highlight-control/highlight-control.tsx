@@ -13,7 +13,10 @@ import {
   useGeneratedHtmlId,
 } from "@elastic/eui";
 import { Editor } from "@tiptap/react";
-import { Annotation, annotationState } from "main/pages/make-storydetails-page";
+import {
+  Annotation,
+  annotationState,
+} from "main/pages/make-story-details-page";
 import { useEffect, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 

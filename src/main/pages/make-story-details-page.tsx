@@ -26,3 +26,5 @@ export const storyState = atom<any>({
 export const StoryDetailsPage: React.FC = () => {
   return <StoryDetails />;
 };
+
+export default StoryDetailsPage;

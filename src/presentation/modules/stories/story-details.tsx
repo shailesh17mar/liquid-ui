@@ -8,7 +8,7 @@ import {
 import { PropertiesEditor } from "../shared/components/property-editor/property-editor";
 import { Editor } from "../shared/components/editor/editor";
 import { data } from "presentation/modules/shared/components/transcript/dummy";
-import { annotationState } from "main/pages/make-storydetails-page";
+import { annotationState } from "main/pages/make-story-details-page";
 import { useRecoilValue } from "recoil";
 import { useMemo, useRef } from "react";
 import { JSONContent } from "@tiptap/react";

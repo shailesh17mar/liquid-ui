@@ -7,3 +7,4 @@ import React from "react";
 export const HighlightsPage: React.FC = () => {
   return <Highlights />;
 };
+export default HighlightsPage;

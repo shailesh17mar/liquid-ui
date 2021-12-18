@@ -5,3 +5,4 @@ import { makeProjectQueryController } from "main/factories/project-factory";
 export const HomePage: React.FC = () => {
   return <Home controller={makeProjectQueryController()} />;
 };
+export default HomePage;
