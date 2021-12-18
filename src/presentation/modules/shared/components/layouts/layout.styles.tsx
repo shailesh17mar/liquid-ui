@@ -22,6 +22,10 @@ export const SideNav = styled(EuiSideNav)`
       text-decoration: none;
     }
   }
+  .euiSideNavItemButton .euiSideNavItemButton__label {
+    font-weight: 500;
+    font-size: 1.1rem;
+  }
   .euiSideNavItemButton.euiSideNavItemButton-isSelected {
     color: #0061a6;
     background-color: rgba(0, 119, 204, 0.2);

@@ -8,7 +8,5 @@
     "amplify/backend/amplify-meta.json": true,
     "amplify/backend/awscloudformation": true
   },
-  "cSpell.words": [
-    "Shailesh"
-  ]
+  "cSpell.words": ["Shailesh", "usecases"]
 }

@@ -26,6 +26,14 @@ a {
   cursor: pointer;
 }
 
+.euiTitle--medium,
+.euiTitle--large {
+  font-weight: 600;
+}
+.euiPageHeader:not([class*="--padding"]) {
+  margin-bottom: 24px;
+  border-bottom: 1px solid #d3dae6;
+}
 .euiPageSideBar {
   min-width: 320px;
 }

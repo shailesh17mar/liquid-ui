@@ -4,6 +4,7 @@ import {
   EuiHeader,
   EuiHeaderLogo,
   EuiIcon,
+  EuiPanel,
   EuiTitle,
 } from "@elastic/eui";
 import Document from "@tiptap/extension-document";
@@ -59,10 +60,8 @@ const DefaultReadmeDocument = `
             <li data-type="taskItem" data-checked="false">butter</li>
           </ul>
         `;
-export const ProjectDetails: React.FC = () => {
-  return (
-    <>
-      <EuiHeader
+{
+  /* <EuiHeader
         style={{
           position: "absolute",
           right: 0,
@@ -74,10 +73,13 @@ export const ProjectDetails: React.FC = () => {
             borders: "right",
           },
         ]}
-      />
-
+      /> */
+}
+export const ProjectDetails: React.FC = () => {
+  return (
+    <EuiPanel>
       <EuiFlexGroup
-        style={{ width: 900, margin: "0 auto", marginTop: 100 }}
+        style={{ width: 900, margin: "0 auto" }}
         justifyContent="spaceAround"
         direction="column"
       >
@@ -106,6 +108,6 @@ export const ProjectDetails: React.FC = () => {
         </EuiFlexItem>
         <hr />
       </EuiFlexGroup>
-    </>
+    </EuiPanel>
   );
 };

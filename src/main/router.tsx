@@ -8,6 +8,7 @@ import { StoriesPage } from "./pages/make-stories-page";
 import { HighlightsPage } from "./pages/make-highlights-page";
 import { ProjectDetailsPage } from "./pages/make-project-details";
 import { StoryDetailsPage } from "./pages/make-storydetails-page";
+import { HomePage } from "./pages/make-home-page";
 
 /*
 Side Menu will change
@@ -17,7 +18,7 @@ export const Router: React.FC = () => (
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<MainLayout />}>
-        <Route index element={<>Home</>} />
+        <Route index element={<HomePage />} />
         <Route path="drafts" element={<>Drafts</>} />
         <Route path="find" element={<>Find</>} />
       </Route>

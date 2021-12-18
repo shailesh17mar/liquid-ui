@@ -24,9 +24,5 @@ export const storyState = atom<any>({
   default: {},
 });
 export const StoryDetailsPage: React.FC = () => {
-  return (
-    <RecoilRoot>
-      <StoryDetails />
-    </RecoilRoot>
-  );
+  return <StoryDetails />;
 };

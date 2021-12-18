@@ -1,0 +1,86 @@
+type Insights @model @key(name: "byProjects", fields: ["projectsID"]) @auth(rules: [{allow: groups, groups: ["liquid"], operations: [read, create, update, delete]}]) {
+  id: ID!
+  projectsID: ID
+  content: AWSJSON
+}
+
+type Highlights @model @key(name: "byTranscription", fields: ["transcriptionID"]) @key(name: "byProjects", fields: ["projectsID"]) @auth(rules: [{allow: groups, groups: ["liquid"], operations: [read, create, update, delete]}]) {
+  id: ID!
+  type: String!
+  transcriptionID: ID
+  Tags: [Tags] @connection(keyName: "byHighlights", fields: ["id"])
+  projectsID: ID
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Tags @model @key(name: "byProjects", fields: ["projectsID"]) @key(name: "byStories", fields: ["storiesID"]) @key(name: "byTranscription", fields: ["transcriptionID"]) @key(name: "byHighlights", fields: ["highlightsID"]) @auth(rules: [{allow: groups, groups: ["liquid"], operations: [read, create, update, delete]}]) {
+  id: ID!
+  label: String!
+  projectsID: ID
+  storiesID: ID
+  transcriptionID: ID
+  highlightsID: ID
+  updatedAt: AWSDateTime!
+  createdAt: AWSDateTime
+}
+
+type Transcription @model @auth(rules: [{allow: groups, groups: ["liquid"], operations: [read, create, update, delete]}]) {
+  id: ID!
+  video: AWSURL!
+  transcription: AWSURL
+  content: AWSJSON
+  Highlights: [Highlights] @connection(keyName: "byTranscription", fields: ["id"])
+  Tags: [Tags] @connection(keyName: "byTranscription", fields: ["id"])
+}
+
+type Stories @model @key(name: "byCategories", fields: ["categoriesID"]) @key(name: "byProjects", fields: ["projectsID"]) @auth(rules: [{allow: groups, groups: ["liquid"], operations: [read, create, update, delete]}]) {
+  id: ID!
+  categoriesID: ID
+  projectsID: ID
+  type: String!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  Transcription: Transcription @connection
+  Tags: [Tags] @connection(keyName: "byStories", fields: ["id"])
+}
+
+type Categories @model @key(name: "byProjects", fields: ["projectsID"]) @auth(rules: [{allow: groups, groups: ["liquid"], operations: [read, create, update, delete]}]) {
+  id: ID!
+  name: String!
+  projectsID: ID
+  Stories: [Stories] @connection(keyName: "byCategories", fields: ["id"])
+}
+
+type Projects @model @auth(rules: [{allow: groups, groups: ["liquid"], operations: [read, create, update, delete]}]) {
+  id: ID!
+  name: String!
+  readme: AWSJSON
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  Categories: [Categories] @connection(keyName: "byProjects", fields: ["id"])
+  Stories: [Stories] @connection(keyName: "byProjects", fields: ["id"])
+  Tags: [Tags] @connection(keyName: "byProjects", fields: ["id"])
+  Highlights: [Highlights] @connection(keyName: "byProjects", fields: ["id"])
+  Insights: [Insights] @connection(keyName: "byProjects", fields: ["id"])
+}
+
+type Workspaces @model @key(name: "byOrganisations", fields: ["organisationsID"]) @auth(rules: [{allow: groups, groups: ["liquid"], operations: [read, create, update, delete]}]) {
+  id: ID!
+  organisationsID: ID
+  name: String!
+  color: String
+  logo: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Organisations @model @auth(rules: [{allow: groups, groups: ["liquid"], operations: [read, create, update, delete]}]) {
+  id: ID!
+  name: String!
+  type: String
+  Workspaces: [Workspaces] @connection(keyName: "byOrganisations", fields: ["id"])
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+ 

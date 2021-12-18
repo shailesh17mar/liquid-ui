@@ -22,10 +22,16 @@ import {
 } from "react-router-dom";
 import { Auth } from "aws-amplify";
 import { Logo, SideNav } from "./layout.styles";
+import { makeProjectQueryController } from "main/factories/project-factory";
+import { useQuery } from "react-query";
 
 export const MainLayout: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const controller = makeProjectQueryController();
+  const { data: projects } = useQuery("projects", async () => {
+    return await controller.getAll();
+  });
   const [isSideNavOpenOnMobile, setIsSideNavOpenOnMobile] =
     useState<boolean>(false);
   const [isPopoverOpen, setPopover] = useState<boolean>(false);
@@ -101,17 +107,24 @@ export const MainLayout: React.FC = () => {
     }),
     createItem("Projects", "", {
       onClick: undefined,
-      items: [
-        createItem("Create Project", "", {
-          icon: <EuiIcon type="plus" size="l" />,
-        }),
-        createItem("Project 1", "projects/1", {
-          icon: <EuiIcon color="#207af1" size="l" type="folderClosed" />,
-        }),
-        createItem("Project 2", "projects/2", {
-          icon: <EuiIcon color="#207af1" size="l" type="folderClosed" />,
-        }),
-      ],
+      items:
+        projects && projects.length > 0
+          ? projects.map((project) =>
+              createItem(project.name, `/projects/${project.id}`, {
+                icon: <EuiIcon color="#207af1" size="l" type="folderClosed" />,
+              })
+            )
+          : [
+              createItem("No Projects", "", {
+                disabled: true,
+              }),
+              // createItem("Project 1", "projects/1", {
+              //   icon: <EuiIcon color="#207af1" size="l" type="folderClosed" />,
+              // }),
+              // createItem("Project 2", "projects/2", {
+              //   icon: <EuiIcon color="#207af1" size="l" type="folderClosed" />,
+              // }),
+            ],
     }),
   ];
 
@@ -125,7 +138,7 @@ export const MainLayout: React.FC = () => {
       fullHeight
       paddingSize="none"
       restrictWidth={false}
-      pageContentProps={{ paddingSize: "none" }}
+      pageContentProps={{ paddingSize: "m" }}
       pageHeader={{
         iconType: "logoElastic",
         paddingSize: "m",
@@ -166,9 +179,7 @@ export const MainLayout: React.FC = () => {
         </EuiPageSideBar>
       }
     >
-      <EuiPageContentBody paddingSize="m">
-        <Outlet />
-      </EuiPageContentBody>
+      <Outlet />
     </EuiPageTemplate>
   );
 };

@@ -1,9 +1,11 @@
 import { Amplify } from "aws-amplify";
-import { withAuthenticator } from "@aws-amplify/ui-react";
+import { View, Image, withAuthenticator } from "@aws-amplify/ui-react";
+import { QueryClient, QueryClientProvider } from "react-query";
 import "@aws-amplify/ui-react/styles.css";
 
 import awsConfig from "aws-exports";
 import { Router } from "./router";
+import { RecoilRoot } from "recoil";
 
 const isLocalhost = Boolean(
   window.location.hostname === "localhost" ||
@@ -34,6 +36,13 @@ const updatedAwsConfig = {
 };
 Amplify.configure(updatedAwsConfig);
 
-const App: React.FC = () => <Router />;
+const queryClient = new QueryClient();
+const App: React.FC = () => (
+  <QueryClientProvider client={queryClient}>
+    <RecoilRoot>
+      <Router />
+    </RecoilRoot>
+  </QueryClientProvider>
+);
 
 export default withAuthenticator(App);
