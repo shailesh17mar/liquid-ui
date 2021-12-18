@@ -1,4 +1,9 @@
-import { EuiContextMenuItem, EuiImage, EuiSideNav } from "@elastic/eui";
+import {
+  EuiButtonIcon,
+  EuiContextMenuItem,
+  EuiImage,
+  EuiSideNav,
+} from "@elastic/eui";
 import { EuiSideNavItem } from "@elastic/eui/src/components/side_nav/side_nav_item";
 import styled from "styled-components";
 
@@ -9,6 +14,10 @@ export const Heading = styled.h1`
 
 export const InnerContainer = styled.div`
   padding-top: 40px;
+`;
+
+export const HeaderActionButton = styled(EuiButtonIcon)`
+  margin-top: 8px;
 `;
 
 export const SideNav = styled(EuiSideNav)`

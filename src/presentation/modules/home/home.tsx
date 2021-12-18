@@ -49,9 +49,11 @@ export const Home: React.FC<HomeProps> = ({ controller }) => {
         justifyContent="spaceAround"
         direction="column"
       >
-        <EuiCallOut color="success" iconType="user" title="No projects, yet!">
-          <p>Create a project by clicking on button 'Add Project'.</p>
-        </EuiCallOut>
+        {projects?.length === 0 && (
+          <EuiCallOut color="success" iconType="user" title="No projects, yet!">
+            <p>Create a project by clicking on button 'Add Project'.</p>
+          </EuiCallOut>
+        )}
         <EuiFlexItem grow={false}>
           <EuiTitle>
             <h1>Recent Projects</h1>

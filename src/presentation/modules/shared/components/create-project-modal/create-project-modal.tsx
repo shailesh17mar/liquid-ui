@@ -6,7 +6,7 @@ import {
   EuiFormRow,
   EuiFieldText,
 } from "@elastic/eui";
-import { Mutation, useMutation } from "react-query";
+import { Mutation, useMutation, useQueryClient } from "react-query";
 import { makeProjectMutationController } from "main/factories/project-factory";
 import { Projects as Project } from "models";
 import { ModelInit } from "@aws-amplify/datastore";
@@ -16,6 +16,7 @@ interface Props {
   onClose: () => void;
 }
 export const CreateProjectModal: React.FC<Props> = ({ onConfirm, onClose }) => {
+  const queryClient = useQueryClient();
   const [name, setName] = useState("");
   const projectController = makeProjectMutationController();
   const mutation = useMutation(
@@ -24,6 +25,7 @@ export const CreateProjectModal: React.FC<Props> = ({ onConfirm, onClose }) => {
     },
     {
       onSuccess: (project) => {
+        queryClient.invalidateQueries("projects");
         onConfirm(project.id);
       },
     }

@@ -6,6 +6,7 @@ import "@aws-amplify/ui-react/styles.css";
 import awsConfig from "aws-exports";
 import { Router } from "./router";
 import { RecoilRoot } from "recoil";
+import { AuthProvider } from "presentation/context/auth-context";
 
 const isLocalhost = Boolean(
   window.location.hostname === "localhost" ||
@@ -39,9 +40,11 @@ Amplify.configure(updatedAwsConfig);
 const queryClient = new QueryClient();
 const App: React.FC = () => (
   <QueryClientProvider client={queryClient}>
-    <RecoilRoot>
-      <Router />
-    </RecoilRoot>
+    <AuthProvider>
+      <RecoilRoot>
+        <Router />
+      </RecoilRoot>
+    </AuthProvider>
   </QueryClientProvider>
 );
 
