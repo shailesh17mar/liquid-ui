@@ -10,7 +10,7 @@ import {
   euiPaletteColorBlind,
 } from "@elastic/eui";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
-import { HeaderActionButton } from "./layout.styles";
+import { HeaderActionButton, Page } from "./layout.styles";
 import { makeProjectQueryController } from "main/factories/project-factory";
 import { useQuery } from "react-query";
 import { useAuth } from "presentation/context/auth-context";
@@ -99,11 +99,21 @@ export const Layout: React.FC<Props> = ({ isProjectLayout }) => {
   };
 
   return user ? (
-    <EuiPageTemplate
+    <Page
       fullHeight
       paddingSize="none"
       restrictWidth={false}
-      pageContentProps={{ paddingSize: "none" }}
+      pageContentProps={{
+        paddingSize: "none",
+        hasBorder: true,
+        hasShadow: false,
+      }}
+      pageBodyProps={{
+        panelProps: {
+          hasShadow: false,
+          hasBorder: true,
+        },
+      }}
       pageHeader={{
         iconType: "logoElastic",
         paddingSize: "m",
@@ -137,6 +147,6 @@ export const Layout: React.FC<Props> = ({ isProjectLayout }) => {
         />
       )}
       <Outlet />
-    </EuiPageTemplate>
+    </Page>
   ) : null;
 };
