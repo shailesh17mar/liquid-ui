@@ -104,7 +104,7 @@ export const Layout: React.FC<Props> = ({ isProjectLayout }) => {
       paddingSize="none"
       restrictWidth={false}
       pageContentProps={{
-        paddingSize: "none",
+        paddingSize: "m",
         hasBorder: true,
         hasShadow: false,
       }}
