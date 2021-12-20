@@ -11,8 +11,8 @@ export class ProjectMutationController {
 
   async updateProject(
     id: string,
-    project: MutableModel<Project>
-  ): Promise<Project> {
+    project: Partial<ModelInit<Project>>
+  ): Promise<Project | undefined> {
     return await this.projectRepository.update(id, project);
   }
 

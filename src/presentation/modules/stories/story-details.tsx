@@ -111,7 +111,7 @@ export const StoryDetails: React.FC = () => {
             >
               <EuiFlexGroup gutterSize="none">
                 <EuiFlexItem>
-                  <Editor content={DefaultStoryDocument} />
+                  {/* <Editor content={DefaultStoryDocument} /> */}
                 </EuiFlexItem>
                 <EuiFlexItem grow={false}></EuiFlexItem>
               </EuiFlexGroup>

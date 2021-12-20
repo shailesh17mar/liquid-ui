@@ -5,14 +5,16 @@ import {
   EditorContent,
   useEditor,
   BubbleMenu,
-  generateJSON,
   JSONContent,
 } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import { useDebouncedCallback } from "use-debounce";
 import TaskList from "@tiptap/extension-task-list";
 import DropCursor from "@tiptap/extension-dropcursor";
+import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
 import Image from "@tiptap/extension-image";
 import Color from "@tiptap/extension-color";
+import Collaboration from "@tiptap/extension-collaboration";
 import { Highlight } from "../transcript/highlight";
 import TaskItem from "@tiptap/extension-task-item";
 import { MenuBar } from "./components/menu-bar/menu-bar";
@@ -23,15 +25,33 @@ import TextStyle from "@tiptap/extension-text-style";
 import { BubbleControl } from "./components/bubble-control/bubble-control";
 import { TranscriptComponent } from "../transcript/extension";
 import { HighlightControl } from "./components/highlight-control/highlight-control";
+import { useCallback, useEffect, useState } from "react";
+import { useAuth } from "presentation/context/auth-context";
+import useWebRtcProvider from "./hooks/use-webrtc-provider";
+import { WebrtcProvider } from "y-webrtc";
+import { Doc } from "yjs";
 
 const CustomDocument = Document.extend({
   content: "heading block*  transcriptComponent*",
 });
+const TIMEOUT = 2000 + Math.floor(Math.random() * 6000);
 
 interface EditorProps {
+  documentId: string;
+  provider: WebrtcProvider;
   content: JSONContent | string;
+  onSave: Function;
 }
-export const Editor: React.FC<EditorProps> = ({ content }) => {
+
+export const Editor: React.FC<EditorProps> = ({
+  provider,
+  content,
+  documentId,
+  onSave,
+}) => {
+  const [docState, setDocState] = useState<JSONContent>();
+  const { user } = useAuth();
+
   const editor = useEditor({
     extensions: [
       CustomDocument,
@@ -58,6 +78,7 @@ export const Editor: React.FC<EditorProps> = ({ content }) => {
       }),
       StarterKit.configure({
         document: false,
+        history: false,
       }),
       TranscriptComponent,
       Placeholder.configure({
@@ -72,9 +93,46 @@ export const Editor: React.FC<EditorProps> = ({ content }) => {
           return "";
         },
       }),
+      Collaboration.configure({
+        document: provider.doc,
+      }),
+      CollaborationCursor.configure({
+        provider,
+        user: {
+          name: user.name,
+          color: "#f783ac",
+        },
+      }),
     ],
     content,
+    onUpdate({ editor }) {
+      const content = editor.getJSON();
+      handleChange(content);
+      // if (content) setDocState(content);
+      // The content has changed.
+    },
   });
+
+  const handleChange = useCallback(
+    (content) => {
+      console.log("handle change");
+      setDocState(content);
+    },
+    [setDocState]
+  );
+  const handleSave = useCallback(
+    (newDocState) => {
+      onSave(documentId, JSON.stringify(newDocState));
+      const meta = provider.doc.getMap("meta");
+      meta.set("lastSaved", Date.now());
+    },
+    [documentId, onSave, provider.doc]
+  );
+  const handleSaveDebounced = useDebouncedCallback(handleSave, TIMEOUT);
+
+  useEffect(() => {
+    handleSaveDebounced(docState);
+  }, [handleSaveDebounced, docState]);
 
   return (
     <>

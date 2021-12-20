@@ -4,16 +4,24 @@ import {
   EuiHeader,
   EuiHeaderLogo,
   EuiIcon,
+  EuiLoadingChart,
   EuiPanel,
   EuiTitle,
 } from "@elastic/eui";
 import Document from "@tiptap/extension-document";
 import { PropertiesEditor } from "../shared/components/property-editor/property-editor";
 import { Editor } from "../shared/components/editor/editor";
+import { matchPath, useParams } from "react-router-dom";
+import { useCallback } from "react";
+import { ProjectMutationController } from "core/modules/projects/usecases/project-mutation-controller";
+import { Projects } from "models";
+import { ProjectsQueryController } from "core/modules/projects/usecases/project-query-controller";
+import { useQuery, useQueryClient } from "react-query";
+import useWebRtcProvider from "../shared/components/editor/hooks/use-webrtc-provider";
+import { WebrtcProvider } from "y-webrtc";
+import { Doc } from "yjs";
+import { IconPanoramaWideAngle } from "@aws-amplify/ui-react";
 
-const ReadmeDocument = Document.extend({
-  content: "heading block*",
-});
 const DefaultReadmeDocument = `
           <h2>
           Overview
@@ -60,23 +68,42 @@ const DefaultReadmeDocument = `
             <li data-type="taskItem" data-checked="false">butter</li>
           </ul>
         `;
-{
-  /* <EuiHeader
-        style={{
-          position: "absolute",
-          right: 0,
-          left: 0,
-        }}
-        sections={[
-          {
-            items: [<EuiIcon type="documentation" />],
-            borders: "right",
-          },
-        ]}
-      /> */
+const ReadmeDocument = Document.extend({
+  content: "heading block*",
+});
+
+interface Props {
+  mutationController: ProjectMutationController;
+  queryController: ProjectsQueryController;
 }
-export const ProjectDetails: React.FC = () => {
-  return (
+
+const route = matchPath("/projects/:id", window.location.pathname);
+const id = route?.params.id;
+const doc = new Doc({ guid: id });
+const provider = new WebrtcProvider(`liquid-${id}`, doc);
+
+export const ProjectDetails: React.FC<Props> = ({
+  mutationController,
+  queryController,
+}) => {
+  const { id } = useParams() as { id: string };
+  const queryClient = useQueryClient();
+  const { data: project, isLoading } = useQuery(
+    `projects-details-${id}`,
+    async () => {
+      return await queryController.getById(id);
+    }
+  );
+  const handleSave = useCallback(
+    async (id, body) => {
+      if (body) {
+        await mutationController.updateProject(id, { readme: body });
+        queryClient.invalidateQueries(`projects-details-${id}`);
+      }
+    },
+    [mutationController, queryClient]
+  );
+  return project && !isLoading ? (
     <EuiPanel>
       <EuiFlexGroup
         style={{ width: 900, margin: "0 auto" }}
@@ -101,7 +128,12 @@ export const ProjectDetails: React.FC = () => {
         >
           <EuiFlexGroup gutterSize="none">
             <EuiFlexItem>
-              <Editor content={DefaultReadmeDocument} />
+              <Editor
+                onSave={handleSave}
+                documentId={id}
+                content={project.readme || DefaultReadmeDocument}
+                provider={provider}
+              />
             </EuiFlexItem>
             <EuiFlexItem grow={false}></EuiFlexItem>
           </EuiFlexGroup>
@@ -109,5 +141,7 @@ export const ProjectDetails: React.FC = () => {
         <hr />
       </EuiFlexGroup>
     </EuiPanel>
+  ) : (
+    <EuiLoadingChart size="xl" />
   );
 };

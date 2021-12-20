@@ -8,7 +8,7 @@ import React, {
 import { QueryCache } from "react-query";
 import { Auth } from "aws-amplify";
 
-interface User {
+export interface User {
   id: string;
   name: string;
   email: string;
