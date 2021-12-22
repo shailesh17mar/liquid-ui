@@ -1,3 +1,7 @@
+import {
+  makeStoriesQueryController,
+  makeStoryMutationController,
+} from "main/factories/story-factory";
 import { StoryDetails } from "presentation/modules/stories";
 import React from "react";
 import { RecoilRoot, atom } from "recoil";
@@ -24,7 +28,12 @@ export const storyState = atom<any>({
   default: {},
 });
 export const StoryDetailsPage: React.FC = () => {
-  return <StoryDetails />;
+  return (
+    <StoryDetails
+      queryController={makeStoriesQueryController()}
+      mutationController={makeStoryMutationController()}
+    />
+  );
 };
 
 export default StoryDetailsPage;

@@ -18,21 +18,31 @@ import Collaboration from "@tiptap/extension-collaboration";
 import { Highlight } from "../transcript/highlight";
 import TaskItem from "@tiptap/extension-task-item";
 import { MenuBar } from "./components/menu-bar/menu-bar";
-import { EuiFlexGroup, EuiFlexItem } from "@elastic/eui";
+import { nanoid } from "nanoid";
+import {
+  EuiButton,
+  EuiButtonEmpty,
+  EuiFlexGroup,
+  EuiFlexItem,
+} from "@elastic/eui";
 import commands from "./components/commander/commands";
 import { Commander } from "./components/commander/commander";
 import TextStyle from "@tiptap/extension-text-style";
 import { BubbleControl } from "./components/bubble-control/bubble-control";
 import { TranscriptComponent } from "../transcript/extension";
+import { ImageExtension } from "./image/extension";
 import { HighlightControl } from "./components/highlight-control/highlight-control";
 import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "presentation/context/auth-context";
 import useWebRtcProvider from "./hooks/use-webrtc-provider";
 import { WebrtcProvider } from "y-webrtc";
 import { Doc } from "yjs";
+import { QuickActionButton } from "./editor.styles";
+import { Storage } from "aws-amplify";
+import { TrailingNode } from "./trailing-node/trailing-node";
 
 const CustomDocument = Document.extend({
-  content: "heading block*  transcriptComponent*",
+  content: "heading block*",
 });
 const TIMEOUT = 2000 + Math.floor(Math.random() * 6000);
 
@@ -50,6 +60,7 @@ export const Editor: React.FC<EditorProps> = ({
   onSave,
 }) => {
   const [docState, setDocState] = useState<JSONContent>();
+  const [isUploading, setIsUploading] = useState(false);
   const { user } = useAuth();
 
   const editor = useEditor({
@@ -64,6 +75,9 @@ export const Editor: React.FC<EditorProps> = ({
       }),
       DropCursor,
       TextStyle,
+      TrailingNode.configure({
+        node: "paragraph",
+      }),
       Highlight.configure({
         multicolor: true,
       }),
@@ -81,6 +95,7 @@ export const Editor: React.FC<EditorProps> = ({
         history: false,
       }),
       TranscriptComponent,
+      ImageExtension,
       Placeholder.configure({
         placeholder: ({ node }) => {
           if (node.type.name === "heading") {
@@ -105,6 +120,7 @@ export const Editor: React.FC<EditorProps> = ({
       }),
     ],
     content,
+    // autofocus: true,
     onUpdate({ editor }) {
       const content = editor.getJSON();
       handleChange(content);
@@ -122,11 +138,13 @@ export const Editor: React.FC<EditorProps> = ({
   );
   const handleSave = useCallback(
     (newDocState) => {
-      onSave(documentId, JSON.stringify(newDocState));
-      const meta = provider.doc.getMap("meta");
-      meta.set("lastSaved", Date.now());
+      if (!isUploading) {
+        onSave(documentId, JSON.stringify(newDocState));
+        const meta = provider.doc.getMap("meta");
+        meta.set("lastSaved", Date.now());
+      }
     },
-    [documentId, onSave, provider.doc]
+    [documentId, isUploading, onSave, provider.doc]
   );
   const handleSaveDebounced = useDebouncedCallback(handleSave, TIMEOUT);
 
@@ -134,27 +152,14 @@ export const Editor: React.FC<EditorProps> = ({
     handleSaveDebounced(docState);
   }, [handleSaveDebounced, docState]);
 
+  const handleVideoClick = () => {
+    editor?.chain().focus().initTranscript().run();
+  };
+  const handleImageClick = () => {
+    editor?.chain().focus().setSignedImage({}).run();
+  };
   return (
     <>
-      {editor && (
-        <form style={{ display: "none" }}>
-          <input
-            type="file"
-            id="imageInput"
-            accept="image/*"
-            onChange={(e: any) => {
-              const files = e.target.files;
-              editor
-                .chain()
-                .focus()
-                .setImage({
-                  src: window.URL.createObjectURL(files[0]),
-                })
-                .run();
-            }}
-          />
-        </form>
-      )}
       {editor && (
         <>
           <BubbleMenu
@@ -188,8 +193,49 @@ export const Editor: React.FC<EditorProps> = ({
         >
           <MenuBar editor={editor} />
         </EuiFlexItem>
-        <EuiFlexItem>
+        <EuiFlexItem
+        // style={{ paddingBottom: 200 }}
+        // onClick={() => {
+        //   editor?.chain().focus();
+        // }}
+        >
           <EditorContent editor={editor} />
+        </EuiFlexItem>
+        <EuiFlexItem>
+          <EuiFlexGroup>
+            <EuiFlexItem grow={false}>
+              <QuickActionButton
+                iconType="videoPlayer"
+                color="primary"
+                onClick={handleVideoClick}
+              >
+                Video
+              </QuickActionButton>
+            </EuiFlexItem>
+            <EuiFlexItem grow={false}>
+              <QuickActionButton
+                iconType="image"
+                color="danger"
+                onClick={handleImageClick}
+              >
+                Image
+              </QuickActionButton>
+            </EuiFlexItem>
+            <EuiFlexItem grow={false}>
+              <QuickActionButton iconType="paperClip" color="warning">
+                File
+              </QuickActionButton>
+            </EuiFlexItem>
+            <EuiFlexItem grow={false}>
+              <QuickActionButton
+                color="success"
+                iconType="editorTable"
+                role="button"
+              >
+                Table
+              </QuickActionButton>
+            </EuiFlexItem>
+          </EuiFlexGroup>
         </EuiFlexItem>
       </EuiFlexGroup>
     </>

@@ -1,19 +1,18 @@
 import {
   DropResult,
-  EuiAvatar,
-  EuiBadge,
   EuiButton,
   EuiCard,
   EuiContextMenuItem,
   EuiContextMenuPanel,
   EuiFlexGroup,
   EuiFlexItem,
+  EuiIcon,
   euiPaletteColorBlindBehindText,
   EuiPopover,
   htmlIdGenerator,
   useGeneratedHtmlId,
 } from "@elastic/eui";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import {
   EuiDragDropContext,
   EuiDraggable,
@@ -25,6 +24,16 @@ import {
   EuiTitle,
   EuiSpacer,
 } from "@elastic/eui";
+import { AvatarStack } from "../shared/components/avatar-stack/avatar-stack";
+import { useAuth } from "presentation/context/auth-context";
+import { StoriesQueryController } from "core/modules/stories/usecases/story-query-controller";
+import { StoryMutationController } from "core/modules/stories/usecases/story-mutation-controller";
+import { CategoryMutationController } from "core/modules/categories/usecases/category-mutation-controller";
+import { CategoriesQueryController } from "core/modules/categories/usecases/category-query-controller";
+import { useNavigate, useParams } from "react-router-dom";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { Categories, Stories as Story } from "models";
+import { ModelInit } from "@aws-amplify/datastore";
 
 const makeId = htmlIdGenerator();
 
@@ -46,7 +55,68 @@ const makeList = (number: number, start: number = 1) =>
     } as unknown as IList;
   });
 
-export const Stories: React.FC = () => {
+//TODO: Think of better way of props her
+interface Props {
+  storiesQueryController: StoriesQueryController;
+  storyMutationController: StoryMutationController;
+  categoryMutationController: CategoryMutationController;
+  categoriesQueryController: CategoriesQueryController;
+}
+export const Stories: React.FC<Props> = ({
+  categoriesQueryController,
+  categoryMutationController,
+  storiesQueryController,
+  storyMutationController,
+}) => {
+  const navigate = useNavigate();
+  const [isSeeding, setIsSeeding] = useState(false);
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+  const { id } = useParams() as { id: string };
+  const { data: categories } = useQuery(["categories", id], async () => {
+    return await categoriesQueryController.getAllByProjectId(id);
+  });
+  const categoryMutation = useMutation(
+    (category: ModelInit<Categories>) => {
+      return categoryMutationController.createCategory(category);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["categories", id]);
+      },
+    }
+  );
+  const storyMutation = useMutation(
+    (story: ModelInit<Story>) => {
+      return storyMutationController.createStory(story);
+    },
+    {
+      onSuccess: (story) => {
+        queryClient.invalidateQueries(["categories", id]);
+        navigate(`/stories/${story.id}`);
+      },
+    }
+  );
+  useEffect(() => {
+    if (!isSeeding && categories && categories.length === 0) {
+      categoryMutation.mutate(
+        new Categories({ name: "Get started", projectsID: id })
+      );
+      setIsSeeding(true);
+    }
+  }, [categories, categoryMutation, id, isSeeding]);
+
+  const { data: stories } = useQuery(
+    ["stories", id],
+    async () => {
+      console.log("fetching stories");
+      return await storiesQueryController.getAllByProjectId(id);
+    },
+    {
+      enabled: categories && categories.length > 0,
+    }
+  );
+
   const [list, setList] = useState<Category[]>([
     { id: 1, title: "B2B Interviews" },
     { title: "B2C Interviews", id: 2 },
@@ -121,8 +191,20 @@ export const Stories: React.FC = () => {
       }
     }
   };
-  return (
-    <EuiFlexGroup responsive={false} gutterSize="s">
+
+  const handleAddStory = (categoryId: string) => {
+    storyMutation.mutate(
+      new Story({
+        title: "Untitled",
+        type: "Unknown",
+        projectsID: id,
+        categoriesID: categoryId,
+      })
+    );
+    //Make a call to create story and then redirect
+  };
+  return categories && stories && categories.length > 0 ? (
+    <EuiFlexGroup responsive={false} gutterSize="none">
       <EuiFlexItem grow={false}>
         <EuiDragDropContext onDragEnd={onDragEnd}>
           <EuiDroppable
@@ -130,24 +212,27 @@ export const Stories: React.FC = () => {
             type="MACRO"
             direction="horizontal"
             spacing="l"
+            grow
             style={{ display: "flex" }}
           >
-            {list.map((did, didx) => (
+            {categories.map((category, didx) => (
               <EuiDraggable
-                key={did.id}
+                key={category.id}
                 index={didx}
-                draggableId={`COMPLEX_DRAGGABLE_${did.id}`}
+                draggableId={`COMPLEX_DRAGGABLE_${category.id}`}
                 spacing="l"
                 disableInteractiveElementBlocking // Allows button to be drag handle
               >
-                {(provided) => (
+                {() => (
                   <EuiPanel
-                    style={{
-                      backgroundColor: "#f2f2f3",
-                    }}
                     hasShadow={false}
                     hasBorder={false}
                     paddingSize="s"
+                    style={{
+                      width: 320,
+                      height: "100%",
+                      borderRight: "1px solid #D3DAE6",
+                    }}
                   >
                     <EuiFlexGroup
                       responsive={false}
@@ -155,10 +240,10 @@ export const Stories: React.FC = () => {
                       alignItems="center"
                     >
                       <EuiFlexItem grow={false}>
-                        <EuiTitle size="xxxs">
-                          <EuiBadge color={visColorsBehindText[didx]}>
-                            {did.title}
-                          </EuiBadge>
+                        <EuiTitle size="xxs">
+                          <h1 color={visColorsBehindText[didx]}>
+                            {category.name}
+                          </h1>
                         </EuiTitle>
                       </EuiFlexItem>
                       <EuiFlexItem></EuiFlexItem>
@@ -176,63 +261,58 @@ export const Stories: React.FC = () => {
                       </EuiFlexItem>
                     </EuiFlexGroup>
                     <EuiSpacer />
-                    <EuiButton size="s" color="accent" fullWidth>
+                    <EuiButton
+                      size="s"
+                      color="text"
+                      fullWidth
+                      onClick={() => handleAddStory(category.id)}
+                    >
                       Add Story
                     </EuiButton>
 
                     <EuiDroppable
-                      droppableId={`COMPLEX_DROPPABLE_AREA_${did.id}`}
+                      droppableId={`COMPLEX_DROPPABLE_AREA_${category.id}`}
+                      grow
                       type="MICRO"
                       spacing="s"
                       style={{ flex: "1 0 50%", marginTop: "1rem" }}
                     >
-                      {lists[`COMPLEX_DROPPABLE_AREA_${did.id}`].map(
-                        ({ content, id }: IList, idx) => (
+                      {stories
+                        .filter((story) => story.categoriesID === category.id)
+                        .map((story, idx) => (
                           <EuiDraggable
-                            key={id}
+                            key={story.id}
                             index={idx}
-                            draggableId={id}
+                            draggableId={story.id}
                             spacing="none"
                             style={{
-                              width: "306px",
-                              height: "324px",
+                              // width: "306px",
+                              marginBottom: "1rem",
                             }}
                           >
                             <EuiCard
-                              textAlign="left"
                               hasBorder
-                              onClick={() => {}}
-                              image={
-                                <div>
-                                  <img
-                                    src={`https://source.unsplash.com/400x200/?business-work&sig=${
-                                      Math.random() * 1000
-                                    }`}
-                                    alt="Nature"
-                                  />
-                                </div>
+                              layout="horizontal"
+                              icon={
+                                <EuiIcon
+                                  size="xxl"
+                                  type={"//logo.clearbit.com/spotify.com"}
+                                />
                               }
-                              title={`Interview ${idx} `}
-                              description={`Interview ${idx} `}
-                              footer={
-                                <>
-                                  <EuiAvatar
-                                    size="m"
-                                    name="Person 1"
-                                    imageUrl={`https://source.unsplash.com/400x200/?people&sig=${Math.random()}`}
-                                  />
-                                  &nbsp;
-                                  <EuiAvatar
-                                    size="m"
-                                    name="Person 2"
-                                    imageUrl={`https://source.unsplash.com/400x200/?people&sig=${Math.random()}`}
-                                  />
-                                </>
+                              onClick={() => {
+                                navigate(`/stories/${story.id}`);
+                              }}
+                              titleSize="xs"
+                              title={story.title}
+                              description={
+                                <AvatarStack
+                                  maxAvatars={2}
+                                  users={[user, user]}
+                                />
                               }
                             />
                           </EuiDraggable>
-                        )
-                      )}
+                        ))}
                     </EuiDroppable>
                   </EuiPanel>
                 )}
@@ -264,5 +344,5 @@ export const Stories: React.FC = () => {
         </EuiPanel>
       </EuiFlexItem>
     </EuiFlexGroup>
-  );
+  ) : null;
 };

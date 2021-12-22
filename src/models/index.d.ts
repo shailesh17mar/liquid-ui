@@ -6,7 +6,7 @@ import { ModelInit, MutableModel, PersistentModelConstructor } from "@aws-amplif
 
 export declare class Insights {
   readonly id: string;
-  readonly projectsID?: string;
+  readonly projectsID: string;
   readonly content?: string;
   constructor(init: ModelInit<Insights>);
   static copyOf(source: Insights, mutator: (draft: MutableModel<Insights>) => MutableModel<Insights> | void): Insights;
@@ -15,9 +15,9 @@ export declare class Insights {
 export declare class Highlights {
   readonly id: string;
   readonly type: string;
-  readonly transcriptionID?: string;
+  readonly transcriptionID: string;
   readonly Tags?: (Tags | null)[];
-  readonly projectsID?: string;
+  readonly projectsID: string;
   readonly createdAt: string;
   readonly updatedAt: string;
   constructor(init: ModelInit<Highlights>);
@@ -27,10 +27,10 @@ export declare class Highlights {
 export declare class Tags {
   readonly id: string;
   readonly label: string;
-  readonly projectsID?: string;
-  readonly storiesID?: string;
-  readonly transcriptionID?: string;
-  readonly highlightsID?: string;
+  readonly projectsID: string;
+  readonly storiesID: string;
+  readonly transcriptionID: string;
+  readonly highlightsID: string;
   readonly updatedAt: string;
   readonly createdAt?: string;
   constructor(init: ModelInit<Tags>);
@@ -50,13 +50,15 @@ export declare class Transcription {
 
 export declare class Stories {
   readonly id: string;
-  readonly categoriesID?: string;
-  readonly projectsID?: string;
+  readonly categoriesID: string;
+  readonly projectsID: string;
   readonly type: string;
   readonly createdAt: string;
   readonly updatedAt: string;
-  readonly Transcription?: Transcription;
   readonly Tags?: (Tags | null)[];
+  readonly title: string;
+  readonly content?: string;
+  readonly Transcription?: Transcription;
   constructor(init: ModelInit<Stories>);
   static copyOf(source: Stories, mutator: (draft: MutableModel<Stories>) => MutableModel<Stories> | void): Stories;
 }
@@ -64,7 +66,7 @@ export declare class Stories {
 export declare class Categories {
   readonly id: string;
   readonly name: string;
-  readonly projectsID?: string;
+  readonly projectsID: string;
   readonly Stories?: (Stories | null)[];
   constructor(init: ModelInit<Categories>);
   static copyOf(source: Categories, mutator: (draft: MutableModel<Categories>) => MutableModel<Categories> | void): Categories;

@@ -3,13 +3,12 @@ import {
   EuiFlexGroup,
   EuiFlexItem,
   EuiIcon,
+  EuiLoadingChart,
   EuiPanel,
   EuiTitle,
 } from "@elastic/eui";
 import { ProjectsQueryController } from "core/modules/projects/usecases/project-query-controller";
-import { Router } from "main/router";
-import { Projects as Project } from "models";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { CreateProjectModal } from "../shared/components/create-project-modal/create-project-modal";
@@ -22,7 +21,7 @@ export const Home: React.FC<HomeProps> = ({ controller }) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const { data: projects } = useQuery("projects", async () => {
+  const { data: projects, isLoading } = useQuery("projects", async () => {
     return await controller.getAll();
   });
 
@@ -36,7 +35,8 @@ export const Home: React.FC<HomeProps> = ({ controller }) => {
     navigate(`/projects/${id}`);
   };
 
-  return (
+  if (isLoading) return <EuiLoadingChart size="xl" />;
+  return projects ? (
     <EuiPanel paddingSize="none">
       {isModalVisible && (
         <CreateProjectModal
@@ -49,7 +49,7 @@ export const Home: React.FC<HomeProps> = ({ controller }) => {
         justifyContent="spaceAround"
         direction="column"
       >
-        {projects?.length === 0 && (
+        {projects.length === 0 && (
           <EuiCallOut color="success" iconType="user" title="No projects, yet!">
             <p>Create a project by clicking on button 'Add Project'.</p>
           </EuiCallOut>
@@ -61,7 +61,7 @@ export const Home: React.FC<HomeProps> = ({ controller }) => {
         </EuiFlexItem>
         <EuiFlexItem>
           <EuiFlexGroup>
-            {projects?.map((project: Project) => (
+            {projects.map((project) => (
               <EuiFlexItem key={project.id} grow={false}>
                 <ProjectButton
                   color="text"
@@ -86,5 +86,5 @@ export const Home: React.FC<HomeProps> = ({ controller }) => {
         </EuiFlexItem>
       </EuiFlexGroup>
     </EuiPanel>
-  );
+  ) : null;
 };

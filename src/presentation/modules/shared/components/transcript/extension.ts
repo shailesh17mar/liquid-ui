@@ -13,9 +13,7 @@ declare module "@tiptap/core" {
       /**
        * Add an image
        */
-      setTranscript: (
-        options: { id?: string; video?: string } | undefined
-      ) => ReturnType;
+      setTranscript: (options: TranscriptOptions | undefined) => ReturnType;
       initTranscript: () => ReturnType;
     };
   }
@@ -26,9 +24,10 @@ export const TranscriptComponent = Node.create<TranscriptOptions>({
 
   group: "block",
 
-  content: "paragraph+",
+  content: "paragraph*",
   marks: "_",
 
+  atom: true,
   parseHTML() {
     return [
       {
@@ -65,6 +64,7 @@ export const TranscriptComponent = Node.create<TranscriptOptions>({
           return {
             ...attributes,
             id: attributes.id,
+            default: undefined,
           };
         },
       },
@@ -78,6 +78,7 @@ export const TranscriptComponent = Node.create<TranscriptOptions>({
           return {
             ...attributes,
             video: attributes.video,
+            default: undefined,
           };
         },
       },

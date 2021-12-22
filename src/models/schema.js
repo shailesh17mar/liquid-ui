@@ -14,7 +14,7 @@ export const schema = {
                     "name": "projectsID",
                     "isArray": false,
                     "type": "ID",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "content": {
@@ -85,7 +85,7 @@ export const schema = {
                     "name": "transcriptionID",
                     "isArray": false,
                     "type": "ID",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "Tags": {
@@ -106,7 +106,7 @@ export const schema = {
                     "name": "projectsID",
                     "isArray": false,
                     "type": "ID",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "createdAt": {
@@ -193,28 +193,28 @@ export const schema = {
                     "name": "projectsID",
                     "isArray": false,
                     "type": "ID",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "storiesID": {
                     "name": "storiesID",
                     "isArray": false,
                     "type": "ID",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "transcriptionID": {
                     "name": "transcriptionID",
                     "isArray": false,
                     "type": "ID",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "highlightsID": {
                     "name": "highlightsID",
                     "isArray": false,
                     "type": "ID",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "updatedAt": {
@@ -402,14 +402,14 @@ export const schema = {
                     "name": "categoriesID",
                     "isArray": false,
                     "type": "ID",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "projectsID": {
                     "name": "projectsID",
                     "isArray": false,
                     "type": "ID",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "type": {
@@ -433,19 +433,6 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "Transcription": {
-                    "name": "Transcription",
-                    "isArray": false,
-                    "type": {
-                        "model": "Transcription"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "BELONGS_TO",
-                        "targetName": "storiesTranscriptionId"
-                    }
-                },
                 "Tags": {
                     "name": "Tags",
                     "isArray": true,
@@ -458,6 +445,33 @@ export const schema = {
                     "association": {
                         "connectionType": "HAS_MANY",
                         "associatedWith": "storiesID"
+                    }
+                },
+                "title": {
+                    "name": "title",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "content": {
+                    "name": "content",
+                    "isArray": false,
+                    "type": "AWSJSON",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "Transcription": {
+                    "name": "Transcription",
+                    "isArray": false,
+                    "type": {
+                        "model": "Transcription"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetName": "storiesTranscriptionId"
                     }
                 }
             },
@@ -530,7 +544,7 @@ export const schema = {
                     "name": "projectsID",
                     "isArray": false,
                     "type": "ID",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "Stories": {
@@ -904,5 +918,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "903f78441cbc6f5fa95cdd0be17f7573"
+    "version": "1a8695ac4196d1fa51c50d05ddbd5690"
 };

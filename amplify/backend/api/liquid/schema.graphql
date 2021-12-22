@@ -1,15 +1,15 @@
 type Insights @model @key(name: "byProjects", fields: ["projectsID"]) @auth(rules: [{allow: groups, groups: ["liquid"], operations: [read, create, update, delete]}]) {
   id: ID!
-  projectsID: ID
+  projectsID: ID!
   content: AWSJSON
 }
 
 type Highlights @model @key(name: "byTranscription", fields: ["transcriptionID"]) @key(name: "byProjects", fields: ["projectsID"]) @auth(rules: [{allow: groups, groups: ["liquid"], operations: [read, create, update, delete]}]) {
   id: ID!
   type: String!
-  transcriptionID: ID
+  transcriptionID: ID!
   Tags: [Tags] @connection(keyName: "byHighlights", fields: ["id"])
-  projectsID: ID
+  projectsID: ID!
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
 }
@@ -17,10 +17,10 @@ type Highlights @model @key(name: "byTranscription", fields: ["transcriptionID"]
 type Tags @model @key(name: "byProjects", fields: ["projectsID"]) @key(name: "byStories", fields: ["storiesID"]) @key(name: "byTranscription", fields: ["transcriptionID"]) @key(name: "byHighlights", fields: ["highlightsID"]) @auth(rules: [{allow: groups, groups: ["liquid"], operations: [read, create, update, delete]}]) {
   id: ID!
   label: String!
-  projectsID: ID
-  storiesID: ID
-  transcriptionID: ID
-  highlightsID: ID
+  projectsID: ID!
+  storiesID: ID!
+  transcriptionID: ID!
+  highlightsID: ID!
   updatedAt: AWSDateTime!
   createdAt: AWSDateTime
 }
@@ -36,19 +36,21 @@ type Transcription @model @auth(rules: [{allow: groups, groups: ["liquid"], oper
 
 type Stories @model @key(name: "byCategories", fields: ["categoriesID"]) @key(name: "byProjects", fields: ["projectsID"]) @auth(rules: [{allow: groups, groups: ["liquid"], operations: [read, create, update, delete]}]) {
   id: ID!
-  categoriesID: ID
-  projectsID: ID
+  categoriesID: ID!
+  projectsID: ID!
   type: String!
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
-  Transcription: Transcription @connection
   Tags: [Tags] @connection(keyName: "byStories", fields: ["id"])
+  title: String!
+  content: AWSJSON
+  Transcription: Transcription @connection
 }
 
 type Categories @model @key(name: "byProjects", fields: ["projectsID"]) @auth(rules: [{allow: groups, groups: ["liquid"], operations: [read, create, update, delete]}]) {
   id: ID!
   name: String!
-  projectsID: ID
+  projectsID: ID!
   Stories: [Stories] @connection(keyName: "byCategories", fields: ["id"])
 }
 

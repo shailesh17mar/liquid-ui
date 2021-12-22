@@ -10,8 +10,14 @@ import { Editor } from "../shared/components/editor/editor";
 import { data } from "presentation/modules/shared/components/transcript/dummy";
 import { annotationState } from "main/pages/make-story-details-page";
 import { useRecoilValue } from "recoil";
-import { useMemo, useRef } from "react";
+import { useCallback, useMemo, useRef } from "react";
 import { JSONContent } from "@tiptap/react";
+import { matchPath, useParams } from "react-router-dom";
+import { StoryMutationController } from "core/modules/stories/usecases/story-mutation-controller";
+import { StoriesQueryController } from "core/modules/stories/usecases/story-query-controller";
+import { useQuery, useQueryClient } from "react-query";
+import { WebrtcProvider } from "y-webrtc";
+import { Doc } from "yjs";
 
 const DefaultStoryDocument = {
   type: "doc",
@@ -39,14 +45,39 @@ const DefaultStoryDocument = {
         },
       ],
     },
-    // {
-    //   type: "transcriptComponent",
-    //   content: data,
-    // },
   ],
 } as JSONContent;
+interface Props {
+  mutationController: StoryMutationController;
+  queryController: StoriesQueryController;
+}
 
-export const StoryDetails: React.FC = () => {
+const route = matchPath("/stories/:id", window.location.pathname);
+const id = route?.params.id;
+const doc = new Doc({ guid: id });
+const provider = new WebrtcProvider(`liquid-${id}`, doc);
+
+export const StoryDetails: React.FC<Props> = ({
+  queryController,
+  mutationController,
+}) => {
+  const queryClient = useQueryClient();
+  const { id } = useParams() as { id: string };
+  const { data: story, isLoading } = useQuery(
+    `projects-details-${id}`,
+    async () => {
+      return await queryController.getById(id);
+    }
+  );
+  const handleSave = useCallback(
+    async (id, body) => {
+      if (body) {
+        // await mutationController.updateStory(id, { content: body });
+        queryClient.invalidateQueries([`liquid`, id]);
+      }
+    },
+    [mutationController, queryClient]
+  );
   const annotation = useRecoilValue(annotationState);
   const annotationRefs = useRef<Array<HTMLDivElement | null>>([]);
   const positionDictionary = useMemo(
@@ -111,7 +142,12 @@ export const StoryDetails: React.FC = () => {
             >
               <EuiFlexGroup gutterSize="none">
                 <EuiFlexItem>
-                  {/* <Editor content={DefaultStoryDocument} /> */}
+                  <Editor
+                    onSave={handleSave}
+                    documentId={id}
+                    content={DefaultStoryDocument}
+                    provider={provider}
+                  />
                 </EuiFlexItem>
                 <EuiFlexItem grow={false}></EuiFlexItem>
               </EuiFlexGroup>

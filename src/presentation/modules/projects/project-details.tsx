@@ -1,26 +1,19 @@
 import {
   EuiFlexGroup,
   EuiFlexItem,
-  EuiHeader,
-  EuiHeaderLogo,
-  EuiIcon,
   EuiLoadingChart,
   EuiPanel,
   EuiTitle,
 } from "@elastic/eui";
 import Document from "@tiptap/extension-document";
-import { PropertiesEditor } from "../shared/components/property-editor/property-editor";
 import { Editor } from "../shared/components/editor/editor";
 import { matchPath, useParams } from "react-router-dom";
 import { useCallback } from "react";
 import { ProjectMutationController } from "core/modules/projects/usecases/project-mutation-controller";
-import { Projects } from "models";
 import { ProjectsQueryController } from "core/modules/projects/usecases/project-query-controller";
 import { useQuery, useQueryClient } from "react-query";
-import useWebRtcProvider from "../shared/components/editor/hooks/use-webrtc-provider";
 import { WebrtcProvider } from "y-webrtc";
 import { Doc } from "yjs";
-import { IconPanoramaWideAngle } from "@aws-amplify/ui-react";
 
 const DefaultReadmeDocument = `
           <h2>
