@@ -25,6 +25,7 @@ import {
 } from "main/factories/story-factory";
 import { Persons as Participant, Stories as Story } from "models";
 import { ModelInit } from "@aws-amplify/datastore";
+import { useDebouncedCallback } from "use-debounce/lib";
 
 const DefaultStoryDocument = {
   type: "doc",
@@ -84,6 +85,10 @@ export const StoryDetails: React.FC<Props> = ({
     },
     [queryClient, story, storyController]
   );
+  const handleSaveDebounced = useDebouncedCallback(async (id, patch) => {
+    await storyController.updateStory(id, { ...story, ...patch });
+    queryClient.invalidateQueries(["story-details", id]);
+  }, 500);
   const annotation = useRecoilValue(annotationState);
   const annotationRefs = useRef<Array<HTMLDivElement | null>>([]);
   const positionDictionary = useMemo(
@@ -127,16 +132,14 @@ export const StoryDetails: React.FC<Props> = ({
               <EuiFlexGroup justifyContent="center">
                 <EuiFlexItem>
                   <span
+                    className="euiTitle--large"
                     contentEditable
                     onInput={(e: any) => {
-                      console.log(e.target.innerHTML);
+                      handleSaveDebounced(id, { title: e.target.innerHTML });
                     }}
                   >
-                    Interview with Shailesh
+                    {story?.title}
                   </span>
-                  <EuiTitle size="l">
-                    <h1>Interview with Shailesh</h1>
-                  </EuiTitle>
                 </EuiFlexItem>
               </EuiFlexGroup>
             </EuiFlexItem>

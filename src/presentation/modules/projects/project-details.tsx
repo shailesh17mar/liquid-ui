@@ -14,6 +14,7 @@ import { ProjectsQueryController } from "core/modules/projects/usecases/project-
 import { useQuery, useQueryClient } from "react-query";
 import { WebrtcProvider } from "y-webrtc";
 import { Doc } from "yjs";
+import { useDebouncedCallback } from "use-debounce/lib";
 
 const DefaultReadmeDocument = `
           <h2>
@@ -96,6 +97,10 @@ export const ProjectDetails: React.FC<Props> = ({
     },
     [mutationController, queryClient]
   );
+  const handleSaveDebounced = useDebouncedCallback(async (id, patch) => {
+    await mutationController.updateProject(id, { ...project, ...patch });
+    queryClient.invalidateQueries(["projects-details", id]);
+  }, 500);
   return project && !isLoading ? (
     <EuiPanel>
       <EuiFlexGroup
@@ -107,7 +112,15 @@ export const ProjectDetails: React.FC<Props> = ({
           <EuiFlexGroup justifyContent="center">
             <EuiFlexItem>
               <EuiTitle size="l">
-                <h1>Video Interviews</h1>
+                <span
+                  className="euiTitle--large"
+                  contentEditable
+                  onInput={(e: any) => {
+                    handleSaveDebounced(id, { name: e.target.innerHTML });
+                  }}
+                >
+                  {project.name}
+                </span>
               </EuiTitle>
             </EuiFlexItem>
           </EuiFlexGroup>
