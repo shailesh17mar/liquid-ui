@@ -7,6 +7,7 @@ import {
   EuiPanel,
   EuiTitle,
 } from "@elastic/eui";
+import { DataStore } from "aws-amplify";
 import { ProjectsQueryController } from "core/modules/projects/usecases/project-query-controller";
 import { useState } from "react";
 import { useQuery, useQueryClient } from "react-query";

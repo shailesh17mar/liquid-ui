@@ -4,6 +4,19 @@ import { ModelInit, MutableModel, PersistentModelConstructor } from "@aws-amplif
 
 
 
+export declare class Persons {
+  readonly id: string;
+  readonly additonalFields?: string;
+  readonly name?: string;
+  readonly email?: string;
+  readonly persona?: string;
+  readonly createdAt: string;
+  readonly updatedAt: string;
+  readonly business?: string;
+  constructor(init: ModelInit<Persons>);
+  static copyOf(source: Persons, mutator: (draft: MutableModel<Persons>) => MutableModel<Persons> | void): Persons;
+}
+
 export declare class Insights {
   readonly id: string;
   readonly projectsID: string;
@@ -28,7 +41,7 @@ export declare class Tags {
   readonly id: string;
   readonly label: string;
   readonly projectsID: string;
-  readonly storiesID: string;
+  readonly storiesID?: string;
   readonly transcriptionID: string;
   readonly highlightsID: string;
   readonly updatedAt: string;
@@ -55,10 +68,11 @@ export declare class Stories {
   readonly type: string;
   readonly createdAt: string;
   readonly updatedAt: string;
-  readonly Tags?: (Tags | null)[];
+  readonly tags?: (Tags | null)[];
   readonly title: string;
   readonly content?: string;
-  readonly Transcription?: Transcription;
+  readonly transcriptions?: Transcription;
+  readonly participants?: Persons;
   constructor(init: ModelInit<Stories>);
   static copyOf(source: Stories, mutator: (draft: MutableModel<Stories>) => MutableModel<Stories> | void): Stories;
 }
@@ -95,6 +109,7 @@ export declare class Workspaces {
   readonly logo?: string;
   readonly createdAt: string;
   readonly updatedAt: string;
+  readonly personTemplate?: string;
   constructor(init: ModelInit<Workspaces>);
   static copyOf(source: Workspaces, mutator: (draft: MutableModel<Workspaces>) => MutableModel<Workspaces> | void): Workspaces;
 }

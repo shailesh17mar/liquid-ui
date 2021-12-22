@@ -11,11 +11,12 @@ import {
   EuiIcon,
 } from "@elastic/eui";
 import { useForm, useFieldArray } from "react-hook-form";
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import { FIELD_TYPES, MetaProperty } from "./types";
 import { MetaField } from "./meta-field";
 import { DraggableLocation } from "@elastic/eui/src/components/drag_and_drop";
 import { DragHandle, Dragula } from "./property-editor.styles";
+import { useDebouncedCallback } from "use-debounce/lib";
 
 interface FormValues {
   properties: MetaProperty[];
@@ -23,48 +24,40 @@ interface FormValues {
 
 const colors = euiPaletteColorBlindBehindText();
 
-export const PropertiesEditor: React.FC = () => {
-  const { control, handleSubmit } = useForm<FormValues>({
+/*
+Default person field
+When name is provided create an entry
+*/
+interface Props {
+  properties: MetaProperty[];
+  onChange: (properties: MetaProperty[]) => void;
+}
+export const PropertiesEditor: React.FC<Props> = ({ properties, onChange }) => {
+  const { control, watch, handleSubmit } = useForm<FormValues>({
     defaultValues: {
-      properties: [
-        {
-          type: FIELD_TYPES.TEXT,
-        },
-        {
-          type: FIELD_TYPES.NUMBER,
-        },
-        {
-          type: FIELD_TYPES.DATE,
-        },
-        {
-          type: FIELD_TYPES.EMAIL,
-        },
-        {
-          type: FIELD_TYPES.URL,
-        },
-        {
-          type: FIELD_TYPES.SELECT,
-          options: [
-            { value: "option_one", text: "Option one" },
-            { value: "option_two", text: "Option two" },
-            { value: "option_three", text: "Option three" },
-          ],
-        },
-        {
-          type: FIELD_TYPES.MULTI_SELECT,
-          options: [
-            { value: "option_one", label: "Option one", color: colors[0] },
-            { value: "option_two", label: "Option two", color: colors[1] },
-            { value: "option_three", label: "Option three", color: colors[2] },
-          ],
-        },
-      ] as MetaProperty[],
+      properties: properties,
     },
   });
+
+  console.log("rerender");
   const { fields, update, append, remove, move } = useFieldArray({
     name: "properties",
     control,
   });
+
+  const handleSave = useCallback(
+    (properties) => {
+      onChange(properties);
+    },
+    [onChange]
+  );
+  const handleSaveDebounced = useDebouncedCallback(handleSave, 2000);
+  useEffect(() => {
+    const subscription = watch((value) =>
+      handleSaveDebounced(value.properties)
+    );
+    return () => subscription.unsubscribe();
+  }, [handleSaveDebounced, watch]);
 
   const onAddButtonClick = () => {
     append({

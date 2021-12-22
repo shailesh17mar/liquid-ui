@@ -1,5 +1,90 @@
 export const schema = {
     "models": {
+        "Persons": {
+            "name": "Persons",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "additonalFields": {
+                    "name": "additonalFields",
+                    "isArray": false,
+                    "type": "AWSJSON",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "name": {
+                    "name": "name",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "email": {
+                    "name": "email",
+                    "isArray": false,
+                    "type": "AWSEmail",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "persona": {
+                    "name": "persona",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "business": {
+                    "name": "business",
+                    "isArray": false,
+                    "type": "AWSJSON",
+                    "isRequired": false,
+                    "attributes": []
+                }
+            },
+            "syncable": true,
+            "pluralName": "Persons",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "allow": "public",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
         "Insights": {
             "name": "Insights",
             "fields": {
@@ -200,7 +285,7 @@ export const schema = {
                     "name": "storiesID",
                     "isArray": false,
                     "type": "ID",
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 },
                 "transcriptionID": {
@@ -433,8 +518,8 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "Tags": {
-                    "name": "Tags",
+                "tags": {
+                    "name": "tags",
                     "isArray": true,
                     "type": {
                         "model": "Tags"
@@ -461,8 +546,8 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "Transcription": {
-                    "name": "Transcription",
+                "transcriptions": {
+                    "name": "transcriptions",
                     "isArray": false,
                     "type": {
                         "model": "Transcription"
@@ -471,7 +556,20 @@ export const schema = {
                     "attributes": [],
                     "association": {
                         "connectionType": "BELONGS_TO",
-                        "targetName": "storiesTranscriptionId"
+                        "targetName": "storiesTranscriptionsId"
+                    }
+                },
+                "participants": {
+                    "name": "participants",
+                    "isArray": false,
+                    "type": {
+                        "model": "Persons"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetName": "storiesParticipantsId"
                     }
                 }
             },
@@ -791,6 +889,13 @@ export const schema = {
                     "type": "AWSDateTime",
                     "isRequired": true,
                     "attributes": []
+                },
+                "personTemplate": {
+                    "name": "personTemplate",
+                    "isArray": false,
+                    "type": "AWSJSON",
+                    "isRequired": false,
+                    "attributes": []
                 }
             },
             "syncable": true,
@@ -918,5 +1023,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "1a8695ac4196d1fa51c50d05ddbd5690"
+    "version": "31ece55f7f4e9510774c43d849f5d535"
 };

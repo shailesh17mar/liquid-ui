@@ -1,3 +1,14 @@
+type Persons @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  additonalFields: AWSJSON
+  name: String
+  email: AWSEmail
+  persona: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  business: AWSJSON
+}
+
 type Insights @model @key(name: "byProjects", fields: ["projectsID"]) @auth(rules: [{allow: groups, groups: ["liquid"], operations: [read, create, update, delete]}]) {
   id: ID!
   projectsID: ID!
@@ -18,7 +29,7 @@ type Tags @model @key(name: "byProjects", fields: ["projectsID"]) @key(name: "by
   id: ID!
   label: String!
   projectsID: ID!
-  storiesID: ID!
+  storiesID: ID
   transcriptionID: ID!
   highlightsID: ID!
   updatedAt: AWSDateTime!
@@ -41,10 +52,11 @@ type Stories @model @key(name: "byCategories", fields: ["categoriesID"]) @key(na
   type: String!
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
-  Tags: [Tags] @connection(keyName: "byStories", fields: ["id"])
+  tags: [Tags] @connection(keyName: "byStories", fields: ["id"])
   title: String!
   content: AWSJSON
-  Transcription: Transcription @connection
+  transcriptions: Transcription @connection
+  participants: Persons @connection
 }
 
 type Categories @model @key(name: "byProjects", fields: ["projectsID"]) @auth(rules: [{allow: groups, groups: ["liquid"], operations: [read, create, update, delete]}]) {
@@ -75,6 +87,7 @@ type Workspaces @model @key(name: "byOrganisations", fields: ["organisationsID"]
   logo: String
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
+  personTemplate: AWSJSON
 }
 
 type Organisations @model @auth(rules: [{allow: groups, groups: ["liquid"], operations: [read, create, update, delete]}]) {

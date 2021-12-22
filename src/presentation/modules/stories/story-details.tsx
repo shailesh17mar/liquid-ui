@@ -5,19 +5,26 @@ import {
   EuiPageContentBody,
   EuiTitle,
 } from "@elastic/eui";
-import { PropertiesEditor } from "../shared/components/property-editor/property-editor";
+import { PropertiesEditor } from "../shared/components/editor/components/property-editor/property-editor";
 import { Editor } from "../shared/components/editor/editor";
-import { data } from "presentation/modules/shared/components/transcript/dummy";
 import { annotationState } from "main/pages/make-story-details-page";
 import { useRecoilValue } from "recoil";
 import { useCallback, useMemo, useRef } from "react";
 import { JSONContent } from "@tiptap/react";
 import { matchPath, useParams } from "react-router-dom";
-import { StoryMutationController } from "core/modules/stories/usecases/story-mutation-controller";
-import { StoriesQueryController } from "core/modules/stories/usecases/story-query-controller";
 import { useQuery, useQueryClient } from "react-query";
 import { WebrtcProvider } from "y-webrtc";
 import { Doc } from "yjs";
+import {
+  FIELD_TYPES,
+  MetaProperty,
+} from "../shared/components/editor/components/property-editor/types";
+import {
+  ParticipantController,
+  StoryController,
+} from "main/factories/story-factory";
+import { Persons as Participant, Stories as Story } from "models";
+import { ModelInit } from "@aws-amplify/datastore";
 
 const DefaultStoryDocument = {
   type: "doc",
@@ -48,8 +55,8 @@ const DefaultStoryDocument = {
   ],
 } as JSONContent;
 interface Props {
-  mutationController: StoryMutationController;
-  queryController: StoriesQueryController;
+  participantController: ParticipantController;
+  storyController: StoryController;
 }
 
 const route = matchPath("/stories/:id", window.location.pathname);
@@ -58,25 +65,24 @@ const doc = new Doc({ guid: id });
 const provider = new WebrtcProvider(`liquid-${id}`, doc);
 
 export const StoryDetails: React.FC<Props> = ({
-  queryController,
-  mutationController,
+  participantController,
+  storyController,
 }) => {
   const queryClient = useQueryClient();
   const { id } = useParams() as { id: string };
-  const { data: story, isLoading } = useQuery(
-    `projects-details-${id}`,
-    async () => {
-      return await queryController.getById(id);
-    }
-  );
+  const { data: story } = useQuery(["story-details", id], async () => {
+    return await storyController.getStoryById(id);
+  });
+  console.log("story", story);
+  //person is embedded
   const handleSave = useCallback(
     async (id, body) => {
       if (body) {
-        // await mutationController.updateStory(id, { content: body });
-        queryClient.invalidateQueries([`liquid`, id]);
+        await storyController.updateStory(id, { ...story, content: body });
+        queryClient.invalidateQueries(["story-details", id]);
       }
     },
-    [mutationController, queryClient]
+    [queryClient, story, storyController]
   );
   const annotation = useRecoilValue(annotationState);
   const annotationRefs = useRef<Array<HTMLDivElement | null>>([]);
@@ -97,13 +103,14 @@ export const StoryDetails: React.FC<Props> = ({
       const element = document.getElementById(id);
       const top = element?.getBoundingClientRect().top;
       const highlight = annotationRefs.current[index];
-      console.log(top);
       if (highlight && top) {
         highlight.style.top = top + "px";
       }
     });
   };
 
+  const participant = story?.participants;
+  console.log("participant: ", participant);
   return (
     <EuiPageContentBody
       className="eui-yScroll"
@@ -119,6 +126,14 @@ export const StoryDetails: React.FC<Props> = ({
             <EuiFlexItem grow={false}>
               <EuiFlexGroup justifyContent="center">
                 <EuiFlexItem>
+                  <span
+                    contentEditable
+                    onInput={(e: any) => {
+                      console.log(e.target.innerHTML);
+                    }}
+                  >
+                    Interview with Shailesh
+                  </span>
                   <EuiTitle size="l">
                     <h1>Interview with Shailesh</h1>
                   </EuiTitle>
@@ -128,9 +143,107 @@ export const StoryDetails: React.FC<Props> = ({
             <hr />
             <EuiFlexItem grow={false}>
               <EuiFlexGroup justifyContent="center">
-                <EuiFlexItem>
-                  <PropertiesEditor />
-                </EuiFlexItem>
+                {story && (
+                  <EuiFlexItem>
+                    <PropertiesEditor
+                      properties={
+                        [
+                          {
+                            label: "Name",
+                            type: FIELD_TYPES.TEXT,
+                            value: participant?.name,
+                          },
+                          {
+                            label: "Email",
+                            type: FIELD_TYPES.EMAIL,
+                            value: participant?.email,
+                          },
+                          {
+                            label: "Company",
+                            type: FIELD_TYPES.COMPANY,
+                            selectedOptions: participant?.business || [],
+                          },
+                          {
+                            label: "Persona",
+                            type: FIELD_TYPES.TEXT,
+                            value: participant?.persona,
+                          },
+                        ] as MetaProperty[]
+                      }
+                      onChange={async (properties) => {
+                        const participantDetails = properties.reduce(
+                          (person: any, property: MetaProperty) => {
+                            if (property.label)
+                              person[property.label.toLowerCase()] =
+                                property.selectedOptions
+                                  ? property.selectedOptions
+                                  : property.value;
+                            return person;
+                          },
+                          {}
+                        );
+
+                        if (story) {
+                          if (participant) {
+                            console.log("ddd", participantDetails);
+                            const updatedParticipant =
+                              await participantController.updateParticipant(
+                                participant.id,
+                                {
+                                  name: participantDetails.name,
+                                  email: participantDetails.email,
+                                  business: JSON.stringify(
+                                    participantDetails.company
+                                  ),
+                                  persona: participantDetails.persona,
+                                }
+                              );
+                            console.log(
+                              "updated participant",
+                              updatedParticipant
+                            );
+                            const result2 = await storyController.updateStory(
+                              id,
+                              {
+                                ...story,
+                                participants: updatedParticipant,
+                              }
+                            );
+                            console.log(result2);
+                          } else {
+                            const newParticipant =
+                              await participantController.createParticipant(
+                                new Participant({
+                                  name: participantDetails.name,
+                                  email: participantDetails.email,
+                                  business: JSON.stringify(
+                                    participantDetails.company
+                                  ),
+                                  persona: participantDetails.persona,
+                                })
+                                // participantDetails as ModelInit<Participant>
+                              );
+
+                            const result = await storyController.updateStory(
+                              id,
+                              {
+                                ...story,
+                                participants: newParticipant,
+                              }
+                            );
+                            console.log(result);
+                          }
+                          queryClient.invalidateQueries(["story-details", id]);
+                        }
+                        // handleSave(id, {
+                        //   ...story,
+                        //   Persons: participant as ModelInit<Participant>,
+                        // });
+                        console.log(participant);
+                      }}
+                    />
+                  </EuiFlexItem>
+                )}
               </EuiFlexGroup>
             </EuiFlexItem>
             <hr />

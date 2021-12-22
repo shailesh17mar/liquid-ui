@@ -15,9 +15,11 @@ import {
   EuiTextColor,
   EuiText,
   EuiBadge,
+  EuiFormRow,
+  EuiIcon,
 } from "@elastic/eui";
 import { Control, Controller } from "react-hook-form";
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   ComboBoxOption,
   FIELD_TYPES,
@@ -28,6 +30,7 @@ import { Moment } from "moment";
 import moment from "moment";
 import { string } from "prop-types";
 import { profileEnd } from "console";
+import { CompanyFinder } from "./company-finder";
 
 interface PrimitiveValue {
   value?: string | number;
@@ -37,7 +40,7 @@ interface PrimitiveValue {
   options?: SelectOption[];
 }
 
-interface ComplexValue {
+export interface ComplexValue {
   selectedOptions?: ComboBoxOption[];
   onChange: (values: ComboBoxOption[]) => void;
   onBlur: (...event: any[]) => void;
@@ -100,6 +103,14 @@ const SCHEMA: {
           onBlur={onBlur}
         />
       );
+    },
+  },
+  [FIELD_TYPES.COMPANY]: {
+    icon: "list",
+    label: "Company",
+    placeholder: "Property",
+    component: (props) => {
+      return <CompanyFinder {...(props as ComplexValue)} />;
     },
   },
   [FIELD_TYPES.URL]: {
@@ -174,7 +185,7 @@ interface MetaFieldValueProps {
 const MetaFieldValue: React.FC<MetaFieldValueProps> = ({ property }) => {
   const type = property.type;
   const hasValue =
-    type === FIELD_TYPES.MULTI_SELECT
+    type === FIELD_TYPES.MULTI_SELECT || type === FIELD_TYPES.COMPANY
       ? property.selectedOptions && property.selectedOptions?.length > 0
       : Boolean(property.value);
   const value = hasValue ? property.value : "Empty";
@@ -194,6 +205,33 @@ const MetaFieldValue: React.FC<MetaFieldValueProps> = ({ property }) => {
               <EuiBadge color={option.color}>{option.label}</EuiBadge>
             </EuiFlexItem>
           ))}
+        </EuiFlexGroup>
+      );
+    case FIELD_TYPES.COMPANY:
+      const company = property.selectedOptions && property.selectedOptions[0];
+      return (
+        <EuiFlexGroup gutterSize="xs">
+          {company?.value && (
+            <EuiFlexItem grow={false}>
+              <img
+                style={{
+                  width: "25px",
+                  height: "auto",
+                }}
+                alt="company-logo"
+                src={`https://logo.clearbit.com/${company?.value}`}
+              />
+            </EuiFlexItem>
+          )}
+          <EuiFlexItem
+            grow={false}
+            style={{
+              color: "#69707D",
+              fontWeight: 400,
+            }}
+          >
+            {company?.label || "Select company"}
+          </EuiFlexItem>
         </EuiFlexGroup>
       );
     case FIELD_TYPES.URL:
@@ -236,7 +274,8 @@ export const MetaField: React.FC<FieldProps> = ({
   const fieldSchema = SCHEMA[fieldType];
   const MetaFieldEditor = fieldSchema.component;
   const props =
-    property.type === FIELD_TYPES.MULTI_SELECT
+    property.type === FIELD_TYPES.MULTI_SELECT ||
+    property.type === FIELD_TYPES.COMPANY
       ? ({
           options: property.options as ComboBoxOption[],
           selectedOptions: property.selectedOptions,

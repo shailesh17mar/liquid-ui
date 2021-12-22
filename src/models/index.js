@@ -4,9 +4,10 @@ import { schema } from './schema';
 
 
 
-const { Insights, Highlights, Tags, Transcription, Stories, Categories, Projects, Workspaces, Organisations } = initSchema(schema);
+const { Persons, Insights, Highlights, Tags, Transcription, Stories, Categories, Projects, Workspaces, Organisations } = initSchema(schema);
 
 export {
+  Persons,
   Insights,
   Highlights,
   Tags,

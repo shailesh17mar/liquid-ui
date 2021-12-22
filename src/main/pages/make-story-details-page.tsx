@@ -1,5 +1,7 @@
 import {
+  makeParticipantController,
   makeStoriesQueryController,
+  makeStoryController,
   makeStoryMutationController,
 } from "main/factories/story-factory";
 import { StoryDetails } from "presentation/modules/stories";
@@ -30,8 +32,8 @@ export const storyState = atom<any>({
 export const StoryDetailsPage: React.FC = () => {
   return (
     <StoryDetails
-      queryController={makeStoriesQueryController()}
-      mutationController={makeStoryMutationController()}
+      participantController={makeParticipantController()}
+      storyController={makeStoryController()}
     />
   );
 };

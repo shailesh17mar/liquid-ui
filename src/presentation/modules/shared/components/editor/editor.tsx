@@ -15,7 +15,7 @@ import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
 import Image from "@tiptap/extension-image";
 import Color from "@tiptap/extension-color";
 import Collaboration from "@tiptap/extension-collaboration";
-import { Highlight } from "../transcript/highlight";
+import { Highlight } from "./extensions/transcript/highlight";
 import TaskItem from "@tiptap/extension-task-item";
 import { MenuBar } from "./components/menu-bar/menu-bar";
 import { nanoid } from "nanoid";
@@ -25,12 +25,12 @@ import {
   EuiFlexGroup,
   EuiFlexItem,
 } from "@elastic/eui";
-import commands from "./components/commander/commands";
-import { Commander } from "./components/commander/commander";
+import commands from "./extensions/commander/commands";
+import { Commander } from "./extensions/commander/commander";
 import TextStyle from "@tiptap/extension-text-style";
 import { BubbleControl } from "./components/bubble-control/bubble-control";
-import { TranscriptComponent } from "../transcript/extension";
-import { ImageExtension } from "./image/extension";
+import { TranscriptComponent } from "./extensions/transcript/extension";
+import { ImageExtension } from "./extensions/image/extension";
 import { HighlightControl } from "./components/highlight-control/highlight-control";
 import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "presentation/context/auth-context";
@@ -39,7 +39,7 @@ import { WebrtcProvider } from "y-webrtc";
 import { Doc } from "yjs";
 import { QuickActionButton } from "./editor.styles";
 import { Storage } from "aws-amplify";
-import { TrailingNode } from "./trailing-node/trailing-node";
+import { TrailingNode } from "./extensions/trailing-node/trailing-node";
 
 const CustomDocument = Document.extend({
   content: "heading block*",

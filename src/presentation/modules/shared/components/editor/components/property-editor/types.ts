@@ -15,7 +15,7 @@ export interface MetaProperty {
   label?: string;
   value?: string | number;
   selectedIndex?: number;
-  selectedOptions?: ComboBoxOption[],
+  selectedOptions?: ComboBoxOption[];
   options?: ComboBoxOption[] | SelectOption[];
 }
 
@@ -27,4 +27,5 @@ export enum FIELD_TYPES {
   DATE,
   EMAIL,
   URL,
+  COMPANY,
 }

@@ -1,6 +1,6 @@
 import { MutableModel, ModelInit } from "@aws-amplify/datastore";
 import { DataStore } from "aws-amplify";
-import { Stories as Story } from "models";
+import { Persons, Stories as Story } from "models";
 import { StoryRepository } from "./story-repository.interface";
 
 export class StoryRepositoryImpl implements StoryRepository {
@@ -25,13 +25,16 @@ export class StoryRepositoryImpl implements StoryRepository {
   ): Promise<Story | undefined> {
     const original = await DataStore.query(Story, id);
     if (original) {
-      const updatedProject = await DataStore.save(
+      const updatedStory = await DataStore.save(
         Story.copyOf(original, (updated) => {
+          updated.title = story.title || original.title;
+          updated.content = story.content || original.content;
+          updated.participants = story.participants;
           // updated.readme = story.readme;
           // updated.name = story.name || original.name;
         })
       );
-      return updatedProject;
+      return updatedStory;
     }
   }
 

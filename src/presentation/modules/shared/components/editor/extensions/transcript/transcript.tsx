@@ -11,20 +11,10 @@ import {
   EuiText,
   EuiTitle,
 } from "@elastic/eui";
-import Dash from "@uppy/dashboard";
-import Uppy from "@uppy/core";
-import Tus from "@uppy/tus";
-import GoogleDrive from "@uppy/google-drive";
-import Zoom from "@uppy/zoom";
-import Box from "@uppy/box";
-import OneDrive from "@uppy/onedrive";
 import ReactPlayer from "react-player";
 import { TranscriptAssistant } from "./transcript-assistant";
-import { DashboardModal, useUppy } from "@uppy/react";
-import { data } from "presentation/modules/shared/components/transcript/dummy";
+import { data } from "./dummy";
 import { nanoid } from "nanoid";
-import { image } from "faker";
-import { ComponentPropsToStylePropsMap } from "@aws-amplify/ui-react";
 
 export const Transcript = (props: NodeViewProps) => {
   const { video } = props.node.attrs;
