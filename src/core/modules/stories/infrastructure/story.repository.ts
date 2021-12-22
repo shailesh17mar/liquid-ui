@@ -30,6 +30,7 @@ export class StoryRepositoryImpl implements StoryRepository {
           updated.title = story.title || original.title;
           updated.content = story.content || original.content;
           updated.participants = story.participants;
+          updated.content = story.content;
           // updated.readme = story.readme;
           // updated.name = story.name || original.name;
         })

@@ -63,7 +63,7 @@ interface Props {
 const route = matchPath("/stories/:id", window.location.pathname);
 const id = route?.params.id;
 const doc = new Doc({ guid: id });
-const provider = new WebrtcProvider(`liquid-${id}`, doc);
+const provider = new WebrtcProvider(`story-${id}`, doc);
 
 export const StoryDetails: React.FC<Props> = ({
   participantController,
@@ -74,12 +74,12 @@ export const StoryDetails: React.FC<Props> = ({
   const { data: story } = useQuery(["story-details", id], async () => {
     return await storyController.getStoryById(id);
   });
-  console.log("story", story);
   //person is embedded
   const handleSave = useCallback(
     async (id, body) => {
       if (body) {
         await storyController.updateStory(id, { ...story, content: body });
+        console.log("updated");
         queryClient.invalidateQueries(["story-details", id]);
       }
     },
@@ -115,8 +115,7 @@ export const StoryDetails: React.FC<Props> = ({
   };
 
   const participant = story?.participants;
-  console.log("participant: ", participant);
-  return (
+  return story ? (
     <EuiPageContentBody
       className="eui-yScroll"
       onScroll={() => updatePositions()}
@@ -188,7 +187,6 @@ export const StoryDetails: React.FC<Props> = ({
 
                         if (story) {
                           if (participant) {
-                            console.log("ddd", participantDetails);
                             const updatedParticipant =
                               await participantController.updateParticipant(
                                 participant.id,
@@ -201,10 +199,6 @@ export const StoryDetails: React.FC<Props> = ({
                                   persona: participantDetails.persona,
                                 }
                               );
-                            console.log(
-                              "updated participant",
-                              updatedParticipant
-                            );
                             const result2 = await storyController.updateStory(
                               id,
                               {
@@ -212,7 +206,6 @@ export const StoryDetails: React.FC<Props> = ({
                                 participants: updatedParticipant,
                               }
                             );
-                            console.log(result2);
                           } else {
                             const newParticipant =
                               await participantController.createParticipant(
@@ -234,7 +227,6 @@ export const StoryDetails: React.FC<Props> = ({
                                 participants: newParticipant,
                               }
                             );
-                            console.log(result);
                           }
                           queryClient.invalidateQueries(["story-details", id]);
                         }
@@ -261,7 +253,7 @@ export const StoryDetails: React.FC<Props> = ({
                   <Editor
                     onSave={handleSave}
                     documentId={id}
-                    content={DefaultStoryDocument}
+                    content={story?.content || DefaultStoryDocument}
                     provider={provider}
                   />
                 </EuiFlexItem>
@@ -299,5 +291,6 @@ export const StoryDetails: React.FC<Props> = ({
         </EuiFlexItem>
       </EuiFlexGroup>
     </EuiPageContentBody>
-  );
+  ) : null;
+  // );
 };
