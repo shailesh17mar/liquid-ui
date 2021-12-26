@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Storage } from "aws-amplify";
+import { DataStore, Storage } from "aws-amplify";
 import { NodeViewProps } from "@tiptap/react";
 import { TranscriptContainer, TranscriptContent } from "./transcript.styles";
 import { useHighlight } from "./hooks/use-highlight";
@@ -15,6 +15,7 @@ import ReactPlayer from "react-player";
 import { TranscriptAssistant } from "./transcript-assistant";
 import { data } from "./dummy";
 import { nanoid } from "nanoid";
+import awsvideoconfig from "aws-video-exports";
 
 export const Transcript = (props: NodeViewProps) => {
   const { video } = props.node.attrs;
@@ -84,7 +85,25 @@ export const Transcript = (props: NodeViewProps) => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files!![0];
     const ext = file.name.substring(file.name.lastIndexOf(".") + 1);
-    const key = `${nanoid()}.${ext}`;
+    const assetId = nanoid();
+    const key = `${assetId}.${ext}`;
+    if (ext === "mp4") {
+      Storage.configure({
+        AWSS3: {
+          bucket: awsvideoconfig.awsInputVideo,
+          customPrefix: {
+            public: "liquid",
+          },
+        },
+      });
+    }
+
+    const videoObject = {
+      input: {
+        id: uuid,
+      },
+    };
+    DataStore.s;
     Storage.put(key, file, {
       resumable: true,
       completeCallback: (event) => {

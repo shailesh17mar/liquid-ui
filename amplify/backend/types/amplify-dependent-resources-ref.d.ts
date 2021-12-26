@@ -22,6 +22,13 @@ export type AmplifyDependentResourcesAttributes = {
             "Region": "string"
         }
     },
+    "video": {
+        "vodservice": {
+            "oVODInputS3": "string",
+            "oVODOutputS3": "string",
+            "oVodOutputUrl": "string"
+        }
+    },
     "api": {
         "liquid": {
             "GraphQLAPIIdOutput": "string",

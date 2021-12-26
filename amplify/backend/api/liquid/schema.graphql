@@ -99,3 +99,33 @@ type Organisations @model @auth(rules: [{allow: groups, groups: ["liquid"], oper
   updatedAt: AWSDateTime!
 }
  
+
+type VodAsset @model (subscriptions: {level: public})
+@auth(
+  rules: [
+    {allow: owner, ownerField: "owner", operations: [create, update, delete, read] },
+    {allow: groups, groups:["Admin"], operations: [create, update, delete, read]},
+    {allow: private, operations: [read]}
+  ]
+)
+{
+  id:ID!
+  title:String!
+  description:String!
+
+  #DO NOT EDIT
+  video:VideoObject @connection
+}
+
+#DO NOT EDIT
+type VideoObject @model
+@auth(
+  rules: [
+    {allow: owner, ownerField: "owner", operations: [create, update, delete, read] },
+    {allow: groups, groups:["Admin"], operations: [create, update, delete, read]},
+    {allow: private, operations: [read]}
+  ]
+)
+{
+  id:ID!
+}

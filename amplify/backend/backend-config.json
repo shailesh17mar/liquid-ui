@@ -58,7 +58,13 @@
       "dependsOn": []
     }
   },
-  "video": {},
+  "video": {
+    "vodservice": {
+      "service": "video",
+      "serviceType": "video-on-demand",
+      "providerPlugin": "awscloudformation"
+    }
+  },
   "api": {
     "liquid": {
       "service": "AppSync",

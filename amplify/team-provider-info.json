@@ -15,6 +15,11 @@
       "auth": {
         "liquid": {},
         "userPoolGroups": {}
+      },
+      "video": {
+        "vodservice": {
+          "s3UUID": "ammf9pxh"
+        }
       }
     }
   }
