@@ -23,7 +23,7 @@ export type AmplifyDependentResourcesAttributes = {
         }
     },
     "video": {
-        "vodservice": {
+        "videoservice": {
             "oVODInputS3": "string",
             "oVODOutputS3": "string",
             "oVodOutputUrl": "string"
@@ -33,6 +33,14 @@ export type AmplifyDependentResourcesAttributes = {
         "liquid": {
             "GraphQLAPIIdOutput": "string",
             "GraphQLAPIEndpointOutput": "string"
+        }
+    },
+    "function": {
+        "transcriber": {
+            "Name": "string",
+            "Arn": "string",
+            "Region": "string",
+            "LambdaExecutionRole": "string"
         }
     }
 }

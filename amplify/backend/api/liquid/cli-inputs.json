@@ -3,7 +3,7 @@
   "serviceConfiguration": {
     "apiName": "liquid",
     "serviceName": "AppSync",
-    "gqlSchemaPath": "/tmp/amplify-f0593402-4694-4551-b370-b62ebac03d6c/amplify/backend/api/liquid/schema.graphql",
+    "gqlSchemaPath": "/tmp/amplify-384a24ca-102c-49ca-b5ed-34cd825172fd/amplify/backend/api/liquid/schema.graphql",
     "defaultAuthType": {
       "mode": "API_KEY",
       "keyDescription": "api key description",

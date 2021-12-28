@@ -59,7 +59,7 @@
     }
   },
   "video": {
-    "vodservice": {
+    "videoservice": {
       "service": "video",
       "serviceType": "video-on-demand",
       "providerPlugin": "awscloudformation"
@@ -91,6 +91,22 @@
           ]
         }
       }
+    }
+  },
+  "function": {
+    "transcriber": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "api",
+          "resourceName": "liquid",
+          "attributes": [
+            "GraphQLAPIIdOutput"
+          ]
+        }
+      ]
     }
   }
 }

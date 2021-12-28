@@ -16,9 +16,20 @@
         "liquid": {},
         "userPoolGroups": {}
       },
+      "function": {
+        "transcriber": {
+          "deploymentBucketName": "amplify-amplify52b704ef7e9c4-staging-83355-deployment",
+          "s3Key": "amplify-builds/transcriber-6261765644484e756461-build.zip"
+        }
+      },
       "video": {
-        "vodservice": {
-          "s3UUID": "ammf9pxh"
+        "videoservice": {
+          "publicKey": "-----BEGIN PUBLIC KEY-----\\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAllZEulGTDoT6q6txzbTO\\nXrl+gmOc6/3PXNdvDH2i5+hgkoGBTh8BDX+n/tutkFciMLaUWmYb5m67743Ppr4d\\nNZfoipGSsJS6HMH5wf7XOmO8H2QiWSYoDvei2TKK2VjYxW/vn6y8KniZ/rUh9XP5\\n1E5am6BUFnycDk/9r6HK/4AR3gElBf3GFa7fsUcoA+mCNGWy1q7cJ+3JOM6vUrQG\\nx7r/IzVn6W+rMHWRM55wqgQhwCVlLhMtlEANMua8b4iAxJNpZVFC4MXLuBp1KAHn\\nYMklgn+eKouSB91KyUQ5zKDI75q8JwfQ3LkE36Z9Uw+DMp/li1DQqa/viORtndPg\\n3wIDAQAB\\n-----END PUBLIC KEY-----\\n",
+          "rPublicName": "rCloudFrontPublicKeystagingw45shs5x",
+          "publicKeyName": "videoservice-staging-publickey-w45shs5x",
+          "secretPem": "videoservice-staging-pem-w45shs5x",
+          "secretPemArn": "arn:aws:secretsmanager:us-east-2:043715548265:secret:videoservice-staging-pem-w45shs5x-dlLFfZ",
+          "s3UUID": "b6l4sht5"
         }
       }
     }

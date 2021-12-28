@@ -16,6 +16,8 @@ import { TranscriptAssistant } from "./transcript-assistant";
 import { data } from "./dummy";
 import { nanoid } from "nanoid";
 import awsvideoconfig from "aws-video-exports";
+import { VodAsset } from "models";
+import { VideoObject } from "models";
 
 export const Transcript = (props: NodeViewProps) => {
   const { video } = props.node.attrs;
@@ -82,7 +84,7 @@ export const Transcript = (props: NodeViewProps) => {
     props.editor.commands.setContent({ ...doc, content });
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files!![0];
     const ext = file.name.substring(file.name.lastIndexOf(".") + 1);
     const assetId = nanoid();
@@ -98,12 +100,15 @@ export const Transcript = (props: NodeViewProps) => {
       });
     }
 
-    const videoObject = {
-      input: {
-        id: uuid,
-      },
-    };
-    DataStore.s;
+    const videoObject = new VideoObject({});
+    const x = await DataStore.save(videoObject);
+    console.log("id of videoObject", x.id);
+    const videoAsset = new VodAsset({
+      title: "Video title",
+      description: "Video description",
+      video: x,
+    });
+    await DataStore.save(videoAsset);
     Storage.put(key, file, {
       resumable: true,
       completeCallback: (event) => {

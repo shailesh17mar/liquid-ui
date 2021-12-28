@@ -1,6 +1,6 @@
 {
     "shared": {
-        "resourceName": "vodservice"
+        "resourceName": "videoservice"
     },
     "template": {
         "type": [
@@ -12,7 +12,9 @@
         "createTopic": false
     },
     "contentDeliveryNetwork": {
-        "enableDistribution": false
+        "signedKey": true,
+        "functionNameSchema": "videoservice-${env}-tokenGen",
+        "enableDistribution": true
     },
     "parameters": {
         "authRoleName": {

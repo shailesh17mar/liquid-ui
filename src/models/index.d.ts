@@ -1,6 +1,11 @@
 import { ModelInit, MutableModel, PersistentModelConstructor } from "@aws-amplify/datastore";
 
-
+export enum TranscriptionStatus {
+  ENQUEUED = "ENQUEUED",
+  COMPLETED = "COMPLETED",
+  INPROGRESS = "INPROGRESS",
+  FAILED = "FAILED"
+}
 
 
 
@@ -57,6 +62,7 @@ export declare class Transcription {
   readonly content?: string;
   readonly Highlights?: (Highlights | null)[];
   readonly Tags?: (Tags | null)[];
+  readonly status: TranscriptionStatus | keyof typeof TranscriptionStatus;
   constructor(init: ModelInit<Transcription>);
   static copyOf(source: Transcription, mutator: (draft: MutableModel<Transcription>) => MutableModel<Transcription> | void): Transcription;
 }
@@ -71,7 +77,7 @@ export declare class Stories {
   readonly tags?: (Tags | null)[];
   readonly title: string;
   readonly content?: string;
-  readonly transcriptions?: Transcription;
+  readonly transcription?: Transcription;
   readonly participants?: Persons;
   constructor(init: ModelInit<Stories>);
   static copyOf(source: Stories, mutator: (draft: MutableModel<Stories>) => MutableModel<Stories> | void): Stories;
@@ -123,4 +129,19 @@ export declare class Organisations {
   readonly updatedAt: string;
   constructor(init: ModelInit<Organisations>);
   static copyOf(source: Organisations, mutator: (draft: MutableModel<Organisations>) => MutableModel<Organisations> | void): Organisations;
+}
+
+export declare class VodAsset {
+  readonly id: string;
+  readonly title: string;
+  readonly description: string;
+  readonly video?: VideoObject;
+  constructor(init: ModelInit<VodAsset>);
+  static copyOf(source: VodAsset, mutator: (draft: MutableModel<VodAsset>) => MutableModel<VodAsset> | void): VodAsset;
+}
+
+export declare class VideoObject {
+  readonly id: string;
+  constructor(init: ModelInit<VideoObject>);
+  static copyOf(source: VideoObject, mutator: (draft: MutableModel<VideoObject>) => MutableModel<VideoObject> | void): VideoObject;
 }

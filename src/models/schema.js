@@ -441,6 +441,15 @@ export const schema = {
                         "connectionType": "HAS_MANY",
                         "associatedWith": "transcriptionID"
                     }
+                },
+                "status": {
+                    "name": "status",
+                    "isArray": false,
+                    "type": {
+                        "enum": "TranscriptionStatus"
+                    },
+                    "isRequired": true,
+                    "attributes": []
                 }
             },
             "syncable": true,
@@ -546,8 +555,8 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "transcriptions": {
-                    "name": "transcriptions",
+                "transcription": {
+                    "name": "transcription",
                     "isArray": false,
                     "type": {
                         "model": "Transcription"
@@ -556,7 +565,7 @@ export const schema = {
                     "attributes": [],
                     "association": {
                         "connectionType": "BELONGS_TO",
-                        "targetName": "storiesTranscriptionsId"
+                        "targetName": "storiesTranscriptionId"
                     }
                 },
                 "participants": {
@@ -1019,9 +1028,168 @@ export const schema = {
                     }
                 }
             ]
+        },
+        "VodAsset": {
+            "name": "VodAsset",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "title": {
+                    "name": "title",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "description": {
+                    "name": "description",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "video": {
+                    "name": "video",
+                    "isArray": false,
+                    "type": {
+                        "model": "VideoObject"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetName": "vodAssetVideoId"
+                    }
+                }
+            },
+            "syncable": true,
+            "pluralName": "VodAssets",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {
+                        "subscriptions": {
+                            "level": "public"
+                        }
+                    }
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "provider": "userPools",
+                                "ownerField": "owner",
+                                "allow": "owner",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ],
+                                "identityClaim": "cognito:username"
+                            },
+                            {
+                                "groupClaim": "cognito:groups",
+                                "provider": "userPools",
+                                "allow": "groups",
+                                "groups": [
+                                    "Admin"
+                                ],
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            },
+                            {
+                                "allow": "private",
+                                "operations": [
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "VideoObject": {
+            "name": "VideoObject",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                }
+            },
+            "syncable": true,
+            "pluralName": "VideoObjects",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "provider": "userPools",
+                                "ownerField": "owner",
+                                "allow": "owner",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ],
+                                "identityClaim": "cognito:username"
+                            },
+                            {
+                                "groupClaim": "cognito:groups",
+                                "provider": "userPools",
+                                "allow": "groups",
+                                "groups": [
+                                    "Admin"
+                                ],
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            },
+                            {
+                                "allow": "private",
+                                "operations": [
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
         }
     },
-    "enums": {},
+    "enums": {
+        "TranscriptionStatus": {
+            "name": "TranscriptionStatus",
+            "values": [
+                "ENQUEUED",
+                "COMPLETED",
+                "INPROGRESS",
+                "FAILED"
+            ]
+        }
+    },
     "nonModels": {},
-    "version": "31ece55f7f4e9510774c43d849f5d535"
+    "version": "d9687d7a61dbea472212c2853806b297"
 };
