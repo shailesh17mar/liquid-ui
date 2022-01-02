@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { DataStore, Storage } from "aws-amplify";
+import { API, Storage } from "aws-amplify";
+import { DataStore } from "@aws-amplify/datastore";
 import { NodeViewProps } from "@tiptap/react";
 import { TranscriptContainer, TranscriptContent } from "./transcript.styles";
 import { useHighlight } from "./hooks/use-highlight";
@@ -18,6 +19,7 @@ import { nanoid } from "nanoid";
 import awsvideoconfig from "aws-video-exports";
 import { VodAsset } from "models";
 import { VideoObject } from "models";
+import { getVideoObject, getVodAsset, listVodAssets } from "graphql/queries";
 
 export const Transcript = (props: NodeViewProps) => {
   const { video } = props.node.attrs;
@@ -37,10 +39,24 @@ export const Transcript = (props: NodeViewProps) => {
 
   useEffect(() => {
     async function fetchVideoURL() {
+      const y = await API.graphql({
+        query: listVodAssets,
+        authMode: "AMAZON_COGNITO_USER_POOLS",
+      });
+      console.log(y);
+
       if (video && !videoURL) {
+        const x = await API.graphql({
+          query: getVodAsset,
+          variables: { id: video.split(".")[0] },
+          authMode: "AMAZON_COGNITO_USER_POOLS",
+        });
+        // const x = await DataStore.query(VodAsset, video);
+        console.log(x);
         const uri = await Storage.get(video, {
           level: "public",
         });
+        console.log(uri);
         setVideoURL(uri);
       }
     }
@@ -94,7 +110,7 @@ export const Transcript = (props: NodeViewProps) => {
         AWSS3: {
           bucket: awsvideoconfig.awsInputVideo,
           customPrefix: {
-            public: "liquid",
+            public: "public",
           },
         },
       });
@@ -108,13 +124,13 @@ export const Transcript = (props: NodeViewProps) => {
       description: "Video description",
       video: x,
     });
-    await DataStore.save(videoAsset);
+    const vodAsset = await DataStore.save(videoAsset);
     Storage.put(key, file, {
       resumable: true,
       completeCallback: (event) => {
         //update key on p
         props.updateAttributes({
-          video: key,
+          video: vodAsset.id,
         });
       },
       progressCallback: (progress) => {

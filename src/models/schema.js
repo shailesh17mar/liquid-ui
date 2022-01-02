@@ -1095,22 +1095,11 @@ export const schema = {
                                 "identityClaim": "cognito:username"
                             },
                             {
-                                "groupClaim": "cognito:groups",
-                                "provider": "userPools",
-                                "allow": "groups",
-                                "groups": [
-                                    "Admin"
-                                ],
+                                "allow": "private",
                                 "operations": [
                                     "create",
                                     "update",
                                     "delete",
-                                    "read"
-                                ]
-                            },
-                            {
-                                "allow": "private",
-                                "operations": [
                                     "read"
                                 ]
                             }
@@ -1127,6 +1116,13 @@ export const schema = {
                     "isArray": false,
                     "type": "ID",
                     "isRequired": true,
+                    "attributes": []
+                },
+                "token": {
+                    "name": "token",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
                     "attributes": []
                 }
             },
@@ -1154,22 +1150,11 @@ export const schema = {
                                 "identityClaim": "cognito:username"
                             },
                             {
-                                "groupClaim": "cognito:groups",
-                                "provider": "userPools",
-                                "allow": "groups",
-                                "groups": [
-                                    "Admin"
-                                ],
+                                "allow": "private",
                                 "operations": [
                                     "create",
                                     "update",
                                     "delete",
-                                    "read"
-                                ]
-                            },
-                            {
-                                "allow": "private",
-                                "operations": [
                                     "read"
                                 ]
                             }
@@ -1191,5 +1176,5 @@ export const schema = {
         }
     },
     "nonModels": {},
-    "version": "d9687d7a61dbea472212c2853806b297"
+    "version": "cd9862c4d97131b6cf0b4a2c5ded7b98"
 };

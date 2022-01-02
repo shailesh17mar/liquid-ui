@@ -35,7 +35,6 @@
     },
     "permissions": {
         "permissionSchema": [
-            "admin",
             "any"
         ]
     },
