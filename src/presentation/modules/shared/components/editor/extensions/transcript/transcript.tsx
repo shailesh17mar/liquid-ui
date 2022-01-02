@@ -20,6 +20,13 @@ import awsvideoconfig from "aws-video-exports";
 import { VodAsset } from "models";
 import { VideoObject } from "models";
 import { getVideoObject, getVodAsset, listVodAssets } from "graphql/queries";
+import { createVideoObject, createVodAsset } from "graphql/mutations";
+import {
+  CreateVideoObjectMutation,
+  CreateVodAssetInput,
+  CreateVodAssetMutation,
+  GetVodAssetQuery,
+} from "API";
 
 export const Transcript = (props: NodeViewProps) => {
   const { video } = props.node.attrs;
@@ -39,23 +46,17 @@ export const Transcript = (props: NodeViewProps) => {
 
   useEffect(() => {
     async function fetchVideoURL() {
-      const y = await API.graphql({
-        query: listVodAssets,
-        authMode: "AMAZON_COGNITO_USER_POOLS",
-      });
-      console.log(y);
-
       if (video && !videoURL) {
-        const x = await API.graphql({
+        const videoAsset = (await API.graphql({
           query: getVodAsset,
           variables: { id: video.split(".")[0] },
           authMode: "AMAZON_COGNITO_USER_POOLS",
-        });
-        // const x = await DataStore.query(VodAsset, video);
-        console.log(x);
-        const uri = await Storage.get(video, {
-          level: "public",
-        });
+        })) as { data: GetVodAssetQuery };
+
+        const token = videoAsset.data?.getVodAsset?.video?.token;
+        // awsOutputVideo + /assetID/ + assetID + extension + token
+        const uri = `https://${awsvideoconfig.awsOutputVideo}/${video}/${video}.m3u8${token}`;
+
         console.log(uri);
         setVideoURL(uri);
       }
@@ -103,34 +104,44 @@ export const Transcript = (props: NodeViewProps) => {
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files!![0];
     const ext = file.name.substring(file.name.lastIndexOf(".") + 1);
-    const assetId = nanoid();
-    const key = `${assetId}.${ext}`;
     if (ext === "mp4") {
       Storage.configure({
         AWSS3: {
           bucket: awsvideoconfig.awsInputVideo,
-          customPrefix: {
-            public: "public",
-          },
+          // customPrefix: {
+          // public: "public",
+          // },
         },
       });
     }
 
-    const videoObject = new VideoObject({});
-    const x = await DataStore.save(videoObject);
-    console.log("id of videoObject", x.id);
-    const videoAsset = new VodAsset({
-      title: "Video title",
-      description: "Video description",
-      video: x,
-    });
-    const vodAsset = await DataStore.save(videoAsset);
+    const videoObject = (await API.graphql({
+      query: createVideoObject,
+      variables: {
+        input: {},
+      },
+      authMode: "AMAZON_COGNITO_USER_POOLS",
+    })) as { data: CreateVideoObjectMutation };
+    const vodAsset = (await API.graphql({
+      query: createVodAsset,
+      variables: {
+        input: {
+          title: "Video title",
+          description: "Video description",
+          vodAssetVideoId: videoObject.data.createVideoObject?.id,
+        } as CreateVodAssetInput,
+      },
+      authMode: "AMAZON_COGNITO_USER_POOLS",
+    })) as { data: CreateVodAssetMutation };
+    const key = `${vodAsset.data?.createVodAsset?.id}.${ext}`;
+    debugger;
+    console.log("asset", vodAsset);
     Storage.put(key, file, {
       resumable: true,
       completeCallback: (event) => {
         //update key on p
         props.updateAttributes({
-          video: vodAsset.id,
+          video: vodAsset.data.createVodAsset?.id,
         });
       },
       progressCallback: (progress) => {
