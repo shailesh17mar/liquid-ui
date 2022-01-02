@@ -72,7 +72,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "amplify:transcriptor": "cd amplify/backend/function/transcriptor/src && tsc",
+    "amplify:transcriber": "cd amplify/backend/function/transcriber/src && tsc"
   },
   "eslintConfig": {
     "extends": [

@@ -134,7 +134,7 @@ export type Highlights = {
 
 export type ModelTagsConnection = {
   __typename: "ModelTagsConnection",
-  items?:  Array<Tags >,
+  items?:  Array<Tags | null >,
   nextToken?: string | null,
   startedAt?: number | null,
 };
@@ -261,7 +261,7 @@ export type Transcription = {
 
 export type ModelHighlightsConnection = {
   __typename: "ModelHighlightsConnection",
-  items?:  Array<Highlights >,
+  items?:  Array<Highlights | null >,
   nextToken?: string | null,
   startedAt?: number | null,
 };
@@ -389,7 +389,7 @@ export type Categories = {
 
 export type ModelStoriesConnection = {
   __typename: "ModelStoriesConnection",
-  items?:  Array<Stories >,
+  items?:  Array<Stories | null >,
   nextToken?: string | null,
   startedAt?: number | null,
 };
@@ -444,14 +444,14 @@ export type Projects = {
 
 export type ModelCategoriesConnection = {
   __typename: "ModelCategoriesConnection",
-  items?:  Array<Categories >,
+  items?:  Array<Categories | null >,
   nextToken?: string | null,
   startedAt?: number | null,
 };
 
 export type ModelInsightsConnection = {
   __typename: "ModelInsightsConnection",
-  items?:  Array<Insights >,
+  items?:  Array<Insights | null >,
   nextToken?: string | null,
   startedAt?: number | null,
 };
@@ -561,7 +561,7 @@ export type Organisations = {
 
 export type ModelWorkspacesConnection = {
   __typename: "ModelWorkspacesConnection",
-  items?:  Array<Workspaces >,
+  items?:  Array<Workspaces | null >,
   nextToken?: string | null,
   startedAt?: number | null,
 };
@@ -747,7 +747,7 @@ export type ModelTranscriptionFilterInput = {
 
 export type ModelTranscriptionConnection = {
   __typename: "ModelTranscriptionConnection",
-  items?:  Array<Transcription >,
+  items?:  Array<Transcription | null >,
   nextToken?: string | null,
   startedAt?: number | null,
 };
@@ -788,7 +788,7 @@ export type ModelProjectsFilterInput = {
 
 export type ModelProjectsConnection = {
   __typename: "ModelProjectsConnection",
-  items?:  Array<Projects >,
+  items?:  Array<Projects | null >,
   nextToken?: string | null,
   startedAt?: number | null,
 };
@@ -820,7 +820,7 @@ export type ModelOrganisationsFilterInput = {
 
 export type ModelOrganisationsConnection = {
   __typename: "ModelOrganisationsConnection",
-  items?:  Array<Organisations >,
+  items?:  Array<Organisations | null >,
   nextToken?: string | null,
   startedAt?: number | null,
 };
@@ -836,7 +836,7 @@ export type ModelVodAssetFilterInput = {
 
 export type ModelVodAssetConnection = {
   __typename: "ModelVodAssetConnection",
-  items?:  Array<VodAsset >,
+  items?:  Array<VodAsset | null >,
   nextToken?: string | null,
   startedAt?: number | null,
 };
@@ -851,7 +851,7 @@ export type ModelVideoObjectFilterInput = {
 
 export type ModelVideoObjectConnection = {
   __typename: "ModelVideoObjectConnection",
-  items?:  Array<VideoObject >,
+  items?:  Array<VideoObject | null >,
   nextToken?: string | null,
   startedAt?: number | null,
 };
@@ -872,7 +872,7 @@ export type ModelPersonsFilterInput = {
 
 export type ModelPersonsConnection = {
   __typename: "ModelPersonsConnection",
-  items?:  Array<Persons >,
+  items?:  Array<Persons | null >,
   nextToken?: string | null,
   startedAt?: number | null,
 };
@@ -1899,7 +1899,7 @@ export type SyncInsightsQuery = {
       _lastChangedAt: number,
       createdAt: string,
       updatedAt: string,
-    } >,
+    } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
   } | null,
@@ -1942,7 +1942,7 @@ export type ListInsightssQuery = {
       _lastChangedAt: number,
       createdAt: string,
       updatedAt: string,
-    } >,
+    } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
   } | null,
@@ -1969,7 +1969,7 @@ export type SyncHighlightsQuery = {
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-    } >,
+    } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
   } | null,
@@ -2019,7 +2019,7 @@ export type ListHighlightssQuery = {
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-    } >,
+    } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
   } | null,
@@ -2048,7 +2048,7 @@ export type SyncTagsQuery = {
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-    } >,
+    } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
   } | null,
@@ -2097,7 +2097,7 @@ export type ListTagssQuery = {
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-    } >,
+    } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
   } | null,
@@ -2125,7 +2125,7 @@ export type SyncTranscriptionsQuery = {
       _lastChangedAt: number,
       createdAt: string,
       updatedAt: string,
-    } >,
+    } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
   } | null,
@@ -2182,7 +2182,7 @@ export type ListTranscriptionsQuery = {
       _lastChangedAt: number,
       createdAt: string,
       updatedAt: string,
-    } >,
+    } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
   } | null,
@@ -2211,7 +2211,7 @@ export type SyncStoriesQuery = {
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-    } >,
+    } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
   } | null,
@@ -2292,7 +2292,7 @@ export type ListStoriessQuery = {
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-    } >,
+    } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
   } | null,
@@ -2318,7 +2318,7 @@ export type SyncCategoriesQuery = {
       _lastChangedAt: number,
       createdAt: string,
       updatedAt: string,
-    } >,
+    } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
   } | null,
@@ -2366,7 +2366,7 @@ export type ListCategoriessQuery = {
       _lastChangedAt: number,
       createdAt: string,
       updatedAt: string,
-    } >,
+    } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
   } | null,
@@ -2392,7 +2392,7 @@ export type SyncProjectsQuery = {
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-    } >,
+    } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
   } | null,
@@ -2460,7 +2460,7 @@ export type ListProjectssQuery = {
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-    } >,
+    } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
   } | null,
@@ -2489,7 +2489,7 @@ export type SyncWorkspacesQuery = {
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-    } >,
+    } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
   } | null,
@@ -2538,7 +2538,7 @@ export type ListWorkspacessQuery = {
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-    } >,
+    } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
   } | null,
@@ -2564,7 +2564,7 @@ export type SyncOrganisationsQuery = {
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-    } >,
+    } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
   } | null,
@@ -2612,7 +2612,7 @@ export type ListOrganisationssQuery = {
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-    } >,
+    } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
   } | null,
@@ -2638,7 +2638,7 @@ export type SyncVodAssetsQuery = {
       _lastChangedAt: number,
       createdAt: string,
       updatedAt: string,
-    } >,
+    } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
   } | null,
@@ -2691,7 +2691,7 @@ export type ListVodAssetsQuery = {
       _lastChangedAt: number,
       createdAt: string,
       updatedAt: string,
-    } >,
+    } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
   } | null,
@@ -2716,7 +2716,7 @@ export type SyncVideoObjectsQuery = {
       _lastChangedAt: number,
       createdAt: string,
       updatedAt: string,
-    } >,
+    } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
   } | null,
@@ -2757,7 +2757,7 @@ export type ListVideoObjectsQuery = {
       _lastChangedAt: number,
       createdAt: string,
       updatedAt: string,
-    } >,
+    } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
   } | null,
@@ -2806,7 +2806,7 @@ export type ListPersonssQuery = {
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-    } >,
+    } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
   } | null,
@@ -2835,7 +2835,7 @@ export type SyncPersonsQuery = {
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-    } >,
+    } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
   } | null,

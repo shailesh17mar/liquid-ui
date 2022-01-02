@@ -65,7 +65,7 @@
     },
     "breakCircularDependency": false,
     "dependsOn": [],
-    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:3000/\",\"https://app.liquid.so/\"],\"LogoutURLs\":[\"http://localhost:3000/\",\"https://app.liquid.so/\"]}",
-    "authProviders": []
+    "authProviders": [],
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:3000/\",\"https://app.liquid.so/\"],\"LogoutURLs\":[\"http://localhost:3000/\",\"https://app.liquid.so/\"]}"
   }
 }
