@@ -19,11 +19,11 @@
       "function": {
         "transcriber": {
           "deploymentBucketName": "amplify-amplify52b704ef7e9c4-staging-83355-deployment",
-          "s3Key": "amplify-builds/transcriber-6c646e7a516141704a48-build.zip"
+          "s3Key": "amplify-builds/transcriber-45435a574252587a4557-build.zip"
         },
         "transcriptor": {
           "deploymentBucketName": "amplify-amplify52b704ef7e9c4-staging-83355-deployment",
-          "s3Key": "amplify-builds/transcriptor-36302f4b567236413043-build.zip"
+          "s3Key": "amplify-builds/transcriptor-535676593274414f4167-build.zip"
         }
       },
       "video": {

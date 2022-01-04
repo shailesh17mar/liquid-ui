@@ -172,7 +172,12 @@ export const Editor: React.FC<EditorProps> = ({
           </BubbleMenu>
           <BubbleMenu
             shouldShow={({ editor, view, state, oldState, from, to }) => {
-              return editor.isActive("transcriptComponent") && to > from;
+              console.log(from, to);
+              return (
+                editor.isActive("transcriptComponent") &&
+                to > from &&
+                to - from > 5
+              );
             }}
             editor={editor}
           >

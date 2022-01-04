@@ -7,6 +7,8 @@ import { useHighlight } from "./hooks/use-highlight";
 import {
   EuiButton,
   EuiFieldText,
+  EuiFlexGroup,
+  EuiFlexItem,
   EuiLoadingSpinner,
   EuiPanel,
   EuiText,
@@ -112,12 +114,15 @@ Unknowns:
   */
   const handleTranscription = async () => {
     //TODO: Check that transcription entry for the video shouldn't exist before hand.
-    const transcription = await DataStore.save(
-      new Transcription({
-        video,
-        status: TranscriptionStatus.ENQUEUED,
-      })
-    );
+    if (videoURL) {
+      const transcription = await DataStore.save(
+        new Transcription({
+          video: videoURL,
+          status: TranscriptionStatus.ENQUEUED,
+        })
+      );
+      console.log(transcription);
+    } else throw new Error("No video to transcribe");
     // const doc = props.editor.getJSON();
     // const content = doc.content?.map((el) => {
     //   if (el.type === "transcriptComponent")
@@ -203,39 +208,49 @@ Unknowns:
       />
 
       {videoURL && token ? (
-        <EuiPanel borderRadius="m">
-          <ReactPlayer
-            width={"100%"}
-            height={510}
-            url={videoURL}
-            config={{
-              file: {
-                hlsOptions: {
-                  xhrSetup: function xhrSetup(xhr: any, url: string) {
-                    xhr.setRequestHeader(
-                      "Access-Control-Allow-Headers",
-                      "Content-Type, Accept, X-Requested-With"
-                    );
-                    xhr.setRequestHeader(
-                      "Access-Control-Allow-Origin",
-                      "http://localhost:3000"
-                    );
-                    xhr.setRequestHeader(
-                      "Access-Control-Allow-Credentials",
-                      "true"
-                    );
-                    xhr.open("GET", url + token);
+        <EuiPanel hasBorder hasShadow={false}>
+          <EuiFlexGroup
+            alignItems="center"
+            direction="column"
+            justifyContent="spaceAround"
+          >
+            <EuiFlexItem grow={false}>
+              <ReactPlayer
+                width={768}
+                height={428}
+                url={videoURL}
+                config={{
+                  file: {
+                    hlsOptions: {
+                      xhrSetup: function xhrSetup(xhr: any, url: string) {
+                        xhr.setRequestHeader(
+                          "Access-Control-Allow-Headers",
+                          "Content-Type, Accept, X-Requested-With"
+                        );
+                        xhr.setRequestHeader(
+                          "Access-Control-Allow-Origin",
+                          "http://localhost:3000"
+                        );
+                        xhr.setRequestHeader(
+                          "Access-Control-Allow-Credentials",
+                          "true"
+                        );
+                        xhr.open("GET", url + token);
+                      },
+                    },
                   },
-                },
-              },
-            }}
-            playing={true}
-            playbackRate={1.0}
-            onError={(e) => console.log("onError", e)}
-          />
-          <EuiButton onClick={handleTranscription}>
-            Start Transcribing
-          </EuiButton>
+                }}
+                playbackRate={1.0}
+                controls
+                onError={(e) => console.log("onError", e)}
+              />
+            </EuiFlexItem>
+            <EuiFlexItem>
+              <EuiButton fullWidth={false} onClick={handleTranscription}>
+                Start Transcribing
+              </EuiButton>
+            </EuiFlexItem>
+          </EuiFlexGroup>
         </EuiPanel>
       ) : (
         progress > 0 && (

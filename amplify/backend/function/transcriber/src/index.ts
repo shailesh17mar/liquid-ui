@@ -1,8 +1,8 @@
-import AWS from "aws-sdk";
+import * as AWS from "aws-sdk";
 const docClient = new AWS.DynamoDB.DocumentClient();
 
 exports.handler = async (event) => {
-  console.log(JSON.stringify(event, null, 2));
+  // console.log(JSON.stringify(event, null, 2));
 
   try {
     //loop through all the events
@@ -16,15 +16,19 @@ exports.handler = async (event) => {
         if (isTranscription) {
           const id = transcript.substring(0, dotIndex);
           //update the transcription table with new status and transcription path
+          console.log(id);
           await docClient
             .update({
               TableName: process.env.API_LIQUID_TRANSCRIPTIONTABLE_NAME,
               Key: {
                 id,
               },
-              UpdateExpression: "set status = :status ",
+              UpdateExpression: "set #status= :status ",
               ExpressionAttributeValues: {
                 ":status": "COMPLETED",
+              },
+              ExpressionAttributeNames: {
+                "#status": "status",
               },
             })
             .promise();
