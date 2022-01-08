@@ -1,5 +1,6 @@
 import { MutableModel, ModelInit } from "@aws-amplify/datastore";
-import { DataStore } from "aws-amplify";
+import { API, DataStore } from "aws-amplify";
+import { updateStories } from "graphql/mutations";
 import { Persons, Stories as Story } from "models";
 import { StoryRepository } from "./story-repository.interface";
 
@@ -23,6 +24,13 @@ export class StoryRepositoryImpl implements StoryRepository {
     id: string,
     story: Partial<ModelInit<Story>>
   ): Promise<Story | undefined> {
+    // await API.graphql({
+    //   query: updateStories,
+    //   variables:{
+    //     input
+    //   }
+    //     authMode: "AMAZON_COGNITO_USER_POOLS",
+    // })
     const original = await DataStore.query(Story, id);
     if (original) {
       const updatedStory = await DataStore.save(
@@ -31,6 +39,7 @@ export class StoryRepositoryImpl implements StoryRepository {
           updated.content = story.content || original.content;
           updated.participants = story.participants;
           updated.content = story.content;
+          updated.transcription = story.transcription;
           // updated.readme = story.readme;
           // updated.name = story.name || original.name;
         })

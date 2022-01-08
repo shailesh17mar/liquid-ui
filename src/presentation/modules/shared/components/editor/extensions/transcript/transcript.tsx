@@ -1,8 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { API, Storage } from "aws-amplify";
 import { DataStore } from "@aws-amplify/datastore";
-import { NodeViewProps } from "@tiptap/react";
+import Document from "@tiptap/extension-document";
+import Paragraph from "@tiptap/extension-paragraph";
+import TextStyle from "@tiptap/extension-text-style";
+import Text from "@tiptap/extension-text";
+import { generateJSON, JSONContent, NodeViewProps } from "@tiptap/react";
 import { TranscriptContainer, TranscriptContent } from "./transcript.styles";
+import { Stories as Story } from "models";
 import { useHighlight } from "./hooks/use-highlight";
 import {
   EuiButton,
@@ -19,19 +24,40 @@ import { TranscriptAssistant } from "./transcript-assistant";
 import { data } from "./dummy";
 import { nanoid } from "nanoid";
 import awsvideoconfig from "aws-video-exports";
-import { TranscriptionStatus, VodAsset } from "models";
+import { VodAsset } from "models";
 import { VideoObject } from "models";
-import { getVideoObject, getVodAsset, listVodAssets } from "graphql/queries";
-import { createVideoObject, createVodAsset } from "graphql/mutations";
 import {
+  getTranscription,
+  getVideoObject,
+  getVodAsset,
+  listVodAssets,
+} from "graphql/queries";
+import {
+  createTranscription,
+  createVideoObject,
+  createVodAsset,
+  updateVodAsset,
+} from "graphql/mutations";
+import {
+  CreateTranscriptionInput,
+  CreateTranscriptionMutation,
   CreateVideoObjectMutation,
   CreateVodAssetInput,
   CreateVodAssetMutation,
+  GetTranscriptionQuery,
   GetVodAssetQuery,
+  TranscriptionStatus,
+  UpdateVodAssetInput,
+  UpdateVodAssetMutation,
 } from "API";
 import { Transcription } from "models";
+import { displayTranscript } from "./transcript-parser";
+import { useParams } from "react-router-dom";
+import TimeOffset from "../time-offset";
+import { CustomParagraph } from "../../editor";
 
 export const Transcript = (props: NodeViewProps) => {
+  const { id } = useParams() as { id: string };
   const { video } = props.node.attrs;
   const uploaderRef = useRef<HTMLInputElement>(null);
   const [progress, setProgress] = useState(0);
@@ -50,14 +76,75 @@ export const Transcript = (props: NodeViewProps) => {
 
   useEffect(() => {
     async function fetchVideoURL() {
-      const videoAsset = (await API.graphql({
+      const videoAssetResponse = (await API.graphql({
         query: getVodAsset,
         variables: { id: video.split(".")[0] },
         authMode: "AMAZON_COGNITO_USER_POOLS",
       })) as { data: GetVodAssetQuery };
+      const videoAsset = videoAssetResponse.data?.getVodAsset;
 
-      const token = videoAsset.data?.getVodAsset?.video?.token;
-      const asset = videoAsset.data?.getVodAsset?.video?.id;
+      if (
+        props.node.content &&
+        props.node.content.size === 0 &&
+        videoAsset?.transcription?.status === TranscriptionStatus.COMPLETED
+      ) {
+        console.log(videoAsset);
+        const key = `${videoAsset?.transcription.id}.json`;
+        const result = await Storage.get(key, {
+          level: "public",
+          download: true,
+        });
+        // const transcriptContentResponse = await fetch(result);
+        //@ts-ignore
+        const transcriptResponse = await new Response(result.Body).json();
+        const resultX = displayTranscript(transcriptResponse);
+        //update the transcript component
+        const content = generateJSON(resultX, [
+          Document,
+          CustomParagraph,
+          TimeOffset,
+          Text,
+        ]);
+        const story = await DataStore.query(Story, id);
+        if (story && Array.isArray(story.content)) {
+          const fixedSchema = Story.copyOf(story, (updated) => {
+            //@ts-ignore
+            updated.content = {
+              type: "doc",
+              content: story.content as unknown as JSONContent[],
+            };
+          });
+          await DataStore.save(fixedSchema);
+        }
+        if (story) {
+          let doc = Object.assign({}, story?.content as unknown as JSONContent);
+          if (doc.content) {
+            let index = doc.content.findIndex(
+              (content) => content.type === "transcriptComponent"
+            );
+            if (index && index >= 0) {
+              const updatedStory = Story.copyOf(story, (updated) => {
+                let doc = story?.content as unknown as JSONContent;
+                const currentValue = doc!!.content!![index];
+                // doc.content!![index].content = content.content as JSONContent[];
+                //@ts-ignore
+                updated.content = {
+                  type: "doc",
+                  content: Object.assign([], doc.content, {
+                    [index]: { ...currentValue, content: content.content },
+                  }),
+                };
+              });
+              await DataStore.save(updatedStory);
+              console.log(updatedStory);
+              // doc.content[index].content = content.content as JSONContent[];
+            }
+          }
+        }
+        // doc.content.
+      }
+      const token = videoAsset?.video?.token;
+      const asset = videoAsset?.video?.id;
       // awsOutputVideo + /assetID/ + assetID + extension + token
       const uri = `https://${awsvideoconfig.awsOutputVideo}/${asset}/${asset}.m3u8`;
 
@@ -115,13 +202,39 @@ Unknowns:
   const handleTranscription = async () => {
     //TODO: Check that transcription entry for the video shouldn't exist before hand.
     if (videoURL) {
-      const transcription = await DataStore.save(
-        new Transcription({
-          video: videoURL,
-          status: TranscriptionStatus.ENQUEUED,
-        })
-      );
-      console.log(transcription);
+      // const t = (await API.graphql({
+      //   query: getTranscription,
+      //   variables: { id: "24be1012-1fad-42d2-b4a8-224724265e1a" },
+      //   authMode: "AMAZON_COGNITO_USER_POOLS",
+      // })) as { data: GetTranscriptionQuery };
+      // console.log(t);
+      // const transcription = (await API.graphql({
+      //   query: createTranscription,
+      //   variables: {
+      //     input: {
+      //       video: videoURL,
+      //       status: TranscriptionStatus.ENQUEUED,
+      //     } as CreateTranscriptionInput,
+      //   },
+      //   authMode: "AMAZON_COGNITO_USER_POOLS",
+      // })) as { data: CreateTranscriptionMutation };
+
+      // const transcription = await DataStore.save(
+      //   new Transcription({
+      //   })
+      // );
+
+      const x = (await API.graphql({
+        query: updateVodAsset,
+        variables: {
+          input: {
+            id: video,
+            vodAssetTranscriptionId: "24be1012-1fad-42d2-b4a8-224724265e1a",
+          } as UpdateVodAssetInput,
+        },
+        authMode: "AMAZON_COGNITO_USER_POOLS",
+      })) as { data: UpdateVodAssetMutation };
+      //update story
     } else throw new Error("No video to transcribe");
     // const doc = props.editor.getJSON();
     // const content = doc.content?.map((el) => {
@@ -179,7 +292,6 @@ Unknowns:
         });
       },
       progressCallback: (progress) => {
-        console.log(Math.round((progress.loaded / progress.total) * 100) + "%");
         setProgress(Math.round((progress.loaded / progress.total) * 100));
       },
       errorCallback: (err) => {
@@ -194,10 +306,10 @@ Unknowns:
       <EuiTitle>
         <h3>Transcript</h3>
       </EuiTitle>
-      <TranscriptAssistant
+      {/* <TranscriptAssistant
         isOpen={isAssitantActive}
         onClose={onAssistantClose}
-      />
+      /> */}
 
       <EuiFieldText
         style={{ display: "none" }}

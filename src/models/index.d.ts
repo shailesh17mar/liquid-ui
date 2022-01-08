@@ -135,6 +135,7 @@ export declare class VodAsset {
   readonly id: string;
   readonly title: string;
   readonly description: string;
+  readonly transcription?: Transcription;
   readonly video?: VideoObject;
   constructor(init: ModelInit<VodAsset>);
   static copyOf(source: VodAsset, mutator: (draft: MutableModel<VodAsset>) => MutableModel<VodAsset> | void): VodAsset;

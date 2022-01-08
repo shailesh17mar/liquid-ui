@@ -225,6 +225,7 @@ type VodAsset
   id: ID!
   title: String!
   description: String!
+  transcription: Transcription @connection
 
   #DO NOT EDIT
   video: VideoObject @connection

@@ -10,7 +10,7 @@ import { Editor } from "../shared/components/editor/editor";
 import { annotationState } from "main/pages/make-story-details-page";
 import { useRecoilValue } from "recoil";
 import { useCallback, useMemo, useRef } from "react";
-import { JSONContent } from "@tiptap/react";
+import { generateHTML, JSONContent } from "@tiptap/react";
 import { matchPath, useParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "react-query";
 import { WebrtcProvider } from "y-webrtc";
@@ -74,13 +74,14 @@ export const StoryDetails: React.FC<Props> = ({
   const { data: story } = useQuery(["story-details", id], async () => {
     return await storyController.getStoryById(id);
   });
+  console.log("story", story);
   //person is embedded
   const handleSave = useCallback(
     async (id, body) => {
       if (body) {
-        await storyController.updateStory(id, { ...story, content: body });
-        console.log("updated");
-        queryClient.invalidateQueries(["story-details", id]);
+        // await storyController.updateStory(id, { ...story, content: body });
+        console.log("update call", body);
+        // queryClient.invalidateQueries(["story-details", id]);
       }
     },
     [queryClient, story, storyController]
@@ -250,12 +251,14 @@ export const StoryDetails: React.FC<Props> = ({
             >
               <EuiFlexGroup gutterSize="none">
                 <EuiFlexItem>
-                  <Editor
-                    onSave={handleSave}
-                    documentId={id}
-                    content={story?.content || DefaultStoryDocument}
-                    provider={provider}
-                  />
+                  {story?.content && (
+                    <Editor
+                      onSave={handleSave}
+                      documentId={id}
+                      content={story?.content}
+                      provider={provider}
+                    />
+                  )}
                 </EuiFlexItem>
                 <EuiFlexItem grow={false}></EuiFlexItem>
               </EuiFlexGroup>

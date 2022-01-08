@@ -1,5 +1,6 @@
 import { StoryRepository } from "../infrastructure/story-repository.interface";
 import { Stories as Story } from "models";
+import { JSONContent } from "@tiptap/react";
 
 export class StoriesQueryController {
   constructor(private readonly storyRepository: StoryRepository) {}

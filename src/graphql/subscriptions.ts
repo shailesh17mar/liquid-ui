@@ -629,6 +629,18 @@ export const onCreateVodAsset = /* GraphQL */ `
       id
       title
       description
+      transcription {
+        id
+        video
+        transcription
+        content
+        status
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
       video {
         id
         token
@@ -652,6 +664,18 @@ export const onUpdateVodAsset = /* GraphQL */ `
       id
       title
       description
+      transcription {
+        id
+        video
+        transcription
+        content
+        status
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
       video {
         id
         token
@@ -675,6 +699,18 @@ export const onDeleteVodAsset = /* GraphQL */ `
       id
       title
       description
+      transcription {
+        id
+        video
+        transcription
+        content
+        status
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
       video {
         id
         token

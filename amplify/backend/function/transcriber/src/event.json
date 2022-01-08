@@ -27,7 +27,7 @@
           "arn": "arn:aws:s3:::liquid-transcriptions"
         },
         "object": {
-          "key": "ENQUEUED.json",
+          "key": "56e1da76-0638-4ed7-88c8-a3cbd146c2d4.json",
           "size": 1024,
           "eTag": "0123456789abcdef0123456789abcdef",
           "sequencer": "0A1B2C3D4E5F678901"

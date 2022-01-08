@@ -46,7 +46,7 @@ export const TranscriptContent = styled(NodeViewContent)`
   }
   // :( 	Angry
   mark[data-color="#f28b82"]:before {
-    content: "😡";
+    /* content: "😡"; */
   }
   // :|	Embarrassed
   mark[data-color="#fdcfe8"]:before {
@@ -87,6 +87,12 @@ export const TranscriptContent = styled(NodeViewContent)`
 
   p {
     color: #202124;
+    span:first-of-type {
+      font-weight: 600;
+    }
+    span:nth-child(2) {
+      display: none;
+    }
   }
 
   p::selection {

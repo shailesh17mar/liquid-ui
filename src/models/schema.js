@@ -1053,6 +1053,19 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "transcription": {
+                    "name": "transcription",
+                    "isArray": false,
+                    "type": {
+                        "model": "Transcription"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetName": "vodAssetTranscriptionId"
+                    }
+                },
                 "video": {
                     "name": "video",
                     "isArray": false,
@@ -1176,5 +1189,5 @@ export const schema = {
         }
     },
     "nonModels": {},
-    "version": "cd9862c4d97131b6cf0b4a2c5ded7b98"
+    "version": "a36f89e4ab4dbff9a321b8c04e6d312c"
 };

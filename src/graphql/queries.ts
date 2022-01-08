@@ -717,6 +717,18 @@ export const getVodAsset = /* GraphQL */ `
       id
       title
       description
+      transcription {
+        id
+        video
+        transcription
+        content
+        status
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
       video {
         id
         token
