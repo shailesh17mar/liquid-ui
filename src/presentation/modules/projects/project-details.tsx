@@ -5,16 +5,15 @@ import {
   EuiPanel,
   EuiTitle,
 } from "@elastic/eui";
-import Document from "@tiptap/extension-document";
 import { Editor } from "../shared/components/editor/editor";
 import { matchPath, useParams } from "react-router-dom";
 import { useCallback } from "react";
 import { ProjectMutationController } from "core/modules/projects/usecases/project-mutation-controller";
 import { ProjectsQueryController } from "core/modules/projects/usecases/project-query-controller";
-import { useQuery, useQueryClient } from "react-query";
 import { WebrtcProvider } from "y-webrtc";
 import { Doc } from "yjs";
 import { useDebouncedCallback } from "use-debounce/lib";
+import { useProject, useUpdateProject } from "./hooks";
 
 const DefaultReadmeDocument = `
           <h2>
@@ -62,9 +61,6 @@ const DefaultReadmeDocument = `
             <li data-type="taskItem" data-checked="false">butter</li>
           </ul>
         `;
-const ReadmeDocument = Document.extend({
-  content: "heading block*",
-});
 
 interface Props {
   mutationController: ProjectMutationController;
@@ -76,31 +72,33 @@ const id = route?.params.id;
 const doc = new Doc({ guid: id });
 const provider = new WebrtcProvider(`liquid-${id}`, doc);
 
-export const ProjectDetails: React.FC<Props> = ({
-  mutationController,
-  queryController,
-}) => {
+export const ProjectDetails: React.FC<Props> = () => {
   const { id } = useParams() as { id: string };
-  const queryClient = useQueryClient();
-  const { data: project, isLoading } = useQuery(
-    `projects-details-${id}`,
-    async () => {
-      return await queryController.getById(id);
-    }
-  );
-  const handleSave = useCallback(
+  const { data: project, isLoading } = useProject(id);
+  const mutation = useUpdateProject();
+
+  const handleDocumentEditing = useCallback(
     async (id, body) => {
-      if (body) {
-        await mutationController.updateProject(id, { readme: body });
-        queryClient.invalidateQueries(`projects-details-${id}`);
+      if (body && project) {
+        mutation.mutate({
+          id,
+          readme: body,
+          _version: project._version,
+        });
       }
     },
-    [mutationController, queryClient]
+    [mutation, project]
   );
-  const handleSaveDebounced = useDebouncedCallback(async (id, patch) => {
-    await mutationController.updateProject(id, { ...project, ...patch });
-    queryClient.invalidateQueries(["projects-details", id]);
-  }, 500);
+  const handleNameChange = useDebouncedCallback((id, name) => {
+    if (project) {
+      mutation.mutate({
+        id,
+        name,
+        _version: project._version,
+      });
+    }
+  }, 1000);
+
   return project && !isLoading ? (
     <EuiPanel>
       <EuiFlexGroup
@@ -116,7 +114,7 @@ export const ProjectDetails: React.FC<Props> = ({
                   className="euiTitle--large"
                   contentEditable
                   onInput={(e: any) => {
-                    handleSaveDebounced(id, { name: e.target.innerHTML });
+                    handleNameChange(id, e.target.innerText);
                   }}
                 >
                   {project.name}
@@ -134,12 +132,14 @@ export const ProjectDetails: React.FC<Props> = ({
         >
           <EuiFlexGroup gutterSize="none">
             <EuiFlexItem>
-              <Editor
-                onSave={handleSave}
-                documentId={id}
-                content={project.readme || DefaultReadmeDocument}
-                provider={provider}
-              />
+              {project.readme && (
+                <Editor
+                  onSave={handleDocumentEditing}
+                  documentId={id}
+                  content={project.readme || DefaultReadmeDocument}
+                  provider={provider}
+                />
+              )}
             </EuiFlexItem>
             <EuiFlexItem grow={false}></EuiFlexItem>
           </EuiFlexGroup>

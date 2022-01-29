@@ -10,7 +10,8 @@ export type AmplifyDependentResourcesAttributes = {
             "UserPoolName": "string",
             "AppClientIDWeb": "string",
             "AppClientID": "string",
-            "CreatedSNSRole": "string"
+            "CreatedSNSRole": "string",
+            "GoogleWebClient": "string"
         },
         "userPoolGroups": {
             "AdminGroupRole": "string"
@@ -31,6 +32,7 @@ export type AmplifyDependentResourcesAttributes = {
     },
     "api": {
         "liquid": {
+            "GraphQLAPIKeyOutput": "string",
             "GraphQLAPIIdOutput": "string",
             "GraphQLAPIEndpointOutput": "string"
         }
@@ -47,6 +49,12 @@ export type AmplifyDependentResourcesAttributes = {
             "Arn": "string",
             "Region": "string",
             "LambdaExecutionRole": "string"
+        },
+        "liquidPostConfirmation": {
+            "Name": "string",
+            "Arn": "string",
+            "LambdaExecutionRole": "string",
+            "Region": "string"
         }
     }
 }

@@ -12,6 +12,11 @@ exports.handler = async (event) => {
       //Unmarshall Dynamo record to json
       const entry = AWS.DynamoDB.Converter.unmarshall(record.dynamodb.NewImage);
       console.log(entry);
+      if (!entry.video) {
+        console.log("Entry failed:", entry);
+
+        return Promise.resolve("Successfully processed DynamoDB record");
+      }
       //create the asset url
       //TODO: Extension right now is static, it needs to be derived from transcription
       const MEDIA_FORMAT = "mp4";
@@ -19,7 +24,7 @@ exports.handler = async (event) => {
       console.log(entry);
 
       // const asset = `${entry.id}.${MEDIA_FORMAT}`;
-      const mediaUrl = `https://s3.amazonaws.com/videoservice-staging-input-b6l4sht5/${asset.replace(
+      const mediaUrl = `s3://videoservice-dev-input-1gwftakym0oz/${asset.replace(
         "m3u8",
         "mp4"
       )}`;
@@ -45,13 +50,14 @@ exports.handler = async (event) => {
           Key: {
             id: entry.id,
           },
-          UpdateExpression: "set #status= :status",
+          UpdateExpression: "SET #s = :status",
           ExpressionAttributeValues: {
             ":status": "INPROGRESS",
           },
           ExpressionAttributeNames: {
-            "#status": "status",
+            "#s": "status",
           },
+          ReturnValues: "ALL_NEW",
         })
         .promise();
     }

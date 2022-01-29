@@ -11,9 +11,11 @@ import { Stories as Story } from "models";
 import { useHighlight } from "./hooks/use-highlight";
 import {
   EuiButton,
+  EuiCard,
   EuiFieldText,
   EuiFlexGroup,
   EuiFlexItem,
+  EuiIcon,
   EuiLoadingSpinner,
   EuiPanel,
   EuiText,
@@ -33,12 +35,16 @@ import {
   listVodAssets,
 } from "graphql/queries";
 import {
+  createHighlightTags,
   createTranscription,
   createVideoObject,
   createVodAsset,
   updateVodAsset,
 } from "graphql/mutations";
 import {
+  CreateHighlightTagsInput,
+  CreateHighlightTagsMutation,
+  CreateHighlightTagsMutationVariables,
   CreateTranscriptionInput,
   CreateTranscriptionMutation,
   CreateVideoObjectMutation,
@@ -54,25 +60,70 @@ import { Transcription } from "models";
 import { displayTranscript } from "./transcript-parser";
 import { useParams } from "react-router-dom";
 import TimeOffset from "../time-offset";
-import { CustomParagraph } from "../../editor";
+import { CustomParagraph, Editor } from "../../editor";
+import { atom, useRecoilState } from "recoil";
+import {
+  HighlightState,
+  highlightAtom,
+} from "../../components/highlight-control/highlight-control";
+import { useVideoUpload } from "../../../transcript/hooks/use-video-upload";
+
+export const transcriptAtom = atom<JSONContent | undefined>({
+  key: "transcriptState",
+  default: undefined,
+});
 
 export const Transcript = (props: NodeViewProps) => {
   const { id } = useParams() as { id: string };
+  const [transcript, setTranscript] = useRecoilState(transcriptAtom);
+  const [_, setHighlightState] = useRecoilState(highlightAtom);
   const { video } = props.node.attrs;
   const uploaderRef = useRef<HTMLInputElement>(null);
-  const [progress, setProgress] = useState(0);
   const [token, setToken] = useState<string | null>();
   const [videoURL, setVideoURL] = useState<string | undefined>();
+  const [videoAsset, setVideoAsset] = useState<VodAsset | undefined>();
 
   const { highlights } = useHighlight(props.editor);
   const [isAssitantActive, setIsAssistantActive] = useState<boolean>(true);
   const [isUploadModalOpen, setIsUploadModalOpen] = useState<boolean>(false);
+  const handleVideoUploadSuccess = (videoAssetId: string) => {
+    props.updateAttributes({
+      video: videoAssetId,
+    });
+  };
+  const { upload, progress, localVideoUrl } = useVideoUpload({
+    onSuccess: handleVideoUploadSuccess,
+  });
 
   useEffect(() => {
     if (!video) {
       uploaderRef.current?.click();
     }
   }, [video]);
+
+  useEffect(() => {
+    async function fetchTranscript() {
+      if (videoAsset?.transcription?.id) {
+        const key = `${videoAsset?.transcription.id}.json`;
+        const result = await Storage.get(key, {
+          level: "public",
+          download: true,
+        });
+        // const transcriptContentResponse = await fetch(result);
+        //@ts-ignore
+        const transcriptResponse = await new Response(result.Body).json();
+        const transcriptHTML = displayTranscript(transcriptResponse);
+        const transcriptJSON = generateJSON(transcriptHTML, [
+          Document,
+          CustomParagraph,
+          TimeOffset,
+          Text,
+        ]);
+        if (!transcript) setTranscript(transcriptJSON);
+      }
+    }
+    fetchTranscript();
+  }, [id, setTranscript, transcript, videoAsset?.transcription]);
 
   useEffect(() => {
     async function fetchVideoURL() {
@@ -82,13 +133,13 @@ export const Transcript = (props: NodeViewProps) => {
         authMode: "AMAZON_COGNITO_USER_POOLS",
       })) as { data: GetVodAssetQuery };
       const videoAsset = videoAssetResponse.data?.getVodAsset;
+      setVideoAsset(videoAsset as unknown as VodAsset);
 
       if (
         props.node.content &&
         props.node.content.size === 0 &&
         videoAsset?.transcription?.status === TranscriptionStatus.COMPLETED
       ) {
-        console.log(videoAsset);
         const key = `${videoAsset?.transcription.id}.json`;
         const result = await Storage.get(key, {
           level: "public",
@@ -136,7 +187,6 @@ export const Transcript = (props: NodeViewProps) => {
                 };
               });
               await DataStore.save(updatedStory);
-              console.log(updatedStory);
               // doc.content[index].content = content.content as JSONContent[];
             }
           }
@@ -145,11 +195,16 @@ export const Transcript = (props: NodeViewProps) => {
       }
       const token = videoAsset?.video?.token;
       const asset = videoAsset?.video?.id;
+      const isEncodingDone =
+        new Date().valueOf() - new Date(videoAsset!!.updatedAt).valueOf() >
+        60 * 1000;
       // awsOutputVideo + /assetID/ + assetID + extension + token
-      const uri = `https://${awsvideoconfig.awsOutputVideo}/${asset}/${asset}.m3u8`;
+      if (isEncodingDone) {
+        const uri = `https://${awsvideoconfig.awsOutputVideo}/${asset}/${asset}.m3u8`;
 
-      setVideoURL(uri);
-      setToken(token);
+        setVideoURL(uri);
+        setToken(token);
+      }
     }
     if (video && !videoURL && !token) {
       fetchVideoURL();
@@ -159,19 +214,34 @@ export const Transcript = (props: NodeViewProps) => {
   const onAssistantClose = () => setIsAssistantActive(false);
 
   const handleClickOnContent = (e: MouseEvent) => {
-    if (
-      e.target instanceof Element &&
-      e.target.tagName.toLowerCase() === "mark"
-    ) {
-      // props.editor.chain().focus().unsetHighlight().run();
+    if (e.target instanceof Element && e.target.hasAttribute("data-hid")) {
       let range = document.createRange();
-      range.selectNodeContents(e.target);
-      // const highlight = highlights[e.target.id];
+      const highlightId = e.target.getAttribute("data-hid");
+      const highlightType = e.target.getAttribute("data-hc");
+      var rootNode = e.target.parentNode;
+      if (rootNode) {
+        const selector = `span[data-hid="${highlightId}"]`;
+        const items = rootNode.querySelectorAll(selector);
+        range.setStart(items[0], 0);
+        range.setEnd(items[items.length - 1], 1);
+        const selection = window.getSelection();
+        selection?.removeAllRanges();
+        selection?.addRange(range);
+        setHighlightState({
+          id: highlightId,
+          type: highlightType,
+          transcriptionId: videoAsset?.transcription?.id,
+        } as HighlightState);
+      }
+      // props.editor.chain().focus().unsetHighlight().run();
+      // let range = document.createRange();
+      // range.selectNodeContents(e.target);
+      // // const highlight = highlights[e.target.id];
 
-      // range.setStart(highlight.startNode, highlight.startOffset);
-      // range.setEnd(highlight.endNode, highlight.endOffset);
-      window.getSelection()?.removeAllRanges();
-      window.getSelection()?.addRange(range);
+      // // range.setStart(highlight.startNode, highlight.startOffset);
+      // // range.setEnd(highlight.endNode, highlight.endOffset);
+      // window.getSelection()?.removeAllRanges();
+      // window.getSelection()?.addRange(range);
     }
   };
   const handleUploadModal = () => {
@@ -202,38 +272,52 @@ Unknowns:
   const handleTranscription = async () => {
     //TODO: Check that transcription entry for the video shouldn't exist before hand.
     if (videoURL) {
-      // const t = (await API.graphql({
-      //   query: getTranscription,
-      //   variables: { id: "24be1012-1fad-42d2-b4a8-224724265e1a" },
-      //   authMode: "AMAZON_COGNITO_USER_POOLS",
-      // })) as { data: GetTranscriptionQuery };
-      // console.log(t);
-      // const transcription = (await API.graphql({
-      //   query: createTranscription,
-      //   variables: {
-      //     input: {
-      //       video: videoURL,
-      //       status: TranscriptionStatus.ENQUEUED,
-      //     } as CreateTranscriptionInput,
-      //   },
-      //   authMode: "AMAZON_COGNITO_USER_POOLS",
-      // })) as { data: CreateTranscriptionMutation };
-
-      // const transcription = await DataStore.save(
-      //   new Transcription({
-      //   })
-      // );
-
-      const x = (await API.graphql({
-        query: updateVodAsset,
-        variables: {
-          input: {
-            id: video,
-            vodAssetTranscriptionId: "24be1012-1fad-42d2-b4a8-224724265e1a",
-          } as UpdateVodAssetInput,
-        },
+      const videoAssetResponse = (await API.graphql({
+        query: getVodAsset,
+        variables: { id: video },
         authMode: "AMAZON_COGNITO_USER_POOLS",
-      })) as { data: UpdateVodAssetMutation };
+      })) as { data: GetVodAssetQuery };
+      const videoAsset = videoAssetResponse.data?.getVodAsset;
+      if (!videoAsset?.transcription) {
+        // const t = (await API.graphql({
+        //   query: getTranscription,
+        //   variables: { id: "24be1012-1fad-42d2-b4a8-224724265e1a" },
+        //   authMode: "AMAZON_COGNITO_USER_POOLS",
+        // })) as { data: GetTranscriptionQuery };
+        //create new transcription
+        // const tesl = (await API.graphql({
+        //           query: createHighlightTags,
+        //           variables: {
+        //             input: {
+        //               highlightsID:'123',
+        //               tagsID:'123'
+        //             } as CreateHighlightTagsInput,
+        //           },
+        //           authMode: "AMAZON_COGNITO_USER_POOLS",
+        //         })) as { data: CreateHighlightTagsMutation };
+        const transcriptionResponse = (await API.graphql({
+          query: createTranscription,
+          variables: {
+            input: {
+              video: videoURL,
+              status: TranscriptionStatus.ENQUEUED,
+            } as CreateTranscriptionInput,
+          },
+          authMode: "AMAZON_COGNITO_USER_POOLS",
+        })) as { data: CreateTranscriptionMutation };
+        const transcript = transcriptionResponse.data?.createTranscription;
+
+        const x = (await API.graphql({
+          query: updateVodAsset,
+          variables: {
+            input: {
+              id: video,
+              vodAssetTranscriptionId: transcript?.id,
+            } as UpdateVodAssetInput,
+          },
+          authMode: "AMAZON_COGNITO_USER_POOLS",
+        })) as { data: UpdateVodAssetMutation };
+      }
       //update story
     } else throw new Error("No video to transcribe");
     // const doc = props.editor.getJSON();
@@ -249,56 +333,56 @@ Unknowns:
     // props.editor.commands.setContent({ ...doc, content });
   };
 
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files!![0];
-    const ext = file.name.substring(file.name.lastIndexOf(".") + 1);
-    if (ext === "mp4") {
-      Storage.configure({
-        AWSS3: {
-          bucket: awsvideoconfig.awsInputVideo,
-          customPrefix: {
-            public: "",
-          },
-        },
-      });
-    }
+    upload(file);
+    // const ext = file.name.substring(file.name.lastIndexOf(".") + 1);
+    // if (ext === "mp4") {
+    //   Storage.configure({
+    //     AWSS3: {
+    //       bucket: awsvideoconfig.awsInputVideo,
+    //       customPrefix: {
+    //         public: "",
+    //       },
+    //     },
+    //   });
+    // }
 
-    const videoObject = (await API.graphql({
-      query: createVideoObject,
-      variables: {
-        input: {},
-      },
-      authMode: "AMAZON_COGNITO_USER_POOLS",
-    })) as { data: CreateVideoObjectMutation };
-    const vodAsset = (await API.graphql({
-      query: createVodAsset,
-      variables: {
-        input: {
-          title: "Video title",
-          description: "Video description",
-          vodAssetVideoId: videoObject.data.createVideoObject?.id,
-        } as CreateVodAssetInput,
-      },
-      authMode: "AMAZON_COGNITO_USER_POOLS",
-    })) as { data: CreateVodAssetMutation };
-    const key = `${videoObject.data?.createVideoObject?.id}.${ext}`;
-    console.log("asset", vodAsset);
-    Storage.put(key, file, {
-      resumable: true,
-      completeCallback: (event) => {
-        //update key on p
-        props.updateAttributes({
-          video: vodAsset.data.createVodAsset?.id,
-        });
-      },
-      progressCallback: (progress) => {
-        setProgress(Math.round((progress.loaded / progress.total) * 100));
-      },
-      errorCallback: (err) => {
-        console.error("Unexpected error while uploading", err);
-      },
-    });
-    setProgress(10);
+    // const videoObject = (await API.graphql({
+    //   query: createVideoObject,
+    //   variables: {
+    //     input: {},
+    //   },
+    //   authMode: "AMAZON_COGNITO_USER_POOLS",
+    // })) as { data: CreateVideoObjectMutation };
+    // const vodAsset = (await API.graphql({
+    //   query: createVodAsset,
+    //   variables: {
+    //     input: {
+    //       title: "Video title",
+    //       description: "Video description",
+    //       vodAssetVideoId: videoObject.data.createVideoObject?.id,
+    //     } as CreateVodAssetInput,
+    //   },
+    //   authMode: "AMAZON_COGNITO_USER_POOLS",
+    // })) as { data: CreateVodAssetMutation };
+    // const key = `${videoObject.data?.createVideoObject?.id}.${ext}`;
+    // Storage.put(key, file, {
+    //   resumable: true,
+    //   completeCallback: (event) => {
+    //     //update key on p
+    //     props.updateAttributes({
+    //       video: vodAsset.data.createVodAsset?.id,
+    //     });
+    //   },
+    //   progressCallback: (progress) => {
+    //     setProgress(Math.round((progress.loaded / progress.total) * 100));
+    //   },
+    //   errorCallback: (err) => {
+    //     console.error("Unexpected error while uploading", err);
+    //   },
+    // });
+    // setProgress(10);
   };
 
   return (
@@ -316,7 +400,7 @@ Unknowns:
         type="file"
         inputRef={uploaderRef}
         accept="video/*"
-        onChange={handleFileChange}
+        onChange={handleFileUpload}
       />
 
       {videoURL && token ? (
@@ -339,10 +423,10 @@ Unknowns:
                           "Access-Control-Allow-Headers",
                           "Content-Type, Accept, X-Requested-With"
                         );
-                        xhr.setRequestHeader(
-                          "Access-Control-Allow-Origin",
-                          "http://localhost:3000"
-                        );
+                        // xhr.setRequestHeader(
+                        //   "Access-Control-Allow-Origin",
+                        //   "http://localhost:3000"
+                        // );
                         xhr.setRequestHeader(
                           "Access-Control-Allow-Credentials",
                           "true"
@@ -358,20 +442,44 @@ Unknowns:
               />
             </EuiFlexItem>
             <EuiFlexItem>
-              <EuiButton fullWidth={false} onClick={handleTranscription}>
-                Start Transcribing
-              </EuiButton>
+              {videoAsset?.transcription ? (
+                videoAsset.transcription.status ===
+                TranscriptionStatus.INPROGRESS ? (
+                  <EuiButton
+                    fullWidth={false}
+                    disabled
+                    isLoading
+                    onClick={handleTranscription}
+                  >
+                    Transcribing... {videoAsset.transcription.id}
+                  </EuiButton>
+                ) : null
+              ) : (
+                <EuiButton fullWidth={false} onClick={handleTranscription}>
+                  Start Transcribing
+                </EuiButton>
+              )}
             </EuiFlexItem>
           </EuiFlexGroup>
         </EuiPanel>
       ) : (
-        progress > 0 && (
-          <EuiPanel color="subdued">
-            <EuiText color="subdued">
-              <EuiLoadingSpinner /> &nbsp; Upload in progress... {progress}%
-            </EuiText>
-          </EuiPanel>
-        )
+        <>
+          {video && (
+            <EuiCard
+              icon={<EuiIcon size="xl" type="videoPlayer" />}
+              title="Hey!"
+              display="subdued"
+              description="We are getting your video ready..."
+            />
+          )}
+          {progress > 0 && (
+            <EuiPanel color="subdued">
+              <EuiText color="subdued">
+                <EuiLoadingSpinner /> &nbsp; Upload in progress... {progress}%
+              </EuiText>
+            </EuiPanel>
+          )}
+        </>
       )}
 
       <TranscriptContent

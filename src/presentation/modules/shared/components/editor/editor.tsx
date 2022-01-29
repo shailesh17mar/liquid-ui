@@ -91,7 +91,7 @@ export const CustomParagraph = Paragraph.extend({
   },
 });
 
-const TIMEOUT = 2000 + Math.floor(Math.random() * 6000);
+const TIMEOUT = 100 + Math.floor(Math.random() * 1000);
 
 interface EditorProps {
   documentId: string;
@@ -178,7 +178,7 @@ export const Editor: React.FC<EditorProps> = ({
     onUpdate({ editor }) {
       const content = editor.getJSON();
       handleChange(content);
-      // if (content) setDocState(content);
+      if (content) setDocState(content);
       // The content has changed.
     },
   });
@@ -192,6 +192,7 @@ export const Editor: React.FC<EditorProps> = ({
   );
   const handleSave = useCallback(
     (newDocState) => {
+      console.log("editor save called");
       if (!isUploading) {
         onSave(documentId, JSON.stringify(newDocState));
         const meta = provider.doc.getMap("meta");
@@ -226,7 +227,6 @@ export const Editor: React.FC<EditorProps> = ({
           </BubbleMenu>
           <BubbleMenu
             shouldShow={({ editor, view, state, oldState, from, to }) => {
-              console.log(from, to);
               return (
                 editor.isActive("transcriptComponent") &&
                 to > from &&
@@ -235,10 +235,9 @@ export const Editor: React.FC<EditorProps> = ({
             }}
             editor={editor}
           >
-            <HighlightControl
-              id={editor.getAttributes("highlight").id}
-              editor={editor}
-            />
+            {editor.isActive("transcriptComponent") && (
+              <HighlightControl editor={editor} />
+            )}
           </BubbleMenu>
         </>
       )}

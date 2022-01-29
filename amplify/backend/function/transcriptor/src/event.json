@@ -9,7 +9,7 @@
       "dynamodb": {
         "Keys": {
           "id": {
-            "S": "1b4e5308-72ed-444c-933e-3ac7d2c07364"
+            "S": "415c9095-b960-4122-a6e8-6210d941f996"
           }
         },
         "NewImage": {
@@ -17,10 +17,10 @@
             "S": "ENQUEUED"
           },
           "id": {
-            "S": "1b4e5308-72ed-444c-933e-3ac7d2c07364"
+            "S": "415c9095-b960-4122-a6e8-6210d941f996"
           },
           "video": {
-            "S": "https://dlvqhryak5b48.cloudfront.net/e09d015f-46ee-4d20-822c-3b16ea7bd2e5/e09d015f-46ee-4d20-822c-3b16ea7bd2e5.m3u8"
+            "S": "https://dlvqhryak5b48.cloudfront.net/47ae7b43-8d79-4363-bdc6-200ceb19988e/47ae7b43-8d79-4363-bdc6-200ceb19988e.m3u8"
           }
         },
         "ApproximateCreationDateTime": 1428537600,
@@ -28,7 +28,7 @@
         "SizeBytes": 26,
         "StreamViewType": "NEW_AND_OLD_IMAGES"
       },
-      "eventSourceARN": "arn:aws:dynamodb:us-east-2:043715548265:table/Transcription-7lzec6wm3bdh3e5tpu73nkyt34-staging/stream/2015-06-27T00:48:05.899"
+      "eventSourceARN": "arn:aws:dynamodb:us-east-2:043715548265:table/Transcription-awvqk5ocjveajfydxxozxbku2m-dev/stream/2015-06-27T00:48:05.899"
     }
   ]
 }

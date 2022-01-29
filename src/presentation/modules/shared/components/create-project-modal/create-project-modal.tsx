@@ -1,42 +1,24 @@
 import React, { useState } from "react";
-
-import {
-  EuiButton,
-  EuiConfirmModal,
-  EuiFormRow,
-  EuiFieldText,
-} from "@elastic/eui";
-import { Mutation, useMutation, useQueryClient } from "react-query";
-import { makeProjectMutationController } from "main/factories/project-factory";
+import { EuiConfirmModal, EuiFormRow, EuiFieldText } from "@elastic/eui";
 import { Projects as Project } from "models";
-import { ModelInit } from "@aws-amplify/datastore";
+import { useCreateProject } from "presentation/modules/projects/hooks";
 
 interface Props {
   onConfirm: (id: string) => void;
   onClose: () => void;
 }
 export const CreateProjectModal: React.FC<Props> = ({ onConfirm, onClose }) => {
-  const queryClient = useQueryClient();
   const [name, setName] = useState("");
-  const projectController = makeProjectMutationController();
-  const mutation = useMutation(
-    (project: ModelInit<Project>) => {
-      return projectController.createProject(project);
-    },
-    {
-      onSuccess: (project) => {
-        queryClient.invalidateQueries("projects");
-        onConfirm(project.id);
-      },
-    }
-  );
+  const mutation = useCreateProject((project) => {
+    onConfirm(project.id);
+  });
 
   const handleChange = (e: any) => {
     setName(e.target.value);
   };
 
   const handleConfirm = () => {
-    const project = mutation.mutate(new Project({ name }));
+    mutation.mutate(new Project({ name }));
   };
 
   return (

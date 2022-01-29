@@ -16,22 +16,35 @@ exports.handler = async (event) => {
         if (isTranscription) {
           const id = transcript.substring(0, dotIndex);
           //update the transcription table with new status and transcription path
-          console.log(id);
           await docClient
             .update({
               TableName: process.env.API_LIQUID_TRANSCRIPTIONTABLE_NAME,
               Key: {
                 id,
               },
-              UpdateExpression: "set #status= :status ",
+              UpdateExpression: "SET #s = :status",
               ExpressionAttributeValues: {
                 ":status": "COMPLETED",
               },
               ExpressionAttributeNames: {
-                "#status": "status",
+                "#s": "status",
               },
+              ReturnValues: "ALL_NEW",
             })
             .promise();
+
+          const s3 = new AWS.S3();
+
+          const bucketName = record.s3.bucket.name;
+          console.log(bucketName, transcript);
+          const copyParams = {
+            Bucket: "liquid-storage-dolpdy24rr4fr170406-dev",
+            CopySource: bucketName + "/" + transcript,
+            Key: "public/" + transcript,
+          };
+
+          await s3.copyObject(copyParams).promise();
+          console.log("copied to public folder");
         }
       }
     }

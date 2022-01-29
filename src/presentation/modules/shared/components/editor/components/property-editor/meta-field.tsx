@@ -278,7 +278,7 @@ export const MetaField: React.FC<FieldProps> = ({
     property.type === FIELD_TYPES.COMPANY
       ? ({
           options: property.options as ComboBoxOption[],
-          selectedOptions: property.selectedOptions,
+          selectedOptions: property.selectedOptions || [],
           onChange: (selectedOptions: ComboBoxOption[]) => {
             update(index, {
               ...property,

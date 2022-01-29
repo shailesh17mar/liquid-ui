@@ -2,6 +2,66 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const createPersons = /* GraphQL */ `
+  mutation CreatePersons(
+    $input: CreatePersonsInput!
+    $condition: ModelPersonsConditionInput
+  ) {
+    createPersons(input: $input, condition: $condition) {
+      id
+      additonalFields
+      name
+      email
+      persona
+      createdAt
+      updatedAt
+      business
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updatePersons = /* GraphQL */ `
+  mutation UpdatePersons(
+    $input: UpdatePersonsInput!
+    $condition: ModelPersonsConditionInput
+  ) {
+    updatePersons(input: $input, condition: $condition) {
+      id
+      additonalFields
+      name
+      email
+      persona
+      createdAt
+      updatedAt
+      business
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deletePersons = /* GraphQL */ `
+  mutation DeletePersons(
+    $input: DeletePersonsInput!
+    $condition: ModelPersonsConditionInput
+  ) {
+    deletePersons(input: $input, condition: $condition) {
+      id
+      additonalFields
+      name
+      email
+      persona
+      createdAt
+      updatedAt
+      business
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
 export const createInsights = /* GraphQL */ `
   mutation CreateInsights(
     $input: CreateInsightsInput!
@@ -11,11 +71,11 @@ export const createInsights = /* GraphQL */ `
       id
       projectsID
       content
+      createdAt
+      updatedAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -28,11 +88,11 @@ export const updateInsights = /* GraphQL */ `
       id
       projectsID
       content
+      createdAt
+      updatedAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -45,11 +105,11 @@ export const deleteInsights = /* GraphQL */ `
       id
       projectsID
       content
+      createdAt
+      updatedAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -61,8 +121,9 @@ export const createHighlights = /* GraphQL */ `
     createHighlights(input: $input, condition: $condition) {
       id
       type
+      text
       transcriptionID
-      Tags {
+      tags {
         nextToken
         startedAt
       }
@@ -83,8 +144,9 @@ export const updateHighlights = /* GraphQL */ `
     updateHighlights(input: $input, condition: $condition) {
       id
       type
+      text
       transcriptionID
-      Tags {
+      tags {
         nextToken
         startedAt
       }
@@ -105,8 +167,9 @@ export const deleteHighlights = /* GraphQL */ `
     deleteHighlights(input: $input, condition: $condition) {
       id
       type
+      text
       transcriptionID
-      Tags {
+      tags {
         nextToken
         startedAt
       }
@@ -128,9 +191,10 @@ export const createTags = /* GraphQL */ `
       id
       label
       projectsID
-      storiesID
-      transcriptionID
-      highlightsID
+      highlights {
+        nextToken
+        startedAt
+      }
       updatedAt
       createdAt
       _version
@@ -148,9 +212,10 @@ export const updateTags = /* GraphQL */ `
       id
       label
       projectsID
-      storiesID
-      transcriptionID
-      highlightsID
+      highlights {
+        nextToken
+        startedAt
+      }
       updatedAt
       createdAt
       _version
@@ -168,9 +233,10 @@ export const deleteTags = /* GraphQL */ `
       id
       label
       projectsID
-      storiesID
-      transcriptionID
-      highlightsID
+      highlights {
+        nextToken
+        startedAt
+      }
       updatedAt
       createdAt
       _version
@@ -193,16 +259,12 @@ export const createTranscription = /* GraphQL */ `
         nextToken
         startedAt
       }
-      Tags {
-        nextToken
-        startedAt
-      }
       status
+      createdAt
+      updatedAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -220,16 +282,12 @@ export const updateTranscription = /* GraphQL */ `
         nextToken
         startedAt
       }
-      Tags {
-        nextToken
-        startedAt
-      }
       status
+      createdAt
+      updatedAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -247,16 +305,12 @@ export const deleteTranscription = /* GraphQL */ `
         nextToken
         startedAt
       }
-      Tags {
-        nextToken
-        startedAt
-      }
       status
+      createdAt
+      updatedAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -272,10 +326,6 @@ export const createStories = /* GraphQL */ `
       type
       createdAt
       updatedAt
-      tags {
-        nextToken
-        startedAt
-      }
       title
       content
       transcription {
@@ -284,15 +334,12 @@ export const createStories = /* GraphQL */ `
         transcription
         content
         status
+        createdAt
+        updatedAt
         _version
         _deleted
         _lastChangedAt
-        createdAt
-        updatedAt
       }
-      _version
-      _deleted
-      _lastChangedAt
       participants {
         id
         additonalFields
@@ -306,6 +353,11 @@ export const createStories = /* GraphQL */ `
         _deleted
         _lastChangedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
+      storiesTranscriptionId
+      storiesParticipantsId
     }
   }
 `;
@@ -321,10 +373,6 @@ export const updateStories = /* GraphQL */ `
       type
       createdAt
       updatedAt
-      tags {
-        nextToken
-        startedAt
-      }
       title
       content
       transcription {
@@ -333,15 +381,12 @@ export const updateStories = /* GraphQL */ `
         transcription
         content
         status
+        createdAt
+        updatedAt
         _version
         _deleted
         _lastChangedAt
-        createdAt
-        updatedAt
       }
-      _version
-      _deleted
-      _lastChangedAt
       participants {
         id
         additonalFields
@@ -355,6 +400,11 @@ export const updateStories = /* GraphQL */ `
         _deleted
         _lastChangedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
+      storiesTranscriptionId
+      storiesParticipantsId
     }
   }
 `;
@@ -370,10 +420,6 @@ export const deleteStories = /* GraphQL */ `
       type
       createdAt
       updatedAt
-      tags {
-        nextToken
-        startedAt
-      }
       title
       content
       transcription {
@@ -382,15 +428,12 @@ export const deleteStories = /* GraphQL */ `
         transcription
         content
         status
+        createdAt
+        updatedAt
         _version
         _deleted
         _lastChangedAt
-        createdAt
-        updatedAt
       }
-      _version
-      _deleted
-      _lastChangedAt
       participants {
         id
         additonalFields
@@ -404,6 +447,11 @@ export const deleteStories = /* GraphQL */ `
         _deleted
         _lastChangedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
+      storiesTranscriptionId
+      storiesParticipantsId
     }
   }
 `;
@@ -420,11 +468,11 @@ export const createCategories = /* GraphQL */ `
         nextToken
         startedAt
       }
+      createdAt
+      updatedAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -441,11 +489,11 @@ export const updateCategories = /* GraphQL */ `
         nextToken
         startedAt
       }
+      createdAt
+      updatedAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -462,11 +510,11 @@ export const deleteCategories = /* GraphQL */ `
         nextToken
         startedAt
       }
+      createdAt
+      updatedAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -719,26 +767,30 @@ export const createVodAsset = /* GraphQL */ `
         transcription
         content
         status
+        createdAt
+        updatedAt
         _version
         _deleted
         _lastChangedAt
-        createdAt
-        updatedAt
       }
       video {
         id
         token
+        createdAt
+        updatedAt
         _version
         _deleted
         _lastChangedAt
-        createdAt
-        updatedAt
+        owner
       }
+      createdAt
+      updatedAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
-      updatedAt
+      vodAssetTranscriptionId
+      vodAssetVideoId
+      owner
     }
   }
 `;
@@ -757,26 +809,30 @@ export const updateVodAsset = /* GraphQL */ `
         transcription
         content
         status
+        createdAt
+        updatedAt
         _version
         _deleted
         _lastChangedAt
-        createdAt
-        updatedAt
       }
       video {
         id
         token
+        createdAt
+        updatedAt
         _version
         _deleted
         _lastChangedAt
-        createdAt
-        updatedAt
+        owner
       }
+      createdAt
+      updatedAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
-      updatedAt
+      vodAssetTranscriptionId
+      vodAssetVideoId
+      owner
     }
   }
 `;
@@ -795,26 +851,30 @@ export const deleteVodAsset = /* GraphQL */ `
         transcription
         content
         status
+        createdAt
+        updatedAt
         _version
         _deleted
         _lastChangedAt
-        createdAt
-        updatedAt
       }
       video {
         id
         token
+        createdAt
+        updatedAt
         _version
         _deleted
         _lastChangedAt
-        createdAt
-        updatedAt
+        owner
       }
+      createdAt
+      updatedAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
-      updatedAt
+      vodAssetTranscriptionId
+      vodAssetVideoId
+      owner
     }
   }
 `;
@@ -826,11 +886,12 @@ export const createVideoObject = /* GraphQL */ `
     createVideoObject(input: $input, condition: $condition) {
       id
       token
+      createdAt
+      updatedAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
-      updatedAt
+      owner
     }
   }
 `;
@@ -842,11 +903,12 @@ export const updateVideoObject = /* GraphQL */ `
     updateVideoObject(input: $input, condition: $condition) {
       id
       token
+      createdAt
+      updatedAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
-      updatedAt
+      owner
     }
   }
 `;
@@ -858,68 +920,126 @@ export const deleteVideoObject = /* GraphQL */ `
     deleteVideoObject(input: $input, condition: $condition) {
       id
       token
+      createdAt
+      updatedAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
-      updatedAt
+      owner
     }
   }
 `;
-export const createPersons = /* GraphQL */ `
-  mutation CreatePersons(
-    $input: CreatePersonsInput!
-    $condition: ModelPersonsConditionInput
+export const createHighlightTags = /* GraphQL */ `
+  mutation CreateHighlightTags(
+    $input: CreateHighlightTagsInput!
+    $condition: ModelHighlightTagsConditionInput
   ) {
-    createPersons(input: $input, condition: $condition) {
+    createHighlightTags(input: $input, condition: $condition) {
       id
-      additonalFields
-      name
-      email
-      persona
+      highlightsID
+      tagsID
+      highlights {
+        id
+        type
+        text
+        transcriptionID
+        projectsID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      tags {
+        id
+        label
+        projectsID
+        updatedAt
+        createdAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       createdAt
       updatedAt
-      business
       _version
       _deleted
       _lastChangedAt
     }
   }
 `;
-export const updatePersons = /* GraphQL */ `
-  mutation UpdatePersons(
-    $input: UpdatePersonsInput!
-    $condition: ModelPersonsConditionInput
+export const updateHighlightTags = /* GraphQL */ `
+  mutation UpdateHighlightTags(
+    $input: UpdateHighlightTagsInput!
+    $condition: ModelHighlightTagsConditionInput
   ) {
-    updatePersons(input: $input, condition: $condition) {
+    updateHighlightTags(input: $input, condition: $condition) {
       id
-      additonalFields
-      name
-      email
-      persona
+      highlightsID
+      tagsID
+      highlights {
+        id
+        type
+        text
+        transcriptionID
+        projectsID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      tags {
+        id
+        label
+        projectsID
+        updatedAt
+        createdAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       createdAt
       updatedAt
-      business
       _version
       _deleted
       _lastChangedAt
     }
   }
 `;
-export const deletePersons = /* GraphQL */ `
-  mutation DeletePersons(
-    $input: DeletePersonsInput!
-    $condition: ModelPersonsConditionInput
+export const deleteHighlightTags = /* GraphQL */ `
+  mutation DeleteHighlightTags(
+    $input: DeleteHighlightTagsInput!
+    $condition: ModelHighlightTagsConditionInput
   ) {
-    deletePersons(input: $input, condition: $condition) {
+    deleteHighlightTags(input: $input, condition: $condition) {
       id
-      additonalFields
-      name
-      email
-      persona
+      highlightsID
+      tagsID
+      highlights {
+        id
+        type
+        text
+        transcriptionID
+        projectsID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      tags {
+        id
+        label
+        projectsID
+        updatedAt
+        createdAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       createdAt
       updatedAt
-      business
       _version
       _deleted
       _lastChangedAt

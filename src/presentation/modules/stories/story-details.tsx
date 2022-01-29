@@ -3,16 +3,14 @@ import {
   EuiFlexGroup,
   EuiFlexItem,
   EuiPageContentBody,
-  EuiTitle,
 } from "@elastic/eui";
 import { PropertiesEditor } from "../shared/components/editor/components/property-editor/property-editor";
 import { Editor } from "../shared/components/editor/editor";
 import { annotationState } from "main/pages/make-story-details-page";
 import { useRecoilValue } from "recoil";
-import { useCallback, useMemo, useRef } from "react";
-import { generateHTML, JSONContent } from "@tiptap/react";
+import { useCallback, useMemo, useRef, useState } from "react";
+import { JSONContent } from "@tiptap/react";
 import { matchPath, useParams } from "react-router-dom";
-import { useQuery, useQueryClient } from "react-query";
 import { WebrtcProvider } from "y-webrtc";
 import { Doc } from "yjs";
 import {
@@ -23,9 +21,15 @@ import {
   ParticipantController,
   StoryController,
 } from "main/factories/story-factory";
-import { Persons as Participant, Stories as Story } from "models";
+import { Persons as Participant, Persons } from "models";
 import { ModelInit } from "@aws-amplify/datastore";
 import { useDebouncedCallback } from "use-debounce/lib";
+import { StoryMetadataProvider } from "./story-context";
+import { useStory, useUpdateStory } from "core/modules/stories/hooks";
+import {
+  useCreatePerson,
+  useUpdatePerson,
+} from "core/modules/participants/hooks";
 
 const DefaultStoryDocument = {
   type: "doc",
@@ -55,43 +59,55 @@ const DefaultStoryDocument = {
     },
   ],
 } as JSONContent;
-interface Props {
-  participantController: ParticipantController;
-  storyController: StoryController;
-}
 
 const route = matchPath("/stories/:id", window.location.pathname);
 const id = route?.params.id;
 const doc = new Doc({ guid: id });
 const provider = new WebrtcProvider(`story-${id}`, doc);
 
-export const StoryDetails: React.FC<Props> = ({
-  participantController,
-  storyController,
-}) => {
-  const queryClient = useQueryClient();
-  const { id } = useParams() as { id: string };
-  const { data: story } = useQuery(["story-details", id], async () => {
-    return await storyController.getStoryById(id);
-  });
-  console.log("story", story);
-  //person is embedded
-  const handleSave = useCallback(
-    async (id, body) => {
-      if (body) {
-        // await storyController.updateStory(id, { ...story, content: body });
-        console.log("update call", body);
-        // queryClient.invalidateQueries(["story-details", id]);
-      }
-    },
-    [queryClient, story, storyController]
-  );
-  const handleSaveDebounced = useDebouncedCallback(async (id, patch) => {
-    await storyController.updateStory(id, { ...story, ...patch });
-    queryClient.invalidateQueries(["story-details", id]);
-  }, 500);
+interface Props {
+  participantController: ParticipantController;
+  storyController: StoryController;
+}
+export const StoryDetails: React.FC<Props> = () => {
   const annotation = useRecoilValue(annotationState);
   const annotationRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const { id } = useParams() as { id: string };
+
+  const { data: story } = useStory(id);
+  const updateStoryMutation = useUpdateStory();
+  const [isMutatingParticipant, setIsMutatingParticipant] = useState(false);
+  const handleStoryParticipants = (participant: Persons) => {
+    updateStoryMutation.mutate({
+      id,
+      storiesParticipantsId: participant.id,
+      _version: story?._version,
+    });
+  };
+  const updateParticipantMutation = useUpdatePerson();
+  const createParticipantMutation = useCreatePerson(handleStoryParticipants);
+  const handleDocumentChange = useCallback(
+    async (id, body) => {
+      if (body) {
+        updateStoryMutation.mutate({
+          id,
+          content: body,
+          _version: story?._version,
+        });
+      }
+    },
+    [story?._version, updateStoryMutation]
+  );
+  const handleTitleChange = useDebouncedCallback((id, title) => {
+    if (story) {
+      updateStoryMutation.mutate({
+        id,
+        title,
+        _version: story._version,
+      });
+    }
+  }, 500);
+
   const positionDictionary = useMemo(
     () =>
       (Object.keys(annotation) as string[]).reduce<{
@@ -116,184 +132,166 @@ export const StoryDetails: React.FC<Props> = ({
   };
 
   const participant = story?.participants;
+  const storyMetadata = story
+    ? {
+        id: story.id,
+        projectId: story.projectsID,
+      }
+    : null;
+  const handleMetadataChange = async (
+    properties: MetaProperty[]
+  ): Promise<void> => {
+    const participantDetails = properties.reduce(
+      (person: any, property: MetaProperty) => {
+        if (property.label)
+          person[property.label.toLowerCase()] = property.selectedOptions
+            ? property.selectedOptions
+            : property.value;
+        return person;
+      },
+      {}
+    );
+
+    if (story) {
+      if (participant) {
+        updateParticipantMutation.mutate({
+          id: participant.id,
+          name: participantDetails.name,
+          email: participantDetails.email,
+          business: JSON.stringify(participantDetails.company),
+          persona: participantDetails.persona,
+          _version: participant._version,
+        });
+      } else {
+        createParticipantMutation.mutate({
+          name: participantDetails.name,
+          email: participantDetails.email,
+          business: JSON.stringify(participantDetails.company),
+          persona: participantDetails.persona,
+        });
+      }
+    }
+    // handleDocumentChange(id, {
+    //   ...story,
+    //   Persons: participant as ModelInit<Participant>,
+    // });
+  };
+
   return story ? (
-    <EuiPageContentBody
-      className="eui-yScroll"
-      onScroll={() => updatePositions()}
-      paddingSize="none"
-    >
-      <EuiFlexGroup
-        justifyContent="spaceAround"
-        style={{ width: 900, margin: "0 auto" }}
+    <StoryMetadataProvider value={storyMetadata}>
+      <EuiPageContentBody
+        className="eui-yScroll"
+        onScroll={() => updatePositions()}
+        paddingSize="none"
       >
-        <EuiFlexItem>
-          <EuiFlexGroup direction="column">
-            <EuiFlexItem grow={false}>
-              <EuiFlexGroup justifyContent="center">
-                <EuiFlexItem>
-                  <span
-                    className="euiTitle--large"
-                    contentEditable
-                    onInput={(e: any) => {
-                      handleSaveDebounced(id, { title: e.target.innerHTML });
-                    }}
-                  >
-                    {story?.title}
-                  </span>
-                </EuiFlexItem>
-              </EuiFlexGroup>
-            </EuiFlexItem>
-            <hr />
-            <EuiFlexItem grow={false}>
-              <EuiFlexGroup justifyContent="center">
-                {story && (
+        <EuiFlexGroup
+          justifyContent="spaceAround"
+          style={{ width: 900, margin: "0 auto" }}
+        >
+          <EuiFlexItem>
+            <EuiFlexGroup direction="column">
+              <EuiFlexItem grow={false}>
+                <EuiFlexGroup justifyContent="center">
                   <EuiFlexItem>
-                    <PropertiesEditor
-                      properties={
-                        [
-                          {
-                            label: "Name",
-                            type: FIELD_TYPES.TEXT,
-                            value: participant?.name,
-                          },
-                          {
-                            label: "Email",
-                            type: FIELD_TYPES.EMAIL,
-                            value: participant?.email,
-                          },
-                          {
-                            label: "Company",
-                            type: FIELD_TYPES.COMPANY,
-                            selectedOptions: participant?.business || [],
-                          },
-                          {
-                            label: "Persona",
-                            type: FIELD_TYPES.TEXT,
-                            value: participant?.persona,
-                          },
-                        ] as MetaProperty[]
-                      }
-                      onChange={async (properties) => {
-                        const participantDetails = properties.reduce(
-                          (person: any, property: MetaProperty) => {
-                            if (property.label)
-                              person[property.label.toLowerCase()] =
-                                property.selectedOptions
-                                  ? property.selectedOptions
-                                  : property.value;
-                            return person;
-                          },
-                          {}
-                        );
-
-                        if (story) {
-                          if (participant) {
-                            const updatedParticipant =
-                              await participantController.updateParticipant(
-                                participant.id,
-                                {
-                                  name: participantDetails.name,
-                                  email: participantDetails.email,
-                                  business: JSON.stringify(
-                                    participantDetails.company
-                                  ),
-                                  persona: participantDetails.persona,
-                                }
-                              );
-                            const result2 = await storyController.updateStory(
-                              id,
-                              {
-                                ...story,
-                                participants: updatedParticipant,
-                              }
-                            );
-                          } else {
-                            const newParticipant =
-                              await participantController.createParticipant(
-                                new Participant({
-                                  name: participantDetails.name,
-                                  email: participantDetails.email,
-                                  business: JSON.stringify(
-                                    participantDetails.company
-                                  ),
-                                  persona: participantDetails.persona,
-                                })
-                                // participantDetails as ModelInit<Participant>
-                              );
-
-                            const result = await storyController.updateStory(
-                              id,
-                              {
-                                ...story,
-                                participants: newParticipant,
-                              }
-                            );
-                          }
-                          queryClient.invalidateQueries(["story-details", id]);
-                        }
-                        // handleSave(id, {
-                        //   ...story,
-                        //   Persons: participant as ModelInit<Participant>,
-                        // });
-                        console.log(participant);
+                    <span
+                      className="euiTitle--large"
+                      contentEditable
+                      onInput={(e: any) => {
+                        handleTitleChange(id, e.target.innerText);
                       }}
-                    />
+                    >
+                      {story?.title}
+                    </span>
                   </EuiFlexItem>
-                )}
-              </EuiFlexGroup>
-            </EuiFlexItem>
-            <hr />
-            <EuiFlexItem
-              style={{
-                minHeight: 400,
-                margin: "12px 0",
-              }}
-            >
-              <EuiFlexGroup gutterSize="none">
-                <EuiFlexItem>
-                  {story?.content && (
-                    <Editor
-                      onSave={handleSave}
-                      documentId={id}
-                      content={story?.content}
-                      provider={provider}
-                    />
+                </EuiFlexGroup>
+              </EuiFlexItem>
+              <hr />
+              <EuiFlexItem grow={false}>
+                <EuiFlexGroup justifyContent="center">
+                  {story && (
+                    <EuiFlexItem>
+                      <PropertiesEditor
+                        properties={
+                          [
+                            {
+                              label: "Name",
+                              type: FIELD_TYPES.TEXT,
+                              value: participant?.name,
+                            },
+                            {
+                              label: "Email",
+                              type: FIELD_TYPES.EMAIL,
+                              value: participant?.email,
+                            },
+                            {
+                              label: "Company",
+                              type: FIELD_TYPES.COMPANY,
+                              selectedOptions: participant?.business,
+                            },
+                            {
+                              label: "Persona",
+                              type: FIELD_TYPES.TEXT,
+                              value: participant?.persona,
+                            },
+                          ] as MetaProperty[]
+                        }
+                        onChange={handleMetadataChange}
+                      />
+                    </EuiFlexItem>
                   )}
-                </EuiFlexItem>
-                <EuiFlexItem grow={false}></EuiFlexItem>
-              </EuiFlexGroup>
-            </EuiFlexItem>
-            <hr />
-          </EuiFlexGroup>
-        </EuiFlexItem>
-        <EuiFlexItem grow={false}>
-          {Object.keys(annotation).map((id, index) => {
-            return (
-              <div
-                ref={(el) => (annotationRefs.current[index] = el)}
-                key={id}
+                </EuiFlexGroup>
+              </EuiFlexItem>
+              <hr />
+              <EuiFlexItem
                 style={{
-                  position: "fixed",
-                  top: positionDictionary[id] + "px",
+                  minHeight: 400,
+                  margin: "12px 0",
                 }}
               >
-                {annotation[id].tags.map((tag, index) => (
-                  <>
-                    <EuiBetaBadge
-                      label={tag.label}
-                      size="m"
-                      key={id + index}
-                      color="hollow"
-                    />{" "}
-                    &nbsp;
-                  </>
-                ))}
-              </div>
-            );
-          })}
-        </EuiFlexItem>
-      </EuiFlexGroup>
-    </EuiPageContentBody>
+                <EuiFlexGroup gutterSize="none">
+                  <EuiFlexItem>
+                    <Editor
+                      onSave={handleDocumentChange}
+                      documentId={id}
+                      content={story.content || DefaultStoryDocument}
+                      provider={provider}
+                    />
+                  </EuiFlexItem>
+                  <EuiFlexItem grow={false}></EuiFlexItem>
+                </EuiFlexGroup>
+              </EuiFlexItem>
+              <hr />
+            </EuiFlexGroup>
+          </EuiFlexItem>
+          <EuiFlexItem grow={false}>
+            {Object.keys(annotation).map((id, index) => {
+              return (
+                <div
+                  ref={(el) => (annotationRefs.current[index] = el)}
+                  key={id}
+                  style={{
+                    position: "fixed",
+                    top: positionDictionary[id] + "px",
+                  }}
+                >
+                  {annotation[id].tags.map((tag, index) => (
+                    <>
+                      <EuiBetaBadge
+                        label={tag.label}
+                        size="m"
+                        key={id + index}
+                        color="hollow"
+                      />{" "}
+                      &nbsp;
+                    </>
+                  ))}
+                </div>
+              );
+            })}
+          </EuiFlexItem>
+        </EuiFlexGroup>
+      </EuiPageContentBody>
+    </StoryMetadataProvider>
   ) : null;
   // );
 };

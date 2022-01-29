@@ -1,39 +1,45 @@
 {
-  "staging": {
+  "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-amplify52b704ef7e9c4-staging-83355-authRole",
-      "UnauthRoleArn": "arn:aws:iam::043715548265:role/amplify-amplify52b704ef7e9c4-staging-83355-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::043715548265:role/amplify-amplify52b704ef7e9c4-staging-83355-authRole",
+      "AuthRoleName": "amplify-liquid-dev-170406-authRole",
+      "UnauthRoleArn": "arn:aws:iam::043715548265:role/amplify-liquid-dev-170406-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::043715548265:role/amplify-liquid-dev-170406-authRole",
       "Region": "us-east-2",
-      "DeploymentBucketName": "amplify-amplify52b704ef7e9c4-staging-83355-deployment",
-      "UnauthRoleName": "amplify-amplify52b704ef7e9c4-staging-83355-unauthRole",
-      "StackName": "amplify-amplify52b704ef7e9c4-staging-83355",
-      "StackId": "arn:aws:cloudformation:us-east-2:043715548265:stack/amplify-amplify52b704ef7e9c4-staging-83355/692163b0-5bef-11ec-9775-0655c8411a04",
+      "DeploymentBucketName": "amplify-liquid-dev-170406-deployment",
+      "UnauthRoleName": "amplify-liquid-dev-170406-unauthRole",
+      "StackName": "amplify-liquid-dev-170406",
+      "StackId": "arn:aws:cloudformation:us-east-2:043715548265:stack/amplify-liquid-dev-170406/9ebb8eb0-7553-11ec-a557-020a4e309172",
       "AmplifyAppId": "dolpdy24rr4fr"
     },
     "categories": {
+      "video": {
+        "videoservice": {
+          "publicKey": "-----BEGIN PUBLIC KEY-----\\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA42PJXsRrri6DInZ6dWer\\nHkLkAnPuilwcD4lHCG6YqTlLsi2nQsXnWBdrn/sJcMIGHEKgjzFEyVkgiL7tFLOt\\nvMZ2CjNF2ImWm8slwllcLHs3V4ksIFUrzuIsgw8Ihrio11fCMebUB0hpQwNSujg8\\nnpIr4tt4c0oOu7xDXnih8dX2fT5o4kPbJcWwRE3Y5hB97FuvQm5lnyvkLe5XMfd4\\noEr9ZGOWoACCXTo8klMh0lyx7EoEalDjraHnAKAno+0v8YJWxiJe3XpxuekndH2C\\nnYXJjarVK5Cfl+kKMRGYEC8UoVDzaj9Z9qLGkyeP0ZI6ZxWwhWkSlXvt8nGC1Pxm\\njwIDAQAB\\n-----END PUBLIC KEY-----\\n",
+          "rPublicName": "rCloudFrontPublicKeydevp28mu8o3",
+          "publicKeyName": "videoservice-dev-publickey-p28mu8o3",
+          "secretPem": "videoservice-dev-pem-p28mu8o3",
+          "secretPemArn": "arn:aws:secretsmanager:us-east-2:043715548265:secret:videoservice-dev-pem-p28mu8o3-4xRPh8",
+          "s3UUID": "1gwftakym0oz"
+        }
+      },
       "auth": {
-        "liquid": {},
+        "liquid": {
+          "googleClientId": "848408576762-ju4iktt3jdlbfmhohcr2aep0viqg7qgl.apps.googleusercontent.com"
+        },
         "userPoolGroups": {}
       },
       "function": {
         "transcriber": {
-          "deploymentBucketName": "amplify-amplify52b704ef7e9c4-staging-83355-deployment",
-          "s3Key": "amplify-builds/transcriber-45435a574252587a4557-build.zip"
+          "deploymentBucketName": "amplify-liquid-dev-170406-deployment",
+          "s3Key": "amplify-builds/transcriber-694e55386d32682b6f5a-build.zip"
         },
         "transcriptor": {
-          "deploymentBucketName": "amplify-amplify52b704ef7e9c4-staging-83355-deployment",
-          "s3Key": "amplify-builds/transcriptor-4859764c555a346b4e6c-build.zip"
-        }
-      },
-      "video": {
-        "videoservice": {
-          "publicKey": "-----BEGIN PUBLIC KEY-----\\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAllZEulGTDoT6q6txzbTO\\nXrl+gmOc6/3PXNdvDH2i5+hgkoGBTh8BDX+n/tutkFciMLaUWmYb5m67743Ppr4d\\nNZfoipGSsJS6HMH5wf7XOmO8H2QiWSYoDvei2TKK2VjYxW/vn6y8KniZ/rUh9XP5\\n1E5am6BUFnycDk/9r6HK/4AR3gElBf3GFa7fsUcoA+mCNGWy1q7cJ+3JOM6vUrQG\\nx7r/IzVn6W+rMHWRM55wqgQhwCVlLhMtlEANMua8b4iAxJNpZVFC4MXLuBp1KAHn\\nYMklgn+eKouSB91KyUQ5zKDI75q8JwfQ3LkE36Z9Uw+DMp/li1DQqa/viORtndPg\\n3wIDAQAB\\n-----END PUBLIC KEY-----\\n",
-          "rPublicName": "rCloudFrontPublicKeystagingw45shs5x",
-          "publicKeyName": "videoservice-staging-publickey-w45shs5x",
-          "secretPem": "videoservice-staging-pem-w45shs5x",
-          "secretPemArn": "arn:aws:secretsmanager:us-east-2:043715548265:secret:videoservice-staging-pem-w45shs5x-dlLFfZ",
-          "s3UUID": "b6l4sht5"
+          "deploymentBucketName": "amplify-liquid-dev-170406-deployment",
+          "s3Key": "amplify-builds/transcriptor-6f2b4e485866764a4c47-build.zip"
+        },
+        "liquidPostConfirmation": {
+          "deploymentBucketName": "amplify-liquid-dev-170406-deployment",
+          "s3Key": "amplify-builds/liquidPostConfirmation-4b782b6a6f6c65653470-build.zip"
         }
       }
     }

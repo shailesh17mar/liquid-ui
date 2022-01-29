@@ -1,45 +1,35 @@
 {
-    "shared": {
-        "resourceName": "videoservice"
+  "shared": {
+    "resourceName": "videoservice"
+  },
+  "template": {
+    "type": ["HLS"],
+    "name": "Amplify_Video_HLS.json"
+  },
+  "sns": {
+    "createTopic": false
+  },
+  "contentDeliveryNetwork": {
+    "signedKey": true,
+    "functionNameSchema": "videoservice-${env}-tokenGen",
+    "enableDistribution": true
+  },
+  "parameters": {
+    "authRoleName": {
+      "Ref": "AuthRoleName"
     },
-    "template": {
-        "type": [
-            "HLS"
-        ],
-        "name": "Amplify_Video_HLS.json"
+    "GraphQLAPIId": {
+      "Fn::GetAtt": ["apiliquid", "Outputs.GraphQLAPIIdOutput"]
     },
-    "sns": {
-        "createTopic": false
-    },
-    "contentDeliveryNetwork": {
-        "signedKey": true,
-        "functionNameSchema": "videoservice-${env}-tokenGen",
-        "enableDistribution": true
-    },
-    "parameters": {
-        "authRoleName": {
-            "Ref": "AuthRoleName"
-        },
-        "GraphQLAPIId": {
-            "Fn::GetAtt": [
-                "apiliquid",
-                "Outputs.GraphQLAPIIdOutput"
-            ]
-        },
-        "GraphQLEndpoint": {
-            "Fn::GetAtt": [
-                "apiliquid",
-                "Outputs.GraphQLAPIEndpointOutput"
-            ]
-        }
-    },
-    "permissions": {
-        "permissionSchema": [
-            "any"
-        ]
-    },
-    "cms": {
-        "overrideSchema": false,
-        "editAPI": false
+    "GraphQLEndpoint": {
+      "Fn::GetAtt": ["apiliquid", "Outputs.GraphQLAPIEndpointOutput"]
     }
+  },
+  "permissions": {
+    "permissionSchema": ["any"]
+  },
+  "cms": {
+    "overrideSchema": true,
+    "editAPI": true
+  }
 }

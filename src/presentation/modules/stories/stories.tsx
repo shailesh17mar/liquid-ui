@@ -34,6 +34,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Categories, Stories as Story } from "models";
 import { ModelInit } from "@aws-amplify/datastore";
+import {
+  useCategories,
+  useCreateCategory,
+} from "core/modules/categories/hooks";
+import { useCreateStory, useStories } from "core/modules/stories/hooks";
+import { CreateStoriesInput } from "API";
 
 const makeId = htmlIdGenerator();
 
@@ -71,32 +77,14 @@ export const Stories: React.FC<Props> = ({
   const navigate = useNavigate();
   const [isSeeding, setIsSeeding] = useState(false);
   const { user } = useAuth();
-  const queryClient = useQueryClient();
   const { id } = useParams() as { id: string };
-  const { data: categories } = useQuery(["categories", id], async () => {
-    return await categoriesQueryController.getAllByProjectId(id);
+  const { data: categories } = useCategories(id);
+  const categoryMutation = useCreateCategory();
+  const storyMutation = useCreateStory((story: Story) => {
+    navigate(`/stories/${story.id}`);
   });
-  const categoryMutation = useMutation(
-    (category: ModelInit<Categories>) => {
-      return categoryMutationController.createCategory(category);
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["categories", id]);
-      },
-    }
-  );
-  const storyMutation = useMutation(
-    (story: ModelInit<Story>) => {
-      return storyMutationController.createStory(story);
-    },
-    {
-      onSuccess: (story) => {
-        queryClient.invalidateQueries(["categories", id]);
-        navigate(`/stories/${story.id}`);
-      },
-    }
-  );
+  const { data: stories } = useStories(id, categories && categories.length > 0);
+
   useEffect(() => {
     if (!isSeeding && categories && categories.length === 0) {
       categoryMutation.mutate(
@@ -106,16 +94,16 @@ export const Stories: React.FC<Props> = ({
     }
   }, [categories, categoryMutation, id, isSeeding]);
 
-  const { data: stories } = useQuery(
-    ["stories", id],
-    async () => {
-      console.log("fetching stories");
-      return await storiesQueryController.getAllByProjectId(id);
-    },
-    {
-      enabled: categories && categories.length > 0,
-    }
-  );
+  // const { data: stories } = useQuery(
+  //   ["stories", id],
+  //   async () => {
+  //     console.log("fetching stories");
+  //     return await storiesQueryController.getAllByProjectId(id);
+  //   },
+  //   {
+  //     enabled: categories && categories.length > 0,
+  //   }
+  // );
 
   const [list, setList] = useState<Category[]>([
     { id: 1, title: "B2B Interviews" },
@@ -193,14 +181,12 @@ export const Stories: React.FC<Props> = ({
   };
 
   const handleAddStory = (categoryId: string) => {
-    storyMutation.mutate(
-      new Story({
-        title: "Untitled",
-        type: "Unknown",
-        projectsID: id,
-        categoriesID: categoryId,
-      })
-    );
+    storyMutation.mutate({
+      title: "Untitled",
+      type: "Unknown",
+      projectsID: id,
+      categoriesID: categoryId,
+    } as CreateStoriesInput);
     //Make a call to create story and then redirect
   };
   return categories && stories && categories.length > 0 ? (

@@ -2,10 +2,7 @@
   "permissions": {
     "storage": {
       "Transcription:@model(appsync)": [
-        "create",
-        "read",
-        "update",
-        "delete"
+        "update"
       ]
     }
   },

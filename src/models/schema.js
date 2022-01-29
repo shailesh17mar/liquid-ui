@@ -72,7 +72,12 @@ export const schema = {
                     "properties": {
                         "rules": [
                             {
-                                "allow": "public",
+                                "groupClaim": "cognito:groups",
+                                "provider": "userPools",
+                                "allow": "groups",
+                                "groups": [
+                                    "liquid"
+                                ],
                                 "operations": [
                                     "create",
                                     "update",
@@ -138,10 +143,10 @@ export const schema = {
                                     "liquid"
                                 ],
                                 "operations": [
-                                    "read",
                                     "create",
                                     "update",
-                                    "delete"
+                                    "delete",
+                                    "read"
                                 ]
                             }
                         ]
@@ -166,6 +171,13 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "text": {
+                    "name": "text",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "transcriptionID": {
                     "name": "transcriptionID",
                     "isArray": false,
@@ -173,18 +185,18 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "Tags": {
-                    "name": "Tags",
+                "tags": {
+                    "name": "tags",
                     "isArray": true,
                     "type": {
-                        "model": "Tags"
+                        "model": "HighlightTags"
                     },
                     "isRequired": false,
                     "attributes": [],
                     "isArrayNullable": true,
                     "association": {
                         "connectionType": "HAS_MANY",
-                        "associatedWith": "highlightsID"
+                        "associatedWith": "highlights"
                     }
                 },
                 "projectsID": {
@@ -246,10 +258,10 @@ export const schema = {
                                     "liquid"
                                 ],
                                 "operations": [
-                                    "read",
                                     "create",
                                     "update",
-                                    "delete"
+                                    "delete",
+                                    "read"
                                 ]
                             }
                         ]
@@ -281,26 +293,19 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "storiesID": {
-                    "name": "storiesID",
-                    "isArray": false,
-                    "type": "ID",
+                "highlights": {
+                    "name": "highlights",
+                    "isArray": true,
+                    "type": {
+                        "model": "HighlightTags"
+                    },
                     "isRequired": false,
-                    "attributes": []
-                },
-                "transcriptionID": {
-                    "name": "transcriptionID",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "highlightsID": {
-                    "name": "highlightsID",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": "tags"
+                    }
                 },
                 "updatedAt": {
                     "name": "updatedAt",
@@ -334,33 +339,6 @@ export const schema = {
                     }
                 },
                 {
-                    "type": "key",
-                    "properties": {
-                        "name": "byStories",
-                        "fields": [
-                            "storiesID"
-                        ]
-                    }
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "byTranscription",
-                        "fields": [
-                            "transcriptionID"
-                        ]
-                    }
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "byHighlights",
-                        "fields": [
-                            "highlightsID"
-                        ]
-                    }
-                },
-                {
                     "type": "auth",
                     "properties": {
                         "rules": [
@@ -372,10 +350,10 @@ export const schema = {
                                     "liquid"
                                 ],
                                 "operations": [
-                                    "read",
                                     "create",
                                     "update",
-                                    "delete"
+                                    "delete",
+                                    "read"
                                 ]
                             }
                         ]
@@ -428,20 +406,6 @@ export const schema = {
                         "associatedWith": "transcriptionID"
                     }
                 },
-                "Tags": {
-                    "name": "Tags",
-                    "isArray": true,
-                    "type": {
-                        "model": "Tags"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": "transcriptionID"
-                    }
-                },
                 "status": {
                     "name": "status",
                     "isArray": false,
@@ -471,10 +435,10 @@ export const schema = {
                                     "liquid"
                                 ],
                                 "operations": [
-                                    "read",
                                     "create",
                                     "update",
-                                    "delete"
+                                    "delete",
+                                    "read"
                                 ]
                             }
                         ]
@@ -527,20 +491,6 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "tags": {
-                    "name": "tags",
-                    "isArray": true,
-                    "type": {
-                        "model": "Tags"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": "storiesID"
-                    }
-                },
                 "title": {
                     "name": "title",
                     "isArray": false,
@@ -564,7 +514,8 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "association": {
-                        "connectionType": "BELONGS_TO",
+                        "connectionType": "HAS_ONE",
+                        "associatedWith": "id",
                         "targetName": "storiesTranscriptionId"
                     }
                 },
@@ -577,9 +528,24 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "association": {
-                        "connectionType": "BELONGS_TO",
+                        "connectionType": "HAS_ONE",
+                        "associatedWith": "id",
                         "targetName": "storiesParticipantsId"
                     }
+                },
+                "storiesTranscriptionId": {
+                    "name": "storiesTranscriptionId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "storiesParticipantsId": {
+                    "name": "storiesParticipantsId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
                 }
             },
             "syncable": true,
@@ -619,10 +585,10 @@ export const schema = {
                                     "liquid"
                                 ],
                                 "operations": [
-                                    "read",
                                     "create",
                                     "update",
-                                    "delete"
+                                    "delete",
+                                    "read"
                                 ]
                             }
                         ]
@@ -697,10 +663,10 @@ export const schema = {
                                     "liquid"
                                 ],
                                 "operations": [
-                                    "read",
                                     "create",
                                     "update",
-                                    "delete"
+                                    "delete",
+                                    "read"
                                 ]
                             }
                         ]
@@ -836,10 +802,10 @@ export const schema = {
                                     "liquid"
                                 ],
                                 "operations": [
-                                    "read",
                                     "create",
                                     "update",
-                                    "delete"
+                                    "delete",
+                                    "read"
                                 ]
                             }
                         ]
@@ -935,10 +901,10 @@ export const schema = {
                                     "liquid"
                                 ],
                                 "operations": [
-                                    "read",
                                     "create",
                                     "update",
-                                    "delete"
+                                    "delete",
+                                    "read"
                                 ]
                             }
                         ]
@@ -1018,10 +984,10 @@ export const schema = {
                                     "liquid"
                                 ],
                                 "operations": [
-                                    "read",
                                     "create",
                                     "update",
-                                    "delete"
+                                    "delete",
+                                    "read"
                                 ]
                             }
                         ]
@@ -1062,7 +1028,8 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "association": {
-                        "connectionType": "BELONGS_TO",
+                        "connectionType": "HAS_ONE",
+                        "associatedWith": "id",
                         "targetName": "vodAssetTranscriptionId"
                     }
                 },
@@ -1075,9 +1042,24 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "association": {
-                        "connectionType": "BELONGS_TO",
+                        "connectionType": "HAS_ONE",
+                        "associatedWith": "id",
                         "targetName": "vodAssetVideoId"
                     }
+                },
+                "vodAssetTranscriptionId": {
+                    "name": "vodAssetTranscriptionId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "vodAssetVideoId": {
+                    "name": "vodAssetVideoId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
                 }
             },
             "syncable": true,
@@ -1099,13 +1081,13 @@ export const schema = {
                                 "provider": "userPools",
                                 "ownerField": "owner",
                                 "allow": "owner",
+                                "identityClaim": "cognito:username",
                                 "operations": [
                                     "create",
                                     "update",
                                     "delete",
                                     "read"
-                                ],
-                                "identityClaim": "cognito:username"
+                                ]
                             },
                             {
                                 "allow": "private",
@@ -1154,13 +1136,13 @@ export const schema = {
                                 "provider": "userPools",
                                 "ownerField": "owner",
                                 "allow": "owner",
+                                "identityClaim": "cognito:username",
                                 "operations": [
                                     "create",
                                     "update",
                                     "delete",
                                     "read"
-                                ],
-                                "identityClaim": "cognito:username"
+                                ]
                             },
                             {
                                 "allow": "private",
@@ -1173,6 +1155,52 @@ export const schema = {
                             }
                         ]
                     }
+                }
+            ]
+        },
+        "HighlightTags": {
+            "name": "HighlightTags",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "highlights": {
+                    "name": "highlights",
+                    "isArray": false,
+                    "type": {
+                        "model": "Highlights"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetName": "highlightsID"
+                    }
+                },
+                "tags": {
+                    "name": "tags",
+                    "isArray": false,
+                    "type": {
+                        "model": "Tags"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetName": "tagsID"
+                    }
+                }
+            },
+            "syncable": true,
+            "pluralName": "HighlightTags",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
                 }
             ]
         }
@@ -1189,5 +1217,5 @@ export const schema = {
         }
     },
     "nonModels": {},
-    "version": "a36f89e4ab4dbff9a321b8c04e6d312c"
+    "version": "d50ce8398b8d759f231a47a9945c0634"
 };

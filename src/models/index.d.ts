@@ -33,8 +33,9 @@ export declare class Insights {
 export declare class Highlights {
   readonly id: string;
   readonly type: string;
+  readonly text: string;
   readonly transcriptionID: string;
-  readonly Tags?: (Tags | null)[];
+  readonly tags?: (HighlightTags | null)[];
   readonly projectsID: string;
   readonly createdAt: string;
   readonly updatedAt: string;
@@ -46,9 +47,7 @@ export declare class Tags {
   readonly id: string;
   readonly label: string;
   readonly projectsID: string;
-  readonly storiesID?: string;
-  readonly transcriptionID: string;
-  readonly highlightsID: string;
+  readonly highlights?: (HighlightTags | null)[];
   readonly updatedAt: string;
   readonly createdAt?: string;
   constructor(init: ModelInit<Tags>);
@@ -61,7 +60,6 @@ export declare class Transcription {
   readonly transcription?: string;
   readonly content?: string;
   readonly Highlights?: (Highlights | null)[];
-  readonly Tags?: (Tags | null)[];
   readonly status: TranscriptionStatus | keyof typeof TranscriptionStatus;
   constructor(init: ModelInit<Transcription>);
   static copyOf(source: Transcription, mutator: (draft: MutableModel<Transcription>) => MutableModel<Transcription> | void): Transcription;
@@ -74,11 +72,12 @@ export declare class Stories {
   readonly type: string;
   readonly createdAt: string;
   readonly updatedAt: string;
-  readonly tags?: (Tags | null)[];
   readonly title: string;
   readonly content?: string;
   readonly transcription?: Transcription;
   readonly participants?: Persons;
+  readonly storiesTranscriptionId?: string;
+  readonly storiesParticipantsId?: string;
   constructor(init: ModelInit<Stories>);
   static copyOf(source: Stories, mutator: (draft: MutableModel<Stories>) => MutableModel<Stories> | void): Stories;
 }
@@ -137,6 +136,8 @@ export declare class VodAsset {
   readonly description: string;
   readonly transcription?: Transcription;
   readonly video?: VideoObject;
+  readonly vodAssetTranscriptionId?: string;
+  readonly vodAssetVideoId?: string;
   constructor(init: ModelInit<VodAsset>);
   static copyOf(source: VodAsset, mutator: (draft: MutableModel<VodAsset>) => MutableModel<VodAsset> | void): VodAsset;
 }
@@ -146,4 +147,12 @@ export declare class VideoObject {
   readonly token?: string;
   constructor(init: ModelInit<VideoObject>);
   static copyOf(source: VideoObject, mutator: (draft: MutableModel<VideoObject>) => MutableModel<VideoObject> | void): VideoObject;
+}
+
+export declare class HighlightTags {
+  readonly id: string;
+  readonly highlights: Highlights;
+  readonly tags: Tags;
+  constructor(init: ModelInit<HighlightTags>);
+  static copyOf(source: HighlightTags, mutator: (draft: MutableModel<HighlightTags>) => MutableModel<HighlightTags> | void): HighlightTags;
 }

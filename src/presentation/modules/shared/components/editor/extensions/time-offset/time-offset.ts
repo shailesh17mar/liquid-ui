@@ -27,6 +27,7 @@ export const TimeOffset = Mark.create<TimeOffsetOptions>({
   addAttributes() {
     return {
       startTime: {
+        default: "-1",
         parseHTML: (element) => element.getAttribute("data-m"),
         renderHTML: (attributes) => {
           return {
@@ -36,20 +37,50 @@ export const TimeOffset = Mark.create<TimeOffsetOptions>({
         },
       },
       duration: {
-        parseHTML: (element) => element.getAttribute("data-s"),
+        default: "-1",
+        parseHTML: (element) => element.getAttribute("data-d"),
         renderHTML: (attributes) => {
           return {
             ...attributes,
-            "data-s": attributes.duration,
+            "data-d": attributes.duration,
+          };
+        },
+      },
+      confidence: {
+        default: "0",
+        parseHTML: (element) => element.getAttribute("data-confidence"),
+        renderHTML: (attributes) => {
+          return {
+            ...attributes,
+            "data-confidence": attributes.confidence,
           };
         },
       },
       class: {
+        default: "",
         parseHTML: (element) => element.getAttribute("class"),
         renderHTML: (attributes) => {
           return {
             ...attributes,
             class: attributes.class,
+          };
+        },
+      },
+      highlightId: {
+        parseHTML: (element) => element.getAttribute("data-hid"),
+        renderHTML: (attributes) => {
+          return {
+            ...attributes,
+            "data-hid": attributes.highlightId,
+          };
+        },
+      },
+      highlightCategory: {
+        parseHTML: (element) => element.getAttribute("data-hc"),
+        renderHTML: (attributes) => {
+          return {
+            ...attributes,
+            "data-hc": attributes.highlightCategory,
           };
         },
       },

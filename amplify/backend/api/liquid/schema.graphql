@@ -5,7 +5,7 @@ enum TranscriptionStatus {
   FAILED
 }
 
-type Persons @model @auth(rules: [{ allow: public }]) {
+type Persons @model @auth(rules: [{ allow: groups, groups: ["liquid"] }]) {
   id: ID!
   additonalFields: AWSJSON
   name: String
@@ -16,172 +16,80 @@ type Persons @model @auth(rules: [{ allow: public }]) {
   business: AWSJSON
 }
 
-type Insights
-  @model
-  @key(name: "byProjects", fields: ["projectsID"])
-  @auth(
-    rules: [
-      {
-        allow: groups
-        groups: ["liquid"]
-        operations: [read, create, update, delete]
-      }
-    ]
-  ) {
+type Insights @model @auth(rules: [{ allow: groups, groups: ["liquid"] }]) {
   id: ID!
-  projectsID: ID!
+  projectsID: ID! @index(name: "byProjects")
   content: AWSJSON
 }
 
-type Highlights
-  @model
-  @key(name: "byTranscription", fields: ["transcriptionID"])
-  @key(name: "byProjects", fields: ["projectsID"])
-  @auth(
-    rules: [
-      {
-        allow: groups
-        groups: ["liquid"]
-        operations: [read, create, update, delete]
-      }
-    ]
-  ) {
+type Highlights @model @auth(rules: [{ allow: groups, groups: ["liquid"] }]) {
   id: ID!
   type: String!
-  transcriptionID: ID!
-  Tags: [Tags] @connection(keyName: "byHighlights", fields: ["id"])
-  projectsID: ID!
+  text: String!
+  transcriptionID: ID! @index(name: "byTranscription")
+  tags: [Tags] @manyToMany(relationName: "HighlightTags")
+  projectsID: ID! @index(name: "byProjects")
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
 }
 
-type Tags
-  @model
-  @key(name: "byProjects", fields: ["projectsID"])
-  @key(name: "byStories", fields: ["storiesID"])
-  @key(name: "byTranscription", fields: ["transcriptionID"])
-  @key(name: "byHighlights", fields: ["highlightsID"])
-  @auth(
-    rules: [
-      {
-        allow: groups
-        groups: ["liquid"]
-        operations: [read, create, update, delete]
-      }
-    ]
-  ) {
+type Tags @model @auth(rules: [{ allow: groups, groups: ["liquid"] }]) {
   id: ID!
   label: String!
-  projectsID: ID!
-  storiesID: ID
-  transcriptionID: ID!
-  highlightsID: ID!
+  projectsID: ID! @index(name: "byProjects")
+  highlights: [Highlights] @manyToMany(relationName: "HighlightTags")
   updatedAt: AWSDateTime!
   createdAt: AWSDateTime
 }
 
 type Transcription
   @model
-  @auth(
-    rules: [
-      {
-        allow: groups
-        groups: ["liquid"]
-        operations: [read, create, update, delete]
-      }
-    ]
-  ) {
+  @auth(rules: [{ allow: groups, groups: ["liquid"] }]) {
   id: ID!
   video: AWSURL!
   transcription: AWSURL
   content: AWSJSON
   Highlights: [Highlights]
-    @connection(keyName: "byTranscription", fields: ["id"])
-  Tags: [Tags] @connection(keyName: "byTranscription", fields: ["id"])
+    @hasMany(indexName: "byTranscription", fields: ["id"])
   status: TranscriptionStatus!
 }
 
-type Stories
-  @model
-  @key(name: "byCategories", fields: ["categoriesID"])
-  @key(name: "byProjects", fields: ["projectsID"])
-  @auth(
-    rules: [
-      {
-        allow: groups
-        groups: ["liquid"]
-        operations: [read, create, update, delete]
-      }
-    ]
-  ) {
+type Stories @model @auth(rules: [{ allow: groups, groups: ["liquid"] }]) {
   id: ID!
-  categoriesID: ID!
-  projectsID: ID!
+  categoriesID: ID! @index(name: "byCategories")
+  projectsID: ID! @index(name: "byProjects")
   type: String!
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
-  tags: [Tags] @connection(keyName: "byStories", fields: ["id"])
   title: String!
   content: AWSJSON
-  transcription: Transcription @connection
-  participants: Persons @connection
+  transcription: Transcription @hasOne
+  participants: Persons @hasOne
 }
 
-type Categories
-  @model
-  @key(name: "byProjects", fields: ["projectsID"])
-  @auth(
-    rules: [
-      {
-        allow: groups
-        groups: ["liquid"]
-        operations: [read, create, update, delete]
-      }
-    ]
-  ) {
+type Categories @model @auth(rules: [{ allow: groups, groups: ["liquid"] }]) {
   id: ID!
   name: String!
-  projectsID: ID!
-  Stories: [Stories] @connection(keyName: "byCategories", fields: ["id"])
+  projectsID: ID! @index(name: "byProjects")
+  Stories: [Stories] @hasMany(indexName: "byCategories", fields: ["id"])
 }
 
-type Projects
-  @model
-  @auth(
-    rules: [
-      {
-        allow: groups
-        groups: ["liquid"]
-        operations: [read, create, update, delete]
-      }
-    ]
-  ) {
+type Projects @model @auth(rules: [{ allow: groups, groups: ["liquid"] }]) {
   id: ID!
   name: String!
   readme: AWSJSON
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
-  Categories: [Categories] @connection(keyName: "byProjects", fields: ["id"])
-  Stories: [Stories] @connection(keyName: "byProjects", fields: ["id"])
-  Tags: [Tags] @connection(keyName: "byProjects", fields: ["id"])
-  Highlights: [Highlights] @connection(keyName: "byProjects", fields: ["id"])
-  Insights: [Insights] @connection(keyName: "byProjects", fields: ["id"])
+  Categories: [Categories] @hasMany(indexName: "byProjects", fields: ["id"])
+  Stories: [Stories] @hasMany(indexName: "byProjects", fields: ["id"])
+  Tags: [Tags] @hasMany(indexName: "byProjects", fields: ["id"])
+  Highlights: [Highlights] @hasMany(indexName: "byProjects", fields: ["id"])
+  Insights: [Insights] @hasMany(indexName: "byProjects", fields: ["id"])
 }
 
-type Workspaces
-  @model
-  @key(name: "byOrganisations", fields: ["organisationsID"])
-  @auth(
-    rules: [
-      {
-        allow: groups
-        groups: ["liquid"]
-        operations: [read, create, update, delete]
-      }
-    ]
-  ) {
+type Workspaces @model @auth(rules: [{ allow: groups, groups: ["liquid"] }]) {
   id: ID!
-  organisationsID: ID
+  organisationsID: ID @index(name: "byOrganisations")
   name: String!
   color: String
   logo: String
@@ -192,20 +100,12 @@ type Workspaces
 
 type Organisations
   @model
-  @auth(
-    rules: [
-      {
-        allow: groups
-        groups: ["liquid"]
-        operations: [read, create, update, delete]
-      }
-    ]
-  ) {
+  @auth(rules: [{ allow: groups, groups: ["liquid"] }]) {
   id: ID!
   name: String!
   type: String
   Workspaces: [Workspaces]
-    @connection(keyName: "byOrganisations", fields: ["id"])
+    @hasMany(indexName: "byOrganisations", fields: ["id"])
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
 }
@@ -214,33 +114,22 @@ type VodAsset
   @model(subscriptions: { level: public })
   @auth(
     rules: [
-      {
-        allow: owner
-        ownerField: "owner"
-        operations: [create, update, delete, read]
-      }
+      { allow: owner, ownerField: "owner" }
       { allow: private, operations: [create, update, delete, read] }
     ]
   ) {
   id: ID!
   title: String!
   description: String!
-  transcription: Transcription @connection
-
-  #DO NOT EDIT
-  video: VideoObject @connection
+  transcription: Transcription @hasOne
+  video: VideoObject @hasOne
 }
 
-#DO NOT EDIT
 type VideoObject
   @model
   @auth(
     rules: [
-      {
-        allow: owner
-        ownerField: "owner"
-        operations: [create, update, delete, read]
-      }
+      { allow: owner, ownerField: "owner" }
       { allow: private, operations: [create, update, delete, read] }
     ]
   ) {

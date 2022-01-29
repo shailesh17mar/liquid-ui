@@ -46,7 +46,7 @@ export const TranscriptContent = styled(NodeViewContent)`
   }
   // :( 	Angry
   mark[data-color="#f28b82"]:before {
-    /* content: "😡"; */
+    content: "😡";
   }
   // :|	Embarrassed
   mark[data-color="#fdcfe8"]:before {
@@ -85,6 +85,43 @@ export const TranscriptContent = styled(NodeViewContent)`
     content: "♀";
   }
 
+  span[data-hc="excited"] {
+    background: #fbbc04;
+  }
+  span[data-hc="angry"] {
+    background: #f28b82;
+  }
+  span[data-hc="embarrassed"] {
+    background: #fdcfe8;
+  }
+  span[data-hc="pain"] {
+    background: #fff475;
+  }
+  span[data-hc="goal"] {
+    background: #ccff90;
+  }
+  span[data-hc="excited"] {
+    background: #fbbc04;
+  }
+  span[data-hc="obstacle"] {
+    background: #e6c9a8;
+  }
+  span[data-hc="workaround"] {
+    background: #d7aefb;
+  }
+  span[data-hc="context"] {
+    background: #aecbfa;
+  }
+  span[data-hc="money"] {
+    background: #77b477;
+  }
+  span[data-hc="feature"] {
+    background: #e8eaed;
+  }
+  span[data-hc="entity"] {
+    background: #cbf0f8;
+  }
+
   p {
     color: #202124;
     span:first-of-type {
@@ -96,7 +133,7 @@ export const TranscriptContent = styled(NodeViewContent)`
   }
 
   p::selection {
-    background: rgba(0, 102, 255, 0.5);
+    background: rgba(0, 119, 204, 0.1);
   }
 `;
 

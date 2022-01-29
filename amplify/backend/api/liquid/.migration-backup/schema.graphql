@@ -1,0 +1,244 @@
+enum TranscriptionStatus {
+  ENQUEUED
+  COMPLETED
+  INPROGRESS
+  FAILED
+}
+
+type Persons @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  additonalFields: AWSJSON
+  name: String
+  email: AWSEmail
+  persona: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  business: AWSJSON
+}
+
+type Insights
+  @model
+  @key(name: "byProjects", fields: ["projectsID"])
+  @auth(
+    rules: [
+      {
+        allow: groups
+        groups: ["liquid"]
+        operations: [read, create, update, delete]
+      }
+    ]
+  ) {
+  id: ID!
+  projectsID: ID!
+  content: AWSJSON
+}
+
+type Highlights
+  @model
+  @key(name: "byTranscription", fields: ["transcriptionID"])
+  @key(name: "byProjects", fields: ["projectsID"])
+  @auth(
+    rules: [
+      {
+        allow: groups
+        groups: ["liquid"]
+        operations: [read, create, update, delete]
+      }
+    ]
+  ) {
+  id: ID!
+  type: String!
+  text: String!
+  transcriptionID: ID!
+  Tags: [Tags] @connection(keyName: "byHighlights", fields: ["id"])
+  projectsID: ID!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Tags
+  @model
+  @key(name: "byProjects", fields: ["projectsID"])
+  @key(name: "byHighlights", fields: ["highlightsID"])
+  @auth(
+    rules: [
+      {
+        allow: groups
+        groups: ["liquid"]
+        operations: [read, create, update, delete]
+      }
+    ]
+  ) {
+  id: ID!
+  label: String!
+  projectsID: ID!
+  highlightsID: ID!
+  updatedAt: AWSDateTime!
+  createdAt: AWSDateTime
+}
+
+type Transcription
+  @model
+  @auth(
+    rules: [
+      {
+        allow: groups
+        groups: ["liquid"]
+        operations: [read, create, update, delete]
+      }
+    ]
+  ) {
+  id: ID!
+  video: AWSURL!
+  transcription: AWSURL
+  content: AWSJSON
+  Highlights: [Highlights]
+    @connection(keyName: "byTranscription", fields: ["id"])
+  status: TranscriptionStatus!
+}
+
+type Stories
+  @model
+  @key(name: "byCategories", fields: ["categoriesID"])
+  @key(name: "byProjects", fields: ["projectsID"])
+  @auth(
+    rules: [
+      {
+        allow: groups
+        groups: ["liquid"]
+        operations: [read, create, update, delete]
+      }
+    ]
+  ) {
+  id: ID!
+  categoriesID: ID!
+  projectsID: ID!
+  type: String!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  title: String!
+  content: AWSJSON
+  transcription: Transcription @connection
+  participants: Persons @connection
+}
+
+type Categories
+  @model
+  @key(name: "byProjects", fields: ["projectsID"])
+  @auth(
+    rules: [
+      {
+        allow: groups
+        groups: ["liquid"]
+        operations: [read, create, update, delete]
+      }
+    ]
+  ) {
+  id: ID!
+  name: String!
+  projectsID: ID!
+  Stories: [Stories] @connection(keyName: "byCategories", fields: ["id"])
+}
+
+type Projects
+  @model
+  @auth(
+    rules: [
+      {
+        allow: groups
+        groups: ["liquid"]
+        operations: [read, create, update, delete]
+      }
+    ]
+  ) {
+  id: ID!
+  name: String!
+  readme: AWSJSON
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  Categories: [Categories] @connection(keyName: "byProjects", fields: ["id"])
+  Stories: [Stories] @connection(keyName: "byProjects", fields: ["id"])
+  Tags: [Tags] @connection(keyName: "byProjects", fields: ["id"])
+  Highlights: [Highlights] @connection(keyName: "byProjects", fields: ["id"])
+  Insights: [Insights] @connection(keyName: "byProjects", fields: ["id"])
+}
+
+type Workspaces
+  @model
+  @key(name: "byOrganisations", fields: ["organisationsID"])
+  @auth(
+    rules: [
+      {
+        allow: groups
+        groups: ["liquid"]
+        operations: [read, create, update, delete]
+      }
+    ]
+  ) {
+  id: ID!
+  organisationsID: ID
+  name: String!
+  color: String
+  logo: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  personTemplate: AWSJSON
+}
+
+type Organisations
+  @model
+  @auth(
+    rules: [
+      {
+        allow: groups
+        groups: ["liquid"]
+        operations: [read, create, update, delete]
+      }
+    ]
+  ) {
+  id: ID!
+  name: String!
+  type: String
+  Workspaces: [Workspaces]
+    @connection(keyName: "byOrganisations", fields: ["id"])
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type VodAsset
+  @model(subscriptions: { level: public })
+  @auth(
+    rules: [
+      {
+        allow: owner
+        ownerField: "owner"
+        operations: [create, update, delete, read]
+      }
+      { allow: private, operations: [create, update, delete, read] }
+    ]
+  ) {
+  id: ID!
+  title: String!
+  description: String!
+  transcription: Transcription @connection
+
+  #DO NOT EDIT
+  video: VideoObject @connection
+}
+
+#DO NOT EDIT
+type VideoObject
+  @model
+  @auth(
+    rules: [
+      {
+        allow: owner
+        ownerField: "owner"
+        operations: [create, update, delete, read]
+      }
+      { allow: private, operations: [create, update, delete, read] }
+    ]
+  ) {
+  id: ID!
+  token: String @function(name: "videoservice-${env}-tokenGen")
+}

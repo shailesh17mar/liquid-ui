@@ -4,6 +4,7 @@ import {
   markPasteRule,
   mergeAttributes,
 } from "@tiptap/core";
+import "./set-highlight";
 
 export interface HighlightOptions {
   multicolor: boolean;
@@ -28,6 +29,7 @@ declare module "@tiptap/core" {
       toggleHighlight: (attributes?: {
         color: string;
         type: string;
+        id: string;
       }) => ReturnType;
       /**
        * Unset a highlight mark
@@ -108,14 +110,14 @@ export const Highlight = Mark.create<HighlightOptions>({
   parseHTML() {
     return [
       {
-        tag: "mark[id]",
+        tag: "span[id]",
       },
     ];
   },
 
   renderHTML({ HTMLAttributes }) {
     return [
-      "mark",
+      "span",
       mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
       0,
     ];
@@ -126,7 +128,7 @@ export const Highlight = Mark.create<HighlightOptions>({
       setHighlight:
         (attributes) =>
         ({ commands }) => {
-          return commands.setMark(this.name, attributes);
+          return commands.toggleMark(this.name, attributes);
         },
       toggleHighlight:
         (attributes) =>

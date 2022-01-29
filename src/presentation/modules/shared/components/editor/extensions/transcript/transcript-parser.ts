@@ -327,8 +327,8 @@ export function displayTranscript(userJson: any) {
       if (type == "pronunciation") {
         // remove
 
-        text = space + word;
-        // text = space + spanStartTime + word + "</span>";
+        // text = space + word;
+        text = space + spanStartTime + word + "</span>";
       } else if (type == "punctuation") {
         // check if the previous word was also punctuation cause by removing an utterence
 

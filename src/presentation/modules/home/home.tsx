@@ -7,31 +7,26 @@ import {
   EuiPanel,
   EuiTitle,
 } from "@elastic/eui";
-import { DataStore } from "aws-amplify";
 import { ProjectsQueryController } from "core/modules/projects/usecases/project-query-controller";
 import { useState } from "react";
-import { useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
+import { useProjects } from "../projects/hooks";
 import { CreateProjectModal } from "../shared/components/create-project-modal/create-project-modal";
 import { IconContainer, ProjectButton } from "./home.styles";
 
 interface HomeProps {
   controller: ProjectsQueryController;
 }
-export const Home: React.FC<HomeProps> = ({ controller }) => {
+export const Home: React.FC<HomeProps> = () => {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const { data: projects, isLoading } = useQuery("projects", async () => {
-    return await controller.getAll();
-  });
+  const { data: projects, isLoading } = useProjects();
 
   const handleAddProject = () => {
     setIsModalVisible(true);
   };
 
   const handleAddProjectSuccess = (id: string) => {
-    queryClient.invalidateQueries("projects");
     setIsModalVisible(false);
     navigate(`/projects/${id}`);
   };

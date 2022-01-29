@@ -2,22 +2,32 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type CreateInsightsInput = {
+export type CreatePersonsInput = {
   id?: string | null,
-  projectsID: string,
-  content?: string | null,
+  additonalFields?: string | null,
+  name?: string | null,
+  email?: string | null,
+  persona?: string | null,
+  createdAt?: string | null,
+  updatedAt?: string | null,
+  business?: string | null,
   _version?: number | null,
 };
 
-export type ModelInsightsConditionInput = {
-  projectsID?: ModelIDInput | null,
-  content?: ModelStringInput | null,
-  and?: Array< ModelInsightsConditionInput | null > | null,
-  or?: Array< ModelInsightsConditionInput | null > | null,
-  not?: ModelInsightsConditionInput | null,
+export type ModelPersonsConditionInput = {
+  additonalFields?: ModelStringInput | null,
+  name?: ModelStringInput | null,
+  email?: ModelStringInput | null,
+  persona?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  business?: ModelStringInput | null,
+  and?: Array< ModelPersonsConditionInput | null > | null,
+  or?: Array< ModelPersonsConditionInput | null > | null,
+  not?: ModelPersonsConditionInput | null,
 };
 
-export type ModelIDInput = {
+export type ModelStringInput = {
   ne?: string | null,
   eq?: string | null,
   le?: string | null,
@@ -57,7 +67,54 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
-export type ModelStringInput = {
+export type Persons = {
+  __typename: "Persons",
+  id?: string,
+  additonalFields?: string | null,
+  name?: string | null,
+  email?: string | null,
+  persona?: string | null,
+  createdAt?: string,
+  updatedAt?: string,
+  business?: string | null,
+  _version?: number,
+  _deleted?: boolean | null,
+  _lastChangedAt?: number,
+};
+
+export type UpdatePersonsInput = {
+  id: string,
+  additonalFields?: string | null,
+  name?: string | null,
+  email?: string | null,
+  persona?: string | null,
+  createdAt?: string | null,
+  updatedAt?: string | null,
+  business?: string | null,
+  _version?: number | null,
+};
+
+export type DeletePersonsInput = {
+  id: string,
+  _version?: number | null,
+};
+
+export type CreateInsightsInput = {
+  id?: string | null,
+  projectsID: string,
+  content?: string | null,
+  _version?: number | null,
+};
+
+export type ModelInsightsConditionInput = {
+  projectsID?: ModelIDInput | null,
+  content?: ModelStringInput | null,
+  and?: Array< ModelInsightsConditionInput | null > | null,
+  or?: Array< ModelInsightsConditionInput | null > | null,
+  not?: ModelInsightsConditionInput | null,
+};
+
+export type ModelIDInput = {
   ne?: string | null,
   eq?: string | null,
   le?: string | null,
@@ -78,11 +135,11 @@ export type Insights = {
   id?: string,
   projectsID?: string,
   content?: string | null,
+  createdAt?: string,
+  updatedAt?: string,
   _version?: number,
   _deleted?: boolean | null,
   _lastChangedAt?: number,
-  createdAt?: string,
-  updatedAt?: string,
 };
 
 export type UpdateInsightsInput = {
@@ -100,6 +157,7 @@ export type DeleteInsightsInput = {
 export type CreateHighlightsInput = {
   id?: string | null,
   type: string,
+  text: string,
   transcriptionID: string,
   projectsID: string,
   createdAt?: string | null,
@@ -109,6 +167,7 @@ export type CreateHighlightsInput = {
 
 export type ModelHighlightsConditionInput = {
   type?: ModelStringInput | null,
+  text?: ModelStringInput | null,
   transcriptionID?: ModelIDInput | null,
   projectsID?: ModelIDInput | null,
   createdAt?: ModelStringInput | null,
@@ -122,8 +181,9 @@ export type Highlights = {
   __typename: "Highlights",
   id?: string,
   type?: string,
+  text?: string,
   transcriptionID?: string,
-  Tags?: ModelTagsConnection,
+  tags?: ModelHighlightTagsConnection,
   projectsID?: string,
   createdAt?: string,
   updatedAt?: string,
@@ -132,11 +192,25 @@ export type Highlights = {
   _lastChangedAt?: number,
 };
 
-export type ModelTagsConnection = {
-  __typename: "ModelTagsConnection",
-  items?:  Array<Tags | null >,
+export type ModelHighlightTagsConnection = {
+  __typename: "ModelHighlightTagsConnection",
+  items?:  Array<HighlightTags | null >,
   nextToken?: string | null,
   startedAt?: number | null,
+};
+
+export type HighlightTags = {
+  __typename: "HighlightTags",
+  id?: string,
+  highlightsID?: string,
+  tagsID?: string,
+  highlights?: Highlights,
+  tags?: Tags,
+  createdAt?: string,
+  updatedAt?: string,
+  _version?: number,
+  _deleted?: boolean | null,
+  _lastChangedAt?: number,
 };
 
 export type Tags = {
@@ -144,9 +218,7 @@ export type Tags = {
   id?: string,
   label?: string,
   projectsID?: string,
-  storiesID?: string | null,
-  transcriptionID?: string,
-  highlightsID?: string,
+  highlights?: ModelHighlightTagsConnection,
   updatedAt?: string,
   createdAt?: string | null,
   _version?: number,
@@ -157,6 +229,7 @@ export type Tags = {
 export type UpdateHighlightsInput = {
   id: string,
   type?: string | null,
+  text?: string | null,
   transcriptionID?: string | null,
   projectsID?: string | null,
   createdAt?: string | null,
@@ -173,9 +246,6 @@ export type CreateTagsInput = {
   id?: string | null,
   label: string,
   projectsID: string,
-  storiesID?: string | null,
-  transcriptionID: string,
-  highlightsID: string,
   updatedAt?: string | null,
   createdAt?: string | null,
   _version?: number | null,
@@ -184,9 +254,6 @@ export type CreateTagsInput = {
 export type ModelTagsConditionInput = {
   label?: ModelStringInput | null,
   projectsID?: ModelIDInput | null,
-  storiesID?: ModelIDInput | null,
-  transcriptionID?: ModelIDInput | null,
-  highlightsID?: ModelIDInput | null,
   updatedAt?: ModelStringInput | null,
   createdAt?: ModelStringInput | null,
   and?: Array< ModelTagsConditionInput | null > | null,
@@ -198,9 +265,6 @@ export type UpdateTagsInput = {
   id: string,
   label?: string | null,
   projectsID?: string | null,
-  storiesID?: string | null,
-  transcriptionID?: string | null,
-  highlightsID?: string | null,
   updatedAt?: string | null,
   createdAt?: string | null,
   _version?: number | null,
@@ -250,13 +314,12 @@ export type Transcription = {
   transcription?: string | null,
   content?: string | null,
   Highlights?: ModelHighlightsConnection,
-  Tags?: ModelTagsConnection,
   status?: TranscriptionStatus,
+  createdAt?: string,
+  updatedAt?: string,
   _version?: number,
   _deleted?: boolean | null,
   _lastChangedAt?: number,
-  createdAt?: string,
-  updatedAt?: string,
 };
 
 export type ModelHighlightsConnection = {
@@ -305,6 +368,8 @@ export type ModelStoriesConditionInput = {
   and?: Array< ModelStoriesConditionInput | null > | null,
   or?: Array< ModelStoriesConditionInput | null > | null,
   not?: ModelStoriesConditionInput | null,
+  storiesTranscriptionId?: ModelIDInput | null,
+  storiesParticipantsId?: ModelIDInput | null,
 };
 
 export type Stories = {
@@ -315,29 +380,15 @@ export type Stories = {
   type?: string,
   createdAt?: string,
   updatedAt?: string,
-  tags?: ModelTagsConnection,
   title?: string,
   content?: string | null,
   transcription?: Transcription,
-  _version?: number,
-  _deleted?: boolean | null,
-  _lastChangedAt?: number,
   participants?: Persons,
-};
-
-export type Persons = {
-  __typename: "Persons",
-  id?: string,
-  additonalFields?: string | null,
-  name?: string | null,
-  email?: string | null,
-  persona?: string | null,
-  createdAt?: string,
-  updatedAt?: string,
-  business?: string | null,
   _version?: number,
   _deleted?: boolean | null,
   _lastChangedAt?: number,
+  storiesTranscriptionId?: string | null,
+  storiesParticipantsId?: string | null,
 };
 
 export type UpdateStoriesInput = {
@@ -380,11 +431,11 @@ export type Categories = {
   name?: string,
   projectsID?: string,
   Stories?: ModelStoriesConnection,
+  createdAt?: string,
+  updatedAt?: string,
   _version?: number,
   _deleted?: boolean | null,
   _lastChangedAt?: number,
-  createdAt?: string,
-  updatedAt?: string,
 };
 
 export type ModelStoriesConnection = {
@@ -445,6 +496,13 @@ export type Projects = {
 export type ModelCategoriesConnection = {
   __typename: "ModelCategoriesConnection",
   items?:  Array<Categories | null >,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
+export type ModelTagsConnection = {
+  __typename: "ModelTagsConnection",
+  items?:  Array<Tags | null >,
   nextToken?: string | null,
   startedAt?: number | null,
 };
@@ -595,6 +653,8 @@ export type ModelVodAssetConditionInput = {
   and?: Array< ModelVodAssetConditionInput | null > | null,
   or?: Array< ModelVodAssetConditionInput | null > | null,
   not?: ModelVodAssetConditionInput | null,
+  vodAssetTranscriptionId?: ModelIDInput | null,
+  vodAssetVideoId?: ModelIDInput | null,
 };
 
 export type VodAsset = {
@@ -604,22 +664,26 @@ export type VodAsset = {
   description?: string,
   transcription?: Transcription,
   video?: VideoObject,
+  createdAt?: string,
+  updatedAt?: string,
   _version?: number,
   _deleted?: boolean | null,
   _lastChangedAt?: number,
-  createdAt?: string,
-  updatedAt?: string,
+  vodAssetTranscriptionId?: string | null,
+  vodAssetVideoId?: string | null,
+  owner?: string | null,
 };
 
 export type VideoObject = {
   __typename: "VideoObject",
   id?: string,
   token?: string | null,
+  createdAt?: string,
+  updatedAt?: string,
   _version?: number,
   _deleted?: boolean | null,
   _lastChangedAt?: number,
-  createdAt?: string,
-  updatedAt?: string,
+  owner?: string | null,
 };
 
 export type UpdateVodAssetInput = {
@@ -660,19 +724,35 @@ export type DeleteVideoObjectInput = {
   _version?: number | null,
 };
 
-export type CreatePersonsInput = {
+export type CreateHighlightTagsInput = {
   id?: string | null,
-  additonalFields?: string | null,
-  name?: string | null,
-  email?: string | null,
-  persona?: string | null,
-  createdAt?: string | null,
-  updatedAt?: string | null,
-  business?: string | null,
+  highlightsID: string,
+  tagsID: string,
   _version?: number | null,
 };
 
-export type ModelPersonsConditionInput = {
+export type ModelHighlightTagsConditionInput = {
+  highlightsID?: ModelIDInput | null,
+  tagsID?: ModelIDInput | null,
+  and?: Array< ModelHighlightTagsConditionInput | null > | null,
+  or?: Array< ModelHighlightTagsConditionInput | null > | null,
+  not?: ModelHighlightTagsConditionInput | null,
+};
+
+export type UpdateHighlightTagsInput = {
+  id: string,
+  highlightsID?: string | null,
+  tagsID?: string | null,
+  _version?: number | null,
+};
+
+export type DeleteHighlightTagsInput = {
+  id: string,
+  _version?: number | null,
+};
+
+export type ModelPersonsFilterInput = {
+  id?: ModelIDInput | null,
   additonalFields?: ModelStringInput | null,
   name?: ModelStringInput | null,
   email?: ModelStringInput | null,
@@ -680,26 +760,16 @@ export type ModelPersonsConditionInput = {
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
   business?: ModelStringInput | null,
-  and?: Array< ModelPersonsConditionInput | null > | null,
-  or?: Array< ModelPersonsConditionInput | null > | null,
-  not?: ModelPersonsConditionInput | null,
+  and?: Array< ModelPersonsFilterInput | null > | null,
+  or?: Array< ModelPersonsFilterInput | null > | null,
+  not?: ModelPersonsFilterInput | null,
 };
 
-export type UpdatePersonsInput = {
-  id: string,
-  additonalFields?: string | null,
-  name?: string | null,
-  email?: string | null,
-  persona?: string | null,
-  createdAt?: string | null,
-  updatedAt?: string | null,
-  business?: string | null,
-  _version?: number | null,
-};
-
-export type DeletePersonsInput = {
-  id: string,
-  _version?: number | null,
+export type ModelPersonsConnection = {
+  __typename: "ModelPersonsConnection",
+  items?:  Array<Persons | null >,
+  nextToken?: string | null,
+  startedAt?: number | null,
 };
 
 export type ModelInsightsFilterInput = {
@@ -714,6 +784,7 @@ export type ModelInsightsFilterInput = {
 export type ModelHighlightsFilterInput = {
   id?: ModelIDInput | null,
   type?: ModelStringInput | null,
+  text?: ModelStringInput | null,
   transcriptionID?: ModelIDInput | null,
   projectsID?: ModelIDInput | null,
   createdAt?: ModelStringInput | null,
@@ -727,9 +798,6 @@ export type ModelTagsFilterInput = {
   id?: ModelIDInput | null,
   label?: ModelStringInput | null,
   projectsID?: ModelIDInput | null,
-  storiesID?: ModelIDInput | null,
-  transcriptionID?: ModelIDInput | null,
-  highlightsID?: ModelIDInput | null,
   updatedAt?: ModelStringInput | null,
   createdAt?: ModelStringInput | null,
   and?: Array< ModelTagsFilterInput | null > | null,
@@ -767,6 +835,8 @@ export type ModelStoriesFilterInput = {
   and?: Array< ModelStoriesFilterInput | null > | null,
   or?: Array< ModelStoriesFilterInput | null > | null,
   not?: ModelStoriesFilterInput | null,
+  storiesTranscriptionId?: ModelIDInput | null,
+  storiesParticipantsId?: ModelIDInput | null,
 };
 
 export type ModelCategoriesFilterInput = {
@@ -835,6 +905,8 @@ export type ModelVodAssetFilterInput = {
   and?: Array< ModelVodAssetFilterInput | null > | null,
   or?: Array< ModelVodAssetFilterInput | null > | null,
   not?: ModelVodAssetFilterInput | null,
+  vodAssetTranscriptionId?: ModelIDInput | null,
+  vodAssetVideoId?: ModelIDInput | null,
 };
 
 export type ModelVodAssetConnection = {
@@ -859,25 +931,79 @@ export type ModelVideoObjectConnection = {
   startedAt?: number | null,
 };
 
-export type ModelPersonsFilterInput = {
+export type ModelHighlightTagsFilterInput = {
   id?: ModelIDInput | null,
-  additonalFields?: ModelStringInput | null,
-  name?: ModelStringInput | null,
-  email?: ModelStringInput | null,
-  persona?: ModelStringInput | null,
-  createdAt?: ModelStringInput | null,
-  updatedAt?: ModelStringInput | null,
-  business?: ModelStringInput | null,
-  and?: Array< ModelPersonsFilterInput | null > | null,
-  or?: Array< ModelPersonsFilterInput | null > | null,
-  not?: ModelPersonsFilterInput | null,
+  highlightsID?: ModelIDInput | null,
+  tagsID?: ModelIDInput | null,
+  and?: Array< ModelHighlightTagsFilterInput | null > | null,
+  or?: Array< ModelHighlightTagsFilterInput | null > | null,
+  not?: ModelHighlightTagsFilterInput | null,
 };
 
-export type ModelPersonsConnection = {
-  __typename: "ModelPersonsConnection",
-  items?:  Array<Persons | null >,
-  nextToken?: string | null,
-  startedAt?: number | null,
+export type CreatePersonsMutationVariables = {
+  input?: CreatePersonsInput,
+  condition?: ModelPersonsConditionInput | null,
+};
+
+export type CreatePersonsMutation = {
+  createPersons?:  {
+    __typename: "Persons",
+    id: string,
+    additonalFields?: string | null,
+    name?: string | null,
+    email?: string | null,
+    persona?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    business?: string | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type UpdatePersonsMutationVariables = {
+  input?: UpdatePersonsInput,
+  condition?: ModelPersonsConditionInput | null,
+};
+
+export type UpdatePersonsMutation = {
+  updatePersons?:  {
+    __typename: "Persons",
+    id: string,
+    additonalFields?: string | null,
+    name?: string | null,
+    email?: string | null,
+    persona?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    business?: string | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type DeletePersonsMutationVariables = {
+  input?: DeletePersonsInput,
+  condition?: ModelPersonsConditionInput | null,
+};
+
+export type DeletePersonsMutation = {
+  deletePersons?:  {
+    __typename: "Persons",
+    id: string,
+    additonalFields?: string | null,
+    name?: string | null,
+    email?: string | null,
+    persona?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    business?: string | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
 };
 
 export type CreateInsightsMutationVariables = {
@@ -891,11 +1017,11 @@ export type CreateInsightsMutation = {
     id: string,
     projectsID: string,
     content?: string | null,
+    createdAt: string,
+    updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -910,11 +1036,11 @@ export type UpdateInsightsMutation = {
     id: string,
     projectsID: string,
     content?: string | null,
+    createdAt: string,
+    updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -929,11 +1055,11 @@ export type DeleteInsightsMutation = {
     id: string,
     projectsID: string,
     content?: string | null,
+    createdAt: string,
+    updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -947,9 +1073,10 @@ export type CreateHighlightsMutation = {
     __typename: "Highlights",
     id: string,
     type: string,
+    text: string,
     transcriptionID: string,
-    Tags?:  {
-      __typename: "ModelTagsConnection",
+    tags?:  {
+      __typename: "ModelHighlightTagsConnection",
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
@@ -972,9 +1099,10 @@ export type UpdateHighlightsMutation = {
     __typename: "Highlights",
     id: string,
     type: string,
+    text: string,
     transcriptionID: string,
-    Tags?:  {
-      __typename: "ModelTagsConnection",
+    tags?:  {
+      __typename: "ModelHighlightTagsConnection",
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
@@ -997,9 +1125,10 @@ export type DeleteHighlightsMutation = {
     __typename: "Highlights",
     id: string,
     type: string,
+    text: string,
     transcriptionID: string,
-    Tags?:  {
-      __typename: "ModelTagsConnection",
+    tags?:  {
+      __typename: "ModelHighlightTagsConnection",
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
@@ -1023,9 +1152,11 @@ export type CreateTagsMutation = {
     id: string,
     label: string,
     projectsID: string,
-    storiesID?: string | null,
-    transcriptionID: string,
-    highlightsID: string,
+    highlights?:  {
+      __typename: "ModelHighlightTagsConnection",
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
     updatedAt: string,
     createdAt?: string | null,
     _version: number,
@@ -1045,9 +1176,11 @@ export type UpdateTagsMutation = {
     id: string,
     label: string,
     projectsID: string,
-    storiesID?: string | null,
-    transcriptionID: string,
-    highlightsID: string,
+    highlights?:  {
+      __typename: "ModelHighlightTagsConnection",
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
     updatedAt: string,
     createdAt?: string | null,
     _version: number,
@@ -1067,9 +1200,11 @@ export type DeleteTagsMutation = {
     id: string,
     label: string,
     projectsID: string,
-    storiesID?: string | null,
-    transcriptionID: string,
-    highlightsID: string,
+    highlights?:  {
+      __typename: "ModelHighlightTagsConnection",
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
     updatedAt: string,
     createdAt?: string | null,
     _version: number,
@@ -1095,17 +1230,12 @@ export type CreateTranscriptionMutation = {
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
-    Tags?:  {
-      __typename: "ModelTagsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     status: TranscriptionStatus,
+    createdAt: string,
+    updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -1126,17 +1256,12 @@ export type UpdateTranscriptionMutation = {
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
-    Tags?:  {
-      __typename: "ModelTagsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     status: TranscriptionStatus,
+    createdAt: string,
+    updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -1157,17 +1282,12 @@ export type DeleteTranscriptionMutation = {
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
-    Tags?:  {
-      __typename: "ModelTagsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     status: TranscriptionStatus,
+    createdAt: string,
+    updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -1185,11 +1305,6 @@ export type CreateStoriesMutation = {
     type: string,
     createdAt: string,
     updatedAt: string,
-    tags?:  {
-      __typename: "ModelTagsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     title: string,
     content?: string | null,
     transcription?:  {
@@ -1199,15 +1314,12 @@ export type CreateStoriesMutation = {
       transcription?: string | null,
       content?: string | null,
       status: TranscriptionStatus,
+      createdAt: string,
+      updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
     } | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
     participants?:  {
       __typename: "Persons",
       id: string,
@@ -1222,6 +1334,11 @@ export type CreateStoriesMutation = {
       _deleted?: boolean | null,
       _lastChangedAt: number,
     } | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    storiesTranscriptionId?: string | null,
+    storiesParticipantsId?: string | null,
   } | null,
 };
 
@@ -1239,11 +1356,6 @@ export type UpdateStoriesMutation = {
     type: string,
     createdAt: string,
     updatedAt: string,
-    tags?:  {
-      __typename: "ModelTagsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     title: string,
     content?: string | null,
     transcription?:  {
@@ -1253,15 +1365,12 @@ export type UpdateStoriesMutation = {
       transcription?: string | null,
       content?: string | null,
       status: TranscriptionStatus,
+      createdAt: string,
+      updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
     } | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
     participants?:  {
       __typename: "Persons",
       id: string,
@@ -1276,6 +1385,11 @@ export type UpdateStoriesMutation = {
       _deleted?: boolean | null,
       _lastChangedAt: number,
     } | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    storiesTranscriptionId?: string | null,
+    storiesParticipantsId?: string | null,
   } | null,
 };
 
@@ -1293,11 +1407,6 @@ export type DeleteStoriesMutation = {
     type: string,
     createdAt: string,
     updatedAt: string,
-    tags?:  {
-      __typename: "ModelTagsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     title: string,
     content?: string | null,
     transcription?:  {
@@ -1307,15 +1416,12 @@ export type DeleteStoriesMutation = {
       transcription?: string | null,
       content?: string | null,
       status: TranscriptionStatus,
+      createdAt: string,
+      updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
     } | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
     participants?:  {
       __typename: "Persons",
       id: string,
@@ -1330,6 +1436,11 @@ export type DeleteStoriesMutation = {
       _deleted?: boolean | null,
       _lastChangedAt: number,
     } | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    storiesTranscriptionId?: string | null,
+    storiesParticipantsId?: string | null,
   } | null,
 };
 
@@ -1349,11 +1460,11 @@ export type CreateCategoriesMutation = {
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
+    createdAt: string,
+    updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -1373,11 +1484,11 @@ export type UpdateCategoriesMutation = {
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
+    createdAt: string,
+    updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -1397,11 +1508,11 @@ export type DeleteCategoriesMutation = {
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
+    createdAt: string,
+    updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -1693,27 +1804,31 @@ export type CreateVodAssetMutation = {
       transcription?: string | null,
       content?: string | null,
       status: TranscriptionStatus,
+      createdAt: string,
+      updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
     } | null,
     video?:  {
       __typename: "VideoObject",
       id: string,
       token?: string | null,
+      createdAt: string,
+      updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
+      owner?: string | null,
     } | null,
+    createdAt: string,
+    updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
+    vodAssetTranscriptionId?: string | null,
+    vodAssetVideoId?: string | null,
+    owner?: string | null,
   } | null,
 };
 
@@ -1735,27 +1850,31 @@ export type UpdateVodAssetMutation = {
       transcription?: string | null,
       content?: string | null,
       status: TranscriptionStatus,
+      createdAt: string,
+      updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
     } | null,
     video?:  {
       __typename: "VideoObject",
       id: string,
       token?: string | null,
+      createdAt: string,
+      updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
+      owner?: string | null,
     } | null,
+    createdAt: string,
+    updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
+    vodAssetTranscriptionId?: string | null,
+    vodAssetVideoId?: string | null,
+    owner?: string | null,
   } | null,
 };
 
@@ -1777,27 +1896,31 @@ export type DeleteVodAssetMutation = {
       transcription?: string | null,
       content?: string | null,
       status: TranscriptionStatus,
+      createdAt: string,
+      updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
     } | null,
     video?:  {
       __typename: "VideoObject",
       id: string,
       token?: string | null,
+      createdAt: string,
+      updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
+      owner?: string | null,
     } | null,
+    createdAt: string,
+    updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
+    vodAssetTranscriptionId?: string | null,
+    vodAssetVideoId?: string | null,
+    owner?: string | null,
   } | null,
 };
 
@@ -1811,11 +1934,12 @@ export type CreateVideoObjectMutation = {
     __typename: "VideoObject",
     id: string,
     token?: string | null,
+    createdAt: string,
+    updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 
@@ -1829,11 +1953,12 @@ export type UpdateVideoObjectMutation = {
     __typename: "VideoObject",
     id: string,
     token?: string | null,
+    createdAt: string,
+    updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 
@@ -1847,21 +1972,150 @@ export type DeleteVideoObjectMutation = {
     __typename: "VideoObject",
     id: string,
     token?: string | null,
+    createdAt: string,
+    updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 
-export type CreatePersonsMutationVariables = {
-  input?: CreatePersonsInput,
-  condition?: ModelPersonsConditionInput | null,
+export type CreateHighlightTagsMutationVariables = {
+  input?: CreateHighlightTagsInput,
+  condition?: ModelHighlightTagsConditionInput | null,
 };
 
-export type CreatePersonsMutation = {
-  createPersons?:  {
+export type CreateHighlightTagsMutation = {
+  createHighlightTags?:  {
+    __typename: "HighlightTags",
+    id: string,
+    highlightsID: string,
+    tagsID: string,
+    highlights:  {
+      __typename: "Highlights",
+      id: string,
+      type: string,
+      text: string,
+      transcriptionID: string,
+      projectsID: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    },
+    tags:  {
+      __typename: "Tags",
+      id: string,
+      label: string,
+      projectsID: string,
+      updatedAt: string,
+      createdAt?: string | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    },
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type UpdateHighlightTagsMutationVariables = {
+  input?: UpdateHighlightTagsInput,
+  condition?: ModelHighlightTagsConditionInput | null,
+};
+
+export type UpdateHighlightTagsMutation = {
+  updateHighlightTags?:  {
+    __typename: "HighlightTags",
+    id: string,
+    highlightsID: string,
+    tagsID: string,
+    highlights:  {
+      __typename: "Highlights",
+      id: string,
+      type: string,
+      text: string,
+      transcriptionID: string,
+      projectsID: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    },
+    tags:  {
+      __typename: "Tags",
+      id: string,
+      label: string,
+      projectsID: string,
+      updatedAt: string,
+      createdAt?: string | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    },
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type DeleteHighlightTagsMutationVariables = {
+  input?: DeleteHighlightTagsInput,
+  condition?: ModelHighlightTagsConditionInput | null,
+};
+
+export type DeleteHighlightTagsMutation = {
+  deleteHighlightTags?:  {
+    __typename: "HighlightTags",
+    id: string,
+    highlightsID: string,
+    tagsID: string,
+    highlights:  {
+      __typename: "Highlights",
+      id: string,
+      type: string,
+      text: string,
+      transcriptionID: string,
+      projectsID: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    },
+    tags:  {
+      __typename: "Tags",
+      id: string,
+      label: string,
+      projectsID: string,
+      updatedAt: string,
+      createdAt?: string | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    },
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type GetPersonsQueryVariables = {
+  id?: string,
+};
+
+export type GetPersonsQuery = {
+  getPersons?:  {
     __typename: "Persons",
     id: string,
     additonalFields?: string | null,
@@ -1877,47 +2131,103 @@ export type CreatePersonsMutation = {
   } | null,
 };
 
-export type UpdatePersonsMutationVariables = {
-  input?: UpdatePersonsInput,
-  condition?: ModelPersonsConditionInput | null,
+export type ListPersonsQueryVariables = {
+  filter?: ModelPersonsFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
 };
 
-export type UpdatePersonsMutation = {
-  updatePersons?:  {
-    __typename: "Persons",
+export type ListPersonsQuery = {
+  listPersons?:  {
+    __typename: "ModelPersonsConnection",
+    items:  Array< {
+      __typename: "Persons",
+      id: string,
+      additonalFields?: string | null,
+      name?: string | null,
+      email?: string | null,
+      persona?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      business?: string | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type SyncPersonsQueryVariables = {
+  filter?: ModelPersonsFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
+};
+
+export type SyncPersonsQuery = {
+  syncPersons?:  {
+    __typename: "ModelPersonsConnection",
+    items:  Array< {
+      __typename: "Persons",
+      id: string,
+      additonalFields?: string | null,
+      name?: string | null,
+      email?: string | null,
+      persona?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      business?: string | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type GetInsightsQueryVariables = {
+  id?: string,
+};
+
+export type GetInsightsQuery = {
+  getInsights?:  {
+    __typename: "Insights",
     id: string,
-    additonalFields?: string | null,
-    name?: string | null,
-    email?: string | null,
-    persona?: string | null,
+    projectsID: string,
+    content?: string | null,
     createdAt: string,
     updatedAt: string,
-    business?: string | null,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
   } | null,
 };
 
-export type DeletePersonsMutationVariables = {
-  input?: DeletePersonsInput,
-  condition?: ModelPersonsConditionInput | null,
+export type ListInsightsQueryVariables = {
+  filter?: ModelInsightsFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
 };
 
-export type DeletePersonsMutation = {
-  deletePersons?:  {
-    __typename: "Persons",
-    id: string,
-    additonalFields?: string | null,
-    name?: string | null,
-    email?: string | null,
-    persona?: string | null,
-    createdAt: string,
-    updatedAt: string,
-    business?: string | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
+export type ListInsightsQuery = {
+  listInsights?:  {
+    __typename: "ModelInsightsConnection",
+    items:  Array< {
+      __typename: "Insights",
+      id: string,
+      projectsID: string,
+      content?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
   } | null,
 };
 
@@ -1936,76 +2246,6 @@ export type SyncInsightsQuery = {
       id: string,
       projectsID: string,
       content?: string | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type GetInsightsQueryVariables = {
-  id?: string,
-};
-
-export type GetInsightsQuery = {
-  getInsights?:  {
-    __typename: "Insights",
-    id: string,
-    projectsID: string,
-    content?: string | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type ListInsightssQueryVariables = {
-  filter?: ModelInsightsFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListInsightssQuery = {
-  listInsightss?:  {
-    __typename: "ModelInsightsConnection",
-    items:  Array< {
-      __typename: "Insights",
-      id: string,
-      projectsID: string,
-      content?: string | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type SyncHighlightsQueryVariables = {
-  filter?: ModelHighlightsFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  lastSync?: number | null,
-};
-
-export type SyncHighlightsQuery = {
-  syncHighlights?:  {
-    __typename: "ModelHighlightsConnection",
-    items:  Array< {
-      __typename: "Highlights",
-      id: string,
-      type: string,
-      transcriptionID: string,
-      projectsID: string,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -2026,9 +2266,10 @@ export type GetHighlightsQuery = {
     __typename: "Highlights",
     id: string,
     type: string,
+    text: string,
     transcriptionID: string,
-    Tags?:  {
-      __typename: "ModelTagsConnection",
+    tags?:  {
+      __typename: "ModelHighlightTagsConnection",
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
@@ -2041,23 +2282,100 @@ export type GetHighlightsQuery = {
   } | null,
 };
 
-export type ListHighlightssQueryVariables = {
+export type ListHighlightsQueryVariables = {
   filter?: ModelHighlightsFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListHighlightssQuery = {
-  listHighlightss?:  {
+export type ListHighlightsQuery = {
+  listHighlights?:  {
     __typename: "ModelHighlightsConnection",
     items:  Array< {
       __typename: "Highlights",
       id: string,
       type: string,
+      text: string,
       transcriptionID: string,
       projectsID: string,
       createdAt: string,
       updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type SyncHighlightsQueryVariables = {
+  filter?: ModelHighlightsFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
+};
+
+export type SyncHighlightsQuery = {
+  syncHighlights?:  {
+    __typename: "ModelHighlightsConnection",
+    items:  Array< {
+      __typename: "Highlights",
+      id: string,
+      type: string,
+      text: string,
+      transcriptionID: string,
+      projectsID: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type GetTagsQueryVariables = {
+  id?: string,
+};
+
+export type GetTagsQuery = {
+  getTags?:  {
+    __typename: "Tags",
+    id: string,
+    label: string,
+    projectsID: string,
+    highlights?:  {
+      __typename: "ModelHighlightTagsConnection",
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    updatedAt: string,
+    createdAt?: string | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type ListTagsQueryVariables = {
+  filter?: ModelTagsFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListTagsQuery = {
+  listTags?:  {
+    __typename: "ModelTagsConnection",
+    items:  Array< {
+      __typename: "Tags",
+      id: string,
+      label: string,
+      projectsID: string,
+      updatedAt: string,
+      createdAt?: string | null,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
@@ -2082,9 +2400,6 @@ export type SyncTagsQuery = {
       id: string,
       label: string,
       projectsID: string,
-      storiesID?: string | null,
-      transcriptionID: string,
-      highlightsID: string,
       updatedAt: string,
       createdAt?: string | null,
       _version: number,
@@ -2096,46 +2411,49 @@ export type SyncTagsQuery = {
   } | null,
 };
 
-export type GetTagsQueryVariables = {
+export type GetTranscriptionQueryVariables = {
   id?: string,
 };
 
-export type GetTagsQuery = {
-  getTags?:  {
-    __typename: "Tags",
+export type GetTranscriptionQuery = {
+  getTranscription?:  {
+    __typename: "Transcription",
     id: string,
-    label: string,
-    projectsID: string,
-    storiesID?: string | null,
-    transcriptionID: string,
-    highlightsID: string,
+    video: string,
+    transcription?: string | null,
+    content?: string | null,
+    Highlights?:  {
+      __typename: "ModelHighlightsConnection",
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    status: TranscriptionStatus,
+    createdAt: string,
     updatedAt: string,
-    createdAt?: string | null,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
   } | null,
 };
 
-export type ListTagssQueryVariables = {
-  filter?: ModelTagsFilterInput | null,
+export type ListTranscriptionsQueryVariables = {
+  filter?: ModelTranscriptionFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListTagssQuery = {
-  listTagss?:  {
-    __typename: "ModelTagsConnection",
+export type ListTranscriptionsQuery = {
+  listTranscriptions?:  {
+    __typename: "ModelTranscriptionConnection",
     items:  Array< {
-      __typename: "Tags",
+      __typename: "Transcription",
       id: string,
-      label: string,
-      projectsID: string,
-      storiesID?: string | null,
-      transcriptionID: string,
-      highlightsID: string,
+      video: string,
+      transcription?: string | null,
+      content?: string | null,
+      status: TranscriptionStatus,
+      createdAt: string,
       updatedAt: string,
-      createdAt?: string | null,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
@@ -2162,68 +2480,91 @@ export type SyncTranscriptionsQuery = {
       transcription?: string | null,
       content?: string | null,
       status: TranscriptionStatus,
+      createdAt: string,
+      updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
     } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
   } | null,
 };
 
-export type GetTranscriptionQueryVariables = {
+export type GetStoriesQueryVariables = {
   id?: string,
 };
 
-export type GetTranscriptionQuery = {
-  getTranscription?:  {
-    __typename: "Transcription",
+export type GetStoriesQuery = {
+  getStories?:  {
+    __typename: "Stories",
     id: string,
-    video: string,
-    transcription?: string | null,
-    content?: string | null,
-    Highlights?:  {
-      __typename: "ModelHighlightsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
-    Tags?:  {
-      __typename: "ModelTagsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
-    status: TranscriptionStatus,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
+    categoriesID: string,
+    projectsID: string,
+    type: string,
     createdAt: string,
     updatedAt: string,
-  } | null,
-};
-
-export type ListTranscriptionsQueryVariables = {
-  filter?: ModelTranscriptionFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListTranscriptionsQuery = {
-  listTranscriptions?:  {
-    __typename: "ModelTranscriptionConnection",
-    items:  Array< {
+    title: string,
+    content?: string | null,
+    transcription?:  {
       __typename: "Transcription",
       id: string,
       video: string,
       transcription?: string | null,
       content?: string | null,
       status: TranscriptionStatus,
+      createdAt: string,
+      updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
+    } | null,
+    participants?:  {
+      __typename: "Persons",
+      id: string,
+      additonalFields?: string | null,
+      name?: string | null,
+      email?: string | null,
+      persona?: string | null,
       createdAt: string,
       updatedAt: string,
+      business?: string | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    storiesTranscriptionId?: string | null,
+    storiesParticipantsId?: string | null,
+  } | null,
+};
+
+export type ListStoriesQueryVariables = {
+  filter?: ModelStoriesFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListStoriesQuery = {
+  listStories?:  {
+    __typename: "ModelStoriesConnection",
+    items:  Array< {
+      __typename: "Stories",
+      id: string,
+      categoriesID: string,
+      projectsID: string,
+      type: string,
+      createdAt: string,
+      updatedAt: string,
+      title: string,
+      content?: string | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      storiesTranscriptionId?: string | null,
+      storiesParticipantsId?: string | null,
     } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
@@ -2253,84 +2594,53 @@ export type SyncStoriesQuery = {
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
+      storiesTranscriptionId?: string | null,
+      storiesParticipantsId?: string | null,
     } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
   } | null,
 };
 
-export type GetStoriesQueryVariables = {
+export type GetCategoriesQueryVariables = {
   id?: string,
 };
 
-export type GetStoriesQuery = {
-  getStories?:  {
-    __typename: "Stories",
+export type GetCategoriesQuery = {
+  getCategories?:  {
+    __typename: "Categories",
     id: string,
-    categoriesID: string,
+    name: string,
     projectsID: string,
-    type: string,
-    createdAt: string,
-    updatedAt: string,
-    tags?:  {
-      __typename: "ModelTagsConnection",
+    Stories?:  {
+      __typename: "ModelStoriesConnection",
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
-    title: string,
-    content?: string | null,
-    transcription?:  {
-      __typename: "Transcription",
-      id: string,
-      video: string,
-      transcription?: string | null,
-      content?: string | null,
-      status: TranscriptionStatus,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
+    createdAt: string,
+    updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    participants?:  {
-      __typename: "Persons",
-      id: string,
-      additonalFields?: string | null,
-      name?: string | null,
-      email?: string | null,
-      persona?: string | null,
-      createdAt: string,
-      updatedAt: string,
-      business?: string | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null,
   } | null,
 };
 
-export type ListStoriessQueryVariables = {
-  filter?: ModelStoriesFilterInput | null,
+export type ListCategoriesQueryVariables = {
+  filter?: ModelCategoriesFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListStoriessQuery = {
-  listStoriess?:  {
-    __typename: "ModelStoriesConnection",
+export type ListCategoriesQuery = {
+  listCategories?:  {
+    __typename: "ModelCategoriesConnection",
     items:  Array< {
-      __typename: "Stories",
+      __typename: "Categories",
       id: string,
-      categoriesID: string,
+      name: string,
       projectsID: string,
-      type: string,
       createdAt: string,
       updatedAt: string,
-      title: string,
-      content?: string | null,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
@@ -2355,80 +2665,6 @@ export type SyncCategoriesQuery = {
       id: string,
       name: string,
       projectsID: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type GetCategoriesQueryVariables = {
-  id?: string,
-};
-
-export type GetCategoriesQuery = {
-  getCategories?:  {
-    __typename: "Categories",
-    id: string,
-    name: string,
-    projectsID: string,
-    Stories?:  {
-      __typename: "ModelStoriesConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type ListCategoriessQueryVariables = {
-  filter?: ModelCategoriesFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListCategoriessQuery = {
-  listCategoriess?:  {
-    __typename: "ModelCategoriesConnection",
-    items:  Array< {
-      __typename: "Categories",
-      id: string,
-      name: string,
-      projectsID: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type SyncProjectsQueryVariables = {
-  filter?: ModelProjectsFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  lastSync?: number | null,
-};
-
-export type SyncProjectsQuery = {
-  syncProjects?:  {
-    __typename: "ModelProjectsConnection",
-    items:  Array< {
-      __typename: "Projects",
-      id: string,
-      name: string,
-      readme?: string | null,
       createdAt: string,
       updatedAt: string,
       _version: number,
@@ -2483,14 +2719,14 @@ export type GetProjectsQuery = {
   } | null,
 };
 
-export type ListProjectssQueryVariables = {
+export type ListProjectsQueryVariables = {
   filter?: ModelProjectsFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListProjectssQuery = {
-  listProjectss?:  {
+export type ListProjectsQuery = {
+  listProjects?:  {
     __typename: "ModelProjectsConnection",
     items:  Array< {
       __typename: "Projects",
@@ -2499,6 +2735,81 @@ export type ListProjectssQuery = {
       readme?: string | null,
       createdAt: string,
       updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type SyncProjectsQueryVariables = {
+  filter?: ModelProjectsFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
+};
+
+export type SyncProjectsQuery = {
+  syncProjects?:  {
+    __typename: "ModelProjectsConnection",
+    items:  Array< {
+      __typename: "Projects",
+      id: string,
+      name: string,
+      readme?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type GetWorkspacesQueryVariables = {
+  id?: string,
+};
+
+export type GetWorkspacesQuery = {
+  getWorkspaces?:  {
+    __typename: "Workspaces",
+    id: string,
+    organisationsID?: string | null,
+    name: string,
+    color?: string | null,
+    logo?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    personTemplate?: string | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type ListWorkspacesQueryVariables = {
+  filter?: ModelWorkspacesFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListWorkspacesQuery = {
+  listWorkspaces?:  {
+    __typename: "ModelWorkspacesConnection",
+    items:  Array< {
+      __typename: "Workspaces",
+      id: string,
+      organisationsID?: string | null,
+      name: string,
+      color?: string | null,
+      logo?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      personTemplate?: string | null,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
@@ -2537,46 +2848,45 @@ export type SyncWorkspacesQuery = {
   } | null,
 };
 
-export type GetWorkspacesQueryVariables = {
+export type GetOrganisationsQueryVariables = {
   id?: string,
 };
 
-export type GetWorkspacesQuery = {
-  getWorkspaces?:  {
-    __typename: "Workspaces",
+export type GetOrganisationsQuery = {
+  getOrganisations?:  {
+    __typename: "Organisations",
     id: string,
-    organisationsID?: string | null,
     name: string,
-    color?: string | null,
-    logo?: string | null,
+    type?: string | null,
+    Workspaces?:  {
+      __typename: "ModelWorkspacesConnection",
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
-    personTemplate?: string | null,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
   } | null,
 };
 
-export type ListWorkspacessQueryVariables = {
-  filter?: ModelWorkspacesFilterInput | null,
+export type ListOrganisationsQueryVariables = {
+  filter?: ModelOrganisationsFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListWorkspacessQuery = {
-  listWorkspacess?:  {
-    __typename: "ModelWorkspacesConnection",
+export type ListOrganisationsQuery = {
+  listOrganisations?:  {
+    __typename: "ModelOrganisationsConnection",
     items:  Array< {
-      __typename: "Workspaces",
+      __typename: "Organisations",
       id: string,
-      organisationsID?: string | null,
       name: string,
-      color?: string | null,
-      logo?: string | null,
+      type?: string | null,
       createdAt: string,
       updatedAt: string,
-      personTemplate?: string | null,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
@@ -2612,48 +2922,73 @@ export type SyncOrganisationsQuery = {
   } | null,
 };
 
-export type GetOrganisationsQueryVariables = {
+export type GetVodAssetQueryVariables = {
   id?: string,
 };
 
-export type GetOrganisationsQuery = {
-  getOrganisations?:  {
-    __typename: "Organisations",
+export type GetVodAssetQuery = {
+  getVodAsset?:  {
+    __typename: "VodAsset",
     id: string,
-    name: string,
-    type?: string | null,
-    Workspaces?:  {
-      __typename: "ModelWorkspacesConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
+    title: string,
+    description: string,
+    transcription?:  {
+      __typename: "Transcription",
+      id: string,
+      video: string,
+      transcription?: string | null,
+      content?: string | null,
+      status: TranscriptionStatus,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
+    video?:  {
+      __typename: "VideoObject",
+      id: string,
+      token?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      owner?: string | null,
     } | null,
     createdAt: string,
     updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
+    vodAssetTranscriptionId?: string | null,
+    vodAssetVideoId?: string | null,
+    owner?: string | null,
   } | null,
 };
 
-export type ListOrganisationssQueryVariables = {
-  filter?: ModelOrganisationsFilterInput | null,
+export type ListVodAssetsQueryVariables = {
+  filter?: ModelVodAssetFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListOrganisationssQuery = {
-  listOrganisationss?:  {
-    __typename: "ModelOrganisationsConnection",
+export type ListVodAssetsQuery = {
+  listVodAssets?:  {
+    __typename: "ModelVodAssetConnection",
     items:  Array< {
-      __typename: "Organisations",
+      __typename: "VodAsset",
       id: string,
-      name: string,
-      type?: string | null,
+      title: string,
+      description: string,
       createdAt: string,
       updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
+      vodAssetTranscriptionId?: string | null,
+      vodAssetVideoId?: string | null,
+      owner?: string | null,
     } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
@@ -2675,77 +3010,57 @@ export type SyncVodAssetsQuery = {
       id: string,
       title: string,
       description: string,
+      createdAt: string,
+      updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
+      vodAssetTranscriptionId?: string | null,
+      vodAssetVideoId?: string | null,
+      owner?: string | null,
     } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
   } | null,
 };
 
-export type GetVodAssetQueryVariables = {
+export type GetVideoObjectQueryVariables = {
   id?: string,
 };
 
-export type GetVodAssetQuery = {
-  getVodAsset?:  {
-    __typename: "VodAsset",
+export type GetVideoObjectQuery = {
+  getVideoObject?:  {
+    __typename: "VideoObject",
     id: string,
-    title: string,
-    description: string,
-    transcription?:  {
-      __typename: "Transcription",
-      id: string,
-      video: string,
-      transcription?: string | null,
-      content?: string | null,
-      status: TranscriptionStatus,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    video?:  {
-      __typename: "VideoObject",
-      id: string,
-      token?: string | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
+    token?: string | null,
+    createdAt: string,
+    updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 
-export type ListVodAssetsQueryVariables = {
-  filter?: ModelVodAssetFilterInput | null,
+export type ListVideoObjectsQueryVariables = {
+  filter?: ModelVideoObjectFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListVodAssetsQuery = {
-  listVodAssets?:  {
-    __typename: "ModelVodAssetConnection",
+export type ListVideoObjectsQuery = {
+  listVideoObjects?:  {
+    __typename: "ModelVideoObjectConnection",
     items:  Array< {
-      __typename: "VodAsset",
+      __typename: "VideoObject",
       id: string,
-      title: string,
-      description: string,
+      token?: string | null,
+      createdAt: string,
+      updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
+      owner?: string | null,
     } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
@@ -2766,64 +3081,113 @@ export type SyncVideoObjectsQuery = {
       __typename: "VideoObject",
       id: string,
       token?: string | null,
+      createdAt: string,
+      updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
+      owner?: string | null,
     } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
   } | null,
 };
 
-export type GetVideoObjectQueryVariables = {
+export type GetHighlightTagsQueryVariables = {
   id?: string,
 };
 
-export type GetVideoObjectQuery = {
-  getVideoObject?:  {
-    __typename: "VideoObject",
+export type GetHighlightTagsQuery = {
+  getHighlightTags?:  {
+    __typename: "HighlightTags",
     id: string,
-    token?: string | null,
+    highlightsID: string,
+    tagsID: string,
+    highlights:  {
+      __typename: "Highlights",
+      id: string,
+      type: string,
+      text: string,
+      transcriptionID: string,
+      projectsID: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    },
+    tags:  {
+      __typename: "Tags",
+      id: string,
+      label: string,
+      projectsID: string,
+      updatedAt: string,
+      createdAt?: string | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    },
+    createdAt: string,
+    updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
-export type ListVideoObjectsQueryVariables = {
-  filter?: ModelVideoObjectFilterInput | null,
+export type ListHighlightTagsQueryVariables = {
+  filter?: ModelHighlightTagsFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListVideoObjectsQuery = {
-  listVideoObjects?:  {
-    __typename: "ModelVideoObjectConnection",
+export type ListHighlightTagsQuery = {
+  listHighlightTags?:  {
+    __typename: "ModelHighlightTagsConnection",
     items:  Array< {
-      __typename: "VideoObject",
+      __typename: "HighlightTags",
       id: string,
-      token?: string | null,
+      highlightsID: string,
+      tagsID: string,
+      createdAt: string,
+      updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
     } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
   } | null,
 };
 
-export type GetPersonsQueryVariables = {
-  id?: string,
+export type SyncHighlightTagsQueryVariables = {
+  filter?: ModelHighlightTagsFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
 };
 
-export type GetPersonsQuery = {
-  getPersons?:  {
+export type SyncHighlightTagsQuery = {
+  syncHighlightTags?:  {
+    __typename: "ModelHighlightTagsConnection",
+    items:  Array< {
+      __typename: "HighlightTags",
+      id: string,
+      highlightsID: string,
+      tagsID: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type OnCreatePersonsSubscription = {
+  onCreatePersons?:  {
     __typename: "Persons",
     id: string,
     additonalFields?: string | null,
@@ -2839,60 +3203,37 @@ export type GetPersonsQuery = {
   } | null,
 };
 
-export type ListPersonssQueryVariables = {
-  filter?: ModelPersonsFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListPersonssQuery = {
-  listPersonss?:  {
-    __typename: "ModelPersonsConnection",
-    items:  Array< {
-      __typename: "Persons",
-      id: string,
-      additonalFields?: string | null,
-      name?: string | null,
-      email?: string | null,
-      persona?: string | null,
-      createdAt: string,
-      updatedAt: string,
-      business?: string | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
+export type OnUpdatePersonsSubscription = {
+  onUpdatePersons?:  {
+    __typename: "Persons",
+    id: string,
+    additonalFields?: string | null,
+    name?: string | null,
+    email?: string | null,
+    persona?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    business?: string | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 
-export type SyncPersonsQueryVariables = {
-  filter?: ModelPersonsFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  lastSync?: number | null,
-};
-
-export type SyncPersonsQuery = {
-  syncPersons?:  {
-    __typename: "ModelPersonsConnection",
-    items:  Array< {
-      __typename: "Persons",
-      id: string,
-      additonalFields?: string | null,
-      name?: string | null,
-      email?: string | null,
-      persona?: string | null,
-      createdAt: string,
-      updatedAt: string,
-      business?: string | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
+export type OnDeletePersonsSubscription = {
+  onDeletePersons?:  {
+    __typename: "Persons",
+    id: string,
+    additonalFields?: string | null,
+    name?: string | null,
+    email?: string | null,
+    persona?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    business?: string | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 
@@ -2902,11 +3243,11 @@ export type OnCreateInsightsSubscription = {
     id: string,
     projectsID: string,
     content?: string | null,
+    createdAt: string,
+    updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -2916,11 +3257,11 @@ export type OnUpdateInsightsSubscription = {
     id: string,
     projectsID: string,
     content?: string | null,
+    createdAt: string,
+    updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -2930,11 +3271,11 @@ export type OnDeleteInsightsSubscription = {
     id: string,
     projectsID: string,
     content?: string | null,
+    createdAt: string,
+    updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -2943,9 +3284,10 @@ export type OnCreateHighlightsSubscription = {
     __typename: "Highlights",
     id: string,
     type: string,
+    text: string,
     transcriptionID: string,
-    Tags?:  {
-      __typename: "ModelTagsConnection",
+    tags?:  {
+      __typename: "ModelHighlightTagsConnection",
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
@@ -2963,9 +3305,10 @@ export type OnUpdateHighlightsSubscription = {
     __typename: "Highlights",
     id: string,
     type: string,
+    text: string,
     transcriptionID: string,
-    Tags?:  {
-      __typename: "ModelTagsConnection",
+    tags?:  {
+      __typename: "ModelHighlightTagsConnection",
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
@@ -2983,9 +3326,10 @@ export type OnDeleteHighlightsSubscription = {
     __typename: "Highlights",
     id: string,
     type: string,
+    text: string,
     transcriptionID: string,
-    Tags?:  {
-      __typename: "ModelTagsConnection",
+    tags?:  {
+      __typename: "ModelHighlightTagsConnection",
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
@@ -3004,9 +3348,11 @@ export type OnCreateTagsSubscription = {
     id: string,
     label: string,
     projectsID: string,
-    storiesID?: string | null,
-    transcriptionID: string,
-    highlightsID: string,
+    highlights?:  {
+      __typename: "ModelHighlightTagsConnection",
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
     updatedAt: string,
     createdAt?: string | null,
     _version: number,
@@ -3021,9 +3367,11 @@ export type OnUpdateTagsSubscription = {
     id: string,
     label: string,
     projectsID: string,
-    storiesID?: string | null,
-    transcriptionID: string,
-    highlightsID: string,
+    highlights?:  {
+      __typename: "ModelHighlightTagsConnection",
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
     updatedAt: string,
     createdAt?: string | null,
     _version: number,
@@ -3038,9 +3386,11 @@ export type OnDeleteTagsSubscription = {
     id: string,
     label: string,
     projectsID: string,
-    storiesID?: string | null,
-    transcriptionID: string,
-    highlightsID: string,
+    highlights?:  {
+      __typename: "ModelHighlightTagsConnection",
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
     updatedAt: string,
     createdAt?: string | null,
     _version: number,
@@ -3061,17 +3411,12 @@ export type OnCreateTranscriptionSubscription = {
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
-    Tags?:  {
-      __typename: "ModelTagsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     status: TranscriptionStatus,
+    createdAt: string,
+    updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -3087,17 +3432,12 @@ export type OnUpdateTranscriptionSubscription = {
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
-    Tags?:  {
-      __typename: "ModelTagsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     status: TranscriptionStatus,
+    createdAt: string,
+    updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -3113,17 +3453,12 @@ export type OnDeleteTranscriptionSubscription = {
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
-    Tags?:  {
-      __typename: "ModelTagsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     status: TranscriptionStatus,
+    createdAt: string,
+    updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -3136,11 +3471,6 @@ export type OnCreateStoriesSubscription = {
     type: string,
     createdAt: string,
     updatedAt: string,
-    tags?:  {
-      __typename: "ModelTagsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     title: string,
     content?: string | null,
     transcription?:  {
@@ -3150,15 +3480,12 @@ export type OnCreateStoriesSubscription = {
       transcription?: string | null,
       content?: string | null,
       status: TranscriptionStatus,
+      createdAt: string,
+      updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
     } | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
     participants?:  {
       __typename: "Persons",
       id: string,
@@ -3173,6 +3500,11 @@ export type OnCreateStoriesSubscription = {
       _deleted?: boolean | null,
       _lastChangedAt: number,
     } | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    storiesTranscriptionId?: string | null,
+    storiesParticipantsId?: string | null,
   } | null,
 };
 
@@ -3185,11 +3517,6 @@ export type OnUpdateStoriesSubscription = {
     type: string,
     createdAt: string,
     updatedAt: string,
-    tags?:  {
-      __typename: "ModelTagsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     title: string,
     content?: string | null,
     transcription?:  {
@@ -3199,15 +3526,12 @@ export type OnUpdateStoriesSubscription = {
       transcription?: string | null,
       content?: string | null,
       status: TranscriptionStatus,
+      createdAt: string,
+      updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
     } | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
     participants?:  {
       __typename: "Persons",
       id: string,
@@ -3222,6 +3546,11 @@ export type OnUpdateStoriesSubscription = {
       _deleted?: boolean | null,
       _lastChangedAt: number,
     } | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    storiesTranscriptionId?: string | null,
+    storiesParticipantsId?: string | null,
   } | null,
 };
 
@@ -3234,11 +3563,6 @@ export type OnDeleteStoriesSubscription = {
     type: string,
     createdAt: string,
     updatedAt: string,
-    tags?:  {
-      __typename: "ModelTagsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     title: string,
     content?: string | null,
     transcription?:  {
@@ -3248,15 +3572,12 @@ export type OnDeleteStoriesSubscription = {
       transcription?: string | null,
       content?: string | null,
       status: TranscriptionStatus,
+      createdAt: string,
+      updatedAt: string,
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
     } | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
     participants?:  {
       __typename: "Persons",
       id: string,
@@ -3271,6 +3592,11 @@ export type OnDeleteStoriesSubscription = {
       _deleted?: boolean | null,
       _lastChangedAt: number,
     } | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+    storiesTranscriptionId?: string | null,
+    storiesParticipantsId?: string | null,
   } | null,
 };
 
@@ -3285,11 +3611,11 @@ export type OnCreateCategoriesSubscription = {
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
+    createdAt: string,
+    updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -3304,11 +3630,11 @@ export type OnUpdateCategoriesSubscription = {
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
+    createdAt: string,
+    updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -3323,11 +3649,11 @@ export type OnDeleteCategoriesSubscription = {
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
+    createdAt: string,
+    updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -3556,115 +3882,8 @@ export type OnDeleteOrganisationsSubscription = {
   } | null,
 };
 
-export type OnCreateVodAssetSubscription = {
-  onCreateVodAsset?:  {
-    __typename: "VodAsset",
-    id: string,
-    title: string,
-    description: string,
-    transcription?:  {
-      __typename: "Transcription",
-      id: string,
-      video: string,
-      transcription?: string | null,
-      content?: string | null,
-      status: TranscriptionStatus,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    video?:  {
-      __typename: "VideoObject",
-      id: string,
-      token?: string | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnUpdateVodAssetSubscription = {
-  onUpdateVodAsset?:  {
-    __typename: "VodAsset",
-    id: string,
-    title: string,
-    description: string,
-    transcription?:  {
-      __typename: "Transcription",
-      id: string,
-      video: string,
-      transcription?: string | null,
-      content?: string | null,
-      status: TranscriptionStatus,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    video?:  {
-      __typename: "VideoObject",
-      id: string,
-      token?: string | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnDeleteVodAssetSubscription = {
-  onDeleteVodAsset?:  {
-    __typename: "VodAsset",
-    id: string,
-    title: string,
-    description: string,
-    transcription?:  {
-      __typename: "Transcription",
-      id: string,
-      video: string,
-      transcription?: string | null,
-      content?: string | null,
-      status: TranscriptionStatus,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    video?:  {
-      __typename: "VideoObject",
-      id: string,
-      token?: string | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
+export type OnCreateVideoObjectSubscriptionVariables = {
+  owner?: string | null,
 };
 
 export type OnCreateVideoObjectSubscription = {
@@ -3672,12 +3891,17 @@ export type OnCreateVideoObjectSubscription = {
     __typename: "VideoObject",
     id: string,
     token?: string | null,
+    createdAt: string,
+    updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
+    owner?: string | null,
   } | null,
+};
+
+export type OnUpdateVideoObjectSubscriptionVariables = {
+  owner?: string | null,
 };
 
 export type OnUpdateVideoObjectSubscription = {
@@ -3685,12 +3909,17 @@ export type OnUpdateVideoObjectSubscription = {
     __typename: "VideoObject",
     id: string,
     token?: string | null,
+    createdAt: string,
+    updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
+    owner?: string | null,
   } | null,
+};
+
+export type OnDeleteVideoObjectSubscriptionVariables = {
+  owner?: string | null,
 };
 
 export type OnDeleteVideoObjectSubscription = {
@@ -3698,59 +3927,123 @@ export type OnDeleteVideoObjectSubscription = {
     __typename: "VideoObject",
     id: string,
     token?: string | null,
+    createdAt: string,
+    updatedAt: string,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    createdAt: string,
-    updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 
-export type OnCreatePersonsSubscription = {
-  onCreatePersons?:  {
-    __typename: "Persons",
+export type OnCreateHighlightTagsSubscription = {
+  onCreateHighlightTags?:  {
+    __typename: "HighlightTags",
     id: string,
-    additonalFields?: string | null,
-    name?: string | null,
-    email?: string | null,
-    persona?: string | null,
+    highlightsID: string,
+    tagsID: string,
+    highlights:  {
+      __typename: "Highlights",
+      id: string,
+      type: string,
+      text: string,
+      transcriptionID: string,
+      projectsID: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    },
+    tags:  {
+      __typename: "Tags",
+      id: string,
+      label: string,
+      projectsID: string,
+      updatedAt: string,
+      createdAt?: string | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    },
     createdAt: string,
     updatedAt: string,
-    business?: string | null,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
   } | null,
 };
 
-export type OnUpdatePersonsSubscription = {
-  onUpdatePersons?:  {
-    __typename: "Persons",
+export type OnUpdateHighlightTagsSubscription = {
+  onUpdateHighlightTags?:  {
+    __typename: "HighlightTags",
     id: string,
-    additonalFields?: string | null,
-    name?: string | null,
-    email?: string | null,
-    persona?: string | null,
+    highlightsID: string,
+    tagsID: string,
+    highlights:  {
+      __typename: "Highlights",
+      id: string,
+      type: string,
+      text: string,
+      transcriptionID: string,
+      projectsID: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    },
+    tags:  {
+      __typename: "Tags",
+      id: string,
+      label: string,
+      projectsID: string,
+      updatedAt: string,
+      createdAt?: string | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    },
     createdAt: string,
     updatedAt: string,
-    business?: string | null,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
   } | null,
 };
 
-export type OnDeletePersonsSubscription = {
-  onDeletePersons?:  {
-    __typename: "Persons",
+export type OnDeleteHighlightTagsSubscription = {
+  onDeleteHighlightTags?:  {
+    __typename: "HighlightTags",
     id: string,
-    additonalFields?: string | null,
-    name?: string | null,
-    email?: string | null,
-    persona?: string | null,
+    highlightsID: string,
+    tagsID: string,
+    highlights:  {
+      __typename: "Highlights",
+      id: string,
+      type: string,
+      text: string,
+      transcriptionID: string,
+      projectsID: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    },
+    tags:  {
+      __typename: "Tags",
+      id: string,
+      label: string,
+      projectsID: string,
+      updatedAt: string,
+      createdAt?: string | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    },
     createdAt: string,
     updatedAt: string,
-    business?: string | null,
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,

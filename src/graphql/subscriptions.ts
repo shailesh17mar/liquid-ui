@@ -2,17 +2,68 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const onCreatePersons = /* GraphQL */ `
+  subscription OnCreatePersons {
+    onCreatePersons {
+      id
+      additonalFields
+      name
+      email
+      persona
+      createdAt
+      updatedAt
+      business
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onUpdatePersons = /* GraphQL */ `
+  subscription OnUpdatePersons {
+    onUpdatePersons {
+      id
+      additonalFields
+      name
+      email
+      persona
+      createdAt
+      updatedAt
+      business
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onDeletePersons = /* GraphQL */ `
+  subscription OnDeletePersons {
+    onDeletePersons {
+      id
+      additonalFields
+      name
+      email
+      persona
+      createdAt
+      updatedAt
+      business
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
 export const onCreateInsights = /* GraphQL */ `
   subscription OnCreateInsights {
     onCreateInsights {
       id
       projectsID
       content
+      createdAt
+      updatedAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -22,11 +73,11 @@ export const onUpdateInsights = /* GraphQL */ `
       id
       projectsID
       content
+      createdAt
+      updatedAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -36,11 +87,11 @@ export const onDeleteInsights = /* GraphQL */ `
       id
       projectsID
       content
+      createdAt
+      updatedAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -49,8 +100,9 @@ export const onCreateHighlights = /* GraphQL */ `
     onCreateHighlights {
       id
       type
+      text
       transcriptionID
-      Tags {
+      tags {
         nextToken
         startedAt
       }
@@ -68,8 +120,9 @@ export const onUpdateHighlights = /* GraphQL */ `
     onUpdateHighlights {
       id
       type
+      text
       transcriptionID
-      Tags {
+      tags {
         nextToken
         startedAt
       }
@@ -87,8 +140,9 @@ export const onDeleteHighlights = /* GraphQL */ `
     onDeleteHighlights {
       id
       type
+      text
       transcriptionID
-      Tags {
+      tags {
         nextToken
         startedAt
       }
@@ -107,9 +161,10 @@ export const onCreateTags = /* GraphQL */ `
       id
       label
       projectsID
-      storiesID
-      transcriptionID
-      highlightsID
+      highlights {
+        nextToken
+        startedAt
+      }
       updatedAt
       createdAt
       _version
@@ -124,9 +179,10 @@ export const onUpdateTags = /* GraphQL */ `
       id
       label
       projectsID
-      storiesID
-      transcriptionID
-      highlightsID
+      highlights {
+        nextToken
+        startedAt
+      }
       updatedAt
       createdAt
       _version
@@ -141,9 +197,10 @@ export const onDeleteTags = /* GraphQL */ `
       id
       label
       projectsID
-      storiesID
-      transcriptionID
-      highlightsID
+      highlights {
+        nextToken
+        startedAt
+      }
       updatedAt
       createdAt
       _version
@@ -163,16 +220,12 @@ export const onCreateTranscription = /* GraphQL */ `
         nextToken
         startedAt
       }
-      Tags {
-        nextToken
-        startedAt
-      }
       status
+      createdAt
+      updatedAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -187,16 +240,12 @@ export const onUpdateTranscription = /* GraphQL */ `
         nextToken
         startedAt
       }
-      Tags {
-        nextToken
-        startedAt
-      }
       status
+      createdAt
+      updatedAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -211,16 +260,12 @@ export const onDeleteTranscription = /* GraphQL */ `
         nextToken
         startedAt
       }
-      Tags {
-        nextToken
-        startedAt
-      }
       status
+      createdAt
+      updatedAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -233,10 +278,6 @@ export const onCreateStories = /* GraphQL */ `
       type
       createdAt
       updatedAt
-      tags {
-        nextToken
-        startedAt
-      }
       title
       content
       transcription {
@@ -245,15 +286,12 @@ export const onCreateStories = /* GraphQL */ `
         transcription
         content
         status
+        createdAt
+        updatedAt
         _version
         _deleted
         _lastChangedAt
-        createdAt
-        updatedAt
       }
-      _version
-      _deleted
-      _lastChangedAt
       participants {
         id
         additonalFields
@@ -267,6 +305,11 @@ export const onCreateStories = /* GraphQL */ `
         _deleted
         _lastChangedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
+      storiesTranscriptionId
+      storiesParticipantsId
     }
   }
 `;
@@ -279,10 +322,6 @@ export const onUpdateStories = /* GraphQL */ `
       type
       createdAt
       updatedAt
-      tags {
-        nextToken
-        startedAt
-      }
       title
       content
       transcription {
@@ -291,15 +330,12 @@ export const onUpdateStories = /* GraphQL */ `
         transcription
         content
         status
+        createdAt
+        updatedAt
         _version
         _deleted
         _lastChangedAt
-        createdAt
-        updatedAt
       }
-      _version
-      _deleted
-      _lastChangedAt
       participants {
         id
         additonalFields
@@ -313,6 +349,11 @@ export const onUpdateStories = /* GraphQL */ `
         _deleted
         _lastChangedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
+      storiesTranscriptionId
+      storiesParticipantsId
     }
   }
 `;
@@ -325,10 +366,6 @@ export const onDeleteStories = /* GraphQL */ `
       type
       createdAt
       updatedAt
-      tags {
-        nextToken
-        startedAt
-      }
       title
       content
       transcription {
@@ -337,15 +374,12 @@ export const onDeleteStories = /* GraphQL */ `
         transcription
         content
         status
+        createdAt
+        updatedAt
         _version
         _deleted
         _lastChangedAt
-        createdAt
-        updatedAt
       }
-      _version
-      _deleted
-      _lastChangedAt
       participants {
         id
         additonalFields
@@ -359,6 +393,11 @@ export const onDeleteStories = /* GraphQL */ `
         _deleted
         _lastChangedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
+      storiesTranscriptionId
+      storiesParticipantsId
     }
   }
 `;
@@ -372,11 +411,11 @@ export const onCreateCategories = /* GraphQL */ `
         nextToken
         startedAt
       }
+      createdAt
+      updatedAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -390,11 +429,11 @@ export const onUpdateCategories = /* GraphQL */ `
         nextToken
         startedAt
       }
+      createdAt
+      updatedAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -408,11 +447,11 @@ export const onDeleteCategories = /* GraphQL */ `
         nextToken
         startedAt
       }
+      createdAt
+      updatedAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -623,195 +662,150 @@ export const onDeleteOrganisations = /* GraphQL */ `
     }
   }
 `;
-export const onCreateVodAsset = /* GraphQL */ `
-  subscription OnCreateVodAsset {
-    onCreateVodAsset {
-      id
-      title
-      description
-      transcription {
-        id
-        video
-        transcription
-        content
-        status
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
-      video {
-        id
-        token
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateVodAsset = /* GraphQL */ `
-  subscription OnUpdateVodAsset {
-    onUpdateVodAsset {
-      id
-      title
-      description
-      transcription {
-        id
-        video
-        transcription
-        content
-        status
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
-      video {
-        id
-        token
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteVodAsset = /* GraphQL */ `
-  subscription OnDeleteVodAsset {
-    onDeleteVodAsset {
-      id
-      title
-      description
-      transcription {
-        id
-        video
-        transcription
-        content
-        status
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
-      video {
-        id
-        token
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-    }
-  }
-`;
 export const onCreateVideoObject = /* GraphQL */ `
-  subscription OnCreateVideoObject {
-    onCreateVideoObject {
+  subscription OnCreateVideoObject($owner: String) {
+    onCreateVideoObject(owner: $owner) {
       id
       token
+      createdAt
+      updatedAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
-      updatedAt
+      owner
     }
   }
 `;
 export const onUpdateVideoObject = /* GraphQL */ `
-  subscription OnUpdateVideoObject {
-    onUpdateVideoObject {
+  subscription OnUpdateVideoObject($owner: String) {
+    onUpdateVideoObject(owner: $owner) {
       id
       token
+      createdAt
+      updatedAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
-      updatedAt
+      owner
     }
   }
 `;
 export const onDeleteVideoObject = /* GraphQL */ `
-  subscription OnDeleteVideoObject {
-    onDeleteVideoObject {
+  subscription OnDeleteVideoObject($owner: String) {
+    onDeleteVideoObject(owner: $owner) {
       id
       token
+      createdAt
+      updatedAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
-      updatedAt
+      owner
     }
   }
 `;
-export const onCreatePersons = /* GraphQL */ `
-  subscription OnCreatePersons {
-    onCreatePersons {
+export const onCreateHighlightTags = /* GraphQL */ `
+  subscription OnCreateHighlightTags {
+    onCreateHighlightTags {
       id
-      additonalFields
-      name
-      email
-      persona
+      highlightsID
+      tagsID
+      highlights {
+        id
+        type
+        text
+        transcriptionID
+        projectsID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      tags {
+        id
+        label
+        projectsID
+        updatedAt
+        createdAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       createdAt
       updatedAt
-      business
       _version
       _deleted
       _lastChangedAt
     }
   }
 `;
-export const onUpdatePersons = /* GraphQL */ `
-  subscription OnUpdatePersons {
-    onUpdatePersons {
+export const onUpdateHighlightTags = /* GraphQL */ `
+  subscription OnUpdateHighlightTags {
+    onUpdateHighlightTags {
       id
-      additonalFields
-      name
-      email
-      persona
+      highlightsID
+      tagsID
+      highlights {
+        id
+        type
+        text
+        transcriptionID
+        projectsID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      tags {
+        id
+        label
+        projectsID
+        updatedAt
+        createdAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       createdAt
       updatedAt
-      business
       _version
       _deleted
       _lastChangedAt
     }
   }
 `;
-export const onDeletePersons = /* GraphQL */ `
-  subscription OnDeletePersons {
-    onDeletePersons {
+export const onDeleteHighlightTags = /* GraphQL */ `
+  subscription OnDeleteHighlightTags {
+    onDeleteHighlightTags {
       id
-      additonalFields
-      name
-      email
-      persona
+      highlightsID
+      tagsID
+      highlights {
+        id
+        type
+        text
+        transcriptionID
+        projectsID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      tags {
+        id
+        label
+        projectsID
+        updatedAt
+        createdAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       createdAt
       updatedAt
-      business
       _version
       _deleted
       _lastChangedAt

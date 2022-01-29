@@ -1,23 +1,13 @@
 import React, { useState } from "react";
-import {
-  EuiPageTemplate,
-  EuiContextMenuItem,
-  EuiPopover,
-  useGeneratedHtmlId,
-  EuiFieldSearch,
-  EuiButton,
-  EuiContextMenuPanel,
-  euiPaletteColorBlind,
-} from "@elastic/eui";
+import { EuiFieldSearch, EuiButton, euiPaletteColorBlind } from "@elastic/eui";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
-import { HeaderActionButton, Page } from "./layout.styles";
-import { makeProjectQueryController } from "main/factories/project-factory";
-import { useQuery } from "react-query";
+import { Page } from "./layout.styles";
 import { useAuth } from "presentation/context/auth-context";
 import { CreateProjectModal } from "../create-project-modal/create-project-modal";
 import { SideBar } from "./sidebar";
 import { UserMenu } from "./components/user-menu";
 import { ActionMenu } from "./components/action-menu";
+import { useProjects } from "presentation/modules/projects/hooks";
 
 interface Props {
   isProjectLayout?: boolean;
@@ -84,10 +74,8 @@ export const Layout: React.FC<Props> = ({ isProjectLayout }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
   const { user } = useAuth();
-  const controller = makeProjectQueryController();
-  const { data: projects } = useQuery("projects", async () => {
-    return await controller.getAll();
-  });
+
+  const { data: projects } = useProjects();
 
   const handleAddProject = () => {
     setIsModalVisible(true);

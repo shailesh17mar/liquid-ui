@@ -74,7 +74,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "amplify:transcriptor": "cd amplify/backend/function/transcriptor/src && tsc",
-    "amplify:transcriber": "cd amplify/backend/function/transcriber/src && tsc"
+    "amplify:transcriber": "cd amplify/backend/function/transcriber/src && tsc",
+    "amplify:liquidPostConfirmation": "cd amplify/backend/function/liquidPostConfirmation/src && tsc"
   },
   "eslintConfig": {
     "extends": [

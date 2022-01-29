@@ -2,6 +2,115 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getPersons = /* GraphQL */ `
+  query GetPersons($id: ID!) {
+    getPersons(id: $id) {
+      id
+      additonalFields
+      name
+      email
+      persona
+      createdAt
+      updatedAt
+      business
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listPersons = /* GraphQL */ `
+  query ListPersons(
+    $filter: ModelPersonsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPersons(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        additonalFields
+        name
+        email
+        persona
+        createdAt
+        updatedAt
+        business
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncPersons = /* GraphQL */ `
+  query SyncPersons(
+    $filter: ModelPersonsFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncPersons(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        additonalFields
+        name
+        email
+        persona
+        createdAt
+        updatedAt
+        business
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getInsights = /* GraphQL */ `
+  query GetInsights($id: ID!) {
+    getInsights(id: $id) {
+      id
+      projectsID
+      content
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listInsights = /* GraphQL */ `
+  query ListInsights(
+    $filter: ModelInsightsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listInsights(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        projectsID
+        content
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
 export const syncInsights = /* GraphQL */ `
   query SyncInsights(
     $filter: ModelInsightsFilterInput
@@ -19,47 +128,55 @@ export const syncInsights = /* GraphQL */ `
         id
         projectsID
         content
+        createdAt
+        updatedAt
         _version
         _deleted
         _lastChangedAt
-        createdAt
-        updatedAt
       }
       nextToken
       startedAt
     }
   }
 `;
-export const getInsights = /* GraphQL */ `
-  query GetInsights($id: ID!) {
-    getInsights(id: $id) {
+export const getHighlights = /* GraphQL */ `
+  query GetHighlights($id: ID!) {
+    getHighlights(id: $id) {
       id
+      type
+      text
+      transcriptionID
+      tags {
+        nextToken
+        startedAt
+      }
       projectsID
-      content
+      createdAt
+      updatedAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
-      updatedAt
     }
   }
 `;
-export const listInsightss = /* GraphQL */ `
-  query ListInsightss(
-    $filter: ModelInsightsFilterInput
+export const listHighlights = /* GraphQL */ `
+  query ListHighlights(
+    $filter: ModelHighlightsFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listInsightss(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listHighlights(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        type
+        text
+        transcriptionID
         projectsID
-        content
+        createdAt
+        updatedAt
         _version
         _deleted
         _lastChangedAt
-        createdAt
-        updatedAt
       }
       nextToken
       startedAt
@@ -82,6 +199,7 @@ export const syncHighlights = /* GraphQL */ `
       items {
         id
         type
+        text
         transcriptionID
         projectsID
         createdAt
@@ -95,39 +213,37 @@ export const syncHighlights = /* GraphQL */ `
     }
   }
 `;
-export const getHighlights = /* GraphQL */ `
-  query GetHighlights($id: ID!) {
-    getHighlights(id: $id) {
+export const getTags = /* GraphQL */ `
+  query GetTags($id: ID!) {
+    getTags(id: $id) {
       id
-      type
-      transcriptionID
-      Tags {
+      label
+      projectsID
+      highlights {
         nextToken
         startedAt
       }
-      projectsID
-      createdAt
       updatedAt
+      createdAt
       _version
       _deleted
       _lastChangedAt
     }
   }
 `;
-export const listHighlightss = /* GraphQL */ `
-  query ListHighlightss(
-    $filter: ModelHighlightsFilterInput
+export const listTags = /* GraphQL */ `
+  query ListTags(
+    $filter: ModelTagsFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listHighlightss(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listTags(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        type
-        transcriptionID
+        label
         projectsID
-        createdAt
         updatedAt
+        createdAt
         _version
         _deleted
         _lastChangedAt
@@ -154,9 +270,6 @@ export const syncTags = /* GraphQL */ `
         id
         label
         projectsID
-        storiesID
-        transcriptionID
-        highlightsID
         updatedAt
         createdAt
         _version
@@ -168,39 +281,41 @@ export const syncTags = /* GraphQL */ `
     }
   }
 `;
-export const getTags = /* GraphQL */ `
-  query GetTags($id: ID!) {
-    getTags(id: $id) {
+export const getTranscription = /* GraphQL */ `
+  query GetTranscription($id: ID!) {
+    getTranscription(id: $id) {
       id
-      label
-      projectsID
-      storiesID
-      transcriptionID
-      highlightsID
-      updatedAt
+      video
+      transcription
+      content
+      Highlights {
+        nextToken
+        startedAt
+      }
+      status
       createdAt
+      updatedAt
       _version
       _deleted
       _lastChangedAt
     }
   }
 `;
-export const listTagss = /* GraphQL */ `
-  query ListTagss(
-    $filter: ModelTagsFilterInput
+export const listTranscriptions = /* GraphQL */ `
+  query ListTranscriptions(
+    $filter: ModelTranscriptionFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listTagss(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listTranscriptions(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        label
-        projectsID
-        storiesID
-        transcriptionID
-        highlightsID
-        updatedAt
+        video
+        transcription
+        content
+        status
         createdAt
+        updatedAt
         _version
         _deleted
         _lastChangedAt
@@ -229,59 +344,82 @@ export const syncTranscriptions = /* GraphQL */ `
         transcription
         content
         status
+        createdAt
+        updatedAt
         _version
         _deleted
         _lastChangedAt
-        createdAt
-        updatedAt
       }
       nextToken
       startedAt
     }
   }
 `;
-export const getTranscription = /* GraphQL */ `
-  query GetTranscription($id: ID!) {
-    getTranscription(id: $id) {
+export const getStories = /* GraphQL */ `
+  query GetStories($id: ID!) {
+    getStories(id: $id) {
       id
-      video
-      transcription
-      content
-      Highlights {
-        nextToken
-        startedAt
-      }
-      Tags {
-        nextToken
-        startedAt
-      }
-      status
-      _version
-      _deleted
-      _lastChangedAt
+      categoriesID
+      projectsID
+      type
       createdAt
       updatedAt
-    }
-  }
-`;
-export const listTranscriptions = /* GraphQL */ `
-  query ListTranscriptions(
-    $filter: ModelTranscriptionFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listTranscriptions(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
+      title
+      content
+      transcription {
         id
         video
         transcription
         content
         status
+        createdAt
+        updatedAt
         _version
         _deleted
         _lastChangedAt
+      }
+      participants {
+        id
+        additonalFields
+        name
+        email
+        persona
         createdAt
         updatedAt
+        business
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      storiesTranscriptionId
+      storiesParticipantsId
+    }
+  }
+`;
+export const listStories = /* GraphQL */ `
+  query ListStories(
+    $filter: ModelStoriesFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listStories(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        categoriesID
+        projectsID
+        type
+        createdAt
+        updatedAt
+        title
+        content
+        _version
+        _deleted
+        _lastChangedAt
+        storiesTranscriptionId
+        storiesParticipantsId
       }
       nextToken
       startedAt
@@ -313,74 +451,45 @@ export const syncStories = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        storiesTranscriptionId
+        storiesParticipantsId
       }
       nextToken
       startedAt
     }
   }
 `;
-export const getStories = /* GraphQL */ `
-  query GetStories($id: ID!) {
-    getStories(id: $id) {
+export const getCategories = /* GraphQL */ `
+  query GetCategories($id: ID!) {
+    getCategories(id: $id) {
       id
-      categoriesID
+      name
       projectsID
-      type
-      createdAt
-      updatedAt
-      tags {
+      Stories {
         nextToken
         startedAt
       }
-      title
-      content
-      transcription {
-        id
-        video
-        transcription
-        content
-        status
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
+      createdAt
+      updatedAt
       _version
       _deleted
       _lastChangedAt
-      participants {
-        id
-        additonalFields
-        name
-        email
-        persona
-        createdAt
-        updatedAt
-        business
-        _version
-        _deleted
-        _lastChangedAt
-      }
     }
   }
 `;
-export const listStoriess = /* GraphQL */ `
-  query ListStoriess(
-    $filter: ModelStoriesFilterInput
+export const listCategories = /* GraphQL */ `
+  query ListCategories(
+    $filter: ModelCategoriesFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listStoriess(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listCategories(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        categoriesID
+        name
         projectsID
-        type
         createdAt
         updatedAt
-        title
-        content
         _version
         _deleted
         _lastChangedAt
@@ -407,74 +516,6 @@ export const syncCategories = /* GraphQL */ `
         id
         name
         projectsID
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const getCategories = /* GraphQL */ `
-  query GetCategories($id: ID!) {
-    getCategories(id: $id) {
-      id
-      name
-      projectsID
-      Stories {
-        nextToken
-        startedAt
-      }
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listCategoriess = /* GraphQL */ `
-  query ListCategoriess(
-    $filter: ModelCategoriesFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listCategoriess(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        name
-        projectsID
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const syncProjects = /* GraphQL */ `
-  query SyncProjects(
-    $filter: ModelProjectsFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncProjects(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        name
-        readme
         createdAt
         updatedAt
         _version
@@ -520,19 +561,89 @@ export const getProjects = /* GraphQL */ `
     }
   }
 `;
-export const listProjectss = /* GraphQL */ `
-  query ListProjectss(
+export const listProjects = /* GraphQL */ `
+  query ListProjects(
     $filter: ModelProjectsFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listProjectss(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listProjects(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         name
         readme
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncProjects = /* GraphQL */ `
+  query SyncProjects(
+    $filter: ModelProjectsFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncProjects(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        name
+        readme
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getWorkspaces = /* GraphQL */ `
+  query GetWorkspaces($id: ID!) {
+    getWorkspaces(id: $id) {
+      id
+      organisationsID
+      name
+      color
+      logo
+      createdAt
+      updatedAt
+      personTemplate
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listWorkspaces = /* GraphQL */ `
+  query ListWorkspaces(
+    $filter: ModelWorkspacesFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listWorkspaces(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        organisationsID
+        name
+        color
+        logo
+        createdAt
+        updatedAt
+        personTemplate
         _version
         _deleted
         _lastChangedAt
@@ -573,39 +684,37 @@ export const syncWorkspaces = /* GraphQL */ `
     }
   }
 `;
-export const getWorkspaces = /* GraphQL */ `
-  query GetWorkspaces($id: ID!) {
-    getWorkspaces(id: $id) {
+export const getOrganisations = /* GraphQL */ `
+  query GetOrganisations($id: ID!) {
+    getOrganisations(id: $id) {
       id
-      organisationsID
       name
-      color
-      logo
+      type
+      Workspaces {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
-      personTemplate
       _version
       _deleted
       _lastChangedAt
     }
   }
 `;
-export const listWorkspacess = /* GraphQL */ `
-  query ListWorkspacess(
-    $filter: ModelWorkspacesFilterInput
+export const listOrganisations = /* GraphQL */ `
+  query ListOrganisations(
+    $filter: ModelOrganisationsFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listWorkspacess(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listOrganisations(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        organisationsID
         name
-        color
-        logo
+        type
         createdAt
         updatedAt
-        personTemplate
         _version
         _deleted
         _lastChangedAt
@@ -643,40 +752,64 @@ export const syncOrganisations = /* GraphQL */ `
     }
   }
 `;
-export const getOrganisations = /* GraphQL */ `
-  query GetOrganisations($id: ID!) {
-    getOrganisations(id: $id) {
+export const getVodAsset = /* GraphQL */ `
+  query GetVodAsset($id: ID!) {
+    getVodAsset(id: $id) {
       id
-      name
-      type
-      Workspaces {
-        nextToken
-        startedAt
+      title
+      description
+      transcription {
+        id
+        video
+        transcription
+        content
+        status
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      video {
+        id
+        token
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
       }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      vodAssetTranscriptionId
+      vodAssetVideoId
+      owner
     }
   }
 `;
-export const listOrganisationss = /* GraphQL */ `
-  query ListOrganisationss(
-    $filter: ModelOrganisationsFilterInput
+export const listVodAssets = /* GraphQL */ `
+  query ListVodAssets(
+    $filter: ModelVodAssetFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listOrganisationss(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listVodAssets(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        name
-        type
+        title
+        description
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        vodAssetTranscriptionId
+        vodAssetVideoId
+        owner
       }
       nextToken
       startedAt
@@ -700,68 +833,50 @@ export const syncVodAssets = /* GraphQL */ `
         id
         title
         description
+        createdAt
+        updatedAt
         _version
         _deleted
         _lastChangedAt
-        createdAt
-        updatedAt
+        vodAssetTranscriptionId
+        vodAssetVideoId
+        owner
       }
       nextToken
       startedAt
     }
   }
 `;
-export const getVodAsset = /* GraphQL */ `
-  query GetVodAsset($id: ID!) {
-    getVodAsset(id: $id) {
+export const getVideoObject = /* GraphQL */ `
+  query GetVideoObject($id: ID!) {
+    getVideoObject(id: $id) {
       id
-      title
-      description
-      transcription {
-        id
-        video
-        transcription
-        content
-        status
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
-      video {
-        id
-        token
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
+      token
+      createdAt
+      updatedAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
-      updatedAt
+      owner
     }
   }
 `;
-export const listVodAssets = /* GraphQL */ `
-  query ListVodAssets(
-    $filter: ModelVodAssetFilterInput
+export const listVideoObjects = /* GraphQL */ `
+  query ListVideoObjects(
+    $filter: ModelVideoObjectFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listVodAssets(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listVideoObjects(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        title
-        description
+        token
+        createdAt
+        updatedAt
         _version
         _deleted
         _lastChangedAt
-        createdAt
-        updatedAt
+        owner
       }
       nextToken
       startedAt
@@ -784,84 +899,67 @@ export const syncVideoObjects = /* GraphQL */ `
       items {
         id
         token
+        createdAt
+        updatedAt
         _version
         _deleted
         _lastChangedAt
-        createdAt
-        updatedAt
+        owner
       }
       nextToken
       startedAt
     }
   }
 `;
-export const getVideoObject = /* GraphQL */ `
-  query GetVideoObject($id: ID!) {
-    getVideoObject(id: $id) {
+export const getHighlightTags = /* GraphQL */ `
+  query GetHighlightTags($id: ID!) {
+    getHighlightTags(id: $id) {
       id
-      token
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listVideoObjects = /* GraphQL */ `
-  query ListVideoObjects(
-    $filter: ModelVideoObjectFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listVideoObjects(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
+      highlightsID
+      tagsID
+      highlights {
         id
-        token
+        type
+        text
+        transcriptionID
+        projectsID
+        createdAt
+        updatedAt
         _version
         _deleted
         _lastChangedAt
-        createdAt
-        updatedAt
       }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const getPersons = /* GraphQL */ `
-  query GetPersons($id: ID!) {
-    getPersons(id: $id) {
-      id
-      additonalFields
-      name
-      email
-      persona
+      tags {
+        id
+        label
+        projectsID
+        updatedAt
+        createdAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       createdAt
       updatedAt
-      business
       _version
       _deleted
       _lastChangedAt
     }
   }
 `;
-export const listPersonss = /* GraphQL */ `
-  query ListPersonss(
-    $filter: ModelPersonsFilterInput
+export const listHighlightTags = /* GraphQL */ `
+  query ListHighlightTags(
+    $filter: ModelHighlightTagsFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listPersonss(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listHighlightTags(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        additonalFields
-        name
-        email
-        persona
+        highlightsID
+        tagsID
         createdAt
         updatedAt
-        business
         _version
         _deleted
         _lastChangedAt
@@ -871,14 +969,14 @@ export const listPersonss = /* GraphQL */ `
     }
   }
 `;
-export const syncPersons = /* GraphQL */ `
-  query SyncPersons(
-    $filter: ModelPersonsFilterInput
+export const syncHighlightTags = /* GraphQL */ `
+  query SyncHighlightTags(
+    $filter: ModelHighlightTagsFilterInput
     $limit: Int
     $nextToken: String
     $lastSync: AWSTimestamp
   ) {
-    syncPersons(
+    syncHighlightTags(
       filter: $filter
       limit: $limit
       nextToken: $nextToken
@@ -886,13 +984,10 @@ export const syncPersons = /* GraphQL */ `
     ) {
       items {
         id
-        additonalFields
-        name
-        email
-        persona
+        highlightsID
+        tagsID
         createdAt
         updatedAt
-        business
         _version
         _deleted
         _lastChangedAt
