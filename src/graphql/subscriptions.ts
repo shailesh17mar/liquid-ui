@@ -663,8 +663,8 @@ export const onDeleteOrganisations = /* GraphQL */ `
   }
 `;
 export const onCreateVideoObject = /* GraphQL */ `
-  subscription OnCreateVideoObject($owner: String) {
-    onCreateVideoObject(owner: $owner) {
+  subscription OnCreateVideoObject {
+    onCreateVideoObject {
       id
       token
       createdAt
@@ -672,13 +672,12 @@ export const onCreateVideoObject = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      owner
     }
   }
 `;
 export const onUpdateVideoObject = /* GraphQL */ `
-  subscription OnUpdateVideoObject($owner: String) {
-    onUpdateVideoObject(owner: $owner) {
+  subscription OnUpdateVideoObject {
+    onUpdateVideoObject {
       id
       token
       createdAt
@@ -686,13 +685,12 @@ export const onUpdateVideoObject = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      owner
     }
   }
 `;
 export const onDeleteVideoObject = /* GraphQL */ `
-  subscription OnDeleteVideoObject($owner: String) {
-    onDeleteVideoObject(owner: $owner) {
+  subscription OnDeleteVideoObject {
+    onDeleteVideoObject {
       id
       token
       createdAt
@@ -700,7 +698,6 @@ export const onDeleteVideoObject = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      owner
     }
   }
 `;

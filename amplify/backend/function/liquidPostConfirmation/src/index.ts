@@ -3,7 +3,6 @@ import axios from "axios";
 const cognito = new AWS.CognitoIdentityServiceProvider();
 
 exports.handler = async (event) => {
-  console.info("raw event", event);
   const email = event.request.userAttributes.email;
   const domain = email.split("@")[1];
   const companyNameFromEmail = domain.substring(0, domain.lastIndexOf("."));

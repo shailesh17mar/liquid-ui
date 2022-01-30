@@ -75,9 +75,8 @@ export const schema = {
                                 "groupClaim": "cognito:groups",
                                 "provider": "userPools",
                                 "allow": "groups",
-                                "groups": [
-                                    "liquid"
-                                ],
+                                "groupsField": "group",
+                                "groupField": "groups",
                                 "operations": [
                                     "create",
                                     "update",
@@ -139,9 +138,8 @@ export const schema = {
                                 "groupClaim": "cognito:groups",
                                 "provider": "userPools",
                                 "allow": "groups",
-                                "groups": [
-                                    "liquid"
-                                ],
+                                "groupsField": "group",
+                                "groupField": "groups",
                                 "operations": [
                                     "create",
                                     "update",
@@ -254,9 +252,8 @@ export const schema = {
                                 "groupClaim": "cognito:groups",
                                 "provider": "userPools",
                                 "allow": "groups",
-                                "groups": [
-                                    "liquid"
-                                ],
+                                "groupsField": "group",
+                                "groupField": "groups",
                                 "operations": [
                                     "create",
                                     "update",
@@ -346,9 +343,8 @@ export const schema = {
                                 "groupClaim": "cognito:groups",
                                 "provider": "userPools",
                                 "allow": "groups",
-                                "groups": [
-                                    "liquid"
-                                ],
+                                "groupsField": "group",
+                                "groupField": "groups",
                                 "operations": [
                                     "create",
                                     "update",
@@ -431,9 +427,8 @@ export const schema = {
                                 "groupClaim": "cognito:groups",
                                 "provider": "userPools",
                                 "allow": "groups",
-                                "groups": [
-                                    "liquid"
-                                ],
+                                "groupsField": "group",
+                                "groupField": "groups",
                                 "operations": [
                                     "create",
                                     "update",
@@ -581,9 +576,8 @@ export const schema = {
                                 "groupClaim": "cognito:groups",
                                 "provider": "userPools",
                                 "allow": "groups",
-                                "groups": [
-                                    "liquid"
-                                ],
+                                "groupsField": "group",
+                                "groupField": "groups",
                                 "operations": [
                                     "create",
                                     "update",
@@ -659,9 +653,8 @@ export const schema = {
                                 "groupClaim": "cognito:groups",
                                 "provider": "userPools",
                                 "allow": "groups",
-                                "groups": [
-                                    "liquid"
-                                ],
+                                "groupsField": "group",
+                                "groupField": "groups",
                                 "operations": [
                                     "create",
                                     "update",
@@ -798,9 +791,8 @@ export const schema = {
                                 "groupClaim": "cognito:groups",
                                 "provider": "userPools",
                                 "allow": "groups",
-                                "groups": [
-                                    "liquid"
-                                ],
+                                "groupsField": "group",
+                                "groupField": "groups",
                                 "operations": [
                                     "create",
                                     "update",
@@ -897,9 +889,8 @@ export const schema = {
                                 "groupClaim": "cognito:groups",
                                 "provider": "userPools",
                                 "allow": "groups",
-                                "groups": [
-                                    "liquid"
-                                ],
+                                "groupsField": "group",
+                                "groupField": "groups",
                                 "operations": [
                                     "create",
                                     "update",
@@ -980,9 +971,8 @@ export const schema = {
                                 "groupClaim": "cognito:groups",
                                 "provider": "userPools",
                                 "allow": "groups",
-                                "groups": [
-                                    "liquid"
-                                ],
+                                "groupsField": "group",
+                                "groupField": "groups",
                                 "operations": [
                                     "create",
                                     "update",
@@ -1078,19 +1068,11 @@ export const schema = {
                     "properties": {
                         "rules": [
                             {
+                                "groupClaim": "cognito:groups",
                                 "provider": "userPools",
-                                "ownerField": "owner",
-                                "allow": "owner",
-                                "identityClaim": "cognito:username",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            },
-                            {
-                                "allow": "private",
+                                "allow": "groups",
+                                "groupsField": "group",
+                                "groupField": "groups",
                                 "operations": [
                                     "create",
                                     "update",
@@ -1133,19 +1115,11 @@ export const schema = {
                     "properties": {
                         "rules": [
                             {
+                                "groupClaim": "cognito:groups",
                                 "provider": "userPools",
-                                "ownerField": "owner",
-                                "allow": "owner",
-                                "identityClaim": "cognito:username",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            },
-                            {
-                                "allow": "private",
+                                "allow": "groups",
+                                "groupsField": "group",
+                                "groupField": "groups",
                                 "operations": [
                                     "create",
                                     "update",

@@ -5,7 +5,7 @@ enum TranscriptionStatus {
   FAILED
 }
 
-type Persons @model @auth(rules: [{ allow: groups, groups: ["liquid"] }]) {
+type Persons @model @auth(rules: [{ allow: groups, groupsField: "group" }]) {
   id: ID!
   additonalFields: AWSJSON
   name: String
@@ -16,13 +16,13 @@ type Persons @model @auth(rules: [{ allow: groups, groups: ["liquid"] }]) {
   business: AWSJSON
 }
 
-type Insights @model @auth(rules: [{ allow: groups, groups: ["liquid"] }]) {
+type Insights @model @auth(rules: [{ allow: groups, groupsField: "group" }]) {
   id: ID!
   projectsID: ID! @index(name: "byProjects")
   content: AWSJSON
 }
 
-type Highlights @model @auth(rules: [{ allow: groups, groups: ["liquid"] }]) {
+type Highlights @model @auth(rules: [{ allow: groups, groupsField: "group" }]) {
   id: ID!
   type: String!
   text: String!
@@ -33,7 +33,7 @@ type Highlights @model @auth(rules: [{ allow: groups, groups: ["liquid"] }]) {
   updatedAt: AWSDateTime!
 }
 
-type Tags @model @auth(rules: [{ allow: groups, groups: ["liquid"] }]) {
+type Tags @model @auth(rules: [{ allow: groups, groupsField: "group" }]) {
   id: ID!
   label: String!
   projectsID: ID! @index(name: "byProjects")
@@ -44,7 +44,7 @@ type Tags @model @auth(rules: [{ allow: groups, groups: ["liquid"] }]) {
 
 type Transcription
   @model
-  @auth(rules: [{ allow: groups, groups: ["liquid"] }]) {
+  @auth(rules: [{ allow: groups, groupsField: "group" }]) {
   id: ID!
   video: AWSURL!
   transcription: AWSURL
@@ -54,7 +54,7 @@ type Transcription
   status: TranscriptionStatus!
 }
 
-type Stories @model @auth(rules: [{ allow: groups, groups: ["liquid"] }]) {
+type Stories @model @auth(rules: [{ allow: groups, groupsField: "group" }]) {
   id: ID!
   categoriesID: ID! @index(name: "byCategories")
   projectsID: ID! @index(name: "byProjects")
@@ -67,14 +67,14 @@ type Stories @model @auth(rules: [{ allow: groups, groups: ["liquid"] }]) {
   participants: Persons @hasOne
 }
 
-type Categories @model @auth(rules: [{ allow: groups, groups: ["liquid"] }]) {
+type Categories @model @auth(rules: [{ allow: groups, groupsField: "group" }]) {
   id: ID!
   name: String!
   projectsID: ID! @index(name: "byProjects")
   Stories: [Stories] @hasMany(indexName: "byCategories", fields: ["id"])
 }
 
-type Projects @model @auth(rules: [{ allow: groups, groups: ["liquid"] }]) {
+type Projects @model @auth(rules: [{ allow: groups, groupsField: "group" }]) {
   id: ID!
   name: String!
   readme: AWSJSON
@@ -87,7 +87,7 @@ type Projects @model @auth(rules: [{ allow: groups, groups: ["liquid"] }]) {
   Insights: [Insights] @hasMany(indexName: "byProjects", fields: ["id"])
 }
 
-type Workspaces @model @auth(rules: [{ allow: groups, groups: ["liquid"] }]) {
+type Workspaces @model @auth(rules: [{ allow: groups, groupsField: "group" }]) {
   id: ID!
   organisationsID: ID @index(name: "byOrganisations")
   name: String!
@@ -100,7 +100,7 @@ type Workspaces @model @auth(rules: [{ allow: groups, groups: ["liquid"] }]) {
 
 type Organisations
   @model
-  @auth(rules: [{ allow: groups, groups: ["liquid"] }]) {
+  @auth(rules: [{ allow: groups, groupsField: "group" }]) {
   id: ID!
   name: String!
   type: String
@@ -112,12 +112,7 @@ type Organisations
 
 type VodAsset
   @model(subscriptions: { level: public })
-  @auth(
-    rules: [
-      { allow: owner, ownerField: "owner" }
-      { allow: private, operations: [create, update, delete, read] }
-    ]
-  ) {
+  @auth(rules: [{ allow: groups, groupsField: "group" }]) {
   id: ID!
   title: String!
   description: String!
@@ -127,12 +122,7 @@ type VodAsset
 
 type VideoObject
   @model
-  @auth(
-    rules: [
-      { allow: owner, ownerField: "owner" }
-      { allow: private, operations: [create, update, delete, read] }
-    ]
-  ) {
+  @auth(rules: [{ allow: groups, groupsField: "group" }]) {
   id: ID!
   token: String @function(name: "videoservice-${env}-tokenGen")
 }

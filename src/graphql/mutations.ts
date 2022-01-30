@@ -781,7 +781,6 @@ export const createVodAsset = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
-        owner
       }
       createdAt
       updatedAt
@@ -790,7 +789,6 @@ export const createVodAsset = /* GraphQL */ `
       _lastChangedAt
       vodAssetTranscriptionId
       vodAssetVideoId
-      owner
     }
   }
 `;
@@ -823,7 +821,6 @@ export const updateVodAsset = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
-        owner
       }
       createdAt
       updatedAt
@@ -832,7 +829,6 @@ export const updateVodAsset = /* GraphQL */ `
       _lastChangedAt
       vodAssetTranscriptionId
       vodAssetVideoId
-      owner
     }
   }
 `;
@@ -865,7 +861,6 @@ export const deleteVodAsset = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
-        owner
       }
       createdAt
       updatedAt
@@ -874,7 +869,6 @@ export const deleteVodAsset = /* GraphQL */ `
       _lastChangedAt
       vodAssetTranscriptionId
       vodAssetVideoId
-      owner
     }
   }
 `;
@@ -891,7 +885,6 @@ export const createVideoObject = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      owner
     }
   }
 `;
@@ -908,7 +901,6 @@ export const updateVideoObject = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      owner
     }
   }
 `;
@@ -925,7 +917,6 @@ export const deleteVideoObject = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      owner
     }
   }
 `;

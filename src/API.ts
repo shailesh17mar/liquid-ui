@@ -671,7 +671,6 @@ export type VodAsset = {
   _lastChangedAt?: number,
   vodAssetTranscriptionId?: string | null,
   vodAssetVideoId?: string | null,
-  owner?: string | null,
 };
 
 export type VideoObject = {
@@ -683,7 +682,6 @@ export type VideoObject = {
   _version?: number,
   _deleted?: boolean | null,
   _lastChangedAt?: number,
-  owner?: string | null,
 };
 
 export type UpdateVodAssetInput = {
@@ -1819,7 +1817,6 @@ export type CreateVodAssetMutation = {
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      owner?: string | null,
     } | null,
     createdAt: string,
     updatedAt: string,
@@ -1828,7 +1825,6 @@ export type CreateVodAssetMutation = {
     _lastChangedAt: number,
     vodAssetTranscriptionId?: string | null,
     vodAssetVideoId?: string | null,
-    owner?: string | null,
   } | null,
 };
 
@@ -1865,7 +1861,6 @@ export type UpdateVodAssetMutation = {
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      owner?: string | null,
     } | null,
     createdAt: string,
     updatedAt: string,
@@ -1874,7 +1869,6 @@ export type UpdateVodAssetMutation = {
     _lastChangedAt: number,
     vodAssetTranscriptionId?: string | null,
     vodAssetVideoId?: string | null,
-    owner?: string | null,
   } | null,
 };
 
@@ -1911,7 +1905,6 @@ export type DeleteVodAssetMutation = {
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      owner?: string | null,
     } | null,
     createdAt: string,
     updatedAt: string,
@@ -1920,7 +1913,6 @@ export type DeleteVodAssetMutation = {
     _lastChangedAt: number,
     vodAssetTranscriptionId?: string | null,
     vodAssetVideoId?: string | null,
-    owner?: string | null,
   } | null,
 };
 
@@ -1939,7 +1931,6 @@ export type CreateVideoObjectMutation = {
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    owner?: string | null,
   } | null,
 };
 
@@ -1958,7 +1949,6 @@ export type UpdateVideoObjectMutation = {
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    owner?: string | null,
   } | null,
 };
 
@@ -1977,7 +1967,6 @@ export type DeleteVideoObjectMutation = {
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    owner?: string | null,
   } | null,
 };
 
@@ -2954,7 +2943,6 @@ export type GetVodAssetQuery = {
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      owner?: string | null,
     } | null,
     createdAt: string,
     updatedAt: string,
@@ -2963,7 +2951,6 @@ export type GetVodAssetQuery = {
     _lastChangedAt: number,
     vodAssetTranscriptionId?: string | null,
     vodAssetVideoId?: string | null,
-    owner?: string | null,
   } | null,
 };
 
@@ -2988,7 +2975,6 @@ export type ListVodAssetsQuery = {
       _lastChangedAt: number,
       vodAssetTranscriptionId?: string | null,
       vodAssetVideoId?: string | null,
-      owner?: string | null,
     } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
@@ -3017,7 +3003,6 @@ export type SyncVodAssetsQuery = {
       _lastChangedAt: number,
       vodAssetTranscriptionId?: string | null,
       vodAssetVideoId?: string | null,
-      owner?: string | null,
     } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
@@ -3038,7 +3023,6 @@ export type GetVideoObjectQuery = {
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    owner?: string | null,
   } | null,
 };
 
@@ -3060,7 +3044,6 @@ export type ListVideoObjectsQuery = {
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      owner?: string | null,
     } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
@@ -3086,7 +3069,6 @@ export type SyncVideoObjectsQuery = {
       _version: number,
       _deleted?: boolean | null,
       _lastChangedAt: number,
-      owner?: string | null,
     } | null >,
     nextToken?: string | null,
     startedAt?: number | null,
@@ -3882,10 +3864,6 @@ export type OnDeleteOrganisationsSubscription = {
   } | null,
 };
 
-export type OnCreateVideoObjectSubscriptionVariables = {
-  owner?: string | null,
-};
-
 export type OnCreateVideoObjectSubscription = {
   onCreateVideoObject?:  {
     __typename: "VideoObject",
@@ -3896,12 +3874,7 @@ export type OnCreateVideoObjectSubscription = {
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    owner?: string | null,
   } | null,
-};
-
-export type OnUpdateVideoObjectSubscriptionVariables = {
-  owner?: string | null,
 };
 
 export type OnUpdateVideoObjectSubscription = {
@@ -3914,12 +3887,7 @@ export type OnUpdateVideoObjectSubscription = {
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    owner?: string | null,
   } | null,
-};
-
-export type OnDeleteVideoObjectSubscriptionVariables = {
-  owner?: string | null,
 };
 
 export type OnDeleteVideoObjectSubscription = {
@@ -3932,7 +3900,6 @@ export type OnDeleteVideoObjectSubscription = {
     _version: number,
     _deleted?: boolean | null,
     _lastChangedAt: number,
-    owner?: string | null,
   } | null,
 };
 

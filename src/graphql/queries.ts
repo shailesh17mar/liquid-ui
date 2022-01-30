@@ -778,7 +778,6 @@ export const getVodAsset = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
-        owner
       }
       createdAt
       updatedAt
@@ -787,7 +786,6 @@ export const getVodAsset = /* GraphQL */ `
       _lastChangedAt
       vodAssetTranscriptionId
       vodAssetVideoId
-      owner
     }
   }
 `;
@@ -809,7 +807,6 @@ export const listVodAssets = /* GraphQL */ `
         _lastChangedAt
         vodAssetTranscriptionId
         vodAssetVideoId
-        owner
       }
       nextToken
       startedAt
@@ -840,7 +837,6 @@ export const syncVodAssets = /* GraphQL */ `
         _lastChangedAt
         vodAssetTranscriptionId
         vodAssetVideoId
-        owner
       }
       nextToken
       startedAt
@@ -857,7 +853,6 @@ export const getVideoObject = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      owner
     }
   }
 `;
@@ -876,7 +871,6 @@ export const listVideoObjects = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
-        owner
       }
       nextToken
       startedAt
@@ -904,7 +898,6 @@ export const syncVideoObjects = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
-        owner
       }
       nextToken
       startedAt
