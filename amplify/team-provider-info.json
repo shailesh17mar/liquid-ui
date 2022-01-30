@@ -39,7 +39,12 @@
         },
         "liquidPostConfirmation": {
           "deploymentBucketName": "amplify-liquid-dev-170406-deployment",
-          "s3Key": "amplify-builds/liquidPostConfirmation-4b782b6a6f6c65653470-build.zip"
+          "s3Key": "amplify-builds/liquidPostConfirmation-69557839427661767038-build.zip"
+        },
+        "liquidPreSignup": {
+          "DOMAINBLACKLIST": "gmail.com",
+          "deploymentBucketName": "amplify-liquid-dev-170406-deployment",
+          "s3Key": "amplify-builds/liquidPreSignup-6e315378386e6d63357a-build.zip"
         }
       }
     }

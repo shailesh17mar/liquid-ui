@@ -91,7 +91,7 @@ export const Transcript = (props: NodeViewProps) => {
       video: videoAssetId,
     });
   };
-  const { upload, progress, localVideoUrl } = useVideoUpload({
+  const { upload, progress } = useVideoUpload({
     onSuccess: handleVideoUploadSuccess,
   });
 

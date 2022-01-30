@@ -12,6 +12,15 @@
             "Arn",
             "Name"
           ]
+        },
+        {
+          "category": "function",
+          "resourceName": "liquidPreSignup",
+          "triggerProvider": "Cognito",
+          "attributes": [
+            "Arn",
+            "Name"
+          ]
         }
       ],
       "customAuth": false,
@@ -146,6 +155,11 @@
       ]
     },
     "liquidPostConfirmation": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "liquidPreSignup": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"

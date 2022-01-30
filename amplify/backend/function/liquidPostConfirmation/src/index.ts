@@ -1,15 +1,15 @@
 import * as AWS from "aws-sdk";
+import axios from "axios";
 const cognito = new AWS.CognitoIdentityServiceProvider();
 
-exports.handler = async (event, context) => {
+exports.handler = async (event) => {
+  console.info("raw event", event);
   const email = event.request.userAttributes.email;
-
   const domain = email.split("@")[1];
   const companyNameFromEmail = domain.substring(0, domain.lastIndexOf("."));
-  const companiesResponse = await fetch(
+  const companies = (await axios.get(
     `https://autocomplete.clearbit.com/v1/companies/suggest?query=${domain}`
-  );
-  const companies = await companiesResponse.json();
+  )) as unknown as any[];
   const tenant =
     companies.length > 0 ? companies[0].name : companyNameFromEmail;
 
@@ -29,5 +29,8 @@ exports.handler = async (event, context) => {
   }
   try {
     await cognito.adminAddUserToGroup(addUserParams).promise();
-  } catch (e) {}
+  } catch (error) {
+    throw new Error(error);
+  }
+  return event;
 };

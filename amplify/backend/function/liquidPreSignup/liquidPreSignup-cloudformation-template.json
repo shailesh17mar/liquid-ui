@@ -2,7 +2,11 @@
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "{\"createdOn\":\"Mac\",\"createdBy\":\"Amplify\",\"createdWith\":\"7.6.13\",\"stackType\":\"function-Lambda\",\"metadata\":{}}",
   "Parameters": {
-    "GROUP": {
+    "DOMAINBLACKLIST": {
+      "Type": "String",
+      "Default": ""
+    },
+    "DOMAINWHITELIST": {
       "Type": "String",
       "Default": ""
     },
@@ -67,12 +71,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "liquidPostConfirmation",
+            "liquidPreSignup",
             {
               "Fn::Join": [
                 "",
                 [
-                  "liquidPostConfirmation",
+                  "liquidPreSignup",
                   "-",
                   {
                     "Ref": "env"
@@ -93,8 +97,11 @@
             "REGION": {
               "Ref": "AWS::Region"
             },
-            "GROUP": {
-              "Ref": "GROUP"
+            "DOMAINWHITELIST": {
+              "Ref": "DOMAINWHITELIST"
+            },
+            "DOMAINBLACKLIST": {
+              "Ref": "DOMAINBLACKLIST"
             }
           }
         },
@@ -122,12 +129,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "liquidPostConfirmation",
+            "liquidPreSignup",
             {
               "Fn::Join": [
                 "",
                 [
-                  "liquidPostConfirmation",
+                  "liquidPreSignup",
                   "-",
                   {
                     "Ref": "env"
@@ -197,34 +204,6 @@
           ]
         }
       }
-    },
-    "CustomLambdaExecutionPolicy": {
-      "Type": "AWS::IAM::Policy",
-      "Properties": {
-        "PolicyName": "custom-lambda-execution-policy",
-        "PolicyDocument": {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Action": [
-                "cognito-idp:CreateGroup",
-                "cognito-idp:AdminAddUserToGroup",
-                "cognito-idp:GetGroup"
-              ],
-              "Resource": [
-                "*"
-              ],
-              "Effect": "Allow"
-            }
-          ]
-        },
-        "Roles": [
-          {
-            "Ref": "LambdaExecutionRole"
-          }
-        ]
-      },
-      "DependsOn": "LambdaExecutionRole"
     }
   },
   "Outputs": {
