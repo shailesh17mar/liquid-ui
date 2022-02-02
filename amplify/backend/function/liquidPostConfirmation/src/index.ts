@@ -1,17 +1,10 @@
 import * as AWS from "aws-sdk";
-import axios from "axios";
 const cognito = new AWS.CognitoIdentityServiceProvider();
 
 exports.handler = async (event) => {
+  console.info("raw evnet", JSON.stringify(event));
   const email = event.request.userAttributes.email;
-  const domain = email.split("@")[1];
-  const companyNameFromEmail = domain.substring(0, domain.lastIndexOf("."));
-  const companies = (await axios.get(
-    `https://autocomplete.clearbit.com/v1/companies/suggest?query=${domain}`
-  )) as unknown as any[];
-  const tenant =
-    companies.length > 0 ? companies[0].name : companyNameFromEmail;
-
+  const tenant = email.split("@")[1];
   const groupParams = {
     GroupName: tenant,
     UserPoolId: event.userPoolId,

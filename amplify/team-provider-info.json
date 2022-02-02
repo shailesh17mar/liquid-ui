@@ -9,7 +9,8 @@
       "UnauthRoleName": "amplify-liquid-dev-170406-unauthRole",
       "StackName": "amplify-liquid-dev-170406",
       "StackId": "arn:aws:cloudformation:us-east-2:043715548265:stack/amplify-liquid-dev-170406/9ebb8eb0-7553-11ec-a557-020a4e309172",
-      "AmplifyAppId": "dolpdy24rr4fr"
+      "AmplifyAppId": "dolpdy24rr4fr",
+      "APIGatewayAuthURL": "https://s3.amazonaws.com/amplify-liquid-dev-170406-deployment/amplify-cfn-templates/api/APIGatewayAuthStack.json"
     },
     "categories": {
       "video": {
@@ -39,12 +40,16 @@
         },
         "liquidPostConfirmation": {
           "deploymentBucketName": "amplify-liquid-dev-170406-deployment",
-          "s3Key": "amplify-builds/liquidPostConfirmation-69557839427661767038-build.zip"
+          "s3Key": "amplify-builds/liquidPostConfirmation-477a304661514a4f3053-build.zip"
         },
         "liquidPreSignup": {
           "DOMAINBLACKLIST": "gmail.com",
           "deploymentBucketName": "amplify-liquid-dev-170406-deployment",
           "s3Key": "amplify-builds/liquidPreSignup-6e315378386e6d63357a-build.zip"
+        },
+        "liquidassets": {
+          "deploymentBucketName": "amplify-liquid-dev-170406-deployment",
+          "s3Key": "amplify-builds/liquidassets-526a4c532b48384e4737-build.zip"
         }
       }
     }

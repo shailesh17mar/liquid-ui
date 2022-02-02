@@ -15,7 +15,7 @@
     "defaultPasswordPolicy": false,
     "passwordPolicyMinLength": 8,
     "passwordPolicyCharacters": [],
-    "requiredAttributes": ["name"],
+    "requiredAttributes": ["email", "name"],
     "aliasAttributes": [],
     "userpoolClientGenerateSecret": false,
     "userpoolClientRefreshTokenValidity": 30,
@@ -29,13 +29,13 @@
     "serviceName": "Cognito",
     "usernameAttributes": ["email"],
     "useDefault": "defaultSocial",
-    "userPoolGroups": true,
+    "userPoolGroups": false,
     "userPoolGroupList": ["Admin"],
     "adminQueries": false,
     "hostedUI": true,
     "hostedUIDomainName": "00n99gztxh32",
     "authProvidersUserPool": ["Google"],
-    "hostedUIProviderMeta": "[{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"name\":\"name\",\"username\":\"sub\"}}]",
+    "hostedUIProviderMeta": "[{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid profile\",\"AttributeMapping\":{\"name\":\"name\",\"email\":\"email\",\"username\":\"sub\"}}]",
     "usernameCaseSensitive": false,
     "useEnabledMfas": false,
     "authRoleArn": {
@@ -69,8 +69,10 @@
     },
     "permissions": [],
     "authTriggerConnections": [
-      "{\"triggerType\":\"PostConfirmation\",\"lambdaFunctionName\":\"liquidPostConfirmation\"}"
+      "{\"triggerType\":\"PostConfirmation\",\"lambdaFunctionName\":\"liquidPostConfirmation\"}",
+      "{\"triggerType\":\"PreSignUp\",\"lambdaFunctionName\":\"liquidPreSignup\"}"
     ],
-    "thirdPartyAuth": true
+    "thirdPartyAuth": true,
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"implicit\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://app.liquid.so/\",\"http://localhost:3000/\"],\"LogoutURLs\":[\"https://app.liquid.so/\",\"http://localhost:3000/\"]}"
   }
 }

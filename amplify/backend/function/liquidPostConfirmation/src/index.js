@@ -1,15 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const AWS = require("aws-sdk");
-const axios_1 = require("axios");
 const cognito = new AWS.CognitoIdentityServiceProvider();
 exports.handler = async (event) => {
-    console.info("raw event", event);
+    console.info("raw evnet", JSON.stringify(event));
     const email = event.request.userAttributes.email;
-    const domain = email.split("@")[1];
-    const companyNameFromEmail = domain.substring(0, domain.lastIndexOf("."));
-    const companies = (await axios_1.default.get(`https://autocomplete.clearbit.com/v1/companies/suggest?query=${domain}`));
-    const tenant = companies.length > 0 ? companies[0].name : companyNameFromEmail;
+    const tenant = email.split("@")[1];
     const groupParams = {
         GroupName: tenant,
         UserPoolId: event.userPoolId,
