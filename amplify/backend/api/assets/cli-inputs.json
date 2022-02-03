@@ -1,8 +1,8 @@
 {
   "version": 1,
   "paths": {
-    "/assets/upload": {
-      "name": "/assets/upload",
+    "/assets/{id}": {
+      "name": "/assets/{id}",
       "lambdaFunction": "liquidassets",
       "permissions": {
         "setting": "private",
@@ -11,13 +11,13 @@
         ]
       }
     },
-    "/assets/{id}": {
-      "name": "/assets/{id}",
+    "/assets/upload": {
+      "name": "/assets/upload",
       "lambdaFunction": "liquidassets",
       "permissions": {
         "setting": "private",
         "auth": [
-          "read"
+          "create"
         ]
       }
     }

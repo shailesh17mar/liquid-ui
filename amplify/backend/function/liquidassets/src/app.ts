@@ -4,11 +4,11 @@ import { nanoid } from "nanoid";
 import { eventContext } from "aws-serverless-express/middleware";
 import { json } from "body-parser";
 import { authorize } from "./authorizer";
-import { PutObjectCommand } from "@aws-sdk/client-s3";
 const s3 = new AWS.S3();
 
 const BUCKET = "liquid-user-storage";
 const EXPIRY_IN_SECONDS = 60 * 60 * 5;
+
 // declare a new express app
 const app = express();
 app.use(json());
@@ -23,14 +23,17 @@ app.use(function (req, res, next) {
 
 app.use(authorize);
 
-app.get("/assets/upload", function (req, res) {
+app.post("/assets/upload", function (req, res) {
+  const metadata: { contentType: string } = req.body;
   const id = nanoid();
+  const name = `${id}.${metadata.contentType.split("/")[1]}`;
   const url = s3.getSignedUrl("putObject", {
     Bucket: BUCKET,
-    Key: `${req.tenant}/${id}`,
+    Key: `${req.tenant}/${name}`,
     Expires: EXPIRY_IN_SECONDS,
+    ContentType: metadata.contentType,
   });
-  res.json({ id, uploadURL: url });
+  res.json({ name, uploadURL: url });
 });
 
 app.get("/assets/:id", function (req, res) {

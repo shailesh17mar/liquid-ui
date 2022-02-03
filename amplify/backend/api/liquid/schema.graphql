@@ -132,15 +132,6 @@ type VodAsset
   id: ID!
   tenant: ID
   title: String!
-  description: String!
   transcription: Transcription @hasOne
-  video: VideoObject @hasOne
-}
-
-type VideoObject
-  @model
-  @auth(rules: [{ allow: groups, groupsField: "tenant" }]) {
-  id: ID!
-  tenant: ID
-  token: String @function(name: "videoservice-${env}-tokenGen")
+  video: String!
 }

@@ -1079,13 +1079,6 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "description": {
-                    "name": "description",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
                 "transcription": {
                     "name": "transcription",
                     "isArray": false,
@@ -1103,26 +1096,12 @@ export const schema = {
                 "video": {
                     "name": "video",
                     "isArray": false,
-                    "type": {
-                        "model": "VideoObject"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "HAS_ONE",
-                        "associatedWith": "id",
-                        "targetName": "vodAssetVideoId"
-                    }
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
                 },
                 "vodAssetTranscriptionId": {
                     "name": "vodAssetTranscriptionId",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "vodAssetVideoId": {
-                    "name": "vodAssetVideoId",
                     "isArray": false,
                     "type": "ID",
                     "isRequired": false,
@@ -1139,60 +1118,6 @@ export const schema = {
                             "level": "public"
                         }
                     }
-                },
-                {
-                    "type": "auth",
-                    "properties": {
-                        "rules": [
-                            {
-                                "groupClaim": "cognito:groups",
-                                "provider": "userPools",
-                                "allow": "groups",
-                                "groupsField": "tenant",
-                                "groupField": "groups",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        "VideoObject": {
-            "name": "VideoObject",
-            "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "tenant": {
-                    "name": "tenant",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "token": {
-                    "name": "token",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                }
-            },
-            "syncable": true,
-            "pluralName": "VideoObjects",
-            "attributes": [
-                {
-                    "type": "model",
-                    "properties": {}
                 },
                 {
                     "type": "auth",
@@ -1275,5 +1200,5 @@ export const schema = {
         }
     },
     "nonModels": {},
-    "version": "331b61408d625faac24d6d7673313758"
+    "version": "162260d347f37f9c85b3dbfd56162d56"
 };

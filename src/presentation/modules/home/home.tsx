@@ -7,9 +7,8 @@ import {
   EuiPanel,
   EuiTitle,
 } from "@elastic/eui";
-import { API } from "aws-amplify";
 import { ProjectsQueryController } from "core/modules/projects/usecases/project-query-controller";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useProjects } from "../../../core/modules/projects/hooks";
 import { CreateProjectModal } from "../shared/components/create-project-modal/create-project-modal";

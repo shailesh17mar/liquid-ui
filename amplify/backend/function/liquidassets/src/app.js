@@ -20,14 +20,17 @@ app.use(function (req, res, next) {
     next();
 });
 app.use(authorizer_1.authorize);
-app.get("/assets/upload", function (req, res) {
+app.post("/assets/upload", function (req, res) {
+    const metadata = req.body;
     const id = (0, nanoid_1.nanoid)();
+    const name = `${id}.${metadata.contentType.split("/")[1]}`;
     const url = s3.getSignedUrl("putObject", {
         Bucket: BUCKET,
-        Key: `${req.tenant}/${id}`,
+        Key: `${req.tenant}/${name}`,
         Expires: EXPIRY_IN_SECONDS,
+        ContentType: metadata.contentType,
     });
-    res.json({ id, uploadURL: url });
+    res.json({ name, uploadURL: url });
 });
 app.get("/assets/:id", function (req, res) {
     const { id } = req.params;

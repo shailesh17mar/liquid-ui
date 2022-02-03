@@ -790,7 +790,6 @@ export const getVodAsset = /* GraphQL */ `
       id
       tenant
       title
-      description
       transcription {
         id
         tenant
@@ -804,23 +803,13 @@ export const getVodAsset = /* GraphQL */ `
         _deleted
         _lastChangedAt
       }
-      video {
-        id
-        tenant
-        token
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
+      video
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
       vodAssetTranscriptionId
-      vodAssetVideoId
     }
   }
 `;
@@ -835,14 +824,13 @@ export const listVodAssets = /* GraphQL */ `
         id
         tenant
         title
-        description
+        video
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
         vodAssetTranscriptionId
-        vodAssetVideoId
       }
       nextToken
       startedAt
@@ -866,78 +854,13 @@ export const syncVodAssets = /* GraphQL */ `
         id
         tenant
         title
-        description
+        video
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
         vodAssetTranscriptionId
-        vodAssetVideoId
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const getVideoObject = /* GraphQL */ `
-  query GetVideoObject($id: ID!) {
-    getVideoObject(id: $id) {
-      id
-      tenant
-      token
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const listVideoObjects = /* GraphQL */ `
-  query ListVideoObjects(
-    $filter: ModelVideoObjectFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listVideoObjects(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        tenant
-        token
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const syncVideoObjects = /* GraphQL */ `
-  query SyncVideoObjects(
-    $filter: ModelVideoObjectFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncVideoObjects(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        tenant
-        token
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       nextToken
       startedAt

@@ -2,8 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { API, Storage } from "aws-amplify";
 import { DataStore } from "@aws-amplify/datastore";
 import Document from "@tiptap/extension-document";
-import Paragraph from "@tiptap/extension-paragraph";
-import TextStyle from "@tiptap/extension-text-style";
 import Text from "@tiptap/extension-text";
 import { generateJSON, JSONContent, NodeViewProps } from "@tiptap/react";
 import { TranscriptContainer, TranscriptContent } from "./transcript.styles";
@@ -22,51 +20,29 @@ import {
   EuiTitle,
 } from "@elastic/eui";
 import ReactPlayer from "react-player";
-import { TranscriptAssistant } from "./transcript-assistant";
-import { data } from "./dummy";
-import { nanoid } from "nanoid";
 import awsvideoconfig from "aws-video-exports";
 import { VodAsset } from "models";
-import { VideoObject } from "models";
+import { getVodAsset } from "graphql/queries";
+import { createTranscription, updateVodAsset } from "graphql/mutations";
 import {
-  getTranscription,
-  getVideoObject,
-  getVodAsset,
-  listVodAssets,
-} from "graphql/queries";
-import {
-  createHighlightTags,
-  createTranscription,
-  createVideoObject,
-  createVodAsset,
-  updateVodAsset,
-} from "graphql/mutations";
-import {
-  CreateHighlightTagsInput,
-  CreateHighlightTagsMutation,
-  CreateHighlightTagsMutationVariables,
   CreateTranscriptionInput,
   CreateTranscriptionMutation,
-  CreateVideoObjectMutation,
-  CreateVodAssetInput,
-  CreateVodAssetMutation,
-  GetTranscriptionQuery,
   GetVodAssetQuery,
   TranscriptionStatus,
   UpdateVodAssetInput,
   UpdateVodAssetMutation,
 } from "API";
-import { Transcription } from "models";
 import { displayTranscript } from "./transcript-parser";
 import { useParams } from "react-router-dom";
 import TimeOffset from "../time-offset";
-import { CustomParagraph, Editor } from "../../editor";
+import { CustomParagraph } from "../../editor";
 import { atom, useRecoilState } from "recoil";
 import {
   HighlightState,
   highlightAtom,
 } from "../../components/highlight-control/highlight-control";
 import { useVideoUpload } from "../../../transcript/hooks/use-video-upload";
+import { useVideoAsset } from "core/modules/videoAssets/hooks";
 
 export const transcriptAtom = atom<JSONContent | undefined>({
   key: "transcriptState",
@@ -81,11 +57,14 @@ export const Transcript = (props: NodeViewProps) => {
   const uploaderRef = useRef<HTMLInputElement>(null);
   const [token, setToken] = useState<string | null>();
   const [videoURL, setVideoURL] = useState<string | undefined>();
-  const [videoAsset, setVideoAsset] = useState<VodAsset | undefined>();
 
   const { highlights } = useHighlight(props.editor);
   const [isAssitantActive, setIsAssistantActive] = useState<boolean>(true);
   const [isUploadModalOpen, setIsUploadModalOpen] = useState<boolean>(false);
+
+  const { data } = useVideoAsset(video);
+  const videoAsset = data as VodAsset;
+
   const handleVideoUploadSuccess = (videoAssetId: string) => {
     props.updateAttributes({
       video: videoAssetId,
@@ -100,6 +79,20 @@ export const Transcript = (props: NodeViewProps) => {
       uploaderRef.current?.click();
     }
   }, [video]);
+
+  useEffect(() => {
+    async function fetchVideoUrl() {
+      const { url } = await API.get(
+        "assets",
+        `/assets/${videoAsset?.video}`,
+        {}
+      );
+      setVideoURL(url);
+    }
+    if (videoAsset?.video) {
+      fetchVideoUrl();
+    }
+  }, [videoAsset?.video]);
 
   useEffect(() => {
     async function fetchTranscript() {
@@ -125,91 +118,90 @@ export const Transcript = (props: NodeViewProps) => {
     fetchTranscript();
   }, [id, setTranscript, transcript, videoAsset?.transcription]);
 
-  useEffect(() => {
-    async function fetchVideoURL() {
-      const videoAssetResponse = (await API.graphql({
-        query: getVodAsset,
-        variables: { id: video.split(".")[0] },
-        authMode: "AMAZON_COGNITO_USER_POOLS",
-      })) as { data: GetVodAssetQuery };
-      const videoAsset = videoAssetResponse.data?.getVodAsset;
-      setVideoAsset(videoAsset as unknown as VodAsset);
+  // useEffect(() => {
+  //   async function fetchVideoURL() {
+  //     const videoAssetResponse = (await API.graphql({
+  //       query: getVodAsset,
+  //       variables: { id: video.split(".")[0] },
+  //       authMode: "AMAZON_COGNITO_USER_POOLS",
+  //     })) as { data: GetVodAssetQuery };
+  //     const videoAsset = videoAssetResponse.data?.getVodAsset;
+  //     setVideoAsset(videoAsset as unknown as VodAsset);
 
-      if (
-        props.node.content &&
-        props.node.content.size === 0 &&
-        videoAsset?.transcription?.status === TranscriptionStatus.COMPLETED
-      ) {
-        const key = `${videoAsset?.transcription.id}.json`;
-        const result = await Storage.get(key, {
-          level: "public",
-          download: true,
-        });
-        // const transcriptContentResponse = await fetch(result);
-        //@ts-ignore
-        const transcriptResponse = await new Response(result.Body).json();
-        const resultX = displayTranscript(transcriptResponse);
-        //update the transcript component
-        const content = generateJSON(resultX, [
-          Document,
-          CustomParagraph,
-          TimeOffset,
-          Text,
-        ]);
-        const story = await DataStore.query(Story, id);
-        if (story && Array.isArray(story.content)) {
-          const fixedSchema = Story.copyOf(story, (updated) => {
-            //@ts-ignore
-            updated.content = {
-              type: "doc",
-              content: story.content as unknown as JSONContent[],
-            };
-          });
-          await DataStore.save(fixedSchema);
-        }
-        if (story) {
-          let doc = Object.assign({}, story?.content as unknown as JSONContent);
-          if (doc.content) {
-            let index = doc.content.findIndex(
-              (content) => content.type === "transcriptComponent"
-            );
-            if (index && index >= 0) {
-              const updatedStory = Story.copyOf(story, (updated) => {
-                let doc = story?.content as unknown as JSONContent;
-                const currentValue = doc!!.content!![index];
-                // doc.content!![index].content = content.content as JSONContent[];
-                //@ts-ignore
-                updated.content = {
-                  type: "doc",
-                  content: Object.assign([], doc.content, {
-                    [index]: { ...currentValue, content: content.content },
-                  }),
-                };
-              });
-              await DataStore.save(updatedStory);
-              // doc.content[index].content = content.content as JSONContent[];
-            }
-          }
-        }
-        // doc.content.
-      }
-      const token = videoAsset?.video?.token;
-      const asset = videoAsset?.video?.id;
-      const isEncodingDone =
-        new Date().valueOf() - new Date(videoAsset!!.updatedAt).valueOf() >
-        60 * 1000;
-      // awsOutputVideo + /assetID/ + assetID + extension + token
-      if (isEncodingDone) {
-        const uri = `https://${awsvideoconfig.awsOutputVideo}/${asset}/${asset}.m3u8`;
+  //     if (
+  //       props.node.content &&
+  //       props.node.content.size === 0 &&
+  //       videoAsset?.transcription?.status === TranscriptionStatus.COMPLETED
+  //     ) {
+  //       const key = `${videoAsset?.transcription.id}.json`;
+  //       const result = await Storage.get(key, {
+  //         level: "public",
+  //         download: true,
+  //       });
+  //       // const transcriptContentResponse = await fetch(result);
+  //       //@ts-ignore
+  //       const transcriptResponse = await new Response(result.Body).json();
+  //       const resultX = displayTranscript(transcriptResponse);
+  //       //update the transcript component
+  //       const content = generateJSON(resultX, [
+  //         Document,
+  //         CustomParagraph,
+  //         TimeOffset,
+  //         Text,
+  //       ]);
+  //       const story = await DataStore.query(Story, id);
+  //       if (story && Array.isArray(story.content)) {
+  //         const fixedSchema = Story.copyOf(story, (updated) => {
+  //           //@ts-ignore
+  //           updated.content = {
+  //             type: "doc",
+  //             content: story.content as unknown as JSONContent[],
+  //           };
+  //         });
+  //         await DataStore.save(fixedSchema);
+  //       }
+  //       if (story) {
+  //         let doc = Object.assign({}, story?.content as unknown as JSONContent);
+  //         if (doc.content) {
+  //           let index = doc.content.findIndex(
+  //             (content) => content.type === "transcriptComponent"
+  //           );
+  //           if (index && index >= 0) {
+  //             const updatedStory = Story.copyOf(story, (updated) => {
+  //               let doc = story?.content as unknown as JSONContent;
+  //               const currentValue = doc!!.content!![index];
+  //               // doc.content!![index].content = content.content as JSONContent[];
+  //               //@ts-ignore
+  //               updated.content = {
+  //                 type: "doc",
+  //                 content: Object.assign([], doc.content, {
+  //                   [index]: { ...currentValue, content: content.content },
+  //                 }),
+  //               };
+  //             });
+  //             await DataStore.save(updatedStory);
+  //             // doc.content[index].content = content.content as JSONContent[];
+  //           }
+  //         }
+  //       }
+  //       // doc.content.
+  //     }
+  //     const asset = videoAsset?.video;
+  //     const isEncodingDone =
+  //       new Date().valueOf() - new Date(videoAsset!!.updatedAt).valueOf() >
+  //       60 * 1000;
+  //     // awsOutputVideo + /assetID/ + assetID + extension + token
+  //     if (isEncodingDone) {
+  //       const uri = `https://${awsvideoconfig.awsOutputVideo}/${asset}/${asset}.m3u8`;
 
-        setVideoURL(uri);
-        setToken(token);
-      }
-    }
-    if (video && !videoURL && !token) {
-      fetchVideoURL();
-    }
-  }, [token, video, videoURL]);
+  //       setVideoURL(uri);
+  //       setToken(token);
+  //     }
+  //   }
+  //   if (video && !videoURL && !token) {
+  //     fetchVideoURL();
+  //   }
+  // }, [token, video, videoURL]);
 
   const onAssistantClose = () => setIsAssistantActive(false);
 
@@ -403,7 +395,7 @@ Unknowns:
         onChange={handleFileUpload}
       />
 
-      {videoURL && token ? (
+      {videoURL ? (
         <EuiPanel hasBorder hasShadow={false}>
           <EuiFlexGroup
             alignItems="center"
@@ -415,27 +407,27 @@ Unknowns:
                 width={768}
                 height={428}
                 url={videoURL}
-                config={{
-                  file: {
-                    hlsOptions: {
-                      xhrSetup: function xhrSetup(xhr: any, url: string) {
-                        xhr.setRequestHeader(
-                          "Access-Control-Allow-Headers",
-                          "Content-Type, Accept, X-Requested-With"
-                        );
-                        // xhr.setRequestHeader(
-                        //   "Access-Control-Allow-Origin",
-                        //   "http://localhost:3000"
-                        // );
-                        xhr.setRequestHeader(
-                          "Access-Control-Allow-Credentials",
-                          "true"
-                        );
-                        xhr.open("GET", url + token);
-                      },
-                    },
-                  },
-                }}
+                // config={{
+                //   file: {
+                //     hlsOptions: {
+                //       xhrSetup: function xhrSetup(xhr: any, url: string) {
+                //         xhr.setRequestHeader(
+                //           "Access-Control-Allow-Headers",
+                //           "Content-Type, Accept, X-Requested-With"
+                //         );
+                //         // xhr.setRequestHeader(
+                //         //   "Access-Control-Allow-Origin",
+                //         //   "http://localhost:3000"
+                //         // );
+                //         xhr.setRequestHeader(
+                //           "Access-Control-Allow-Credentials",
+                //           "true"
+                //         );
+                //         xhr.open("GET", url + token);
+                //       },
+                //     },
+                //   },
+                // }}
                 playbackRate={1.0}
                 controls
                 onError={(e) => console.log("onError", e)}

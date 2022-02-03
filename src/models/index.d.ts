@@ -144,21 +144,11 @@ export declare class VodAsset {
   readonly id: string;
   readonly tenant?: string;
   readonly title: string;
-  readonly description: string;
   readonly transcription?: Transcription;
-  readonly video?: VideoObject;
+  readonly video: string;
   readonly vodAssetTranscriptionId?: string;
-  readonly vodAssetVideoId?: string;
   constructor(init: ModelInit<VodAsset>);
   static copyOf(source: VodAsset, mutator: (draft: MutableModel<VodAsset>) => MutableModel<VodAsset> | void): VodAsset;
-}
-
-export declare class VideoObject {
-  readonly id: string;
-  readonly tenant?: string;
-  readonly token?: string;
-  constructor(init: ModelInit<VideoObject>);
-  static copyOf(source: VideoObject, mutator: (draft: MutableModel<VideoObject>) => MutableModel<VideoObject> | void): VideoObject;
 }
 
 export declare class HighlightTags {

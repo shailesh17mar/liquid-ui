@@ -80,16 +80,6 @@
       "APIGatewayAuthURL": "https://s3.amazonaws.com/amplify-liquid-lab-185828-deployment/amplify-cfn-templates/api/APIGatewayAuthStack.json"
     },
     "categories": {
-      "video": {
-        "videoservice": {
-          "publicKey": "-----BEGIN PUBLIC KEY-----\\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtPLPS4mgpIUklY4KeusM\\nTmYbCyYDcnsgLIyt7qLLc3aO11PccpdQMWTe8PTDf0UfMuPtuMTSXibcgkeM0ppx\\nT1IHXD+jr/jQYEgVcaGZKDoLKtrOLsY8qIfy2JORiXFiQEr7XFdxPefwyVzuHdYI\\nj7HnL+321HaVGVdJHgQri2X492hVed2p8n4e/56Vo0rWVTyJMO92ylwcCldWsmlT\\nygMJB9wUzUjuHwNqOJJWFC9GcxEG8zhD/6R7bCpmFXLEVmYXOsnmw6N3ko2VYnDX\\nEkc2iPyWrsyGajKwVbq4KwiiLOVrCtwy+nX1NC6VBaV0KVXYuKgg1nfBA2vwTRQ+\\nAQIDAQAB\\n-----END PUBLIC KEY-----\\n",
-          "rPublicName": "rCloudFrontPublicKeylab77jfbjnl",
-          "publicKeyName": "videoservice-lab-publickey-77jfbjnl",
-          "secretPem": "videoservice-lab-pem-77jfbjnl",
-          "secretPemArn": "arn:aws:secretsmanager:us-east-2:043715548265:secret:videoservice-lab-pem-77jfbjnl-kuQ7Aa",
-          "s3UUID": "i8cxsm0r3x6z"
-        }
-      },
       "auth": {
         "liquid": {
           "googleClientId": "1077167489512-o8ruaj2cp90tbijgavan7u2r8fg3q5lb.apps.googleusercontent.com"
@@ -115,7 +105,7 @@
         },
         "liquidassets": {
           "deploymentBucketName": "amplify-liquid-lab-185828-deployment",
-          "s3Key": "amplify-builds/liquidassets-34345069505a2b6c4d4e-build.zip"
+          "s3Key": "amplify-builds/liquidassets-2f6c3239796731626378-build.zip"
         }
       }
     }

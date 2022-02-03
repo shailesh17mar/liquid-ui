@@ -797,7 +797,6 @@ export const createVodAsset = /* GraphQL */ `
       id
       tenant
       title
-      description
       transcription {
         id
         tenant
@@ -811,23 +810,13 @@ export const createVodAsset = /* GraphQL */ `
         _deleted
         _lastChangedAt
       }
-      video {
-        id
-        tenant
-        token
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
+      video
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
       vodAssetTranscriptionId
-      vodAssetVideoId
     }
   }
 `;
@@ -840,7 +829,6 @@ export const updateVodAsset = /* GraphQL */ `
       id
       tenant
       title
-      description
       transcription {
         id
         tenant
@@ -854,23 +842,13 @@ export const updateVodAsset = /* GraphQL */ `
         _deleted
         _lastChangedAt
       }
-      video {
-        id
-        tenant
-        token
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
+      video
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
       vodAssetTranscriptionId
-      vodAssetVideoId
     }
   }
 `;
@@ -883,7 +861,6 @@ export const deleteVodAsset = /* GraphQL */ `
       id
       tenant
       title
-      description
       transcription {
         id
         tenant
@@ -897,74 +874,13 @@ export const deleteVodAsset = /* GraphQL */ `
         _deleted
         _lastChangedAt
       }
-      video {
-        id
-        tenant
-        token
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
+      video
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
       vodAssetTranscriptionId
-      vodAssetVideoId
-    }
-  }
-`;
-export const createVideoObject = /* GraphQL */ `
-  mutation CreateVideoObject(
-    $input: CreateVideoObjectInput!
-    $condition: ModelVideoObjectConditionInput
-  ) {
-    createVideoObject(input: $input, condition: $condition) {
-      id
-      tenant
-      token
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const updateVideoObject = /* GraphQL */ `
-  mutation UpdateVideoObject(
-    $input: UpdateVideoObjectInput!
-    $condition: ModelVideoObjectConditionInput
-  ) {
-    updateVideoObject(input: $input, condition: $condition) {
-      id
-      tenant
-      token
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const deleteVideoObject = /* GraphQL */ `
-  mutation DeleteVideoObject(
-    $input: DeleteVideoObjectInput!
-    $condition: ModelVideoObjectConditionInput
-  ) {
-    deleteVideoObject(input: $input, condition: $condition) {
-      id
-      tenant
-      token
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;

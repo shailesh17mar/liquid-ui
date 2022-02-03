@@ -92,13 +92,7 @@
       ]
     }
   },
-  "video": {
-    "videoservice": {
-      "service": "video",
-      "serviceType": "video-on-demand",
-      "providerPlugin": "awscloudformation"
-    }
-  },
+  "video": {},
   "api": {
     "liquid": {
       "service": "AppSync",
