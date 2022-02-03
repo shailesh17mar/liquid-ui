@@ -17,7 +17,7 @@ const updateProject = async (projectInput: UpdateProjectsInput) => {
 export const useUpdateProject = () => {
   const queryClient = useQueryClient();
   return useMutation(
-    (input: UpdateProjectsInput) => {
+    (input: Omit<UpdateProjectsInput, "tenant">) => {
       return updateProject(input);
     },
     {

@@ -18,7 +18,7 @@ const updatePerson = async (personInput: UpdatePersonsInput) => {
 export const useUpdatePerson = (callback?: (person: Persons) => void) => {
   const queryClient = useQueryClient();
   return useMutation(
-    (input: UpdatePersonsInput) => {
+    (input: Omit<UpdatePersonsInput, "tenant">) => {
       return updatePerson(input);
     },
     {

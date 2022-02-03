@@ -1,35 +1,24 @@
 {
-  "shared": {
-    "resourceName": "videoservice"
-  },
-  "template": {
-    "type": ["HLS"],
-    "name": "Amplify_Video_HLS.json"
-  },
-  "sns": {
-    "createTopic": false
-  },
-  "contentDeliveryNetwork": {
-    "signedKey": true,
-    "functionNameSchema": "videoservice-${env}-tokenGen",
-    "enableDistribution": true
-  },
-  "parameters": {
-    "authRoleName": {
-      "Ref": "AuthRoleName"
+    "shared": {
+        "resourceName": "videoservice"
     },
-    "GraphQLAPIId": {
-      "Fn::GetAtt": ["apiliquid", "Outputs.GraphQLAPIIdOutput"]
+    "template": {
+        "type": [
+            "HLS"
+        ],
+        "name": "Amplify_Video_HLS.json"
     },
-    "GraphQLEndpoint": {
-      "Fn::GetAtt": ["apiliquid", "Outputs.GraphQLAPIEndpointOutput"]
+    "sns": {
+        "createTopic": false
+    },
+    "contentDeliveryNetwork": {
+        "signedKey": true,
+        "functionNameSchema": "videoservice-${env}-tokenGen",
+        "enableDistribution": true
+    },
+    "parameters": {
+        "authRoleName": {
+            "Ref": "AuthRoleName"
+        }
     }
-  },
-  "permissions": {
-    "permissionSchema": ["any"]
-  },
-  "cms": {
-    "overrideSchema": true,
-    "editAPI": true
-  }
 }

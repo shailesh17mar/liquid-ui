@@ -1,10 +1,10 @@
 import { useQueryClient, useMutation } from "react-query";
-import { UpdateVodAssetInput, UpdateVodAssetMutation } from "API";
+import { UpdateVideoObjectInput, UpdateVodAssetMutation } from "API";
 import { API } from "aws-amplify";
 import { updateVodAsset } from "graphql/mutations";
 import { VodAsset } from "models";
 
-const updateVideoObject = async (videoObjectInput: UpdateVodAssetInput) => {
+const updateVideoObject = async (videoObjectInput: UpdateVideoObjectInput) => {
   const videoObjectResponse = (await API.graphql({
     query: updateVodAsset,
     variables: {
@@ -20,7 +20,7 @@ export const useUpdateVideoObject = (
 ) => {
   const queryClient = useQueryClient();
   return useMutation(
-    (input: UpdateVodAssetInput) => {
+    (input: Omit<UpdateVideoObjectInput, "tenant">) => {
       return updateVideoObject(input);
     },
     {

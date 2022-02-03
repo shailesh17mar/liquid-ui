@@ -17,7 +17,7 @@ const updateStory = async (storyInput: UpdateStoriesInput) => {
 export const useUpdateStory = () => {
   const queryClient = useQueryClient();
   return useMutation(
-    (input: UpdateStoriesInput) => {
+    (input: Omit<UpdateStoriesInput, "tenant">) => {
       return updateStory(input);
     },
     {

@@ -14,6 +14,7 @@ const retrieveProjectById = async (id: string) => {
     const project = projectResponse.data.getProjects;
     if (project?.readme)
       return { ...project, readme: JSON.parse(project?.readme) };
+    return project;
   }
 };
 

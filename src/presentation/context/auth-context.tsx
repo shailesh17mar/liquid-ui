@@ -12,6 +12,7 @@ export interface User {
   id: string;
   name: string;
   email: string;
+  tenant: string;
 }
 interface ContextType {
   user: User;
@@ -24,11 +25,16 @@ const AuthProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<any | null>(null);
   useEffect(() => {
     async function setCurrentUser() {
+      const currentSession = await Auth.currentSession();
       const userInfo = await Auth.currentUserInfo();
+      const cognitoGroups =
+        currentSession.getAccessToken().payload["cognito:groups"];
+      const tenant = cognitoGroups[1];
       setUser({
         name: userInfo.attributes.name,
         email: userInfo.attributes.email,
         id: userInfo.id,
+        tenant,
       } as User);
     }
     setCurrentUser();

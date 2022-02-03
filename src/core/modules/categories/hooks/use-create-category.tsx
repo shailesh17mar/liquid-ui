@@ -3,6 +3,7 @@ import { useQueryClient, useMutation } from "react-query";
 import { CreateCategoriesInput, CreateCategoriesMutation } from "API";
 import { createCategories } from "graphql/mutations";
 import { Categories } from "models";
+import { useAuth } from "presentation/context/auth-context";
 
 const createCategory = async (categoryInput: CreateCategoriesInput) => {
   const categoryResponse = (await API.graphql({
@@ -19,9 +20,10 @@ export const useCreateCategory = (
   callback?: (category: Categories) => void
 ) => {
   const queryClient = useQueryClient();
+  const { user } = useAuth();
   return useMutation(
-    (input: CreateCategoriesInput) => {
-      return createCategory(input);
+    (input: Omit<CreateCategoriesInput, "tenant">) => {
+      return createCategory({ ...input, tenant: user.tenant });
     },
     {
       onSuccess: (category, variables) => {

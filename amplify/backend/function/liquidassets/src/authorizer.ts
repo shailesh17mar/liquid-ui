@@ -1,5 +1,10 @@
 import * as AWS from "aws-sdk";
 
+interface User {
+  name?: string;
+  email?: string;
+  sub?: string;
+}
 export const authorize = async (req, res, next) => {
   try {
     const IDP_REGEX = /.*\/.*,(.*)\/(.*):CognitoSignIn:(.*)/;
@@ -17,8 +22,12 @@ export const authorize = async (req, res, next) => {
       })
       .promise();
     const user = listUsersResponse.Users[0];
-    req.user = user;
-    console.info(req.user);
+    const userDetails: User = user.Attributes.reduce((acc, attribute) => {
+      acc[attribute.Name] = attribute.Value;
+      return acc;
+    }, {});
+    req.user = userDetails;
+    req.tenant = userDetails.email.split("@")[1];
     next();
   } catch (error) {
     console.log(error);

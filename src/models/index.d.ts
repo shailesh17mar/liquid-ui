@@ -11,6 +11,7 @@ export enum TranscriptionStatus {
 
 export declare class Persons {
   readonly id: string;
+  readonly tenant?: string;
   readonly additonalFields?: string;
   readonly name?: string;
   readonly email?: string;
@@ -24,6 +25,7 @@ export declare class Persons {
 
 export declare class Insights {
   readonly id: string;
+  readonly tenant?: string;
   readonly projectsID: string;
   readonly content?: string;
   constructor(init: ModelInit<Insights>);
@@ -32,6 +34,7 @@ export declare class Insights {
 
 export declare class Highlights {
   readonly id: string;
+  readonly tenant?: string;
   readonly type: string;
   readonly text: string;
   readonly transcriptionID: string;
@@ -45,6 +48,7 @@ export declare class Highlights {
 
 export declare class Tags {
   readonly id: string;
+  readonly tenant?: string;
   readonly label: string;
   readonly projectsID: string;
   readonly highlights?: (HighlightTags | null)[];
@@ -56,6 +60,7 @@ export declare class Tags {
 
 export declare class Transcription {
   readonly id: string;
+  readonly tenant?: string;
   readonly video: string;
   readonly transcription?: string;
   readonly content?: string;
@@ -67,6 +72,7 @@ export declare class Transcription {
 
 export declare class Stories {
   readonly id: string;
+  readonly tenant?: string;
   readonly categoriesID: string;
   readonly projectsID: string;
   readonly type: string;
@@ -84,6 +90,7 @@ export declare class Stories {
 
 export declare class Categories {
   readonly id: string;
+  readonly tenant?: string;
   readonly name: string;
   readonly projectsID: string;
   readonly Stories?: (Stories | null)[];
@@ -93,6 +100,7 @@ export declare class Categories {
 
 export declare class Projects {
   readonly id: string;
+  readonly tenant?: string;
   readonly name: string;
   readonly readme?: string;
   readonly createdAt: string;
@@ -108,6 +116,7 @@ export declare class Projects {
 
 export declare class Workspaces {
   readonly id: string;
+  readonly tenant?: string;
   readonly organisationsID?: string;
   readonly name: string;
   readonly color?: string;
@@ -121,6 +130,7 @@ export declare class Workspaces {
 
 export declare class Organisations {
   readonly id: string;
+  readonly tenant?: string;
   readonly name: string;
   readonly type?: string;
   readonly Workspaces?: (Workspaces | null)[];
@@ -132,6 +142,7 @@ export declare class Organisations {
 
 export declare class VodAsset {
   readonly id: string;
+  readonly tenant?: string;
   readonly title: string;
   readonly description: string;
   readonly transcription?: Transcription;
@@ -144,6 +155,7 @@ export declare class VodAsset {
 
 export declare class VideoObject {
   readonly id: string;
+  readonly tenant?: string;
   readonly token?: string;
   constructor(init: ModelInit<VideoObject>);
   static copyOf(source: VideoObject, mutator: (draft: MutableModel<VideoObject>) => MutableModel<VideoObject> | void): VideoObject;

@@ -3,6 +3,7 @@ import { useQueryClient, useMutation } from "react-query";
 import { CreateHighlightsInput, CreateHighlightsMutation } from "API";
 import { createHighlights } from "graphql/mutations";
 import { Highlights } from "models";
+import { useAuth } from "presentation/context/auth-context";
 
 const createHighlight = async (highlightInput: CreateHighlightsInput) => {
   const highlightResponse = (await API.graphql({
@@ -20,9 +21,10 @@ export const useCreateHighlight = (
   callback?: (highlight: Highlights) => void
 ) => {
   const queryClient = useQueryClient();
+  const { user } = useAuth();
   return useMutation(
-    (input: CreateHighlightsInput) => {
-      return createHighlight(input);
+    (input: Omit<CreateHighlightsInput, "tenant">) => {
+      return createHighlight({ ...input, tenant: user.tenant });
     },
     {
       onSuccess: (highlight, variables) => {

@@ -20,7 +20,7 @@ export const useUpdateVideoAsset = (
 ) => {
   const queryClient = useQueryClient();
   return useMutation(
-    (input: UpdateVodAssetInput) => {
+    (input: Omit<UpdateVodAssetInput, "tenant">) => {
       return updateVideoAsset(input);
     },
     {

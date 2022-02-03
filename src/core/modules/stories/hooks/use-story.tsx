@@ -22,6 +22,7 @@ const retrieveStoryById = async (id: string) => {
     }
     if (story?.content)
       return { ...story, content: JSON.parse(story?.content) };
+    return story;
   }
 };
 

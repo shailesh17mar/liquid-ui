@@ -6,6 +6,7 @@ export const getPersons = /* GraphQL */ `
   query GetPersons($id: ID!) {
     getPersons(id: $id) {
       id
+      tenant
       additonalFields
       name
       email
@@ -28,6 +29,7 @@ export const listPersons = /* GraphQL */ `
     listPersons(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        tenant
         additonalFields
         name
         email
@@ -59,6 +61,7 @@ export const syncPersons = /* GraphQL */ `
     ) {
       items {
         id
+        tenant
         additonalFields
         name
         email
@@ -79,6 +82,7 @@ export const getInsights = /* GraphQL */ `
   query GetInsights($id: ID!) {
     getInsights(id: $id) {
       id
+      tenant
       projectsID
       content
       createdAt
@@ -98,6 +102,7 @@ export const listInsights = /* GraphQL */ `
     listInsights(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        tenant
         projectsID
         content
         createdAt
@@ -126,6 +131,7 @@ export const syncInsights = /* GraphQL */ `
     ) {
       items {
         id
+        tenant
         projectsID
         content
         createdAt
@@ -143,6 +149,7 @@ export const getHighlights = /* GraphQL */ `
   query GetHighlights($id: ID!) {
     getHighlights(id: $id) {
       id
+      tenant
       type
       text
       transcriptionID
@@ -168,6 +175,7 @@ export const listHighlights = /* GraphQL */ `
     listHighlights(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        tenant
         type
         text
         transcriptionID
@@ -198,6 +206,7 @@ export const syncHighlights = /* GraphQL */ `
     ) {
       items {
         id
+        tenant
         type
         text
         transcriptionID
@@ -217,6 +226,7 @@ export const getTags = /* GraphQL */ `
   query GetTags($id: ID!) {
     getTags(id: $id) {
       id
+      tenant
       label
       projectsID
       highlights {
@@ -240,6 +250,7 @@ export const listTags = /* GraphQL */ `
     listTags(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        tenant
         label
         projectsID
         updatedAt
@@ -268,6 +279,7 @@ export const syncTags = /* GraphQL */ `
     ) {
       items {
         id
+        tenant
         label
         projectsID
         updatedAt
@@ -285,6 +297,7 @@ export const getTranscription = /* GraphQL */ `
   query GetTranscription($id: ID!) {
     getTranscription(id: $id) {
       id
+      tenant
       video
       transcription
       content
@@ -310,6 +323,7 @@ export const listTranscriptions = /* GraphQL */ `
     listTranscriptions(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        tenant
         video
         transcription
         content
@@ -340,6 +354,7 @@ export const syncTranscriptions = /* GraphQL */ `
     ) {
       items {
         id
+        tenant
         video
         transcription
         content
@@ -359,6 +374,7 @@ export const getStories = /* GraphQL */ `
   query GetStories($id: ID!) {
     getStories(id: $id) {
       id
+      tenant
       categoriesID
       projectsID
       type
@@ -368,6 +384,7 @@ export const getStories = /* GraphQL */ `
       content
       transcription {
         id
+        tenant
         video
         transcription
         content
@@ -380,6 +397,7 @@ export const getStories = /* GraphQL */ `
       }
       participants {
         id
+        tenant
         additonalFields
         name
         email
@@ -408,6 +426,7 @@ export const listStories = /* GraphQL */ `
     listStories(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        tenant
         categoriesID
         projectsID
         type
@@ -441,6 +460,7 @@ export const syncStories = /* GraphQL */ `
     ) {
       items {
         id
+        tenant
         categoriesID
         projectsID
         type
@@ -463,6 +483,7 @@ export const getCategories = /* GraphQL */ `
   query GetCategories($id: ID!) {
     getCategories(id: $id) {
       id
+      tenant
       name
       projectsID
       Stories {
@@ -486,6 +507,7 @@ export const listCategories = /* GraphQL */ `
     listCategories(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        tenant
         name
         projectsID
         createdAt
@@ -514,6 +536,7 @@ export const syncCategories = /* GraphQL */ `
     ) {
       items {
         id
+        tenant
         name
         projectsID
         createdAt
@@ -531,6 +554,7 @@ export const getProjects = /* GraphQL */ `
   query GetProjects($id: ID!) {
     getProjects(id: $id) {
       id
+      tenant
       name
       readme
       createdAt
@@ -570,6 +594,7 @@ export const listProjects = /* GraphQL */ `
     listProjects(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        tenant
         name
         readme
         createdAt
@@ -598,6 +623,7 @@ export const syncProjects = /* GraphQL */ `
     ) {
       items {
         id
+        tenant
         name
         readme
         createdAt
@@ -615,6 +641,7 @@ export const getWorkspaces = /* GraphQL */ `
   query GetWorkspaces($id: ID!) {
     getWorkspaces(id: $id) {
       id
+      tenant
       organisationsID
       name
       color
@@ -637,6 +664,7 @@ export const listWorkspaces = /* GraphQL */ `
     listWorkspaces(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        tenant
         organisationsID
         name
         color
@@ -668,6 +696,7 @@ export const syncWorkspaces = /* GraphQL */ `
     ) {
       items {
         id
+        tenant
         organisationsID
         name
         color
@@ -688,6 +717,7 @@ export const getOrganisations = /* GraphQL */ `
   query GetOrganisations($id: ID!) {
     getOrganisations(id: $id) {
       id
+      tenant
       name
       type
       Workspaces {
@@ -711,6 +741,7 @@ export const listOrganisations = /* GraphQL */ `
     listOrganisations(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        tenant
         name
         type
         createdAt
@@ -739,6 +770,7 @@ export const syncOrganisations = /* GraphQL */ `
     ) {
       items {
         id
+        tenant
         name
         type
         createdAt
@@ -756,10 +788,12 @@ export const getVodAsset = /* GraphQL */ `
   query GetVodAsset($id: ID!) {
     getVodAsset(id: $id) {
       id
+      tenant
       title
       description
       transcription {
         id
+        tenant
         video
         transcription
         content
@@ -772,6 +806,7 @@ export const getVodAsset = /* GraphQL */ `
       }
       video {
         id
+        tenant
         token
         createdAt
         updatedAt
@@ -798,6 +833,7 @@ export const listVodAssets = /* GraphQL */ `
     listVodAssets(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        tenant
         title
         description
         createdAt
@@ -828,6 +864,7 @@ export const syncVodAssets = /* GraphQL */ `
     ) {
       items {
         id
+        tenant
         title
         description
         createdAt
@@ -847,6 +884,7 @@ export const getVideoObject = /* GraphQL */ `
   query GetVideoObject($id: ID!) {
     getVideoObject(id: $id) {
       id
+      tenant
       token
       createdAt
       updatedAt
@@ -865,6 +903,7 @@ export const listVideoObjects = /* GraphQL */ `
     listVideoObjects(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        tenant
         token
         createdAt
         updatedAt
@@ -892,6 +931,7 @@ export const syncVideoObjects = /* GraphQL */ `
     ) {
       items {
         id
+        tenant
         token
         createdAt
         updatedAt
@@ -912,6 +952,7 @@ export const getHighlightTags = /* GraphQL */ `
       tagsID
       highlights {
         id
+        tenant
         type
         text
         transcriptionID
@@ -924,6 +965,7 @@ export const getHighlightTags = /* GraphQL */ `
       }
       tags {
         id
+        tenant
         label
         projectsID
         updatedAt

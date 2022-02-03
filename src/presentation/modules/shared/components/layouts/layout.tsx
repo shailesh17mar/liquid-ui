@@ -7,7 +7,7 @@ import { CreateProjectModal } from "../create-project-modal/create-project-modal
 import { SideBar } from "./sidebar";
 import { UserMenu } from "./components/user-menu";
 import { ActionMenu } from "./components/action-menu";
-import { useProjects } from "presentation/modules/projects/hooks";
+import { useProjects } from "core/modules/projects/hooks";
 
 interface Props {
   isProjectLayout?: boolean;

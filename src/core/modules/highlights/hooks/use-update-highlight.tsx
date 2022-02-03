@@ -20,7 +20,7 @@ export const useUpdateHighlight = (
 ) => {
   const queryClient = useQueryClient();
   return useMutation(
-    (input: UpdateHighlightsInput) => {
+    (input: Omit<UpdateHighlightsInput, "tenant">) => {
       return updateHighlight(input);
     },
     {

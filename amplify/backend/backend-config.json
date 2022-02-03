@@ -135,20 +135,6 @@
             "Name",
             "Arn"
           ]
-        },
-        {
-          "category": "auth",
-          "resourceName": "liquid",
-          "attributes": [
-            "UserPoolId"
-          ]
-        },
-        {
-          "category": "auth",
-          "resourceName": "userPoolGroups",
-          "attributes": [
-            "AdminGroupRole"
-          ]
         }
       ]
     }

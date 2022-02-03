@@ -2,10 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
 const AWS = require("aws-sdk");
+const nanoid_1 = require("nanoid");
 const middleware_1 = require("aws-serverless-express/middleware");
 const body_parser_1 = require("body-parser");
 const authorizer_1 = require("./authorizer");
 const s3 = new AWS.S3();
+const BUCKET = "liquid-user-storage";
+const EXPIRY_IN_SECONDS = 60 * 60 * 5;
 // declare a new express app
 const app = express();
 app.use((0, body_parser_1.json)());
@@ -17,58 +20,23 @@ app.use(function (req, res, next) {
     next();
 });
 app.use(authorizer_1.authorize);
-app.get("/asset/:id", function (req, res) {
-    // Add your code here
-    const bucket = "liquid-user-storage";
-    const signedUrlExpireSeconds = 60 * 60 * 5;
-    const url = s3.getSignedUrl("getObject", {
-        Bucket: bucket,
-        Key: req.params.id,
-        Expires: signedUrlExpireSeconds,
-    });
-    res.json({ url });
-});
-app.put("/assets/:id", function (req, res) {
-    // Add your code here
-    const bucket = "liquid-user-storage";
-    const signedUrlExpireSeconds = 60 * 60 * 5;
+app.get("/assets/upload", function (req, res) {
+    const id = (0, nanoid_1.nanoid)();
     const url = s3.getSignedUrl("putObject", {
-        Bucket: bucket,
-        Key: req.params.id,
-        Expires: signedUrlExpireSeconds,
+        Bucket: BUCKET,
+        Key: `${req.tenant}/${id}`,
+        Expires: EXPIRY_IN_SECONDS,
+    });
+    res.json({ id, uploadURL: url });
+});
+app.get("/assets/:id", function (req, res) {
+    const { id } = req.params;
+    const url = s3.getSignedUrl("getObject", {
+        Bucket: BUCKET,
+        Key: `${req.tenant}/${id}`,
+        Expires: EXPIRY_IN_SECONDS,
     });
     res.json({ url });
-});
-app.get("/assets", function (req, res) {
-    // Add your code here
-    res.json({ success: "get call succeed!", url: req.url });
-});
-app.post("/item", function (req, res) {
-    // Add your code here
-    res.json({ success: "post call succeed!", url: req.url, body: req.body });
-});
-app.post("/item/*", function (req, res) {
-    // Add your code here
-    res.json({ success: "post call succeed!", url: req.url, body: req.body });
-});
-app.put("/item", function (req, res) {
-    // Add your code here
-    res.json({ success: "put call succeed!", url: req.url, body: req.body });
-});
-app.put("/item/*", function (req, res) {
-    // Add your code here
-    res.json({ success: "put call succeed!", url: req.url, body: req.body });
-});
-/****************************
- * Example delete method *
- ****************************/
-app.delete("/item", function (req, res) {
-    // Add your code here
-    res.json({ success: "delete call succeed!", url: req.url });
-});
-app.delete("/item/*", function (req, res) {
-    // Add your code here
-    res.json({ success: "delete call succeed!", url: req.url });
 });
 app.listen(3000, function () {
     console.log("App started");

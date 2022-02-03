@@ -11,7 +11,7 @@ import { API } from "aws-amplify";
 import { ProjectsQueryController } from "core/modules/projects/usecases/project-query-controller";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useProjects } from "../projects/hooks";
+import { useProjects } from "../../../core/modules/projects/hooks";
 import { CreateProjectModal } from "../shared/components/create-project-modal/create-project-modal";
 import { IconContainer, ProjectButton } from "./home.styles";
 
@@ -27,13 +27,6 @@ export const Home: React.FC<HomeProps> = () => {
     setIsModalVisible(true);
   };
 
-  useEffect(() => {
-    async function test() {
-      const x = await API.get("assets", "/signedUrl/", {});
-      console.log(x);
-    }
-    test();
-  }, []);
   const handleAddProjectSuccess = (id: string) => {
     setIsModalVisible(false);
     navigate(`/projects/${id}`);

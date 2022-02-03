@@ -6,6 +6,7 @@ export const onCreatePersons = /* GraphQL */ `
   subscription OnCreatePersons {
     onCreatePersons {
       id
+      tenant
       additonalFields
       name
       email
@@ -23,6 +24,7 @@ export const onUpdatePersons = /* GraphQL */ `
   subscription OnUpdatePersons {
     onUpdatePersons {
       id
+      tenant
       additonalFields
       name
       email
@@ -40,6 +42,7 @@ export const onDeletePersons = /* GraphQL */ `
   subscription OnDeletePersons {
     onDeletePersons {
       id
+      tenant
       additonalFields
       name
       email
@@ -57,6 +60,7 @@ export const onCreateInsights = /* GraphQL */ `
   subscription OnCreateInsights {
     onCreateInsights {
       id
+      tenant
       projectsID
       content
       createdAt
@@ -71,6 +75,7 @@ export const onUpdateInsights = /* GraphQL */ `
   subscription OnUpdateInsights {
     onUpdateInsights {
       id
+      tenant
       projectsID
       content
       createdAt
@@ -85,6 +90,7 @@ export const onDeleteInsights = /* GraphQL */ `
   subscription OnDeleteInsights {
     onDeleteInsights {
       id
+      tenant
       projectsID
       content
       createdAt
@@ -99,6 +105,7 @@ export const onCreateHighlights = /* GraphQL */ `
   subscription OnCreateHighlights {
     onCreateHighlights {
       id
+      tenant
       type
       text
       transcriptionID
@@ -119,6 +126,7 @@ export const onUpdateHighlights = /* GraphQL */ `
   subscription OnUpdateHighlights {
     onUpdateHighlights {
       id
+      tenant
       type
       text
       transcriptionID
@@ -139,6 +147,7 @@ export const onDeleteHighlights = /* GraphQL */ `
   subscription OnDeleteHighlights {
     onDeleteHighlights {
       id
+      tenant
       type
       text
       transcriptionID
@@ -159,6 +168,7 @@ export const onCreateTags = /* GraphQL */ `
   subscription OnCreateTags {
     onCreateTags {
       id
+      tenant
       label
       projectsID
       highlights {
@@ -177,6 +187,7 @@ export const onUpdateTags = /* GraphQL */ `
   subscription OnUpdateTags {
     onUpdateTags {
       id
+      tenant
       label
       projectsID
       highlights {
@@ -195,6 +206,7 @@ export const onDeleteTags = /* GraphQL */ `
   subscription OnDeleteTags {
     onDeleteTags {
       id
+      tenant
       label
       projectsID
       highlights {
@@ -213,6 +225,7 @@ export const onCreateTranscription = /* GraphQL */ `
   subscription OnCreateTranscription {
     onCreateTranscription {
       id
+      tenant
       video
       transcription
       content
@@ -233,6 +246,7 @@ export const onUpdateTranscription = /* GraphQL */ `
   subscription OnUpdateTranscription {
     onUpdateTranscription {
       id
+      tenant
       video
       transcription
       content
@@ -253,6 +267,7 @@ export const onDeleteTranscription = /* GraphQL */ `
   subscription OnDeleteTranscription {
     onDeleteTranscription {
       id
+      tenant
       video
       transcription
       content
@@ -273,6 +288,7 @@ export const onCreateStories = /* GraphQL */ `
   subscription OnCreateStories {
     onCreateStories {
       id
+      tenant
       categoriesID
       projectsID
       type
@@ -282,6 +298,7 @@ export const onCreateStories = /* GraphQL */ `
       content
       transcription {
         id
+        tenant
         video
         transcription
         content
@@ -294,6 +311,7 @@ export const onCreateStories = /* GraphQL */ `
       }
       participants {
         id
+        tenant
         additonalFields
         name
         email
@@ -317,6 +335,7 @@ export const onUpdateStories = /* GraphQL */ `
   subscription OnUpdateStories {
     onUpdateStories {
       id
+      tenant
       categoriesID
       projectsID
       type
@@ -326,6 +345,7 @@ export const onUpdateStories = /* GraphQL */ `
       content
       transcription {
         id
+        tenant
         video
         transcription
         content
@@ -338,6 +358,7 @@ export const onUpdateStories = /* GraphQL */ `
       }
       participants {
         id
+        tenant
         additonalFields
         name
         email
@@ -361,6 +382,7 @@ export const onDeleteStories = /* GraphQL */ `
   subscription OnDeleteStories {
     onDeleteStories {
       id
+      tenant
       categoriesID
       projectsID
       type
@@ -370,6 +392,7 @@ export const onDeleteStories = /* GraphQL */ `
       content
       transcription {
         id
+        tenant
         video
         transcription
         content
@@ -382,6 +405,7 @@ export const onDeleteStories = /* GraphQL */ `
       }
       participants {
         id
+        tenant
         additonalFields
         name
         email
@@ -405,6 +429,7 @@ export const onCreateCategories = /* GraphQL */ `
   subscription OnCreateCategories {
     onCreateCategories {
       id
+      tenant
       name
       projectsID
       Stories {
@@ -423,6 +448,7 @@ export const onUpdateCategories = /* GraphQL */ `
   subscription OnUpdateCategories {
     onUpdateCategories {
       id
+      tenant
       name
       projectsID
       Stories {
@@ -441,6 +467,7 @@ export const onDeleteCategories = /* GraphQL */ `
   subscription OnDeleteCategories {
     onDeleteCategories {
       id
+      tenant
       name
       projectsID
       Stories {
@@ -459,6 +486,7 @@ export const onCreateProjects = /* GraphQL */ `
   subscription OnCreateProjects {
     onCreateProjects {
       id
+      tenant
       name
       readme
       createdAt
@@ -493,6 +521,7 @@ export const onUpdateProjects = /* GraphQL */ `
   subscription OnUpdateProjects {
     onUpdateProjects {
       id
+      tenant
       name
       readme
       createdAt
@@ -527,6 +556,7 @@ export const onDeleteProjects = /* GraphQL */ `
   subscription OnDeleteProjects {
     onDeleteProjects {
       id
+      tenant
       name
       readme
       createdAt
@@ -561,6 +591,7 @@ export const onCreateWorkspaces = /* GraphQL */ `
   subscription OnCreateWorkspaces {
     onCreateWorkspaces {
       id
+      tenant
       organisationsID
       name
       color
@@ -578,6 +609,7 @@ export const onUpdateWorkspaces = /* GraphQL */ `
   subscription OnUpdateWorkspaces {
     onUpdateWorkspaces {
       id
+      tenant
       organisationsID
       name
       color
@@ -595,6 +627,7 @@ export const onDeleteWorkspaces = /* GraphQL */ `
   subscription OnDeleteWorkspaces {
     onDeleteWorkspaces {
       id
+      tenant
       organisationsID
       name
       color
@@ -612,6 +645,7 @@ export const onCreateOrganisations = /* GraphQL */ `
   subscription OnCreateOrganisations {
     onCreateOrganisations {
       id
+      tenant
       name
       type
       Workspaces {
@@ -630,6 +664,7 @@ export const onUpdateOrganisations = /* GraphQL */ `
   subscription OnUpdateOrganisations {
     onUpdateOrganisations {
       id
+      tenant
       name
       type
       Workspaces {
@@ -648,6 +683,7 @@ export const onDeleteOrganisations = /* GraphQL */ `
   subscription OnDeleteOrganisations {
     onDeleteOrganisations {
       id
+      tenant
       name
       type
       Workspaces {
@@ -666,6 +702,7 @@ export const onCreateVideoObject = /* GraphQL */ `
   subscription OnCreateVideoObject {
     onCreateVideoObject {
       id
+      tenant
       token
       createdAt
       updatedAt
@@ -679,6 +716,7 @@ export const onUpdateVideoObject = /* GraphQL */ `
   subscription OnUpdateVideoObject {
     onUpdateVideoObject {
       id
+      tenant
       token
       createdAt
       updatedAt
@@ -692,6 +730,7 @@ export const onDeleteVideoObject = /* GraphQL */ `
   subscription OnDeleteVideoObject {
     onDeleteVideoObject {
       id
+      tenant
       token
       createdAt
       updatedAt
@@ -709,6 +748,7 @@ export const onCreateHighlightTags = /* GraphQL */ `
       tagsID
       highlights {
         id
+        tenant
         type
         text
         transcriptionID
@@ -721,6 +761,7 @@ export const onCreateHighlightTags = /* GraphQL */ `
       }
       tags {
         id
+        tenant
         label
         projectsID
         updatedAt
@@ -745,6 +786,7 @@ export const onUpdateHighlightTags = /* GraphQL */ `
       tagsID
       highlights {
         id
+        tenant
         type
         text
         transcriptionID
@@ -757,6 +799,7 @@ export const onUpdateHighlightTags = /* GraphQL */ `
       }
       tags {
         id
+        tenant
         label
         projectsID
         updatedAt
@@ -781,6 +824,7 @@ export const onDeleteHighlightTags = /* GraphQL */ `
       tagsID
       highlights {
         id
+        tenant
         type
         text
         transcriptionID
@@ -793,6 +837,7 @@ export const onDeleteHighlightTags = /* GraphQL */ `
       }
       tags {
         id
+        tenant
         label
         projectsID
         updatedAt

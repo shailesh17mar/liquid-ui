@@ -21,7 +21,7 @@ export const useUpdateTranscription = (
 ) => {
   const queryClient = useQueryClient();
   return useMutation(
-    (input: UpdateTranscriptionInput) => {
+    (input: Omit<UpdateTranscriptionInput, "tenant">) => {
       return updateTranscript(input);
     },
     {

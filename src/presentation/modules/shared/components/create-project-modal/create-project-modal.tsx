@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { EuiConfirmModal, EuiFormRow, EuiFieldText } from "@elastic/eui";
 import { Projects as Project } from "models";
-import { useCreateProject } from "presentation/modules/projects/hooks";
+import { useCreateProject } from "core/modules/projects/hooks";
+import { useAuth } from "presentation/context/auth-context";
 
 interface Props {
   onConfirm: (id: string) => void;
   onClose: () => void;
 }
 export const CreateProjectModal: React.FC<Props> = ({ onConfirm, onClose }) => {
+  const { user } = useAuth();
   const [name, setName] = useState("");
   const mutation = useCreateProject((project) => {
     onConfirm(project.id);
@@ -18,7 +20,7 @@ export const CreateProjectModal: React.FC<Props> = ({ onConfirm, onClose }) => {
   };
 
   const handleConfirm = () => {
-    mutation.mutate(new Project({ name }));
+    mutation.mutate(new Project({ name, tenant: user.tenant }));
   };
 
   return (

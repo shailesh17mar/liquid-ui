@@ -3,6 +3,8 @@ import { useQueryClient, useMutation } from "react-query";
 import { CreateVodAssetInput, CreateVodAssetMutation } from "API";
 import { createVodAsset } from "graphql/mutations";
 import { VodAsset } from "models";
+import { userInfo } from "os";
+import { useAuth } from "presentation/context/auth-context";
 
 const createVideoAsset = async (videoAssetInput: CreateVodAssetInput) => {
   const videoAssetResponse = (await API.graphql({
@@ -19,9 +21,10 @@ export const useCreateVideoAsset = (
   callback?: (videoAsset: VodAsset) => void
 ) => {
   const queryClient = useQueryClient();
+  const { user } = useAuth();
   return useMutation(
-    (input: CreateVodAssetInput) => {
-      return createVideoAsset(input);
+    (input: Omit<CreateVodAssetInput, "tenant">) => {
+      return createVideoAsset({ ...input, tenant: user.tenant });
     },
     {
       onSuccess: (videoAsset, variables) => {

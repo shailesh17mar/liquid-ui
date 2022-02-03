@@ -13,7 +13,10 @@ import { ProjectsQueryController } from "core/modules/projects/usecases/project-
 import { WebrtcProvider } from "y-webrtc";
 import { Doc } from "yjs";
 import { useDebouncedCallback } from "use-debounce/lib";
-import { useProject, useUpdateProject } from "./hooks";
+import {
+  useProject,
+  useUpdateProject,
+} from "../../../core/modules/projects/hooks";
 
 const DefaultReadmeDocument = `
           <h2>
@@ -132,14 +135,14 @@ export const ProjectDetails: React.FC<Props> = () => {
         >
           <EuiFlexGroup gutterSize="none">
             <EuiFlexItem>
-              {project.readme && (
+              {
                 <Editor
                   onSave={handleDocumentEditing}
                   documentId={id}
                   content={project.readme || DefaultReadmeDocument}
                   provider={provider}
                 />
-              )}
+              }
             </EuiFlexItem>
             <EuiFlexItem grow={false}></EuiFlexItem>
           </EuiFlexGroup>

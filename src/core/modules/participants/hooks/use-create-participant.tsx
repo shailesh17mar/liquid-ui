@@ -3,6 +3,7 @@ import { useQueryClient, useMutation } from "react-query";
 import { CreatePersonsInput, CreatePersonsMutation } from "API";
 import { createPersons } from "graphql/mutations";
 import { Persons } from "models";
+import { useAuth } from "presentation/context/auth-context";
 
 const createPerson = async (personInput: CreatePersonsInput) => {
   const personResponse = (await API.graphql({
@@ -18,9 +19,10 @@ const createPerson = async (personInput: CreatePersonsInput) => {
 
 export const useCreatePerson = (callback?: (person: Persons) => void) => {
   const queryClient = useQueryClient();
+  const { user } = useAuth();
   return useMutation(
-    (input: CreatePersonsInput) => {
-      return createPerson(input);
+    (input: Omit<CreatePersonsInput, "tenant">) => {
+      return createPerson({ ...input, tenant: user.tenant });
     },
     {
       onSuccess: (person, variables) => {

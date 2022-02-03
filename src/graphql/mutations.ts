@@ -9,6 +9,7 @@ export const createPersons = /* GraphQL */ `
   ) {
     createPersons(input: $input, condition: $condition) {
       id
+      tenant
       additonalFields
       name
       email
@@ -29,6 +30,7 @@ export const updatePersons = /* GraphQL */ `
   ) {
     updatePersons(input: $input, condition: $condition) {
       id
+      tenant
       additonalFields
       name
       email
@@ -49,6 +51,7 @@ export const deletePersons = /* GraphQL */ `
   ) {
     deletePersons(input: $input, condition: $condition) {
       id
+      tenant
       additonalFields
       name
       email
@@ -69,6 +72,7 @@ export const createInsights = /* GraphQL */ `
   ) {
     createInsights(input: $input, condition: $condition) {
       id
+      tenant
       projectsID
       content
       createdAt
@@ -86,6 +90,7 @@ export const updateInsights = /* GraphQL */ `
   ) {
     updateInsights(input: $input, condition: $condition) {
       id
+      tenant
       projectsID
       content
       createdAt
@@ -103,6 +108,7 @@ export const deleteInsights = /* GraphQL */ `
   ) {
     deleteInsights(input: $input, condition: $condition) {
       id
+      tenant
       projectsID
       content
       createdAt
@@ -120,6 +126,7 @@ export const createHighlights = /* GraphQL */ `
   ) {
     createHighlights(input: $input, condition: $condition) {
       id
+      tenant
       type
       text
       transcriptionID
@@ -143,6 +150,7 @@ export const updateHighlights = /* GraphQL */ `
   ) {
     updateHighlights(input: $input, condition: $condition) {
       id
+      tenant
       type
       text
       transcriptionID
@@ -166,6 +174,7 @@ export const deleteHighlights = /* GraphQL */ `
   ) {
     deleteHighlights(input: $input, condition: $condition) {
       id
+      tenant
       type
       text
       transcriptionID
@@ -189,6 +198,7 @@ export const createTags = /* GraphQL */ `
   ) {
     createTags(input: $input, condition: $condition) {
       id
+      tenant
       label
       projectsID
       highlights {
@@ -210,6 +220,7 @@ export const updateTags = /* GraphQL */ `
   ) {
     updateTags(input: $input, condition: $condition) {
       id
+      tenant
       label
       projectsID
       highlights {
@@ -231,6 +242,7 @@ export const deleteTags = /* GraphQL */ `
   ) {
     deleteTags(input: $input, condition: $condition) {
       id
+      tenant
       label
       projectsID
       highlights {
@@ -252,6 +264,7 @@ export const createTranscription = /* GraphQL */ `
   ) {
     createTranscription(input: $input, condition: $condition) {
       id
+      tenant
       video
       transcription
       content
@@ -275,6 +288,7 @@ export const updateTranscription = /* GraphQL */ `
   ) {
     updateTranscription(input: $input, condition: $condition) {
       id
+      tenant
       video
       transcription
       content
@@ -298,6 +312,7 @@ export const deleteTranscription = /* GraphQL */ `
   ) {
     deleteTranscription(input: $input, condition: $condition) {
       id
+      tenant
       video
       transcription
       content
@@ -321,6 +336,7 @@ export const createStories = /* GraphQL */ `
   ) {
     createStories(input: $input, condition: $condition) {
       id
+      tenant
       categoriesID
       projectsID
       type
@@ -330,6 +346,7 @@ export const createStories = /* GraphQL */ `
       content
       transcription {
         id
+        tenant
         video
         transcription
         content
@@ -342,6 +359,7 @@ export const createStories = /* GraphQL */ `
       }
       participants {
         id
+        tenant
         additonalFields
         name
         email
@@ -368,6 +386,7 @@ export const updateStories = /* GraphQL */ `
   ) {
     updateStories(input: $input, condition: $condition) {
       id
+      tenant
       categoriesID
       projectsID
       type
@@ -377,6 +396,7 @@ export const updateStories = /* GraphQL */ `
       content
       transcription {
         id
+        tenant
         video
         transcription
         content
@@ -389,6 +409,7 @@ export const updateStories = /* GraphQL */ `
       }
       participants {
         id
+        tenant
         additonalFields
         name
         email
@@ -415,6 +436,7 @@ export const deleteStories = /* GraphQL */ `
   ) {
     deleteStories(input: $input, condition: $condition) {
       id
+      tenant
       categoriesID
       projectsID
       type
@@ -424,6 +446,7 @@ export const deleteStories = /* GraphQL */ `
       content
       transcription {
         id
+        tenant
         video
         transcription
         content
@@ -436,6 +459,7 @@ export const deleteStories = /* GraphQL */ `
       }
       participants {
         id
+        tenant
         additonalFields
         name
         email
@@ -462,6 +486,7 @@ export const createCategories = /* GraphQL */ `
   ) {
     createCategories(input: $input, condition: $condition) {
       id
+      tenant
       name
       projectsID
       Stories {
@@ -483,6 +508,7 @@ export const updateCategories = /* GraphQL */ `
   ) {
     updateCategories(input: $input, condition: $condition) {
       id
+      tenant
       name
       projectsID
       Stories {
@@ -504,6 +530,7 @@ export const deleteCategories = /* GraphQL */ `
   ) {
     deleteCategories(input: $input, condition: $condition) {
       id
+      tenant
       name
       projectsID
       Stories {
@@ -525,6 +552,7 @@ export const createProjects = /* GraphQL */ `
   ) {
     createProjects(input: $input, condition: $condition) {
       id
+      tenant
       name
       readme
       createdAt
@@ -562,6 +590,7 @@ export const updateProjects = /* GraphQL */ `
   ) {
     updateProjects(input: $input, condition: $condition) {
       id
+      tenant
       name
       readme
       createdAt
@@ -599,6 +628,7 @@ export const deleteProjects = /* GraphQL */ `
   ) {
     deleteProjects(input: $input, condition: $condition) {
       id
+      tenant
       name
       readme
       createdAt
@@ -636,6 +666,7 @@ export const createWorkspaces = /* GraphQL */ `
   ) {
     createWorkspaces(input: $input, condition: $condition) {
       id
+      tenant
       organisationsID
       name
       color
@@ -656,6 +687,7 @@ export const updateWorkspaces = /* GraphQL */ `
   ) {
     updateWorkspaces(input: $input, condition: $condition) {
       id
+      tenant
       organisationsID
       name
       color
@@ -676,6 +708,7 @@ export const deleteWorkspaces = /* GraphQL */ `
   ) {
     deleteWorkspaces(input: $input, condition: $condition) {
       id
+      tenant
       organisationsID
       name
       color
@@ -696,6 +729,7 @@ export const createOrganisations = /* GraphQL */ `
   ) {
     createOrganisations(input: $input, condition: $condition) {
       id
+      tenant
       name
       type
       Workspaces {
@@ -717,6 +751,7 @@ export const updateOrganisations = /* GraphQL */ `
   ) {
     updateOrganisations(input: $input, condition: $condition) {
       id
+      tenant
       name
       type
       Workspaces {
@@ -738,6 +773,7 @@ export const deleteOrganisations = /* GraphQL */ `
   ) {
     deleteOrganisations(input: $input, condition: $condition) {
       id
+      tenant
       name
       type
       Workspaces {
@@ -759,10 +795,12 @@ export const createVodAsset = /* GraphQL */ `
   ) {
     createVodAsset(input: $input, condition: $condition) {
       id
+      tenant
       title
       description
       transcription {
         id
+        tenant
         video
         transcription
         content
@@ -775,6 +813,7 @@ export const createVodAsset = /* GraphQL */ `
       }
       video {
         id
+        tenant
         token
         createdAt
         updatedAt
@@ -799,10 +838,12 @@ export const updateVodAsset = /* GraphQL */ `
   ) {
     updateVodAsset(input: $input, condition: $condition) {
       id
+      tenant
       title
       description
       transcription {
         id
+        tenant
         video
         transcription
         content
@@ -815,6 +856,7 @@ export const updateVodAsset = /* GraphQL */ `
       }
       video {
         id
+        tenant
         token
         createdAt
         updatedAt
@@ -839,10 +881,12 @@ export const deleteVodAsset = /* GraphQL */ `
   ) {
     deleteVodAsset(input: $input, condition: $condition) {
       id
+      tenant
       title
       description
       transcription {
         id
+        tenant
         video
         transcription
         content
@@ -855,6 +899,7 @@ export const deleteVodAsset = /* GraphQL */ `
       }
       video {
         id
+        tenant
         token
         createdAt
         updatedAt
@@ -879,6 +924,7 @@ export const createVideoObject = /* GraphQL */ `
   ) {
     createVideoObject(input: $input, condition: $condition) {
       id
+      tenant
       token
       createdAt
       updatedAt
@@ -895,6 +941,7 @@ export const updateVideoObject = /* GraphQL */ `
   ) {
     updateVideoObject(input: $input, condition: $condition) {
       id
+      tenant
       token
       createdAt
       updatedAt
@@ -911,6 +958,7 @@ export const deleteVideoObject = /* GraphQL */ `
   ) {
     deleteVideoObject(input: $input, condition: $condition) {
       id
+      tenant
       token
       createdAt
       updatedAt
@@ -931,6 +979,7 @@ export const createHighlightTags = /* GraphQL */ `
       tagsID
       highlights {
         id
+        tenant
         type
         text
         transcriptionID
@@ -943,6 +992,7 @@ export const createHighlightTags = /* GraphQL */ `
       }
       tags {
         id
+        tenant
         label
         projectsID
         updatedAt
@@ -970,6 +1020,7 @@ export const updateHighlightTags = /* GraphQL */ `
       tagsID
       highlights {
         id
+        tenant
         type
         text
         transcriptionID
@@ -982,6 +1033,7 @@ export const updateHighlightTags = /* GraphQL */ `
       }
       tags {
         id
+        tenant
         label
         projectsID
         updatedAt
@@ -1009,6 +1061,7 @@ export const deleteHighlightTags = /* GraphQL */ `
       tagsID
       highlights {
         id
+        tenant
         type
         text
         transcriptionID
@@ -1021,6 +1074,7 @@ export const deleteHighlightTags = /* GraphQL */ `
       }
       tags {
         id
+        tenant
         label
         projectsID
         updatedAt

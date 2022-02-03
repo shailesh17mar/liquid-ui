@@ -10,6 +10,13 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "tenant": {
+                    "name": "tenant",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "additonalFields": {
                     "name": "additonalFields",
                     "isArray": false,
@@ -75,7 +82,7 @@ export const schema = {
                                 "groupClaim": "cognito:groups",
                                 "provider": "userPools",
                                 "allow": "groups",
-                                "groupsField": "group",
+                                "groupsField": "tenant",
                                 "groupField": "groups",
                                 "operations": [
                                     "create",
@@ -97,6 +104,13 @@ export const schema = {
                     "isArray": false,
                     "type": "ID",
                     "isRequired": true,
+                    "attributes": []
+                },
+                "tenant": {
+                    "name": "tenant",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
                     "attributes": []
                 },
                 "projectsID": {
@@ -138,7 +152,7 @@ export const schema = {
                                 "groupClaim": "cognito:groups",
                                 "provider": "userPools",
                                 "allow": "groups",
-                                "groupsField": "group",
+                                "groupsField": "tenant",
                                 "groupField": "groups",
                                 "operations": [
                                     "create",
@@ -160,6 +174,13 @@ export const schema = {
                     "isArray": false,
                     "type": "ID",
                     "isRequired": true,
+                    "attributes": []
+                },
+                "tenant": {
+                    "name": "tenant",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
                     "attributes": []
                 },
                 "type": {
@@ -252,7 +273,7 @@ export const schema = {
                                 "groupClaim": "cognito:groups",
                                 "provider": "userPools",
                                 "allow": "groups",
-                                "groupsField": "group",
+                                "groupsField": "tenant",
                                 "groupField": "groups",
                                 "operations": [
                                     "create",
@@ -274,6 +295,13 @@ export const schema = {
                     "isArray": false,
                     "type": "ID",
                     "isRequired": true,
+                    "attributes": []
+                },
+                "tenant": {
+                    "name": "tenant",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
                     "attributes": []
                 },
                 "label": {
@@ -343,7 +371,7 @@ export const schema = {
                                 "groupClaim": "cognito:groups",
                                 "provider": "userPools",
                                 "allow": "groups",
-                                "groupsField": "group",
+                                "groupsField": "tenant",
                                 "groupField": "groups",
                                 "operations": [
                                     "create",
@@ -365,6 +393,13 @@ export const schema = {
                     "isArray": false,
                     "type": "ID",
                     "isRequired": true,
+                    "attributes": []
+                },
+                "tenant": {
+                    "name": "tenant",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
                     "attributes": []
                 },
                 "video": {
@@ -427,7 +462,7 @@ export const schema = {
                                 "groupClaim": "cognito:groups",
                                 "provider": "userPools",
                                 "allow": "groups",
-                                "groupsField": "group",
+                                "groupsField": "tenant",
                                 "groupField": "groups",
                                 "operations": [
                                     "create",
@@ -449,6 +484,13 @@ export const schema = {
                     "isArray": false,
                     "type": "ID",
                     "isRequired": true,
+                    "attributes": []
+                },
+                "tenant": {
+                    "name": "tenant",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
                     "attributes": []
                 },
                 "categoriesID": {
@@ -576,7 +618,7 @@ export const schema = {
                                 "groupClaim": "cognito:groups",
                                 "provider": "userPools",
                                 "allow": "groups",
-                                "groupsField": "group",
+                                "groupsField": "tenant",
                                 "groupField": "groups",
                                 "operations": [
                                     "create",
@@ -598,6 +640,13 @@ export const schema = {
                     "isArray": false,
                     "type": "ID",
                     "isRequired": true,
+                    "attributes": []
+                },
+                "tenant": {
+                    "name": "tenant",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
                     "attributes": []
                 },
                 "name": {
@@ -653,7 +702,7 @@ export const schema = {
                                 "groupClaim": "cognito:groups",
                                 "provider": "userPools",
                                 "allow": "groups",
-                                "groupsField": "group",
+                                "groupsField": "tenant",
                                 "groupField": "groups",
                                 "operations": [
                                     "create",
@@ -675,6 +724,13 @@ export const schema = {
                     "isArray": false,
                     "type": "ID",
                     "isRequired": true,
+                    "attributes": []
+                },
+                "tenant": {
+                    "name": "tenant",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
                     "attributes": []
                 },
                 "name": {
@@ -791,7 +847,7 @@ export const schema = {
                                 "groupClaim": "cognito:groups",
                                 "provider": "userPools",
                                 "allow": "groups",
-                                "groupsField": "group",
+                                "groupsField": "tenant",
                                 "groupField": "groups",
                                 "operations": [
                                     "create",
@@ -813,6 +869,13 @@ export const schema = {
                     "isArray": false,
                     "type": "ID",
                     "isRequired": true,
+                    "attributes": []
+                },
+                "tenant": {
+                    "name": "tenant",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
                     "attributes": []
                 },
                 "organisationsID": {
@@ -889,7 +952,7 @@ export const schema = {
                                 "groupClaim": "cognito:groups",
                                 "provider": "userPools",
                                 "allow": "groups",
-                                "groupsField": "group",
+                                "groupsField": "tenant",
                                 "groupField": "groups",
                                 "operations": [
                                     "create",
@@ -911,6 +974,13 @@ export const schema = {
                     "isArray": false,
                     "type": "ID",
                     "isRequired": true,
+                    "attributes": []
+                },
+                "tenant": {
+                    "name": "tenant",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
                     "attributes": []
                 },
                 "name": {
@@ -971,7 +1041,7 @@ export const schema = {
                                 "groupClaim": "cognito:groups",
                                 "provider": "userPools",
                                 "allow": "groups",
-                                "groupsField": "group",
+                                "groupsField": "tenant",
                                 "groupField": "groups",
                                 "operations": [
                                     "create",
@@ -993,6 +1063,13 @@ export const schema = {
                     "isArray": false,
                     "type": "ID",
                     "isRequired": true,
+                    "attributes": []
+                },
+                "tenant": {
+                    "name": "tenant",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
                     "attributes": []
                 },
                 "title": {
@@ -1071,7 +1148,7 @@ export const schema = {
                                 "groupClaim": "cognito:groups",
                                 "provider": "userPools",
                                 "allow": "groups",
-                                "groupsField": "group",
+                                "groupsField": "tenant",
                                 "groupField": "groups",
                                 "operations": [
                                     "create",
@@ -1093,6 +1170,13 @@ export const schema = {
                     "isArray": false,
                     "type": "ID",
                     "isRequired": true,
+                    "attributes": []
+                },
+                "tenant": {
+                    "name": "tenant",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
                     "attributes": []
                 },
                 "token": {
@@ -1118,7 +1202,7 @@ export const schema = {
                                 "groupClaim": "cognito:groups",
                                 "provider": "userPools",
                                 "allow": "groups",
-                                "groupsField": "group",
+                                "groupsField": "tenant",
                                 "groupField": "groups",
                                 "operations": [
                                     "create",
@@ -1191,5 +1275,5 @@ export const schema = {
         }
     },
     "nonModels": {},
-    "version": "d50ce8398b8d759f231a47a9945c0634"
+    "version": "331b61408d625faac24d6d7673313758"
 };

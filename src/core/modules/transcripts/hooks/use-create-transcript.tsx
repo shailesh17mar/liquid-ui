@@ -3,6 +3,7 @@ import { useQueryClient, useMutation } from "react-query";
 import { CreateTranscriptionInput, CreateTranscriptionMutation } from "API";
 import { Transcription } from "models";
 import { createTranscription } from "graphql/mutations";
+import { useAuth } from "presentation/context/auth-context";
 
 const createTranscript = async (transcriptInput: CreateTranscriptionInput) => {
   const transcriptResponse = (await API.graphql({
@@ -21,9 +22,10 @@ export const useCreateTranscription = (
   callback?: (transcript: Transcription) => void
 ) => {
   const queryClient = useQueryClient();
+  const { user } = useAuth();
   return useMutation(
-    (input: CreateTranscriptionInput) => {
-      return createTranscript(input);
+    (input: Omit<CreateTranscriptionInput, "tenant">) => {
+      return createTranscript({ ...input, tenant: user.tenant });
     },
     {
       onSuccess: (transcript, variables) => {

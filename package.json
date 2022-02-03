@@ -76,7 +76,8 @@
     "amplify:transcriptor": "cd amplify/backend/function/transcriptor/src && tsc",
     "amplify:transcriber": "cd amplify/backend/function/transcriber/src && tsc",
     "amplify:liquidPostConfirmation": "cd amplify/backend/function/liquidPostConfirmation/src && tsc",
-    "amplify:liquidassets": "cd amplify/backend/function/liquidassets/src && tsc"
+    "amplify:liquidassets": "cd amplify/backend/function/liquidassets/src && tsc",
+    "amplify:authorizer": "cd amplify/backend/function/authorizer/src && tsc"
   },
   "eslintConfig": {
     "extends": [

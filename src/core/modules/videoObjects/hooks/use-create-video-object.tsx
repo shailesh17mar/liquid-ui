@@ -3,6 +3,7 @@ import { useQueryClient, useMutation } from "react-query";
 import { CreateVideoObjectInput, CreateVideoObjectMutation } from "API";
 import { createVideoObject } from "graphql/mutations";
 import { VideoObject } from "models";
+import { useAuth } from "presentation/context/auth-context";
 
 const createVideo = async (videoObjectInput: CreateVideoObjectInput) => {
   const videoObjectResponse = (await API.graphql({
@@ -20,9 +21,10 @@ export const useCreateVideoObject = (
   callback?: (videoObject: VideoObject) => void
 ) => {
   const queryClient = useQueryClient();
+  const { user } = useAuth();
   return useMutation(
-    (input: CreateVideoObjectInput) => {
-      return createVideo(input);
+    (input: Omit<CreateVideoObjectInput, "tenant">) => {
+      return createVideo({ ...input, tenant: user.tenant });
     },
     {
       onSuccess: (videoObject, variables) => {

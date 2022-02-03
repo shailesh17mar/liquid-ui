@@ -17,7 +17,7 @@ const updateCategory = async (categoryInput: UpdateCategoriesInput) => {
 export const useUpdateCategory = () => {
   const queryClient = useQueryClient();
   return useMutation(
-    (input: UpdateCategoriesInput) => {
+    (input: Omit<UpdateCategoriesInput, "tenant">) => {
       return updateCategory(input);
     },
     {
