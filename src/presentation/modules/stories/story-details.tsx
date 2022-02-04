@@ -75,7 +75,7 @@ export const StoryDetails: React.FC<Props> = () => {
   const { id } = useParams() as { id: string };
 
   const { data: story } = useStory(id);
-  const updateStoryMutation = useUpdateStory();
+  const updateStoryMutation = useUpdateStory(id);
   const [isMutatingParticipant, setIsMutatingParticipant] = useState(false);
   const handleStoryParticipants = (participant: Persons) => {
     updateStoryMutation.mutate({

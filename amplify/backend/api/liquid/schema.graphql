@@ -53,7 +53,7 @@ type Transcription
   @auth(rules: [{ allow: groups, groupsField: "tenant" }]) {
   id: ID!
   tenant: ID
-  video: AWSURL!
+  video: String!
   transcription: AWSURL
   content: AWSJSON
   Highlights: [Highlights]

@@ -405,7 +405,7 @@ export const schema = {
                 "video": {
                     "name": "video",
                     "isArray": false,
-                    "type": "AWSURL",
+                    "type": "String",
                     "isRequired": true,
                     "attributes": []
                 },
@@ -1200,5 +1200,5 @@ export const schema = {
         }
     },
     "nonModels": {},
-    "version": "162260d347f37f9c85b3dbfd56162d56"
+    "version": "21261f12e0fecca10a4aac35d4728d88"
 };

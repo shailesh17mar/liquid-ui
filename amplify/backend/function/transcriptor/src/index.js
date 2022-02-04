@@ -19,19 +19,17 @@ exports.handler = async (event) => {
             }
             //create the asset url
             //TODO: Extension right now is static, it needs to be derived from transcription
-            const MEDIA_FORMAT = "mp4";
-            const asset = entry.video.substring(entry.video.lastIndexOf("/") + 1);
-            console.log(entry);
-            // const asset = `${entry.id}.${MEDIA_FORMAT}`;
-            const mediaUrl = `s3://videoservice-dev-input-1gwftakym0oz/${asset.replace("m3u8", "mp4")}`;
+            const mediaFormat = entry.video.substring(entry.video.lastIndexOf(".") + 1);
+            const mediaUrl = `s3://${process.env.S3_BUCKET}/${entry.tenant}/${entry.video}`;
             //create a transcript job
             await transcribeService
                 .startTranscriptionJob({
                 Media: { MediaFileUri: mediaUrl },
                 LanguageCode: "en-US",
-                MediaFormat: MEDIA_FORMAT,
+                MediaFormat: mediaFormat,
                 TranscriptionJobName: entry.id,
-                OutputBucketName: "liquid-transcriptions",
+                OutputBucketName: process.env.S3_BUCKET,
+                OutputKey: `${entry.tenant}/`,
                 Settings: {
                     ShowSpeakerLabels: true,
                     //TODO: Max speaker is hard coded right now. This needs to be derived while start transcribe

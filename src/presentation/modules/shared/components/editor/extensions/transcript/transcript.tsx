@@ -28,7 +28,6 @@ import {
   CreateTranscriptionInput,
   CreateTranscriptionMutation,
   GetVodAssetQuery,
-  TranscriptionStatus,
   UpdateVodAssetInput,
   UpdateVodAssetMutation,
 } from "API";
@@ -42,7 +41,14 @@ import {
   highlightAtom,
 } from "../../components/highlight-control/highlight-control";
 import { useVideoUpload } from "../../../transcript/hooks/use-video-upload";
-import { useVideoAsset } from "core/modules/videoAssets/hooks";
+import {
+  useUpdateVideoAsset,
+  useVideoAsset,
+} from "core/modules/videoAssets/hooks";
+import { useCreateTranscription } from "core/modules/transcripts/hooks";
+import { Transcription } from "models";
+import { TranscriptionStatus } from "models";
+import { useStory, useUpdateStory } from "core/modules/stories/hooks";
 
 export const transcriptAtom = atom<JSONContent | undefined>({
   key: "transcriptState",
@@ -57,12 +63,17 @@ export const Transcript = (props: NodeViewProps) => {
   const uploaderRef = useRef<HTMLInputElement>(null);
   const [token, setToken] = useState<string | null>();
   const [videoURL, setVideoURL] = useState<string | undefined>();
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const { highlights } = useHighlight(props.editor);
   const [isAssitantActive, setIsAssistantActive] = useState<boolean>(true);
   const [isUploadModalOpen, setIsUploadModalOpen] = useState<boolean>(false);
 
   const { data } = useVideoAsset(video);
+  const { data: story } = useStory(id);
+  const transcriptCreateMutation = useCreateTranscription();
+  const videoAssetUpdateMutation = useUpdateVideoAsset();
+  const storyUpdateMutation = useUpdateStory(id);
   const videoAsset = data as VodAsset;
 
   const handleVideoUploadSuccess = (videoAssetId: string) => {
@@ -95,28 +106,77 @@ export const Transcript = (props: NodeViewProps) => {
   }, [videoAsset?.video]);
 
   useEffect(() => {
-    async function fetchTranscript() {
-      if (videoAsset?.transcription?.id) {
-        const key = `${videoAsset?.transcription.id}.json`;
-        const result = await Storage.get(key, {
-          level: "public",
-          download: true,
-        });
-        // const transcriptContentResponse = await fetch(result);
-        //@ts-ignore
-        const transcriptResponse = await new Response(result.Body).json();
-        const transcriptHTML = displayTranscript(transcriptResponse);
-        const transcriptJSON = generateJSON(transcriptHTML, [
-          Document,
-          CustomParagraph,
-          TimeOffset,
-          Text,
-        ]);
-        if (!transcript) setTranscript(transcriptJSON);
+    const fetchTranscriptJson = async (id: string) => {
+      const key = `${id}.json`;
+      const { url: transcriptJSONFile } = await API.get(
+        "assets",
+        `/assets/${key}`,
+        {}
+      );
+      // const transcriptContentResponse = await fetch(result);
+      //@ts-ignore
+      const transcriptResponse = await fetch(transcriptJSONFile);
+      const transcriptJson = await transcriptResponse.json();
+      const transcriptHTML = displayTranscript(transcriptJson);
+      return generateJSON(transcriptHTML, [
+        Document,
+        CustomParagraph,
+        TimeOffset,
+        Text,
+      ]);
+    };
+    async function setupTranscriptJSON() {
+      if (
+        story &&
+        videoAsset?.transcription &&
+        props.node.content &&
+        props.node.content.size === 0 &&
+        videoAsset?.transcription?.status === TranscriptionStatus.COMPLETED &&
+        !isProcessing
+      ) {
+        setIsProcessing(true);
+        const transcriptJson = await fetchTranscriptJson(
+          videoAsset?.transcription.id
+        );
+        debugger;
+        let doc = Object.assign({}, story?.content as unknown as JSONContent);
+        if (doc.content) {
+          let index = doc.content.findIndex(
+            (content) => content.type === "transcriptComponent"
+          );
+          if (index && index >= 0) {
+            let doc = story?.content as unknown as JSONContent;
+            const currentValue = doc!!.content!![index];
+            await storyUpdateMutation.mutateAsync({
+              id: story.id,
+              content: JSON.stringify({
+                type: "doc",
+                content: Object.assign([], doc.content, {
+                  [index]: { ...currentValue, content: transcriptJson.content },
+                }),
+              }),
+              _version: story._version,
+            });
+          }
+        }
       }
     }
-    fetchTranscript();
-  }, [id, setTranscript, transcript, videoAsset?.transcription]);
+    if (
+      story &&
+      videoAsset?.transcription &&
+      props.node.content &&
+      props.node.content.size === 0 &&
+      videoAsset?.transcription?.status === TranscriptionStatus.COMPLETED
+    ) {
+      setupTranscriptJSON();
+    }
+  }, [
+    props.node.content,
+    story,
+    storyUpdateMutation,
+    transcript,
+    videoAsset?.transcription,
+  ]);
 
   // useEffect(() => {
   //   async function fetchVideoURL() {
@@ -264,51 +324,18 @@ Unknowns:
   const handleTranscription = async () => {
     //TODO: Check that transcription entry for the video shouldn't exist before hand.
     if (videoURL) {
-      const videoAssetResponse = (await API.graphql({
-        query: getVodAsset,
-        variables: { id: video },
-        authMode: "AMAZON_COGNITO_USER_POOLS",
-      })) as { data: GetVodAssetQuery };
-      const videoAsset = videoAssetResponse.data?.getVodAsset;
       if (!videoAsset?.transcription) {
-        // const t = (await API.graphql({
-        //   query: getTranscription,
-        //   variables: { id: "24be1012-1fad-42d2-b4a8-224724265e1a" },
-        //   authMode: "AMAZON_COGNITO_USER_POOLS",
-        // })) as { data: GetTranscriptionQuery };
-        //create new transcription
-        // const tesl = (await API.graphql({
-        //           query: createHighlightTags,
-        //           variables: {
-        //             input: {
-        //               highlightsID:'123',
-        //               tagsID:'123'
-        //             } as CreateHighlightTagsInput,
-        //           },
-        //           authMode: "AMAZON_COGNITO_USER_POOLS",
-        //         })) as { data: CreateHighlightTagsMutation };
-        const transcriptionResponse = (await API.graphql({
-          query: createTranscription,
-          variables: {
-            input: {
-              video: videoURL,
-              status: TranscriptionStatus.ENQUEUED,
-            } as CreateTranscriptionInput,
-          },
-          authMode: "AMAZON_COGNITO_USER_POOLS",
-        })) as { data: CreateTranscriptionMutation };
-        const transcript = transcriptionResponse.data?.createTranscription;
-
-        const x = (await API.graphql({
-          query: updateVodAsset,
-          variables: {
-            input: {
-              id: video,
-              vodAssetTranscriptionId: transcript?.id,
-            } as UpdateVodAssetInput,
-          },
-          authMode: "AMAZON_COGNITO_USER_POOLS",
-        })) as { data: UpdateVodAssetMutation };
+        //create a transcription entry
+        const transcript = await transcriptCreateMutation.mutateAsync({
+          video: videoAsset?.video,
+          status: TranscriptionStatus.ENQUEUED,
+        });
+        //update reference in transcription
+        await videoAssetUpdateMutation.mutateAsync({
+          id: video,
+          vodAssetTranscriptionId: transcript?.id,
+        });
+        debugger;
       }
       //update story
     } else throw new Error("No video to transcribe");
@@ -437,12 +464,7 @@ Unknowns:
               {videoAsset?.transcription ? (
                 videoAsset.transcription.status ===
                 TranscriptionStatus.INPROGRESS ? (
-                  <EuiButton
-                    fullWidth={false}
-                    disabled
-                    isLoading
-                    onClick={handleTranscription}
-                  >
+                  <EuiButton fullWidth={false} disabled isLoading>
                     Transcribing... {videoAsset.transcription.id}
                   </EuiButton>
                 ) : null

@@ -1,6 +1,6 @@
 [
   {
-    "Action": ["s3:*", "s3-object-lambda:*"],
-    "Resource": ["arn:aws:s3:::liquid-transcriptions/*"]
+    "Action": ["s3:GetObject", "s3:GetObjectVersion"],
+    "Resource": ["arn:aws:s3:::liquid-user-storage/*"]
   }
 ]

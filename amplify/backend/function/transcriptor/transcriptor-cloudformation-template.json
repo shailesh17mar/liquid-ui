@@ -23,6 +23,9 @@
     "apiliquidGraphQLAPIEndpointOutput": {
       "Type": "String",
       "Default": "apiliquidGraphQLAPIEndpointOutput"
+    },
+    "s3Bucket": {
+      "Type": "String"
     }
   },
   "Conditions": {
@@ -106,6 +109,9 @@
             },
             "API_LIQUID_GRAPHQLAPIIDOUTPUT": {
               "Ref": "apiliquidGraphQLAPIIdOutput"
+            },
+            "S3_BUCKET": {
+              "Ref": "s3Bucket"
             }
           }
         },
@@ -357,6 +363,16 @@
               ],
               "Resource": [
                 "arn:aws:s3:::*transcribe*"
+              ],
+              "Effect": "Allow"
+            },
+            {
+              "Action": [
+                "s3:*",
+                "s3-object-lambda:*"
+              ],
+              "Resource": [
+                "arn:aws:s3:::liquid-user-storage/*"
               ],
               "Effect": "Allow"
             }

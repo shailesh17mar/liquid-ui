@@ -24,10 +24,10 @@
           "ownerIdentity": {
             "principalId": "EXAMPLE"
           },
-          "arn": "arn:aws:s3:::liquid-transcriptions"
+          "arn": "arn:aws:s3:::liquid-user-storage"
         },
         "object": {
-          "key": "415c9095-b960-4122-a6e8-6210d941f996.json",
+          "key": "liquid.so/0139e5e9-9003-478b-9d6d-1b119c7511d0.json",
           "size": 1024,
           "eTag": "0123456789abcdef0123456789abcdef",
           "sequencer": "0A1B2C3D4E5F678901"

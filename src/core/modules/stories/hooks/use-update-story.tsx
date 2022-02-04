@@ -14,7 +14,7 @@ const updateStory = async (storyInput: UpdateStoriesInput) => {
   if (storyResponse.data) return storyResponse.data.updateStories;
 };
 
-export const useUpdateStory = () => {
+export const useUpdateStory = (id: string) => {
   const queryClient = useQueryClient();
   return useMutation(
     (input: Omit<UpdateStoriesInput, "tenant">) => {
@@ -22,7 +22,7 @@ export const useUpdateStory = () => {
     },
     {
       onSuccess: (data, variables) => {
-        queryClient.invalidateQueries(["stories"]);
+        queryClient.invalidateQueries(["stories", id]);
       },
       onError: () => {
         console.log("what happened?");
