@@ -22,11 +22,11 @@
       "function": {
         "transcriber": {
           "deploymentBucketName": "amplify-liquid-lab-185828-deployment",
-          "s3Key": "amplify-builds/transcriber-51514f7461686a49682b-build.zip"
+          "s3Key": "amplify-builds/transcriber-69524b3737646b507759-build.zip"
         },
         "transcriptor": {
           "deploymentBucketName": "amplify-liquid-lab-185828-deployment",
-          "s3Key": "amplify-builds/transcriptor-53434f59745358466664-build.zip",
+          "s3Key": "amplify-builds/transcriptor-4e4a4271726c57787869-build.zip",
           "s3Bucket": "liquid-user-storage"
         },
         "liquidPostConfirmation": {
@@ -35,7 +35,7 @@
         },
         "liquidPreSignup": {
           "deploymentBucketName": "amplify-liquid-lab-185828-deployment",
-          "s3Key": "amplify-builds/liquidPreSignup-6e315378386e6d63357a-build.zip"
+          "s3Key": "amplify-builds/liquidPreSignup-497a712b4e7233423847-build.zip"
         },
         "liquidassets": {
           "deploymentBucketName": "amplify-liquid-lab-185828-deployment",
