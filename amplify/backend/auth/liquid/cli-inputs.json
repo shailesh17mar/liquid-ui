@@ -5,9 +5,13 @@
     "allowUnauthenticatedIdentities": false,
     "resourceNameTruncated": "liquidd83c7412",
     "userPoolName": "liquid",
-    "autoVerifiedAttributes": ["email"],
+    "autoVerifiedAttributes": [
+      "email"
+    ],
     "mfaConfiguration": "OFF",
-    "mfaTypes": ["SMS Text Message"],
+    "mfaTypes": [
+      "SMS Text Message"
+    ],
     "smsAuthenticationMessage": "Your authentication code is {####}",
     "smsVerificationMessage": "Your verification code is {####}",
     "emailVerificationSubject": "Your verification code",
@@ -15,7 +19,10 @@
     "defaultPasswordPolicy": false,
     "passwordPolicyMinLength": 8,
     "passwordPolicyCharacters": [],
-    "requiredAttributes": ["email", "name"],
+    "requiredAttributes": [
+      "email",
+      "name"
+    ],
     "aliasAttributes": [],
     "userpoolClientGenerateSecret": false,
     "userpoolClientRefreshTokenValidity": 30,
@@ -27,22 +34,34 @@
     "resourceName": "liquid",
     "authSelections": "identityPoolAndUserPool",
     "serviceName": "Cognito",
-    "usernameAttributes": ["email"],
+    "usernameAttributes": [
+      "email"
+    ],
     "useDefault": "defaultSocial",
     "userPoolGroups": false,
-    "userPoolGroupList": ["Admin"],
+    "userPoolGroupList": [
+      "Admin"
+    ],
     "adminQueries": false,
     "hostedUI": true,
     "hostedUIDomainName": "00n99gztxh32",
-    "authProvidersUserPool": ["Google"],
+    "authProvidersUserPool": [
+      "Google"
+    ],
     "hostedUIProviderMeta": "[{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"name\":\"name\",\"username\":\"sub\"}}]",
     "usernameCaseSensitive": false,
     "useEnabledMfas": false,
     "authRoleArn": {
-      "Fn::GetAtt": ["AuthRole", "Arn"]
+      "Fn::GetAtt": [
+        "AuthRole",
+        "Arn"
+      ]
     },
     "unauthRoleArn": {
-      "Fn::GetAtt": ["UnauthRole", "Arn"]
+      "Fn::GetAtt": [
+        "UnauthRole",
+        "Arn"
+      ]
     },
     "breakCircularDependency": false,
     "dependsOn": [
@@ -50,19 +69,31 @@
         "category": "function",
         "resourceName": "liquidPostConfirmation",
         "triggerProvider": "Cognito",
-        "attributes": ["Arn", "Name"]
+        "attributes": [
+          "Arn",
+          "Name"
+        ]
       },
       {
         "category": "function",
         "resourceName": "liquidPreSignup",
         "triggerProvider": "Cognito",
-        "attributes": ["Arn", "Name"]
+        "attributes": [
+          "Arn",
+          "Name"
+        ]
       }
     ],
-    "authProviders": ["accounts.google.com"],
+    "authProviders": [
+      "accounts.google.com"
+    ],
     "triggers": {
-      "PostConfirmation": ["custom"],
-      "PreSignup": ["email-filter-denylist-legacy"]
+      "PostConfirmation": [
+        "custom"
+      ],
+      "PreSignup": [
+        "email-filter-denylist-legacy"
+      ]
     },
     "parentStack": {
       "Ref": "AWS::StackId"
@@ -73,6 +104,7 @@
       "{\"triggerType\":\"PreSignUp\",\"lambdaFunctionName\":\"liquidPreSignup\"}"
     ],
     "thirdPartyAuth": true,
+    "googleClientId": "1077167489512-o8ruaj2cp90tbijgavan7u2r8fg3q5lb.apps.googleusercontent.com",
     "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://app.liquid.so/\",\"http://localhost:3000/\"],\"LogoutURLs\":[\"https://app.liquid.so/\",\"http://localhost:3000/\"]}"
   }
 }
