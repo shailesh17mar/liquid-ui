@@ -152,11 +152,9 @@ export const getHighlights = /* GraphQL */ `
       tenant
       type
       text
+      Tags
+      tagIds
       transcriptionID
-      tags {
-        nextToken
-        startedAt
-      }
       projectsID
       createdAt
       updatedAt
@@ -178,6 +176,8 @@ export const listHighlights = /* GraphQL */ `
         tenant
         type
         text
+        Tags
+        tagIds
         transcriptionID
         projectsID
         createdAt
@@ -209,6 +209,8 @@ export const syncHighlights = /* GraphQL */ `
         tenant
         type
         text
+        Tags
+        tagIds
         transcriptionID
         projectsID
         createdAt
@@ -229,10 +231,6 @@ export const getTags = /* GraphQL */ `
       tenant
       label
       projectsID
-      highlights {
-        nextToken
-        startedAt
-      }
       updatedAt
       createdAt
       _version
@@ -861,94 +859,6 @@ export const syncVodAssets = /* GraphQL */ `
         _deleted
         _lastChangedAt
         vodAssetTranscriptionId
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const getHighlightTags = /* GraphQL */ `
-  query GetHighlightTags($id: ID!) {
-    getHighlightTags(id: $id) {
-      id
-      highlightsID
-      tagsID
-      highlights {
-        id
-        tenant
-        type
-        text
-        transcriptionID
-        projectsID
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      tags {
-        id
-        tenant
-        label
-        projectsID
-        updatedAt
-        createdAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const listHighlightTags = /* GraphQL */ `
-  query ListHighlightTags(
-    $filter: ModelHighlightTagsFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listHighlightTags(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        highlightsID
-        tagsID
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const syncHighlightTags = /* GraphQL */ `
-  query SyncHighlightTags(
-    $filter: ModelHighlightTagsFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncHighlightTags(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        highlightsID
-        tagsID
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       nextToken
       startedAt

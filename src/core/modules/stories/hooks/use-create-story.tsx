@@ -13,7 +13,6 @@ const createStory = async (storyInput: CreateStoriesInput) => {
     },
     authMode: "AMAZON_COGNITO_USER_POOLS",
   })) as { data: CreateStoriesMutation };
-  debugger;
   if (storyResponse.data) return storyResponse.data.createStories;
 };
 
@@ -32,7 +31,6 @@ export const useCreateStory = (callback: (story: Stories) => void) => {
         }
       },
       onError: (error) => {
-        debugger;
         console.log("what happened?");
       },
     }

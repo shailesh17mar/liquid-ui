@@ -65,17 +65,12 @@ const DefaultReadmeDocument = `
           </ul>
         `;
 
-interface Props {
-  mutationController: ProjectMutationController;
-  queryController: ProjectsQueryController;
-}
-
 const route = matchPath("/projects/:id", window.location.pathname);
 const id = route?.params.id;
 const doc = new Doc({ guid: id });
 const provider = new WebrtcProvider(`liquid-${id}`, doc);
 
-export const ProjectDetails: React.FC<Props> = () => {
+export const ProjectDetails: React.FC = () => {
   const { id } = useParams() as { id: string };
   const { data: project, isLoading } = useProject(id);
   const mutation = useUpdateProject();

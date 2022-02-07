@@ -11,11 +11,14 @@ const retrieveHighlightById = async (id: string) => {
     },
     authMode: "AMAZON_COGNITO_USER_POOLS",
   })) as { data: GetHighlightsQuery };
-  if (highlightResponse.data) {
-    return highlightResponse.data.getHighlights;
+  if (highlightResponse.data.getHighlights) {
+    let highlight = highlightResponse.data.getHighlights;
+    return highlight;
   }
 };
 
-export const useHighlight = (id: string) => {
-  return useQuery(["highlights", id], () => retrieveHighlightById(id));
+export const useHighlight = (id: string, enabled: boolean = true) => {
+  return useQuery(["highlights", id], () => retrieveHighlightById(id), {
+    enabled,
+  });
 };

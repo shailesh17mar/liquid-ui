@@ -1,9 +1,7 @@
 import Home from "presentation/modules/home";
-import React, { useEffect } from "react";
-import { makeProjectQueryController } from "main/factories/project-factory";
-import { DataStore } from "aws-amplify";
+import React from "react";
 
 export const HomePage: React.FC = () => {
-  return <Home controller={makeProjectQueryController()} />;
+  return <Home />;
 };
 export default HomePage;

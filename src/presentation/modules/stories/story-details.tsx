@@ -1,4 +1,5 @@
 import {
+  EuiBadge,
   EuiBetaBadge,
   EuiFlexGroup,
   EuiFlexItem,
@@ -17,10 +18,6 @@ import {
   FIELD_TYPES,
   MetaProperty,
 } from "../shared/components/editor/components/property-editor/types";
-import {
-  ParticipantController,
-  StoryController,
-} from "main/factories/story-factory";
 import { Persons as Participant, Persons } from "models";
 import { ModelInit } from "@aws-amplify/datastore";
 import { useDebouncedCallback } from "use-debounce/lib";
@@ -30,6 +27,7 @@ import {
   useCreatePerson,
   useUpdatePerson,
 } from "core/modules/participants/hooks";
+import { TagAnnotation } from "./story.styles";
 
 const DefaultStoryDocument = {
   type: "doc",
@@ -65,11 +63,7 @@ const id = route?.params.id;
 const doc = new Doc({ guid: id });
 const provider = new WebrtcProvider(`story-${id}`, doc);
 
-interface Props {
-  participantController: ParticipantController;
-  storyController: StoryController;
-}
-export const StoryDetails: React.FC<Props> = () => {
+export const StoryDetails: React.FC = () => {
   const annotation = useRecoilValue(annotationState);
   const annotationRefs = useRef<Array<HTMLDivElement | null>>([]);
   const { id } = useParams() as { id: string };
@@ -113,7 +107,7 @@ export const StoryDetails: React.FC<Props> = () => {
       (Object.keys(annotation) as string[]).reduce<{
         [key: string]: number | undefined;
       }>((dict, id: string) => {
-        const element = document.getElementById(id);
+        const element = document.querySelector(`span[data-hid="${id}"]`);
         const top = element?.getBoundingClientRect().top;
         dict[id] = top;
         return dict;
@@ -122,7 +116,7 @@ export const StoryDetails: React.FC<Props> = () => {
   );
   const updatePositions = () => {
     (Object.keys(annotation) as string[]).forEach((id: string, index) => {
-      const element = document.getElementById(id);
+      const element = document.querySelector(`span[data-hid="${id}"]`);
       const top = element?.getBoundingClientRect().top;
       const highlight = annotationRefs.current[index];
       if (highlight && top) {
@@ -266,26 +260,21 @@ export const StoryDetails: React.FC<Props> = () => {
           <EuiFlexItem grow={false}>
             {Object.keys(annotation).map((id, index) => {
               return (
-                <div
+                <TagAnnotation
                   ref={(el) => (annotationRefs.current[index] = el)}
                   key={id}
-                  style={{
-                    position: "fixed",
-                    top: positionDictionary[id] + "px",
-                  }}
+                  type={annotation[id].type}
+                  top={positionDictionary[id]}
                 >
                   {annotation[id].tags.map((tag, index) => (
                     <>
-                      <EuiBetaBadge
-                        label={tag.label}
-                        size="m"
-                        key={id + index}
-                        color="hollow"
-                      />{" "}
+                      <EuiBadge key={id + index} color="default">
+                        {tag.label}
+                      </EuiBadge>
                       &nbsp;
                     </>
                   ))}
-                </div>
+                </TagAnnotation>
               );
             })}
           </EuiFlexItem>

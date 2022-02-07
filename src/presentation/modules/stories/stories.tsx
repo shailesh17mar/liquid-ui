@@ -62,18 +62,13 @@ const makeList = (number: number, start: number = 1) =>
   });
 
 //TODO: Think of better way of props her
-interface Props {
-  storiesQueryController: StoriesQueryController;
-  storyMutationController: StoryMutationController;
-  categoryMutationController: CategoryMutationController;
-  categoriesQueryController: CategoriesQueryController;
-}
-export const Stories: React.FC<Props> = ({
-  categoriesQueryController,
-  categoryMutationController,
-  storiesQueryController,
-  storyMutationController,
-}) => {
+// interface Props {
+//   storiesQueryController: StoriesQueryController;
+//   storyMutationController: StoryMutationController;
+//   categoryMutationController: CategoryMutationController;
+//   categoriesQueryController: CategoriesQueryController;
+// }
+export const Stories: React.FC = () => {
   const navigate = useNavigate();
   const [isSeeding, setIsSeeding] = useState(false);
   const { user } = useAuth();
@@ -87,9 +82,7 @@ export const Stories: React.FC<Props> = ({
 
   useEffect(() => {
     if (!isSeeding && categories && categories.length === 0) {
-      categoryMutation.mutate(
-        new Categories({ name: "Get started", projectsID: id })
-      );
+      categoryMutation.mutate({ name: "Get started", projectsID: id });
       setIsSeeding(true);
     }
   }, [categories, categoryMutation, id, isSeeding]);

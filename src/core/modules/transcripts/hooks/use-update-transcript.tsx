@@ -3,6 +3,7 @@ import { UpdateTranscriptionInput, UpdateTranscriptionMutation } from "API";
 import { API } from "aws-amplify";
 import { updateTranscription } from "graphql/mutations";
 import { Transcription } from "models";
+import { useAuth } from "presentation/context/auth-context";
 
 const updateTranscript = async (transcriptInput: UpdateTranscriptionInput) => {
   const transcriptResponse = (await API.graphql({
@@ -20,9 +21,10 @@ export const useUpdateTranscription = (
   callback?: (transcript: Transcription) => void
 ) => {
   const queryClient = useQueryClient();
+  const { user } = useAuth();
   return useMutation(
     (input: Omit<UpdateTranscriptionInput, "tenant">) => {
-      return updateTranscript(input);
+      return updateTranscript({ ...input, tenant: user.tenant });
     },
     {
       onSuccess: (transcript, variables) => {

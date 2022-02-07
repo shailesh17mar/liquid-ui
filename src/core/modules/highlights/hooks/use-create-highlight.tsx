@@ -13,7 +13,6 @@ const createHighlight = async (highlightInput: CreateHighlightsInput) => {
     },
     authMode: "AMAZON_COGNITO_USER_POOLS",
   })) as { data: CreateHighlightsMutation };
-  debugger;
   if (highlightResponse.data) return highlightResponse.data.createHighlights;
 };
 
@@ -34,7 +33,6 @@ export const useCreateHighlight = (
         }
       },
       onError: (error) => {
-        debugger;
         console.log("what happened?");
       },
     }

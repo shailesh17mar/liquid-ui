@@ -14,7 +14,7 @@ export const schema = {
                     "name": "tenant",
                     "isArray": false,
                     "type": "ID",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "additonalFields": {
@@ -110,7 +110,7 @@ export const schema = {
                     "name": "tenant",
                     "isArray": false,
                     "type": "ID",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "projectsID": {
@@ -180,7 +180,7 @@ export const schema = {
                     "name": "tenant",
                     "isArray": false,
                     "type": "ID",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "type": {
@@ -197,26 +197,27 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "Tags": {
+                    "name": "Tags",
+                    "isArray": true,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true
+                },
+                "tagIds": {
+                    "name": "tagIds",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "transcriptionID": {
                     "name": "transcriptionID",
                     "isArray": false,
                     "type": "ID",
                     "isRequired": true,
                     "attributes": []
-                },
-                "tags": {
-                    "name": "tags",
-                    "isArray": true,
-                    "type": {
-                        "model": "HighlightTags"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": "highlights"
-                    }
                 },
                 "projectsID": {
                     "name": "projectsID",
@@ -301,7 +302,7 @@ export const schema = {
                     "name": "tenant",
                     "isArray": false,
                     "type": "ID",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "label": {
@@ -317,20 +318,6 @@ export const schema = {
                     "type": "ID",
                     "isRequired": true,
                     "attributes": []
-                },
-                "highlights": {
-                    "name": "highlights",
-                    "isArray": true,
-                    "type": {
-                        "model": "HighlightTags"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": "tags"
-                    }
                 },
                 "updatedAt": {
                     "name": "updatedAt",
@@ -399,7 +386,7 @@ export const schema = {
                     "name": "tenant",
                     "isArray": false,
                     "type": "ID",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "video": {
@@ -490,7 +477,7 @@ export const schema = {
                     "name": "tenant",
                     "isArray": false,
                     "type": "ID",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "categoriesID": {
@@ -646,7 +633,7 @@ export const schema = {
                     "name": "tenant",
                     "isArray": false,
                     "type": "ID",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "name": {
@@ -730,7 +717,7 @@ export const schema = {
                     "name": "tenant",
                     "isArray": false,
                     "type": "ID",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "name": {
@@ -875,7 +862,7 @@ export const schema = {
                     "name": "tenant",
                     "isArray": false,
                     "type": "ID",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "organisationsID": {
@@ -980,7 +967,7 @@ export const schema = {
                     "name": "tenant",
                     "isArray": false,
                     "type": "ID",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "name": {
@@ -1069,7 +1056,7 @@ export const schema = {
                     "name": "tenant",
                     "isArray": false,
                     "type": "ID",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "title": {
@@ -1140,52 +1127,6 @@ export const schema = {
                     }
                 }
             ]
-        },
-        "HighlightTags": {
-            "name": "HighlightTags",
-            "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "highlights": {
-                    "name": "highlights",
-                    "isArray": false,
-                    "type": {
-                        "model": "Highlights"
-                    },
-                    "isRequired": true,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "BELONGS_TO",
-                        "targetName": "highlightsID"
-                    }
-                },
-                "tags": {
-                    "name": "tags",
-                    "isArray": false,
-                    "type": {
-                        "model": "Tags"
-                    },
-                    "isRequired": true,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "BELONGS_TO",
-                        "targetName": "tagsID"
-                    }
-                }
-            },
-            "syncable": true,
-            "pluralName": "HighlightTags",
-            "attributes": [
-                {
-                    "type": "model",
-                    "properties": {}
-                }
-            ]
         }
     },
     "enums": {
@@ -1200,5 +1141,5 @@ export const schema = {
         }
     },
     "nonModels": {},
-    "version": "21261f12e0fecca10a4aac35d4728d88"
+    "version": "2cda4bf04925a0b576b2d42ecede0629"
 };

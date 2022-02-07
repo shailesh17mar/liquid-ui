@@ -7,7 +7,7 @@ enum TranscriptionStatus {
 
 type Persons @model @auth(rules: [{ allow: groups, groupsField: "tenant" }]) {
   id: ID!
-  tenant: ID
+  tenant: ID!
   additonalFields: AWSJSON
   name: String
   email: AWSEmail
@@ -19,7 +19,7 @@ type Persons @model @auth(rules: [{ allow: groups, groupsField: "tenant" }]) {
 
 type Insights @model @auth(rules: [{ allow: groups, groupsField: "tenant" }]) {
   id: ID!
-  tenant: ID
+  tenant: ID!
   projectsID: ID! @index(name: "byProjects")
   content: AWSJSON
 }
@@ -28,11 +28,12 @@ type Highlights
   @model
   @auth(rules: [{ allow: groups, groupsField: "tenant" }]) {
   id: ID!
-  tenant: ID
+  tenant: ID!
   type: String!
   text: String!
+  Tags: [String]
+  tagIds: String
   transcriptionID: ID! @index(name: "byTranscription")
-  tags: [Tags] @manyToMany(relationName: "HighlightTags")
   projectsID: ID! @index(name: "byProjects")
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
@@ -40,10 +41,9 @@ type Highlights
 
 type Tags @model @auth(rules: [{ allow: groups, groupsField: "tenant" }]) {
   id: ID!
-  tenant: ID
+  tenant: ID!
   label: String!
   projectsID: ID! @index(name: "byProjects")
-  highlights: [Highlights] @manyToMany(relationName: "HighlightTags")
   updatedAt: AWSDateTime!
   createdAt: AWSDateTime
 }
@@ -52,7 +52,7 @@ type Transcription
   @model
   @auth(rules: [{ allow: groups, groupsField: "tenant" }]) {
   id: ID!
-  tenant: ID
+  tenant: ID!
   video: String!
   transcription: AWSURL
   content: AWSJSON
@@ -63,7 +63,7 @@ type Transcription
 
 type Stories @model @auth(rules: [{ allow: groups, groupsField: "tenant" }]) {
   id: ID!
-  tenant: ID
+  tenant: ID!
   categoriesID: ID! @index(name: "byCategories")
   projectsID: ID! @index(name: "byProjects")
   type: String!
@@ -79,7 +79,7 @@ type Categories
   @model
   @auth(rules: [{ allow: groups, groupsField: "tenant" }]) {
   id: ID!
-  tenant: ID
+  tenant: ID!
   name: String!
   projectsID: ID! @index(name: "byProjects")
   Stories: [Stories] @hasMany(indexName: "byCategories", fields: ["id"])
@@ -87,7 +87,7 @@ type Categories
 
 type Projects @model @auth(rules: [{ allow: groups, groupsField: "tenant" }]) {
   id: ID!
-  tenant: ID
+  tenant: ID!
   name: String!
   readme: AWSJSON
   createdAt: AWSDateTime!
@@ -103,7 +103,7 @@ type Workspaces
   @model
   @auth(rules: [{ allow: groups, groupsField: "tenant" }]) {
   id: ID!
-  tenant: ID
+  tenant: ID!
   organisationsID: ID @index(name: "byOrganisations")
   name: String!
   color: String
@@ -117,7 +117,7 @@ type Organisations
   @model
   @auth(rules: [{ allow: groups, groupsField: "tenant" }]) {
   id: ID!
-  tenant: ID
+  tenant: ID!
   name: String!
   type: String
   Workspaces: [Workspaces]
@@ -130,7 +130,7 @@ type VodAsset
   @model(subscriptions: { level: public })
   @auth(rules: [{ allow: groups, groupsField: "tenant" }]) {
   id: ID!
-  tenant: ID
+  tenant: ID!
   title: String!
   transcription: Transcription @hasOne
   video: String!

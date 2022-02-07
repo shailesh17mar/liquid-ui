@@ -9,7 +9,7 @@ const TranscriptionStatus = {
   "FAILED": "FAILED"
 };
 
-const { Persons, Insights, Highlights, Tags, Transcription, Stories, Categories, Projects, Workspaces, Organisations, VodAsset, HighlightTags } = initSchema(schema);
+const { Persons, Insights, Highlights, Tags, Transcription, Stories, Categories, Projects, Workspaces, Organisations, VodAsset } = initSchema(schema);
 
 export {
   Persons,
@@ -23,6 +23,5 @@ export {
   Workspaces,
   Organisations,
   VodAsset,
-  HighlightTags,
   TranscriptionStatus
 };

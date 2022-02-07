@@ -5,7 +5,7 @@ import styled from "styled-components";
 export const TranscriptContainer = styled(NodeViewWrapper)`
   margin: 1rem 0;
   position: relative;
-  border-top: solid 1px black;
+  border-top: 1px solid #d3dae6;
 
   .label {
     margin-left: 1rem;
@@ -28,7 +28,8 @@ export const TranscriptContainer = styled(NodeViewWrapper)`
 
 export const TranscriptContent = styled(NodeViewContent)`
   /* margin-top: ; */
-  /* padding: 1rem; */
+  padding: 1rem;
+  border-right: 1px solid #d3dae6;
 
   mark {
     margin: 0 -0.4em;

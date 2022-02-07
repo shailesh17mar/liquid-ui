@@ -1,8 +1,17 @@
-import { GetStoriesQuery } from "API";
+import { GetHighlightsQuery, GetStoriesQuery } from "API";
 import { API } from "aws-amplify";
-import { getStories } from "graphql/queries";
+import { getHighlights, getStories, listHighlights } from "graphql/queries";
 import { useQuery } from "react-query";
 
+const getMatches = (content: string, regex: any, index: number) => {
+  index || (index = 1); // default to the first capturing group
+  var matches = [];
+  var match;
+  while ((match = regex.exec(content))) {
+    matches.push(match[index]);
+  }
+  return matches;
+};
 const retrieveStoryById = async (id: string) => {
   const storyResponse = (await API.graphql({
     query: getStories,
@@ -20,8 +29,10 @@ const retrieveStoryById = async (id: string) => {
         business: JSON.parse(story.participants.business),
       };
     }
-    if (story?.content)
-      return { ...story, content: JSON.parse(story?.content) };
+    if (story && story.content) {
+      const content = JSON.parse(story.content);
+      return { ...story, content };
+    }
     return story;
   }
 };

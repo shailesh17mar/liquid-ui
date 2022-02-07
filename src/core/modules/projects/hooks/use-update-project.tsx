@@ -2,6 +2,7 @@ import { useQueryClient, useMutation } from "react-query";
 import { UpdateProjectsInput, UpdateProjectsMutation } from "API";
 import { API } from "aws-amplify";
 import { updateProjects } from "graphql/mutations";
+import { useAuth } from "presentation/context/auth-context";
 
 const updateProject = async (projectInput: UpdateProjectsInput) => {
   const projectResponse = (await API.graphql({
@@ -16,9 +17,10 @@ const updateProject = async (projectInput: UpdateProjectsInput) => {
 
 export const useUpdateProject = () => {
   const queryClient = useQueryClient();
+  const { user } = useAuth();
   return useMutation(
     (input: Omit<UpdateProjectsInput, "tenant">) => {
-      return updateProject(input);
+      return updateProject({ ...input, tenant: user.tenant });
     },
     {
       onSuccess: (data, variables) => {

@@ -4,7 +4,7 @@
 
 export type CreatePersonsInput = {
   id?: string | null,
-  tenant?: string | null,
+  tenant: string,
   additonalFields?: string | null,
   name?: string | null,
   email?: string | null,
@@ -88,7 +88,7 @@ export type ModelStringInput = {
 export type Persons = {
   __typename: "Persons",
   id?: string,
-  tenant?: string | null,
+  tenant?: string,
   additonalFields?: string | null,
   name?: string | null,
   email?: string | null,
@@ -121,7 +121,7 @@ export type DeletePersonsInput = {
 
 export type CreateInsightsInput = {
   id?: string | null,
-  tenant?: string | null,
+  tenant: string,
   projectsID: string,
   content?: string | null,
   _version?: number | null,
@@ -139,7 +139,7 @@ export type ModelInsightsConditionInput = {
 export type Insights = {
   __typename: "Insights",
   id?: string,
-  tenant?: string | null,
+  tenant?: string,
   projectsID?: string,
   content?: string | null,
   createdAt?: string,
@@ -164,9 +164,11 @@ export type DeleteInsightsInput = {
 
 export type CreateHighlightsInput = {
   id?: string | null,
-  tenant?: string | null,
+  tenant: string,
   type: string,
   text: string,
+  Tags?: Array< string | null > | null,
+  tagIds?: string | null,
   transcriptionID: string,
   projectsID: string,
   createdAt?: string | null,
@@ -178,6 +180,8 @@ export type ModelHighlightsConditionInput = {
   tenant?: ModelIDInput | null,
   type?: ModelStringInput | null,
   text?: ModelStringInput | null,
+  Tags?: ModelStringInput | null,
+  tagIds?: ModelStringInput | null,
   transcriptionID?: ModelIDInput | null,
   projectsID?: ModelIDInput | null,
   createdAt?: ModelStringInput | null,
@@ -190,49 +194,15 @@ export type ModelHighlightsConditionInput = {
 export type Highlights = {
   __typename: "Highlights",
   id?: string,
-  tenant?: string | null,
+  tenant?: string,
   type?: string,
   text?: string,
+  Tags?: Array< string | null > | null,
+  tagIds?: string | null,
   transcriptionID?: string,
-  tags?: ModelHighlightTagsConnection,
   projectsID?: string,
   createdAt?: string,
   updatedAt?: string,
-  _version?: number,
-  _deleted?: boolean | null,
-  _lastChangedAt?: number,
-};
-
-export type ModelHighlightTagsConnection = {
-  __typename: "ModelHighlightTagsConnection",
-  items?:  Array<HighlightTags | null >,
-  nextToken?: string | null,
-  startedAt?: number | null,
-};
-
-export type HighlightTags = {
-  __typename: "HighlightTags",
-  id?: string,
-  highlightsID?: string,
-  tagsID?: string,
-  highlights?: Highlights,
-  tags?: Tags,
-  createdAt?: string,
-  updatedAt?: string,
-  _version?: number,
-  _deleted?: boolean | null,
-  _lastChangedAt?: number,
-};
-
-export type Tags = {
-  __typename: "Tags",
-  id?: string,
-  tenant?: string | null,
-  label?: string,
-  projectsID?: string,
-  highlights?: ModelHighlightTagsConnection,
-  updatedAt?: string,
-  createdAt?: string | null,
   _version?: number,
   _deleted?: boolean | null,
   _lastChangedAt?: number,
@@ -243,6 +213,8 @@ export type UpdateHighlightsInput = {
   tenant?: string | null,
   type?: string | null,
   text?: string | null,
+  Tags?: Array< string | null > | null,
+  tagIds?: string | null,
   transcriptionID?: string | null,
   projectsID?: string | null,
   createdAt?: string | null,
@@ -257,7 +229,7 @@ export type DeleteHighlightsInput = {
 
 export type CreateTagsInput = {
   id?: string | null,
-  tenant?: string | null,
+  tenant: string,
   label: string,
   projectsID: string,
   updatedAt?: string | null,
@@ -274,6 +246,19 @@ export type ModelTagsConditionInput = {
   and?: Array< ModelTagsConditionInput | null > | null,
   or?: Array< ModelTagsConditionInput | null > | null,
   not?: ModelTagsConditionInput | null,
+};
+
+export type Tags = {
+  __typename: "Tags",
+  id?: string,
+  tenant?: string,
+  label?: string,
+  projectsID?: string,
+  updatedAt?: string,
+  createdAt?: string | null,
+  _version?: number,
+  _deleted?: boolean | null,
+  _lastChangedAt?: number,
 };
 
 export type UpdateTagsInput = {
@@ -293,7 +278,7 @@ export type DeleteTagsInput = {
 
 export type CreateTranscriptionInput = {
   id?: string | null,
-  tenant?: string | null,
+  tenant: string,
   video: string,
   transcription?: string | null,
   content?: string | null,
@@ -328,7 +313,7 @@ export type ModelTranscriptionStatusInput = {
 export type Transcription = {
   __typename: "Transcription",
   id?: string,
-  tenant?: string | null,
+  tenant?: string,
   video?: string,
   transcription?: string | null,
   content?: string | null,
@@ -365,7 +350,7 @@ export type DeleteTranscriptionInput = {
 
 export type CreateStoriesInput = {
   id?: string | null,
-  tenant?: string | null,
+  tenant: string,
   categoriesID: string,
   projectsID: string,
   type: string,
@@ -397,7 +382,7 @@ export type ModelStoriesConditionInput = {
 export type Stories = {
   __typename: "Stories",
   id?: string,
-  tenant?: string | null,
+  tenant?: string,
   categoriesID?: string,
   projectsID?: string,
   type?: string,
@@ -436,7 +421,7 @@ export type DeleteStoriesInput = {
 
 export type CreateCategoriesInput = {
   id?: string | null,
-  tenant?: string | null,
+  tenant: string,
   name: string,
   projectsID: string,
   _version?: number | null,
@@ -454,7 +439,7 @@ export type ModelCategoriesConditionInput = {
 export type Categories = {
   __typename: "Categories",
   id?: string,
-  tenant?: string | null,
+  tenant?: string,
   name?: string,
   projectsID?: string,
   Stories?: ModelStoriesConnection,
@@ -487,7 +472,7 @@ export type DeleteCategoriesInput = {
 
 export type CreateProjectsInput = {
   id?: string | null,
-  tenant?: string | null,
+  tenant: string,
   name: string,
   readme?: string | null,
   createdAt?: string | null,
@@ -509,7 +494,7 @@ export type ModelProjectsConditionInput = {
 export type Projects = {
   __typename: "Projects",
   id?: string,
-  tenant?: string | null,
+  tenant?: string,
   name?: string,
   readme?: string | null,
   createdAt?: string,
@@ -562,7 +547,7 @@ export type DeleteProjectsInput = {
 
 export type CreateWorkspacesInput = {
   id?: string | null,
-  tenant?: string | null,
+  tenant: string,
   organisationsID?: string | null,
   name: string,
   color?: string | null,
@@ -590,7 +575,7 @@ export type ModelWorkspacesConditionInput = {
 export type Workspaces = {
   __typename: "Workspaces",
   id?: string,
-  tenant?: string | null,
+  tenant?: string,
   organisationsID?: string | null,
   name?: string,
   color?: string | null,
@@ -623,7 +608,7 @@ export type DeleteWorkspacesInput = {
 
 export type CreateOrganisationsInput = {
   id?: string | null,
-  tenant?: string | null,
+  tenant: string,
   name: string,
   type?: string | null,
   createdAt?: string | null,
@@ -645,7 +630,7 @@ export type ModelOrganisationsConditionInput = {
 export type Organisations = {
   __typename: "Organisations",
   id?: string,
-  tenant?: string | null,
+  tenant?: string,
   name?: string,
   type?: string | null,
   Workspaces?: ModelWorkspacesConnection,
@@ -680,7 +665,7 @@ export type DeleteOrganisationsInput = {
 
 export type CreateVodAssetInput = {
   id?: string | null,
-  tenant?: string | null,
+  tenant: string,
   title: string,
   video: string,
   _version?: number | null,
@@ -700,7 +685,7 @@ export type ModelVodAssetConditionInput = {
 export type VodAsset = {
   __typename: "VodAsset",
   id?: string,
-  tenant?: string | null,
+  tenant?: string,
   title?: string,
   transcription?: Transcription,
   video?: string,
@@ -722,33 +707,6 @@ export type UpdateVodAssetInput = {
 };
 
 export type DeleteVodAssetInput = {
-  id: string,
-  _version?: number | null,
-};
-
-export type CreateHighlightTagsInput = {
-  id?: string | null,
-  highlightsID: string,
-  tagsID: string,
-  _version?: number | null,
-};
-
-export type ModelHighlightTagsConditionInput = {
-  highlightsID?: ModelIDInput | null,
-  tagsID?: ModelIDInput | null,
-  and?: Array< ModelHighlightTagsConditionInput | null > | null,
-  or?: Array< ModelHighlightTagsConditionInput | null > | null,
-  not?: ModelHighlightTagsConditionInput | null,
-};
-
-export type UpdateHighlightTagsInput = {
-  id: string,
-  highlightsID?: string | null,
-  tagsID?: string | null,
-  _version?: number | null,
-};
-
-export type DeleteHighlightTagsInput = {
   id: string,
   _version?: number | null,
 };
@@ -790,6 +748,8 @@ export type ModelHighlightsFilterInput = {
   tenant?: ModelIDInput | null,
   type?: ModelStringInput | null,
   text?: ModelStringInput | null,
+  Tags?: ModelStringInput | null,
+  tagIds?: ModelStringInput | null,
   transcriptionID?: ModelIDInput | null,
   projectsID?: ModelIDInput | null,
   createdAt?: ModelStringInput | null,
@@ -928,15 +888,6 @@ export type ModelVodAssetConnection = {
   startedAt?: number | null,
 };
 
-export type ModelHighlightTagsFilterInput = {
-  id?: ModelIDInput | null,
-  highlightsID?: ModelIDInput | null,
-  tagsID?: ModelIDInput | null,
-  and?: Array< ModelHighlightTagsFilterInput | null > | null,
-  or?: Array< ModelHighlightTagsFilterInput | null > | null,
-  not?: ModelHighlightTagsFilterInput | null,
-};
-
 export type CreatePersonsMutationVariables = {
   input?: CreatePersonsInput,
   condition?: ModelPersonsConditionInput | null,
@@ -946,7 +897,7 @@ export type CreatePersonsMutation = {
   createPersons?:  {
     __typename: "Persons",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     additonalFields?: string | null,
     name?: string | null,
     email?: string | null,
@@ -969,7 +920,7 @@ export type UpdatePersonsMutation = {
   updatePersons?:  {
     __typename: "Persons",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     additonalFields?: string | null,
     name?: string | null,
     email?: string | null,
@@ -992,7 +943,7 @@ export type DeletePersonsMutation = {
   deletePersons?:  {
     __typename: "Persons",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     additonalFields?: string | null,
     name?: string | null,
     email?: string | null,
@@ -1015,7 +966,7 @@ export type CreateInsightsMutation = {
   createInsights?:  {
     __typename: "Insights",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     projectsID: string,
     content?: string | null,
     createdAt: string,
@@ -1035,7 +986,7 @@ export type UpdateInsightsMutation = {
   updateInsights?:  {
     __typename: "Insights",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     projectsID: string,
     content?: string | null,
     createdAt: string,
@@ -1055,7 +1006,7 @@ export type DeleteInsightsMutation = {
   deleteInsights?:  {
     __typename: "Insights",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     projectsID: string,
     content?: string | null,
     createdAt: string,
@@ -1075,15 +1026,12 @@ export type CreateHighlightsMutation = {
   createHighlights?:  {
     __typename: "Highlights",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     type: string,
     text: string,
+    Tags?: Array< string | null > | null,
+    tagIds?: string | null,
     transcriptionID: string,
-    tags?:  {
-      __typename: "ModelHighlightTagsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     projectsID: string,
     createdAt: string,
     updatedAt: string,
@@ -1102,15 +1050,12 @@ export type UpdateHighlightsMutation = {
   updateHighlights?:  {
     __typename: "Highlights",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     type: string,
     text: string,
+    Tags?: Array< string | null > | null,
+    tagIds?: string | null,
     transcriptionID: string,
-    tags?:  {
-      __typename: "ModelHighlightTagsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     projectsID: string,
     createdAt: string,
     updatedAt: string,
@@ -1129,15 +1074,12 @@ export type DeleteHighlightsMutation = {
   deleteHighlights?:  {
     __typename: "Highlights",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     type: string,
     text: string,
+    Tags?: Array< string | null > | null,
+    tagIds?: string | null,
     transcriptionID: string,
-    tags?:  {
-      __typename: "ModelHighlightTagsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     projectsID: string,
     createdAt: string,
     updatedAt: string,
@@ -1156,14 +1098,9 @@ export type CreateTagsMutation = {
   createTags?:  {
     __typename: "Tags",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     label: string,
     projectsID: string,
-    highlights?:  {
-      __typename: "ModelHighlightTagsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     updatedAt: string,
     createdAt?: string | null,
     _version: number,
@@ -1181,14 +1118,9 @@ export type UpdateTagsMutation = {
   updateTags?:  {
     __typename: "Tags",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     label: string,
     projectsID: string,
-    highlights?:  {
-      __typename: "ModelHighlightTagsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     updatedAt: string,
     createdAt?: string | null,
     _version: number,
@@ -1206,14 +1138,9 @@ export type DeleteTagsMutation = {
   deleteTags?:  {
     __typename: "Tags",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     label: string,
     projectsID: string,
-    highlights?:  {
-      __typename: "ModelHighlightTagsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     updatedAt: string,
     createdAt?: string | null,
     _version: number,
@@ -1231,7 +1158,7 @@ export type CreateTranscriptionMutation = {
   createTranscription?:  {
     __typename: "Transcription",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     video: string,
     transcription?: string | null,
     content?: string | null,
@@ -1258,7 +1185,7 @@ export type UpdateTranscriptionMutation = {
   updateTranscription?:  {
     __typename: "Transcription",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     video: string,
     transcription?: string | null,
     content?: string | null,
@@ -1285,7 +1212,7 @@ export type DeleteTranscriptionMutation = {
   deleteTranscription?:  {
     __typename: "Transcription",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     video: string,
     transcription?: string | null,
     content?: string | null,
@@ -1312,7 +1239,7 @@ export type CreateStoriesMutation = {
   createStories?:  {
     __typename: "Stories",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     categoriesID: string,
     projectsID: string,
     type: string,
@@ -1323,7 +1250,7 @@ export type CreateStoriesMutation = {
     transcription?:  {
       __typename: "Transcription",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       video: string,
       transcription?: string | null,
       content?: string | null,
@@ -1337,7 +1264,7 @@ export type CreateStoriesMutation = {
     participants?:  {
       __typename: "Persons",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       additonalFields?: string | null,
       name?: string | null,
       email?: string | null,
@@ -1366,7 +1293,7 @@ export type UpdateStoriesMutation = {
   updateStories?:  {
     __typename: "Stories",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     categoriesID: string,
     projectsID: string,
     type: string,
@@ -1377,7 +1304,7 @@ export type UpdateStoriesMutation = {
     transcription?:  {
       __typename: "Transcription",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       video: string,
       transcription?: string | null,
       content?: string | null,
@@ -1391,7 +1318,7 @@ export type UpdateStoriesMutation = {
     participants?:  {
       __typename: "Persons",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       additonalFields?: string | null,
       name?: string | null,
       email?: string | null,
@@ -1420,7 +1347,7 @@ export type DeleteStoriesMutation = {
   deleteStories?:  {
     __typename: "Stories",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     categoriesID: string,
     projectsID: string,
     type: string,
@@ -1431,7 +1358,7 @@ export type DeleteStoriesMutation = {
     transcription?:  {
       __typename: "Transcription",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       video: string,
       transcription?: string | null,
       content?: string | null,
@@ -1445,7 +1372,7 @@ export type DeleteStoriesMutation = {
     participants?:  {
       __typename: "Persons",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       additonalFields?: string | null,
       name?: string | null,
       email?: string | null,
@@ -1474,7 +1401,7 @@ export type CreateCategoriesMutation = {
   createCategories?:  {
     __typename: "Categories",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     name: string,
     projectsID: string,
     Stories?:  {
@@ -1499,7 +1426,7 @@ export type UpdateCategoriesMutation = {
   updateCategories?:  {
     __typename: "Categories",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     name: string,
     projectsID: string,
     Stories?:  {
@@ -1524,7 +1451,7 @@ export type DeleteCategoriesMutation = {
   deleteCategories?:  {
     __typename: "Categories",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     name: string,
     projectsID: string,
     Stories?:  {
@@ -1549,7 +1476,7 @@ export type CreateProjectsMutation = {
   createProjects?:  {
     __typename: "Projects",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     name: string,
     readme?: string | null,
     createdAt: string,
@@ -1594,7 +1521,7 @@ export type UpdateProjectsMutation = {
   updateProjects?:  {
     __typename: "Projects",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     name: string,
     readme?: string | null,
     createdAt: string,
@@ -1639,7 +1566,7 @@ export type DeleteProjectsMutation = {
   deleteProjects?:  {
     __typename: "Projects",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     name: string,
     readme?: string | null,
     createdAt: string,
@@ -1684,7 +1611,7 @@ export type CreateWorkspacesMutation = {
   createWorkspaces?:  {
     __typename: "Workspaces",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     organisationsID?: string | null,
     name: string,
     color?: string | null,
@@ -1707,7 +1634,7 @@ export type UpdateWorkspacesMutation = {
   updateWorkspaces?:  {
     __typename: "Workspaces",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     organisationsID?: string | null,
     name: string,
     color?: string | null,
@@ -1730,7 +1657,7 @@ export type DeleteWorkspacesMutation = {
   deleteWorkspaces?:  {
     __typename: "Workspaces",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     organisationsID?: string | null,
     name: string,
     color?: string | null,
@@ -1753,7 +1680,7 @@ export type CreateOrganisationsMutation = {
   createOrganisations?:  {
     __typename: "Organisations",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     name: string,
     type?: string | null,
     Workspaces?:  {
@@ -1778,7 +1705,7 @@ export type UpdateOrganisationsMutation = {
   updateOrganisations?:  {
     __typename: "Organisations",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     name: string,
     type?: string | null,
     Workspaces?:  {
@@ -1803,7 +1730,7 @@ export type DeleteOrganisationsMutation = {
   deleteOrganisations?:  {
     __typename: "Organisations",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     name: string,
     type?: string | null,
     Workspaces?:  {
@@ -1828,12 +1755,12 @@ export type CreateVodAssetMutation = {
   createVodAsset?:  {
     __typename: "VodAsset",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     title: string,
     transcription?:  {
       __typename: "Transcription",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       video: string,
       transcription?: string | null,
       content?: string | null,
@@ -1863,12 +1790,12 @@ export type UpdateVodAssetMutation = {
   updateVodAsset?:  {
     __typename: "VodAsset",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     title: string,
     transcription?:  {
       __typename: "Transcription",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       video: string,
       transcription?: string | null,
       content?: string | null,
@@ -1898,12 +1825,12 @@ export type DeleteVodAssetMutation = {
   deleteVodAsset?:  {
     __typename: "VodAsset",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     title: string,
     transcription?:  {
       __typename: "Transcription",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       video: string,
       transcription?: string | null,
       content?: string | null,
@@ -1924,141 +1851,6 @@ export type DeleteVodAssetMutation = {
   } | null,
 };
 
-export type CreateHighlightTagsMutationVariables = {
-  input?: CreateHighlightTagsInput,
-  condition?: ModelHighlightTagsConditionInput | null,
-};
-
-export type CreateHighlightTagsMutation = {
-  createHighlightTags?:  {
-    __typename: "HighlightTags",
-    id: string,
-    highlightsID: string,
-    tagsID: string,
-    highlights:  {
-      __typename: "Highlights",
-      id: string,
-      tenant?: string | null,
-      type: string,
-      text: string,
-      transcriptionID: string,
-      projectsID: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    tags:  {
-      __typename: "Tags",
-      id: string,
-      tenant?: string | null,
-      label: string,
-      projectsID: string,
-      updatedAt: string,
-      createdAt?: string | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
-export type UpdateHighlightTagsMutationVariables = {
-  input?: UpdateHighlightTagsInput,
-  condition?: ModelHighlightTagsConditionInput | null,
-};
-
-export type UpdateHighlightTagsMutation = {
-  updateHighlightTags?:  {
-    __typename: "HighlightTags",
-    id: string,
-    highlightsID: string,
-    tagsID: string,
-    highlights:  {
-      __typename: "Highlights",
-      id: string,
-      tenant?: string | null,
-      type: string,
-      text: string,
-      transcriptionID: string,
-      projectsID: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    tags:  {
-      __typename: "Tags",
-      id: string,
-      tenant?: string | null,
-      label: string,
-      projectsID: string,
-      updatedAt: string,
-      createdAt?: string | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
-export type DeleteHighlightTagsMutationVariables = {
-  input?: DeleteHighlightTagsInput,
-  condition?: ModelHighlightTagsConditionInput | null,
-};
-
-export type DeleteHighlightTagsMutation = {
-  deleteHighlightTags?:  {
-    __typename: "HighlightTags",
-    id: string,
-    highlightsID: string,
-    tagsID: string,
-    highlights:  {
-      __typename: "Highlights",
-      id: string,
-      tenant?: string | null,
-      type: string,
-      text: string,
-      transcriptionID: string,
-      projectsID: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    tags:  {
-      __typename: "Tags",
-      id: string,
-      tenant?: string | null,
-      label: string,
-      projectsID: string,
-      updatedAt: string,
-      createdAt?: string | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
 export type GetPersonsQueryVariables = {
   id?: string,
 };
@@ -2067,7 +1859,7 @@ export type GetPersonsQuery = {
   getPersons?:  {
     __typename: "Persons",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     additonalFields?: string | null,
     name?: string | null,
     email?: string | null,
@@ -2093,7 +1885,7 @@ export type ListPersonsQuery = {
     items:  Array< {
       __typename: "Persons",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       additonalFields?: string | null,
       name?: string | null,
       email?: string | null,
@@ -2123,7 +1915,7 @@ export type SyncPersonsQuery = {
     items:  Array< {
       __typename: "Persons",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       additonalFields?: string | null,
       name?: string | null,
       email?: string | null,
@@ -2148,7 +1940,7 @@ export type GetInsightsQuery = {
   getInsights?:  {
     __typename: "Insights",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     projectsID: string,
     content?: string | null,
     createdAt: string,
@@ -2171,7 +1963,7 @@ export type ListInsightsQuery = {
     items:  Array< {
       __typename: "Insights",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       projectsID: string,
       content?: string | null,
       createdAt: string,
@@ -2198,7 +1990,7 @@ export type SyncInsightsQuery = {
     items:  Array< {
       __typename: "Insights",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       projectsID: string,
       content?: string | null,
       createdAt: string,
@@ -2220,15 +2012,12 @@ export type GetHighlightsQuery = {
   getHighlights?:  {
     __typename: "Highlights",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     type: string,
     text: string,
+    Tags?: Array< string | null > | null,
+    tagIds?: string | null,
     transcriptionID: string,
-    tags?:  {
-      __typename: "ModelHighlightTagsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     projectsID: string,
     createdAt: string,
     updatedAt: string,
@@ -2250,9 +2039,11 @@ export type ListHighlightsQuery = {
     items:  Array< {
       __typename: "Highlights",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       type: string,
       text: string,
+      Tags?: Array< string | null > | null,
+      tagIds?: string | null,
       transcriptionID: string,
       projectsID: string,
       createdAt: string,
@@ -2279,9 +2070,11 @@ export type SyncHighlightsQuery = {
     items:  Array< {
       __typename: "Highlights",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       type: string,
       text: string,
+      Tags?: Array< string | null > | null,
+      tagIds?: string | null,
       transcriptionID: string,
       projectsID: string,
       createdAt: string,
@@ -2303,14 +2096,9 @@ export type GetTagsQuery = {
   getTags?:  {
     __typename: "Tags",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     label: string,
     projectsID: string,
-    highlights?:  {
-      __typename: "ModelHighlightTagsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     updatedAt: string,
     createdAt?: string | null,
     _version: number,
@@ -2331,7 +2119,7 @@ export type ListTagsQuery = {
     items:  Array< {
       __typename: "Tags",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       label: string,
       projectsID: string,
       updatedAt: string,
@@ -2358,7 +2146,7 @@ export type SyncTagsQuery = {
     items:  Array< {
       __typename: "Tags",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       label: string,
       projectsID: string,
       updatedAt: string,
@@ -2380,7 +2168,7 @@ export type GetTranscriptionQuery = {
   getTranscription?:  {
     __typename: "Transcription",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     video: string,
     transcription?: string | null,
     content?: string | null,
@@ -2410,7 +2198,7 @@ export type ListTranscriptionsQuery = {
     items:  Array< {
       __typename: "Transcription",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       video: string,
       transcription?: string | null,
       content?: string | null,
@@ -2439,7 +2227,7 @@ export type SyncTranscriptionsQuery = {
     items:  Array< {
       __typename: "Transcription",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       video: string,
       transcription?: string | null,
       content?: string | null,
@@ -2463,7 +2251,7 @@ export type GetStoriesQuery = {
   getStories?:  {
     __typename: "Stories",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     categoriesID: string,
     projectsID: string,
     type: string,
@@ -2474,7 +2262,7 @@ export type GetStoriesQuery = {
     transcription?:  {
       __typename: "Transcription",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       video: string,
       transcription?: string | null,
       content?: string | null,
@@ -2488,7 +2276,7 @@ export type GetStoriesQuery = {
     participants?:  {
       __typename: "Persons",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       additonalFields?: string | null,
       name?: string | null,
       email?: string | null,
@@ -2520,7 +2308,7 @@ export type ListStoriesQuery = {
     items:  Array< {
       __typename: "Stories",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       categoriesID: string,
       projectsID: string,
       type: string,
@@ -2552,7 +2340,7 @@ export type SyncStoriesQuery = {
     items:  Array< {
       __typename: "Stories",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       categoriesID: string,
       projectsID: string,
       type: string,
@@ -2579,7 +2367,7 @@ export type GetCategoriesQuery = {
   getCategories?:  {
     __typename: "Categories",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     name: string,
     projectsID: string,
     Stories?:  {
@@ -2607,7 +2395,7 @@ export type ListCategoriesQuery = {
     items:  Array< {
       __typename: "Categories",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       name: string,
       projectsID: string,
       createdAt: string,
@@ -2634,7 +2422,7 @@ export type SyncCategoriesQuery = {
     items:  Array< {
       __typename: "Categories",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       name: string,
       projectsID: string,
       createdAt: string,
@@ -2656,7 +2444,7 @@ export type GetProjectsQuery = {
   getProjects?:  {
     __typename: "Projects",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     name: string,
     readme?: string | null,
     createdAt: string,
@@ -2704,7 +2492,7 @@ export type ListProjectsQuery = {
     items:  Array< {
       __typename: "Projects",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       name: string,
       readme?: string | null,
       createdAt: string,
@@ -2731,7 +2519,7 @@ export type SyncProjectsQuery = {
     items:  Array< {
       __typename: "Projects",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       name: string,
       readme?: string | null,
       createdAt: string,
@@ -2753,7 +2541,7 @@ export type GetWorkspacesQuery = {
   getWorkspaces?:  {
     __typename: "Workspaces",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     organisationsID?: string | null,
     name: string,
     color?: string | null,
@@ -2779,7 +2567,7 @@ export type ListWorkspacesQuery = {
     items:  Array< {
       __typename: "Workspaces",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       organisationsID?: string | null,
       name: string,
       color?: string | null,
@@ -2809,7 +2597,7 @@ export type SyncWorkspacesQuery = {
     items:  Array< {
       __typename: "Workspaces",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       organisationsID?: string | null,
       name: string,
       color?: string | null,
@@ -2834,7 +2622,7 @@ export type GetOrganisationsQuery = {
   getOrganisations?:  {
     __typename: "Organisations",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     name: string,
     type?: string | null,
     Workspaces?:  {
@@ -2862,7 +2650,7 @@ export type ListOrganisationsQuery = {
     items:  Array< {
       __typename: "Organisations",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       name: string,
       type?: string | null,
       createdAt: string,
@@ -2889,7 +2677,7 @@ export type SyncOrganisationsQuery = {
     items:  Array< {
       __typename: "Organisations",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       name: string,
       type?: string | null,
       createdAt: string,
@@ -2911,12 +2699,12 @@ export type GetVodAssetQuery = {
   getVodAsset?:  {
     __typename: "VodAsset",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     title: string,
     transcription?:  {
       __typename: "Transcription",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       video: string,
       transcription?: string | null,
       content?: string | null,
@@ -2949,7 +2737,7 @@ export type ListVodAssetsQuery = {
     items:  Array< {
       __typename: "VodAsset",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       title: string,
       video: string,
       createdAt: string,
@@ -2977,7 +2765,7 @@ export type SyncVodAssetsQuery = {
     items:  Array< {
       __typename: "VodAsset",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       title: string,
       video: string,
       createdAt: string,
@@ -2992,106 +2780,11 @@ export type SyncVodAssetsQuery = {
   } | null,
 };
 
-export type GetHighlightTagsQueryVariables = {
-  id?: string,
-};
-
-export type GetHighlightTagsQuery = {
-  getHighlightTags?:  {
-    __typename: "HighlightTags",
-    id: string,
-    highlightsID: string,
-    tagsID: string,
-    highlights:  {
-      __typename: "Highlights",
-      id: string,
-      tenant?: string | null,
-      type: string,
-      text: string,
-      transcriptionID: string,
-      projectsID: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    tags:  {
-      __typename: "Tags",
-      id: string,
-      tenant?: string | null,
-      label: string,
-      projectsID: string,
-      updatedAt: string,
-      createdAt?: string | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
-export type ListHighlightTagsQueryVariables = {
-  filter?: ModelHighlightTagsFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListHighlightTagsQuery = {
-  listHighlightTags?:  {
-    __typename: "ModelHighlightTagsConnection",
-    items:  Array< {
-      __typename: "HighlightTags",
-      id: string,
-      highlightsID: string,
-      tagsID: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type SyncHighlightTagsQueryVariables = {
-  filter?: ModelHighlightTagsFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  lastSync?: number | null,
-};
-
-export type SyncHighlightTagsQuery = {
-  syncHighlightTags?:  {
-    __typename: "ModelHighlightTagsConnection",
-    items:  Array< {
-      __typename: "HighlightTags",
-      id: string,
-      highlightsID: string,
-      tagsID: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
 export type OnCreatePersonsSubscription = {
   onCreatePersons?:  {
     __typename: "Persons",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     additonalFields?: string | null,
     name?: string | null,
     email?: string | null,
@@ -3109,7 +2802,7 @@ export type OnUpdatePersonsSubscription = {
   onUpdatePersons?:  {
     __typename: "Persons",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     additonalFields?: string | null,
     name?: string | null,
     email?: string | null,
@@ -3127,7 +2820,7 @@ export type OnDeletePersonsSubscription = {
   onDeletePersons?:  {
     __typename: "Persons",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     additonalFields?: string | null,
     name?: string | null,
     email?: string | null,
@@ -3145,7 +2838,7 @@ export type OnCreateInsightsSubscription = {
   onCreateInsights?:  {
     __typename: "Insights",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     projectsID: string,
     content?: string | null,
     createdAt: string,
@@ -3160,7 +2853,7 @@ export type OnUpdateInsightsSubscription = {
   onUpdateInsights?:  {
     __typename: "Insights",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     projectsID: string,
     content?: string | null,
     createdAt: string,
@@ -3175,7 +2868,7 @@ export type OnDeleteInsightsSubscription = {
   onDeleteInsights?:  {
     __typename: "Insights",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     projectsID: string,
     content?: string | null,
     createdAt: string,
@@ -3190,15 +2883,12 @@ export type OnCreateHighlightsSubscription = {
   onCreateHighlights?:  {
     __typename: "Highlights",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     type: string,
     text: string,
+    Tags?: Array< string | null > | null,
+    tagIds?: string | null,
     transcriptionID: string,
-    tags?:  {
-      __typename: "ModelHighlightTagsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     projectsID: string,
     createdAt: string,
     updatedAt: string,
@@ -3212,15 +2902,12 @@ export type OnUpdateHighlightsSubscription = {
   onUpdateHighlights?:  {
     __typename: "Highlights",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     type: string,
     text: string,
+    Tags?: Array< string | null > | null,
+    tagIds?: string | null,
     transcriptionID: string,
-    tags?:  {
-      __typename: "ModelHighlightTagsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     projectsID: string,
     createdAt: string,
     updatedAt: string,
@@ -3234,15 +2921,12 @@ export type OnDeleteHighlightsSubscription = {
   onDeleteHighlights?:  {
     __typename: "Highlights",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     type: string,
     text: string,
+    Tags?: Array< string | null > | null,
+    tagIds?: string | null,
     transcriptionID: string,
-    tags?:  {
-      __typename: "ModelHighlightTagsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     projectsID: string,
     createdAt: string,
     updatedAt: string,
@@ -3256,14 +2940,9 @@ export type OnCreateTagsSubscription = {
   onCreateTags?:  {
     __typename: "Tags",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     label: string,
     projectsID: string,
-    highlights?:  {
-      __typename: "ModelHighlightTagsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     updatedAt: string,
     createdAt?: string | null,
     _version: number,
@@ -3276,14 +2955,9 @@ export type OnUpdateTagsSubscription = {
   onUpdateTags?:  {
     __typename: "Tags",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     label: string,
     projectsID: string,
-    highlights?:  {
-      __typename: "ModelHighlightTagsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     updatedAt: string,
     createdAt?: string | null,
     _version: number,
@@ -3296,14 +2970,9 @@ export type OnDeleteTagsSubscription = {
   onDeleteTags?:  {
     __typename: "Tags",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     label: string,
     projectsID: string,
-    highlights?:  {
-      __typename: "ModelHighlightTagsConnection",
-      nextToken?: string | null,
-      startedAt?: number | null,
-    } | null,
     updatedAt: string,
     createdAt?: string | null,
     _version: number,
@@ -3316,7 +2985,7 @@ export type OnCreateTranscriptionSubscription = {
   onCreateTranscription?:  {
     __typename: "Transcription",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     video: string,
     transcription?: string | null,
     content?: string | null,
@@ -3338,7 +3007,7 @@ export type OnUpdateTranscriptionSubscription = {
   onUpdateTranscription?:  {
     __typename: "Transcription",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     video: string,
     transcription?: string | null,
     content?: string | null,
@@ -3360,7 +3029,7 @@ export type OnDeleteTranscriptionSubscription = {
   onDeleteTranscription?:  {
     __typename: "Transcription",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     video: string,
     transcription?: string | null,
     content?: string | null,
@@ -3382,7 +3051,7 @@ export type OnCreateStoriesSubscription = {
   onCreateStories?:  {
     __typename: "Stories",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     categoriesID: string,
     projectsID: string,
     type: string,
@@ -3393,7 +3062,7 @@ export type OnCreateStoriesSubscription = {
     transcription?:  {
       __typename: "Transcription",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       video: string,
       transcription?: string | null,
       content?: string | null,
@@ -3407,7 +3076,7 @@ export type OnCreateStoriesSubscription = {
     participants?:  {
       __typename: "Persons",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       additonalFields?: string | null,
       name?: string | null,
       email?: string | null,
@@ -3431,7 +3100,7 @@ export type OnUpdateStoriesSubscription = {
   onUpdateStories?:  {
     __typename: "Stories",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     categoriesID: string,
     projectsID: string,
     type: string,
@@ -3442,7 +3111,7 @@ export type OnUpdateStoriesSubscription = {
     transcription?:  {
       __typename: "Transcription",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       video: string,
       transcription?: string | null,
       content?: string | null,
@@ -3456,7 +3125,7 @@ export type OnUpdateStoriesSubscription = {
     participants?:  {
       __typename: "Persons",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       additonalFields?: string | null,
       name?: string | null,
       email?: string | null,
@@ -3480,7 +3149,7 @@ export type OnDeleteStoriesSubscription = {
   onDeleteStories?:  {
     __typename: "Stories",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     categoriesID: string,
     projectsID: string,
     type: string,
@@ -3491,7 +3160,7 @@ export type OnDeleteStoriesSubscription = {
     transcription?:  {
       __typename: "Transcription",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       video: string,
       transcription?: string | null,
       content?: string | null,
@@ -3505,7 +3174,7 @@ export type OnDeleteStoriesSubscription = {
     participants?:  {
       __typename: "Persons",
       id: string,
-      tenant?: string | null,
+      tenant: string,
       additonalFields?: string | null,
       name?: string | null,
       email?: string | null,
@@ -3529,7 +3198,7 @@ export type OnCreateCategoriesSubscription = {
   onCreateCategories?:  {
     __typename: "Categories",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     name: string,
     projectsID: string,
     Stories?:  {
@@ -3549,7 +3218,7 @@ export type OnUpdateCategoriesSubscription = {
   onUpdateCategories?:  {
     __typename: "Categories",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     name: string,
     projectsID: string,
     Stories?:  {
@@ -3569,7 +3238,7 @@ export type OnDeleteCategoriesSubscription = {
   onDeleteCategories?:  {
     __typename: "Categories",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     name: string,
     projectsID: string,
     Stories?:  {
@@ -3589,7 +3258,7 @@ export type OnCreateProjectsSubscription = {
   onCreateProjects?:  {
     __typename: "Projects",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     name: string,
     readme?: string | null,
     createdAt: string,
@@ -3629,7 +3298,7 @@ export type OnUpdateProjectsSubscription = {
   onUpdateProjects?:  {
     __typename: "Projects",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     name: string,
     readme?: string | null,
     createdAt: string,
@@ -3669,7 +3338,7 @@ export type OnDeleteProjectsSubscription = {
   onDeleteProjects?:  {
     __typename: "Projects",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     name: string,
     readme?: string | null,
     createdAt: string,
@@ -3709,7 +3378,7 @@ export type OnCreateWorkspacesSubscription = {
   onCreateWorkspaces?:  {
     __typename: "Workspaces",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     organisationsID?: string | null,
     name: string,
     color?: string | null,
@@ -3727,7 +3396,7 @@ export type OnUpdateWorkspacesSubscription = {
   onUpdateWorkspaces?:  {
     __typename: "Workspaces",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     organisationsID?: string | null,
     name: string,
     color?: string | null,
@@ -3745,7 +3414,7 @@ export type OnDeleteWorkspacesSubscription = {
   onDeleteWorkspaces?:  {
     __typename: "Workspaces",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     organisationsID?: string | null,
     name: string,
     color?: string | null,
@@ -3763,7 +3432,7 @@ export type OnCreateOrganisationsSubscription = {
   onCreateOrganisations?:  {
     __typename: "Organisations",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     name: string,
     type?: string | null,
     Workspaces?:  {
@@ -3783,7 +3452,7 @@ export type OnUpdateOrganisationsSubscription = {
   onUpdateOrganisations?:  {
     __typename: "Organisations",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     name: string,
     type?: string | null,
     Workspaces?:  {
@@ -3803,7 +3472,7 @@ export type OnDeleteOrganisationsSubscription = {
   onDeleteOrganisations?:  {
     __typename: "Organisations",
     id: string,
-    tenant?: string | null,
+    tenant: string,
     name: string,
     type?: string | null,
     Workspaces?:  {
@@ -3811,126 +3480,6 @@ export type OnDeleteOrganisationsSubscription = {
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
-export type OnCreateHighlightTagsSubscription = {
-  onCreateHighlightTags?:  {
-    __typename: "HighlightTags",
-    id: string,
-    highlightsID: string,
-    tagsID: string,
-    highlights:  {
-      __typename: "Highlights",
-      id: string,
-      tenant?: string | null,
-      type: string,
-      text: string,
-      transcriptionID: string,
-      projectsID: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    tags:  {
-      __typename: "Tags",
-      id: string,
-      tenant?: string | null,
-      label: string,
-      projectsID: string,
-      updatedAt: string,
-      createdAt?: string | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
-export type OnUpdateHighlightTagsSubscription = {
-  onUpdateHighlightTags?:  {
-    __typename: "HighlightTags",
-    id: string,
-    highlightsID: string,
-    tagsID: string,
-    highlights:  {
-      __typename: "Highlights",
-      id: string,
-      tenant?: string | null,
-      type: string,
-      text: string,
-      transcriptionID: string,
-      projectsID: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    tags:  {
-      __typename: "Tags",
-      id: string,
-      tenant?: string | null,
-      label: string,
-      projectsID: string,
-      updatedAt: string,
-      createdAt?: string | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    createdAt: string,
-    updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
-  } | null,
-};
-
-export type OnDeleteHighlightTagsSubscription = {
-  onDeleteHighlightTags?:  {
-    __typename: "HighlightTags",
-    id: string,
-    highlightsID: string,
-    tagsID: string,
-    highlights:  {
-      __typename: "Highlights",
-      id: string,
-      tenant?: string | null,
-      type: string,
-      text: string,
-      transcriptionID: string,
-      projectsID: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
-    tags:  {
-      __typename: "Tags",
-      id: string,
-      tenant?: string | null,
-      label: string,
-      projectsID: string,
-      updatedAt: string,
-      createdAt?: string | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    },
     createdAt: string,
     updatedAt: string,
     _version: number,

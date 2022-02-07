@@ -1,12 +1,6 @@
-import {
-  makeParticipantController,
-  makeStoriesQueryController,
-  makeStoryController,
-  makeStoryMutationController,
-} from "main/factories/story-factory";
 import { StoryDetails } from "presentation/modules/stories";
 import React from "react";
-import { RecoilRoot, atom } from "recoil";
+import { atom } from "recoil";
 
 export interface Annotation {
   [key: string]: {
@@ -30,12 +24,7 @@ export const storyState = atom<any>({
   default: {},
 });
 export const StoryDetailsPage: React.FC = () => {
-  return (
-    <StoryDetails
-      participantController={makeParticipantController()}
-      storyController={makeStoryController()}
-    />
-  );
+  return <StoryDetails />;
 };
 
 export default StoryDetailsPage;

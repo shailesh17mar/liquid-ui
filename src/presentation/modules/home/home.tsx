@@ -7,17 +7,16 @@ import {
   EuiPanel,
   EuiTitle,
 } from "@elastic/eui";
-import { ProjectsQueryController } from "core/modules/projects/usecases/project-query-controller";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useProjects } from "../../../core/modules/projects/hooks";
 import { CreateProjectModal } from "../shared/components/create-project-modal/create-project-modal";
 import { IconContainer, ProjectButton } from "./home.styles";
 
-interface HomeProps {
-  controller: ProjectsQueryController;
-}
-export const Home: React.FC<HomeProps> = () => {
+// interface HomeProps {
+//   controller: ProjectsQueryController;
+// }
+export const Home: React.FC = () => {
   const navigate = useNavigate();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { data: projects, isLoading } = useProjects();

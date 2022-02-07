@@ -4,13 +4,19 @@ import { listHighlights } from "graphql/queries";
 import { Highlights } from "models";
 import { useQuery } from "react-query";
 
-const retrieveHighlights = async (projectId?: string) => {
+interface Filter {
+  projectId?: string;
+  transcriptId?: string;
+}
+const retrieveHighlights = async (filter?: Filter) => {
+  const { projectId, transcriptId } = filter || {};
   const highlightsResponse = (await API.graphql({
     query: listHighlights,
     variables: projectId
       ? {
           filter: {
-            projectsID: { eq: projectId },
+            projectsID: projectId && { eq: projectId },
+            transcriptionID: transcriptId && { eq: transcriptId },
           } as ModelHighlightsFilterInput,
         }
       : undefined,
@@ -22,8 +28,8 @@ const retrieveHighlights = async (projectId?: string) => {
   }
 };
 
-export const useHighlights = (projectId?: string, enabled: boolean = true) => {
-  return useQuery("highlights", () => retrieveHighlights(projectId), {
+export const useHighlights = (filter?: Filter, enabled: boolean = true) => {
+  return useQuery("highlights", () => retrieveHighlights(filter), {
     enabled,
   });
 };

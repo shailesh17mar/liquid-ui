@@ -13,7 +13,6 @@ const createTranscript = async (transcriptInput: CreateTranscriptionInput) => {
     },
     authMode: "AMAZON_COGNITO_USER_POOLS",
   })) as { data: CreateTranscriptionMutation };
-  debugger;
   if (transcriptResponse.data)
     return transcriptResponse.data.createTranscription;
 };
@@ -35,7 +34,6 @@ export const useCreateTranscription = (
         }
       },
       onError: (error) => {
-        debugger;
         console.log("what happened?");
       },
     }

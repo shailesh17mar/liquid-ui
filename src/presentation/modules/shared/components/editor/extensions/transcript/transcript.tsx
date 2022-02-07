@@ -5,7 +5,7 @@ import Document from "@tiptap/extension-document";
 import Text from "@tiptap/extension-text";
 import { generateJSON, JSONContent, NodeViewProps } from "@tiptap/react";
 import { TranscriptContainer, TranscriptContent } from "./transcript.styles";
-import { Stories as Story } from "models";
+import { Highlights, Stories as Story } from "models";
 import { useHighlight } from "./hooks/use-highlight";
 import {
   EuiButton,
@@ -49,6 +49,13 @@ import { useCreateTranscription } from "core/modules/transcripts/hooks";
 import { Transcription } from "models";
 import { TranscriptionStatus } from "models";
 import { useStory, useUpdateStory } from "core/modules/stories/hooks";
+import {
+  Annotation,
+  annotationState,
+} from "main/pages/make-story-details-page";
+import { useHighlights } from "core/modules/highlights/hooks";
+import { useTags } from "core/modules/tags/hooks";
+import _ from "lodash";
 
 export const transcriptAtom = atom<JSONContent | undefined>({
   key: "transcriptState",
@@ -58,14 +65,15 @@ export const transcriptAtom = atom<JSONContent | undefined>({
 export const Transcript = (props: NodeViewProps) => {
   const { id } = useParams() as { id: string };
   const [transcript, setTranscript] = useRecoilState(transcriptAtom);
-  const [_, setHighlightState] = useRecoilState(highlightAtom);
+  const [highlightState, setHighlightState] = useRecoilState(highlightAtom);
   const { video } = props.node.attrs;
   const uploaderRef = useRef<HTMLInputElement>(null);
   const [token, setToken] = useState<string | null>();
   const [videoURL, setVideoURL] = useState<string | undefined>();
   const [isProcessing, setIsProcessing] = useState(false);
+  const [annotation, setAnnotation] = useRecoilState(annotationState);
 
-  const { highlights } = useHighlight(props.editor);
+  // console.log(highlights);
   const [isAssitantActive, setIsAssistantActive] = useState<boolean>(true);
   const [isUploadModalOpen, setIsUploadModalOpen] = useState<boolean>(false);
 
@@ -76,6 +84,13 @@ export const Transcript = (props: NodeViewProps) => {
   const storyUpdateMutation = useUpdateStory(id);
   const videoAsset = data as VodAsset;
 
+  const { data: tags } = useTags(story?.projectsID, Boolean(story?.projectsID));
+  const { data: highlights } = useHighlights(
+    {
+      transcriptId: videoAsset?.transcription?.id,
+    },
+    Boolean(videoAsset?.transcription?.id)
+  );
   const handleVideoUploadSuccess = (videoAssetId: string) => {
     props.updateAttributes({
       video: videoAssetId,
@@ -91,6 +106,36 @@ export const Transcript = (props: NodeViewProps) => {
     }
   }, [video]);
 
+  useEffect(() => {
+    console.log("tdd", tags, highlights, annotation);
+    if (
+      tags &&
+      tags.length > 0 &&
+      highlights &&
+      highlights.length > 0 &&
+      _.isEmpty(annotation)
+    ) {
+      const annotation = highlights.reduce<Annotation>(
+        (acc, highlight: Highlights) => {
+          const tagIds = highlight.tagIds?.split("|") || [];
+          const selectedTags = tags.filter((tag) => tagIds.includes(tag.id));
+          const annotationTags = selectedTags.map((tag) => {
+            return {
+              label: tag.label,
+              id: tag.id,
+            };
+          });
+          acc[highlight.id] = {
+            type: highlight.type,
+            tags: annotationTags,
+          };
+          return acc;
+        },
+        {}
+      );
+      setAnnotation(annotation);
+    }
+  }, [annotation, highlights, setAnnotation, tags]);
   useEffect(() => {
     async function fetchVideoUrl() {
       const { url } = await API.get(
@@ -134,11 +179,9 @@ export const Transcript = (props: NodeViewProps) => {
         videoAsset?.transcription?.status === TranscriptionStatus.COMPLETED &&
         !isProcessing
       ) {
-        setIsProcessing(true);
         const transcriptJson = await fetchTranscriptJson(
           videoAsset?.transcription.id
         );
-        debugger;
         let doc = Object.assign({}, story?.content as unknown as JSONContent);
         if (doc.content) {
           let index = doc.content.findIndex(
@@ -159,18 +202,15 @@ export const Transcript = (props: NodeViewProps) => {
             });
           }
         }
+        setIsProcessing(false);
       }
     }
-    if (
-      story &&
-      videoAsset?.transcription &&
-      props.node.content &&
-      props.node.content.size === 0 &&
-      videoAsset?.transcription?.status === TranscriptionStatus.COMPLETED
-    ) {
+    if (!isProcessing) {
       setupTranscriptJSON();
+      setIsProcessing(true);
     }
   }, [
+    isProcessing,
     props.node.content,
     story,
     storyUpdateMutation,
@@ -178,6 +218,18 @@ export const Transcript = (props: NodeViewProps) => {
     videoAsset?.transcription,
   ]);
 
+  useEffect(() => {
+    setHighlightState({
+      transcriptionId: videoAsset?.transcription?.id,
+    } as HighlightState);
+  }, [setHighlightState, videoAsset?.transcription?.id]);
+
+  useEffect(() => {
+    const transcriptId = videoAsset?.transcription?.id;
+    if (transcriptId) {
+      //gethighlights
+    }
+  }, [videoAsset?.transcription?.id]);
   // useEffect(() => {
   //   async function fetchVideoURL() {
   //     const videoAssetResponse = (await API.graphql({
@@ -296,12 +348,6 @@ export const Transcript = (props: NodeViewProps) => {
       // window.getSelection()?.addRange(range);
     }
   };
-  const handleUploadModal = () => {
-    setIsUploadModalOpen(!isUploadModalOpen);
-  };
-  const handleModalClose = () => {
-    setIsUploadModalOpen(false);
-  };
 
   /*
   TODO: 1. Trigger the transcription job?  
@@ -335,7 +381,6 @@ Unknowns:
           id: video,
           vodAssetTranscriptionId: transcript?.id,
         });
-        debugger;
       }
       //update story
     } else throw new Error("No video to transcribe");

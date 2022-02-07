@@ -1,42 +1,53 @@
 import {
-  EuiBadge,
+  EuiButton,
   EuiComboBox,
   EuiComboBoxOptionOption,
-  EuiExpression,
+  EuiFieldText,
   EuiFlexGroup,
   EuiFlexItem,
   EuiHealth,
+  EuiHorizontalRule,
   EuiPanel,
-  EuiPopover,
+  EuiSelectable,
+  EuiSpacer,
   EuiSuperSelect,
+  EuiText,
+  EuiTextColor,
   htmlIdGenerator,
   useGeneratedHtmlId,
 } from "@elastic/eui";
-import { Editor, generateJSON, JSONContent } from "@tiptap/react";
-import { DataStore } from "aws-amplify";
-import { Stories as Story, Highlights as Highlight, Tags as Tag } from "models";
+import { Editor, JSONContent } from "@tiptap/react";
 import _ from "lodash";
 import {
   Annotation,
   annotationState,
 } from "main/pages/make-story-details-page";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { atom, useRecoilState, useRecoilValue } from "recoil";
 import { transcriptAtom } from "../../extensions/transcript/transcript";
 import { useParams } from "react-router-dom";
-import { ModelInit, MutableModel } from "@aws-amplify/datastore";
 import { useStoryMetadata } from "presentation/modules/stories/story-context";
-import { HighlightTags } from "models";
+import {
+  useCreateHighlight,
+  useHighlight,
+  useUpdateHighlight,
+} from "core/modules/highlights/hooks";
+import { useCreateTag, useTags } from "core/modules/tags/hooks";
 
 interface Props {
   id?: string;
   editor: Editor;
 }
 
-const POPOVER_STYLE = { zIndex: 200, minWidth: 300 };
+const POPOVER_STYLE = {
+  zIndex: 200,
+  minWidth: 300,
+};
 const COMBO_POPOVER_STYLE = { zIndex: 200, minWidth: 500 };
 
-const HIGHLIGHT_TYPES: { [key: string]: { color: string; label: string } } = {
+export const HIGHLIGHT_TYPES: {
+  [key: string]: { color: string; label: string };
+} = {
   excited: {
     color: "#fbbc04",
     label: "😁 Excited",
@@ -51,7 +62,7 @@ const HIGHLIGHT_TYPES: { [key: string]: { color: string; label: string } } = {
   },
   pain: {
     color: "#fff475",
-    label: "☇ Pain or Problem",
+    label: "☇ Pain",
   },
   goal: {
     color: "#ccff90",
@@ -67,19 +78,19 @@ const HIGHLIGHT_TYPES: { [key: string]: { color: string; label: string } } = {
   },
   context: {
     color: "#aecbfa",
-    label: "^ Background or context",
+    label: "^ Background",
   },
   money: {
     color: "#178117",
-    label: "＄ Money or budgets or purchasing process",
+    label: "＄ Money",
   },
   feature: {
     color: "#e8eaed",
-    label: "☑ Feature request or purchasing criteria",
+    label: "☑ Feature",
   },
   entity: {
     color: "#cbf0f8",
-    label: "♀ Mentioned a specific person or company",
+    label: "♀ Entity",
   },
 };
 const defaultType = "goal";
@@ -98,15 +109,22 @@ export const HighlightControl: React.FC<Props> = ({ editor }) => {
   const { id: storyId } = useParams() as { id: string };
   const newId = htmlIdGenerator()();
   const storyMetadata = useStoryMetadata();
-  const [highlight, setHighlight] = useState<Highlight | undefined>();
+  // const { data: story } = useStory(storyId);
+  // const [highlight, setHighlight] = useState<Highlight | undefined>();
   const [annotation, setAnnotation] =
     useRecoilState<Annotation>(annotationState);
   const transcriptState = useRecoilValue(transcriptAtom);
   const highlightState = useRecoilValue(highlightAtom);
+  const { data: highlight } = useHighlight(highlightState?.id!!);
+  const { data: tags } = useTags(storyMetadata.projectId);
+  const createHighlightMutation = useCreateHighlight();
+  const updateHighlightMutation = useUpdateHighlight(highlightState?.id!!);
+  const createTagMutation = useCreateTag();
   const [highlightId, setHighlightId] = useState<string | null>(
     highlightState && highlightState.id
   );
-  const highlightCategory = highlightState ? highlightState.type : defaultType;
+  const highlightCategory = highlightState ? highlightState.type : undefined;
+  const [newTag, setNewTag] = useState<string | undefined>();
   const [eg1IsOpen, setEg1IsOpen] = useState<boolean>(false);
   const [eg2IsOpen, setEg2IsOpen] = useState<boolean>(false);
   // const content =
@@ -119,76 +137,118 @@ export const HighlightControl: React.FC<Props> = ({ editor }) => {
   const [tagOptions, setTagOptions] = useState<any[]>([]);
   //get the relevant state
   const [selectedTags, setSelectedTags] = useState<any[]>([]);
+  const [hasTagsChanged, setHasTagsChanged] = useState(false);
+  useEffect(() => () => console.log("unmount"), []);
+  // useEffect(() => {
+  //   if (highlight && tagOptions && tagOptions.length > 0 && highlight.tagIds) {
+  //     const tags = highlight.tagIds.split("|");
+  //     const selectedTags = tagOptions.map((option) => {
+  //       if (tags.includes(option.id)) {
+  //         option.checked = "on";
+  //       }
+  //       return option;
+  //     });
+  //     setTagOptions(tagOptions);
+  //     setSelectedTags(selectedTags);
+  //   }
+  // }, [highlight, tagOptions]);
+
   useEffect(() => {
-    if (highlightId) {
-      setSelectedTags(
-        highlightState && annotation[highlightId]
-          ? annotation[highlightId].tags
-          : []
+    if (tagOptions.length === 0 && tags && highlight) {
+      const tagIds = highlight.tagIds ? highlight.tagIds.split("|") : [];
+      const options = tags.map((option) => {
+        const checked = tagIds.includes(option.id) && "on";
+        return { label: option.label, id: option.id, checked };
+      });
+      setTagOptions(options);
+    }
+  }, [highlight, tagOptions, tags]);
+
+  const saveTags = useCallback(
+    async (tags: string[]) => {
+      if (highlight) {
+        await updateHighlightMutation.mutateAsync({
+          id: highlight.id,
+          tagIds: tags.join("|"),
+          _version: highlight._version,
+        });
+      }
+    },
+    [highlight, updateHighlightMutation]
+  );
+
+  const highlightOnDOM = useCallback(() => {
+    let range = document.createRange();
+    const selector = `span[data-hid="${highlight?.id}"]`;
+    const items = document.querySelectorAll(selector);
+    range.setStart(items[0], 0);
+    range.setEnd(items[items.length - 1], 1);
+    const selection = window.getSelection();
+    selection?.removeAllRanges();
+    selection?.addRange(range);
+    return range;
+  }, [highlight?.id]);
+
+  useEffect(() => {
+    if (hasTagsChanged) {
+      const tagIds = selectedTags.map(
+        (option: any) => option.id as unknown as string
       );
+      saveTags(tagIds);
+      setHasTagsChanged(false);
     }
-  }, [annotation, highlightState, highlightId]);
+  }, [hasTagsChanged, highlightOnDOM, saveTags, selectedTags]);
 
-  useEffect(() => {
-    async function fetchHighlight() {
-      if (highlightState?.id) {
-        const highlight = await DataStore.query(Highlight, highlightState.id);
-        setHighlight(highlight);
-      }
-    }
-    fetchHighlight();
-  }, [highlightState?.id]);
-
-  useEffect(() => {
-    async function fetchTagsInProject() {
-      if (storyMetadata.projectId) {
-        const tags = await DataStore.query(Tag, (tag) =>
-          tag.projectsID("eq", storyMetadata.projectId)
-        );
-        setTagOptions(tags);
-      }
-    }
-    fetchTagsInProject();
-  }, [storyMetadata.projectId, highlightState?.id]);
-
-  useEffect(() => {
-    if (selectedTags && highlightState?.id) {
-      //delete all existing relations of highlight
-      // DataStore.delete(HighlightTags, (tag) =>
-      //     tag.highlights("eq", highlightState?.id))
-      //create new relations
-    }
-  }, [highlightState?.id, selectedTags]);
-  const saveHighlight = async (text: string, highlightCategory: string) => {
+  const saveHighlight = async (
+    text: string,
+    highlightCategory: string,
+    tagIds?: string[]
+  ) => {
     if (highlight) {
-      await DataStore.save(
-        Highlight.copyOf(highlight, (updated) => {
-          updated.text = text;
-        })
-      );
+      await updateHighlightMutation.mutateAsync({
+        id: highlight.id,
+        text,
+        _version: highlight._version,
+      });
       return highlight.id;
     } else {
       const transcriptionID = highlightState?.transcriptionId!!;
-      const highlight = await DataStore.save(
-        new Highlight({
-          text,
-          type: highlightCategory,
-          transcriptionID,
-          projectsID: storyMetadata.projectId,
-        })
-      );
-      setHighlightId(highlight.id);
-      return highlight.id;
+      const highlight = await createHighlightMutation.mutateAsync({
+        text,
+        type: highlightCategory,
+        transcriptionID,
+        projectsID: storyMetadata.projectId,
+      });
+      if (highlight) {
+        setHighlightId(highlight.id);
+        return highlight.id;
+      }
     }
   };
 
-  const toggleHighlight = async (highlightCategory: string) => {
+  // const saveTags = async (tags: string[]) => {
+  //   if (highlight) {
+  //     await updateHighlightMutation.mutateAsync({
+  //       id: highlight.id,
+  //       tags,
+  //     });
+  //   }
+  // };
+
+  const toggleHighlight = async (
+    highlightCategory: string,
+    tagIds?: string[]
+  ) => {
     if (window) {
       const selection = window.getSelection();
       if (selection) {
         const range = selection.getRangeAt(0);
         const text = range.toString();
-        const highlightId = await saveHighlight(text, highlightCategory);
+        const highlightId = await saveHighlight(
+          text,
+          highlightCategory,
+          tagIds
+        );
 
         //get all the spans
         //@ts-ignore
@@ -339,43 +399,43 @@ export const HighlightControl: React.FC<Props> = ({ editor }) => {
             ...transcript.content!!.slice(paragraphId + 1),
           ];
 
-          const story = await DataStore.query(Story, storyId);
-          if (story) {
-            let doc = Object.assign(
-              {},
-              story?.content as unknown as JSONContent
+          // const story = await DataStore.query(Story, storyId);
+          // if (story) {
+          let doc = editor.getJSON();
+          //  Object.assign(
+          //   {},
+          //   story?.content as unknown as JSONContent
+          // );
+          if (doc.content) {
+            let index = doc.content.findIndex(
+              (content) => content.type === "transcriptComponent"
             );
-            if (doc.content) {
-              let index = doc.content.findIndex(
-                (content) => content.type === "transcriptComponent"
+            if (index && index >= 0) {
+              // const updatedStory = Story.copyOf(story, (updated) => {
+              //   let doc = story?.content as unknown as JSONContent;
+              //   const currentValue = doc!!.content!![index];
+              //   // doc.content!![index].content = content.content as JSONContent[];
+              //   //@ts-ignore
+              //   updated.content = {
+              //   };
+              // });
+              // let doc = story?.content as unknown as JSONContent;
+              const currentValue = doc!!.content!![index];
+              editor.commands.setContent(
+                {
+                  type: "doc",
+                  content: Object.assign([], doc.content, {
+                    [index]: { ...currentValue, content: contentX },
+                  }),
+                },
+                true
               );
-              if (index && index >= 0) {
-                // const updatedStory = Story.copyOf(story, (updated) => {
-                //   let doc = story?.content as unknown as JSONContent;
-                //   const currentValue = doc!!.content!![index];
-                //   // doc.content!![index].content = content.content as JSONContent[];
-                //   debugger;
-                //   //@ts-ignore
-                //   updated.content = {
-                //   };
-                // });
-                let doc = story?.content as unknown as JSONContent;
-                const currentValue = doc!!.content!![index];
-                editor.commands.setContent(
-                  {
-                    type: "doc",
-                    content: Object.assign([], doc.content, {
-                      [index]: { ...currentValue, content: contentX },
-                    }),
-                  },
-                  true
-                );
-                // await DataStore.save(updatedStory);
-                // console.log(updatedStory);
-                // doc.content[index].content = content.content as JSONContent[];
-              }
+              // await DataStore.save(updatedStory);
+              // console.log(updatedStory);
+              // doc.content[index].content = content.content as JSONContent[];
             }
           }
+          // }
           // setTranscript({
           //   ...transcript,
           //   content: contentX,
@@ -393,15 +453,86 @@ export const HighlightControl: React.FC<Props> = ({ editor }) => {
             }
           }
         }
+        return highlightId;
         //convert the spans into marks
       }
     }
   };
 
+  const handleTagCreation = (e: any) => {
+    const createTag = async (newOption: { label: string }) => {
+      const newTag = await createTagMutation.mutateAsync({
+        label: newOption.label,
+        projectsID: storyMetadata.projectId,
+      });
+      if (newTag) {
+        const option = { label: newTag.label, id: newTag.id };
+        setTagOptions([...tagOptions, option]);
+        setSelectedTags([...selectedTags, option]);
+      }
+
+      setHasTagsChanged(true);
+      setNewTag("");
+    };
+    if (e.key === "Enter" || e.keyCode === 13) {
+      const newOption = {
+        label: e.target.value,
+      };
+      createTag(newOption);
+    }
+  };
   const handleTagCreate = (
     searchValue: string,
     flattenedOptions: EuiComboBoxOptionOption[] = []
   ) => {
+    const createTag = async (newOption: { label: string }) => {
+      if (
+        flattenedOptions.findIndex(
+          (option) =>
+            option.label.trim().toLowerCase() === normalizedSearchValue
+        ) === -1
+      ) {
+        const newTag = await createTagMutation.mutateAsync({
+          label: newOption.label,
+          projectsID: storyMetadata.projectId,
+        });
+        if (newTag) {
+          const option = { label: newTag.label, id: newTag.id };
+          setTagOptions([...tagOptions, option]);
+          setSelectedTags([...selectedTags, option]);
+        }
+      } else {
+        setSelectedTags([...selectedTags, newOption]);
+      }
+      setHasTagsChanged(true);
+      // highlightOnDOM();
+    };
+    //   if (newTag) {
+    //     const option = { label: newTag.label, id: newTag.id };
+    //     setTagOptions([...tagOptions, option]);
+    //     setSelectedTags([...selectedTags, option]);
+    //     if (highlightId) {
+    //       //update the relation model
+    //       await API.graphql({
+    //         query: createHighlightTags,
+    //         variables: {
+    //           input: {
+    //             highlightsID: highlightId,
+    //             tagsID: option.id,
+    //           } as CreateHighlightTagsInput,
+    //         },
+    //         authMode: "AMAZON_COGNITO_USER_POOLS",
+    //       });
+    //       setAnnotation({
+    //         ...annotation,
+    //         [highlightId]: {
+    //           type: highlightCategory,
+    //           tags: [...selectedTags, option],
+    //         },
+    //       });
+    //     }
+    //   }
+    // };
     const normalizedSearchValue = searchValue.trim().toLowerCase();
 
     if (!normalizedSearchValue) {
@@ -418,61 +549,79 @@ export const HighlightControl: React.FC<Props> = ({ editor }) => {
         (option) => option.label.trim().toLowerCase() === normalizedSearchValue
       ) === -1
     ) {
-      setTagOptions([...tagOptions, newOption]);
     }
 
-    setSelectedTags([...selectedTags, newOption]);
-    // editor
-    //   .chain()
-    //   .focus()
-    //   .setHighlight({
-    //     id: id || newId,
-    //     color: HIGHLIGHT_TYPES[highlight].color,
-    //     type: highlight,
-    //   })
-    //   .run();
-    if (highlightId) {
-      DataStore.save(
-        new Tag({
-          label: newOption.label,
-          projectsID: storyMetadata.projectId,
-          // highlightsID: highlightId,
-        })
-      );
+    createTag(newOption);
 
-      setAnnotation({
-        ...annotation,
-        [highlightId]: {
-          type: highlightCategory,
-          tags: [...selectedTags, newOption],
-        },
-      });
-    }
+    // if (highlightId) {
+    //   createTagMutation.mutateAsync({
+    //     label: newOption.label,
+    //     projectsID: storyMetadata.projectId,
+    //   });
+    //   setAnnotation({
+    //     ...annotation,
+    //     [highlightId]: {
+    //       type: highlightCategory,
+    //       tags: [...selectedTags, newOption],
+    //     },
+    //   });
+    // }
 
     // Select the option.
   };
 
-  const handleTagsChange = (selectedOptions: any[]) => {
-    toggleHighlight(highlightCategory);
-    // editor
-    //   .chain()
-    //   .focus()
-    //   .setHighlight({
-    //     id: id || newId,
-    //     color: HIGHLIGHT_TYPES[highlight].color,
-    //     type: highlight,
-    //   })
-    //   .run();
+  const handleTagsChange = (newOptions: any[]) => {
+    const selectedOptions = newOptions.filter(
+      (option) => option.checked && option.checked === "on"
+    );
+    if (highlight?.id) {
+      // const highlightId = toggleHighlight()
+    } else {
+    }
     setSelectedTags(selectedOptions);
-    if (highlightId) {
+    setTagOptions(newOptions);
+    setHasTagsChanged(true);
+    if (highlight?.id && highlightCategory) {
       setAnnotation({
         ...annotation,
-        [highlightId]: {
+        [highlight.id]: {
           type: highlightCategory,
           tags: selectedOptions,
         },
       });
     }
+    // highlightOnDOM();
+    // editor
+    //   .chain()
+    //   .focus()
+    //   .setHighlight({
+    //     id: id || newId,
+    //     color: HIGHLIGHT_TYPES[highlight].color,
+    //     type: highlight,
+    //   })
+    //   .run();
+    //clear existing relationships
+    //get all existing by highlights id
+    //if existing has an id that doesn't exist in current
+    //delete it
+    //get new elements to be added
+    // create new highlight
+    // await API.graphql({
+    //   query: createHighlightTags,
+    //   variables: {
+    //     input: {
+    //       highlightsID: highlightId,
+    //       tagsID: option.id,
+    //     },
+    //   },
+    //   authMode: "AMAZON_COGNITO_USER_POOLS",
+    // });
+    // syncRelationship(
+    //   highlightId,
+    //   new Set(
+    //     selectedOptions.map((option: any) => option.id as unknown as string)
+    //   )
+    // );
   };
 
   const [example2, setExample2] = useState<{
@@ -522,15 +671,15 @@ export const HighlightControl: React.FC<Props> = ({ editor }) => {
     //     type: value,
     //   })
     //   .run();
-    if (highlightId) {
-      setAnnotation({
-        ...annotation,
-        [highlightId]: {
-          type: value,
-          tags: selectedTags,
-        },
-      });
-    }
+    // if (highlightId) {
+    //   setAnnotation({
+    //     ...annotation,
+    //     [highlightId]: {
+    //       type: value,
+    //       tags: selectedTags,
+    //     },
+    //   });
+    // }
   };
 
   const options = Object.keys(HIGHLIGHT_TYPES).map((key) => {
@@ -545,35 +694,8 @@ export const HighlightControl: React.FC<Props> = ({ editor }) => {
     };
   });
 
-  const renderPopover1 = () => (
-    <div style={POPOVER_STYLE}>
-      <EuiSuperSelect
-        options={options}
-        valueOfSelected={highlightCategory}
-        onChange={onHighlightChange}
-      />
-    </div>
-  );
-
-  const renderPopover2 = () => (
-    <div style={COMBO_POPOVER_STYLE}>
-      <EuiComboBox
-        aria-label="Accessible screen reader label"
-        fullWidth
-        placeholder="Select or create options"
-        options={tagOptions}
-        selectedOptions={selectedTags}
-        onChange={handleTagsChange}
-        onCreateOption={handleTagCreate}
-        isClearable={true}
-        data-test-subj="demoComboBox"
-        autoFocus
-        onBlur={onBlur}
-      />
-    </div>
-  );
-
   const onBlur = () => {
+    highlightOnDOM();
     // setAnnotation({
     //   ...annotation,
     //   [id || newId]: {
@@ -584,53 +706,173 @@ export const HighlightControl: React.FC<Props> = ({ editor }) => {
     // setSelectedTags([]);
   };
 
-  return (
-    <EuiPanel style={{ minWidth: 900 }}>
-      <EuiFlexGroup gutterSize="s">
-        <EuiFlexItem grow={false}>
-          {/* <EuiPopover
-            id={expressionPopoverId__1}
-            button={
-              <EuiExpression
-                description="highlight as"
-                value={highlight}
-                isActive={eg1IsOpen}
-                onClick={openExample1}
-              />
-            }
-            isOpen={eg1IsOpen}
-            closePopover={closeExample1}
-            anchorPosition="upRight"
-          >
-            {renderPopover1()}
-          </EuiPopover> */}
-          {renderPopover1()}
-        </EuiFlexItem>
+  const handleDeleteHighlight = () => {
+    // const range = highlightOnDOM();
+    // if (window) {
+    const selection = window.getSelection();
+    const range = selection ? selection.getRangeAt(0) : highlightOnDOM();
 
-        <EuiFlexItem grow={false}>
-          {renderPopover2()}
-          {/* <EuiPopover
-            id={expressionPopoverId__2}
-            button={
-              <EuiExpression
-                description={"and apply tags"}
-                value={selectedTags.map((value, index) => (
-                  <EuiBadge key={index} color="hollow">
-                    {value.label}
-                  </EuiBadge>
-                ))}
-                isActive={eg2IsOpen}
-                onClick={openExample2}
-              />
+    const paragraphId = parseInt(
+      //@ts-ignore
+      range.commonAncestorContainer.id.replace("para-", "")
+    );
+    if (transcript) {
+      const spans = Array.from(range.cloneContents().children);
+      const startWordId = _.find(
+        spans,
+        (span) => parseInt(span.getAttribute("data-m") || "-1") >= 0
+      )?.getAttribute("data-m");
+      const lastWordId = _.findLast(
+        spans,
+        (span: any) => parseInt(span.getAttribute("data-m") || "-1") >= 0
+      )?.getAttribute("data-m");
+      spans[spans.length - 1].getAttribute("data-m");
+
+      let highlightingStarted = false;
+      //@ts-ignore
+      const paragraph = transcript.content[paragraphId];
+      //@ts-ignore
+      const x = paragraph.content.map((span: any) => {
+        let { marks, ...word } = span;
+        if (marks) {
+          const mark = marks[0];
+          const wordAttributes = mark.attrs;
+          const wordId = wordAttributes.startTime;
+          if (wordId === startWordId) {
+            highlightingStarted = true;
+          }
+          if (highlightingStarted) {
+            if (wordId === lastWordId) {
+              highlightingStarted = false;
             }
-            isOpen={eg2IsOpen}
-            closePopover={closeExample2}
-            anchorPosition="downLeft"
-          >
-            {renderPopover2()}
-          </EuiPopover> */}
-        </EuiFlexItem>
-      </EuiFlexGroup>
+            return {
+              ...word,
+              marks: [
+                {
+                  ...mark,
+                  attrs: {
+                    ...wordAttributes,
+                    highlightId: undefined,
+                    highlightCategory: undefined,
+                  },
+                },
+              ],
+            };
+          }
+        } else {
+          // if (counter >= 0 && counter < spans.length) {
+          if (highlightingStarted) {
+            // counter++;
+            return {
+              ...span,
+              marks: [
+                {
+                  attrs: {
+                    highlightId: undefined,
+                    highlightCategory: undefined,
+                  },
+                  type: "timeOffset",
+                },
+              ],
+            };
+          }
+        }
+        return span;
+      });
+      const contentX = [
+        ...transcript.content!!.slice(0, paragraphId),
+        { ...paragraph, content: x },
+        ...transcript.content!!.slice(paragraphId + 1),
+      ];
+
+      let doc = editor.getJSON();
+      if (doc.content) {
+        let index = doc.content.findIndex(
+          (content) => content.type === "transcriptComponent"
+        );
+        if (index && index >= 0) {
+          const currentValue = doc!!.content!![index];
+          editor.commands.setContent(
+            {
+              type: "doc",
+              content: Object.assign([], doc.content, {
+                [index]: { ...currentValue, content: contentX },
+              }),
+            },
+            true
+          );
+        }
+      }
+      if (window.getSelection) {
+        const selection = window.getSelection();
+        if (selection) {
+          if (selection.empty) {
+            // Chrome
+            selection.empty();
+          } else if (selection.removeAllRanges) {
+            // Firefox
+            selection.removeAllRanges();
+          }
+        }
+      }
+    }
+  };
+
+  return (
+    <EuiPanel>
+      <div style={POPOVER_STYLE}>
+        <EuiFlexGroup direction="column" gutterSize="s">
+          <EuiFlexItem>
+            <EuiTextColor color="subdued">Highlight</EuiTextColor>
+            <EuiSpacer />
+            <EuiSuperSelect
+              options={options}
+              valueOfSelected={highlightCategory}
+              onChange={onHighlightChange}
+            />
+          </EuiFlexItem>
+          {highlightCategory && (
+            <>
+              <EuiHorizontalRule margin="s" />
+              <EuiFlexItem>
+                <EuiTextColor color="subdued">Tagging</EuiTextColor>
+                <EuiSpacer />
+                <EuiFlexGroup direction="column" gutterSize="l">
+                  <EuiFlexItem>
+                    <EuiFieldText
+                      placeholder="Enter tag"
+                      value={newTag}
+                      onKeyUp={handleTagCreation}
+                    />
+                  </EuiFlexItem>
+
+                  <EuiFlexItem>
+                    <EuiSelectable
+                      aria-label="Tags"
+                      allowExclusions={false}
+                      options={tagOptions}
+                      onChange={handleTagsChange}
+                      listProps={{ bordered: true }}
+                    >
+                      {(list) => list}
+                    </EuiSelectable>
+                  </EuiFlexItem>
+                </EuiFlexGroup>
+              </EuiFlexItem>
+              <EuiHorizontalRule margin="s" />
+              <EuiFlexItem>
+                <EuiButton
+                  color="accent"
+                  fullWidth
+                  onClick={handleDeleteHighlight}
+                >
+                  Delete Highlight
+                </EuiButton>
+              </EuiFlexItem>
+            </>
+          )}
+        </EuiFlexGroup>
+      </div>
     </EuiPanel>
   );
 };

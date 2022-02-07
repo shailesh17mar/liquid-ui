@@ -13,7 +13,6 @@ const createPerson = async (personInput: CreatePersonsInput) => {
     },
     authMode: "AMAZON_COGNITO_USER_POOLS",
   })) as { data: CreatePersonsMutation };
-  debugger;
   if (personResponse.data) return personResponse.data.createPersons;
 };
 
@@ -32,7 +31,6 @@ export const useCreatePerson = (callback?: (person: Persons) => void) => {
         }
       },
       onError: (error) => {
-        debugger;
         console.log("what happened?");
       },
     }

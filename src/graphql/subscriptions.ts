@@ -108,11 +108,9 @@ export const onCreateHighlights = /* GraphQL */ `
       tenant
       type
       text
+      Tags
+      tagIds
       transcriptionID
-      tags {
-        nextToken
-        startedAt
-      }
       projectsID
       createdAt
       updatedAt
@@ -129,11 +127,9 @@ export const onUpdateHighlights = /* GraphQL */ `
       tenant
       type
       text
+      Tags
+      tagIds
       transcriptionID
-      tags {
-        nextToken
-        startedAt
-      }
       projectsID
       createdAt
       updatedAt
@@ -150,11 +146,9 @@ export const onDeleteHighlights = /* GraphQL */ `
       tenant
       type
       text
+      Tags
+      tagIds
       transcriptionID
-      tags {
-        nextToken
-        startedAt
-      }
       projectsID
       createdAt
       updatedAt
@@ -171,10 +165,6 @@ export const onCreateTags = /* GraphQL */ `
       tenant
       label
       projectsID
-      highlights {
-        nextToken
-        startedAt
-      }
       updatedAt
       createdAt
       _version
@@ -190,10 +180,6 @@ export const onUpdateTags = /* GraphQL */ `
       tenant
       label
       projectsID
-      highlights {
-        nextToken
-        startedAt
-      }
       updatedAt
       createdAt
       _version
@@ -209,10 +195,6 @@ export const onDeleteTags = /* GraphQL */ `
       tenant
       label
       projectsID
-      highlights {
-        nextToken
-        startedAt
-      }
       updatedAt
       createdAt
       _version
@@ -689,120 +671,6 @@ export const onDeleteOrganisations = /* GraphQL */ `
       Workspaces {
         nextToken
         startedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const onCreateHighlightTags = /* GraphQL */ `
-  subscription OnCreateHighlightTags {
-    onCreateHighlightTags {
-      id
-      highlightsID
-      tagsID
-      highlights {
-        id
-        tenant
-        type
-        text
-        transcriptionID
-        projectsID
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      tags {
-        id
-        tenant
-        label
-        projectsID
-        updatedAt
-        createdAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const onUpdateHighlightTags = /* GraphQL */ `
-  subscription OnUpdateHighlightTags {
-    onUpdateHighlightTags {
-      id
-      highlightsID
-      tagsID
-      highlights {
-        id
-        tenant
-        type
-        text
-        transcriptionID
-        projectsID
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      tags {
-        id
-        tenant
-        label
-        projectsID
-        updatedAt
-        createdAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const onDeleteHighlightTags = /* GraphQL */ `
-  subscription OnDeleteHighlightTags {
-    onDeleteHighlightTags {
-      id
-      highlightsID
-      tagsID
-      highlights {
-        id
-        tenant
-        type
-        text
-        transcriptionID
-        projectsID
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      tags {
-        id
-        tenant
-        label
-        projectsID
-        updatedAt
-        createdAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       createdAt
       updatedAt

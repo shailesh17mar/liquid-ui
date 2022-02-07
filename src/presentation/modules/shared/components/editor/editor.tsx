@@ -33,7 +33,11 @@ import TextStyle from "@tiptap/extension-text-style";
 import { BubbleControl } from "./components/bubble-control/bubble-control";
 import { TranscriptComponent } from "./extensions/transcript/extension";
 import { ImageExtension } from "./extensions/image/extension";
-import { HighlightControl } from "./components/highlight-control/highlight-control";
+import {
+  highlightAtom,
+  HighlightControl,
+  HighlightState,
+} from "./components/highlight-control/highlight-control";
 import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "presentation/context/auth-context";
 import useWebRtcProvider from "./hooks/use-webrtc-provider";
@@ -43,6 +47,7 @@ import { QuickActionButton } from "./editor.styles";
 import { Storage } from "aws-amplify";
 import { TrailingNode } from "./extensions/trailing-node/trailing-node";
 import TimeOffset from "./extensions/time-offset";
+import { useRecoilState } from "recoil";
 
 const CustomDocument = Document.extend({
   content: "heading block*",
@@ -108,6 +113,7 @@ export const Editor: React.FC<EditorProps> = ({
 }) => {
   const [docState, setDocState] = useState<JSONContent>();
   const [isUploading, setIsUploading] = useState(false);
+  const [highlightState, setHighlightState] = useRecoilState(highlightAtom);
   const { user } = useAuth();
 
   const extensions = [
@@ -232,6 +238,12 @@ export const Editor: React.FC<EditorProps> = ({
                 to > from &&
                 to - from > 5
               );
+            }}
+            tippyOptions={{
+              onHide() {
+                editor.isActive("transcriptComponent") &&
+                  setHighlightState({} as HighlightState);
+              },
             }}
             editor={editor}
           >

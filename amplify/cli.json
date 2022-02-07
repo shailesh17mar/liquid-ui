@@ -9,7 +9,8 @@
       "secondarykeyasgsi": false,
       "skipoverridemutationinputtypes": false,
       "transformerversion": 2,
-      "suppressschemamigrationprompt": true
+      "suppressschemamigrationprompt": true,
+      "showfieldauthnotification": false
     },
     "frontend-ios": {
       "enablexcodeintegration": false
@@ -34,7 +35,7 @@
       "enabledartnullsafety": false
     },
     "appsync": {
-      "generategraphqlpermissions": false
+      "generategraphqlpermissions": true
     },
     "latestregionsupport": {
       "pinpoint": 0,
