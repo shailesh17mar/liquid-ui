@@ -26,8 +26,8 @@ export const useUpdateProject = () => {
       onSuccess: (data, variables) => {
         queryClient.invalidateQueries(["projects"]);
       },
-      onError: () => {
-        console.log("what happened?");
+      onError: (error) => {
+        throw error;
       },
     }
   );

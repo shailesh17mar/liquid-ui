@@ -30,8 +30,8 @@ export const useUpdateVideoAsset = (
         queryClient.invalidateQueries(["videoAssets"]);
         if (callback) callback(videoAsset as VodAsset);
       },
-      onError: () => {
-        console.log("what happened?");
+      onError: (error) => {
+        throw error;
       },
     }
   );

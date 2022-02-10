@@ -30,7 +30,6 @@ export const authorize = async (req, res, next) => {
     req.tenant = userDetails.email.split("@")[1];
     next();
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };

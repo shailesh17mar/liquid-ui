@@ -431,7 +431,6 @@ export const HighlightControl: React.FC<Props> = ({ editor }) => {
                 true
               );
               // await DataStore.save(updatedStory);
-              // console.log(updatedStory);
               // doc.content[index].content = content.content as JSONContent[];
             }
           }

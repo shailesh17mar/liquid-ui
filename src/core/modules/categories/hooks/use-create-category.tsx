@@ -32,8 +32,8 @@ export const useCreateCategory = (
           if (callback) callback(category as Categories);
         }
       },
-      onError: () => {
-        console.log("what happened?");
+      onError: (error) => {
+        throw error;
       },
     }
   );

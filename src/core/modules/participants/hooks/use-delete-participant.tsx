@@ -25,8 +25,8 @@ export const useDeletePerson = () => {
       onSuccess: (data, variables) => {
         queryClient.invalidateQueries(["persons"]);
       },
-      onError: () => {
-        console.log("what happened?");
+      onError: (error) => {
+        throw error;
       },
     }
   );

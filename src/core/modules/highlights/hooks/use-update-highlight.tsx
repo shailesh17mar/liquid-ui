@@ -34,8 +34,8 @@ export const useUpdateHighlight = (
         queryClient.invalidateQueries(["highlights", id]);
         if (callback) callback(highlight as Highlights);
       },
-      onError: () => {
-        console.log("what happened?");
+      onError: (error) => {
+        throw error;
       },
     }
   );

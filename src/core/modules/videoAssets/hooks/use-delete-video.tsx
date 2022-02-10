@@ -25,8 +25,8 @@ export const useDeleteVideoAsset = () => {
       onSuccess: (data, variables) => {
         queryClient.invalidateQueries(["videoAssets"]);
       },
-      onError: () => {
-        console.log("what happened?");
+      onError: (error) => {
+        throw error;
       },
     }
   );

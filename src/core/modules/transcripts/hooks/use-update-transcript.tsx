@@ -31,8 +31,8 @@ export const useUpdateTranscription = (
         queryClient.invalidateQueries(["transcripts"]);
         if (callback) callback(transcript as Transcription);
       },
-      onError: () => {
-        console.log("what happened?");
+      onError: (error) => {
+        throw error;
       },
     }
   );

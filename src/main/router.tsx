@@ -29,7 +29,10 @@ export const Router: React.FC = () => (
           <Route path="tags" element={<>Tags</>} />
           <Route path="insights" element={<>Insights</>} />
         </Route>
-        <Route path="/stories/:id" element={<Layout isProjectLayout />}>
+        <Route
+          path="/stories/:id"
+          element={<Layout isProjectLayout isStoryPage />}
+        >
           <Route index element={<StoryDetailsPage />} />
         </Route>
       </Routes>

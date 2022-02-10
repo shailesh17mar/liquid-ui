@@ -30,8 +30,8 @@ export const useCreateProject = (callback: (project: Projects) => void) => {
           callback(project as Projects);
         }
       },
-      onError: () => {
-        console.log("what happened?");
+      onError: (error) => {
+        throw error;
       },
     }
   );

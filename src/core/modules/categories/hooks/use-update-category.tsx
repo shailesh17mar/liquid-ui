@@ -26,8 +26,8 @@ export const useUpdateCategory = () => {
       onSuccess: (data, variables) => {
         queryClient.invalidateQueries(["categories"]);
       },
-      onError: () => {
-        console.log("what happened?");
+      onError: (error) => {
+        throw error;
       },
     }
   );

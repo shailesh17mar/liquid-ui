@@ -31,7 +31,7 @@ export const useCreateTag = (callback?: (tag: Tags) => void) => {
         }
       },
       onError: (error) => {
-        console.log("what happened?");
+        throw error;
       },
     }
   );

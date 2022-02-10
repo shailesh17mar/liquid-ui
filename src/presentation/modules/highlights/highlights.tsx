@@ -10,6 +10,8 @@ import {
   EuiCheckbox,
 } from "@elastic/eui";
 import moment from "moment";
+import { useParams } from "react-router-dom";
+import { useHighlights } from "core/modules/highlights/hooks";
 
 const visColorsBehindText = euiPaletteColorBlindBehindText();
 const columns = [
@@ -109,6 +111,7 @@ const SelectionRowCell = ({ rowIndex }: { rowIndex: number }) => (
   <EuiCheckbox id={`${rowIndex}`} onChange={() => {}} />
 );
 export const Highlights: React.FC = () => {
+  const { id } = useParams() as { id: string };
   const [borderSelected] = useState("none");
   const [fontSizeSelected] = useState("m");
   const [cellPaddingSelected] = useState("m");
@@ -116,7 +119,9 @@ export const Highlights: React.FC = () => {
   const [rowHoverSelected] = useState("none");
   const [headerSelected] = useState("underline");
   const [footerSelected] = useState("overline");
-  useState(true);
+  const { data: highlights } = useHighlights({
+    projectId: id,
+  });
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 25,

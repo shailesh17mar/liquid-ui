@@ -26,8 +26,8 @@ export const useUpdateStory = (id: string) => {
       onSuccess: (data, variables) => {
         queryClient.invalidateQueries(["stories", id]);
       },
-      onError: () => {
-        console.log("what happened?");
+      onError: (error) => {
+        throw error;
       },
     }
   );

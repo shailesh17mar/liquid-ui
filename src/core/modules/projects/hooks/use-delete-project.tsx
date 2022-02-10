@@ -25,8 +25,8 @@ export const useDeleteProject = () => {
       onSuccess: (data, variables) => {
         queryClient.invalidateQueries(["projects"]);
       },
-      onError: () => {
-        console.log("what happened?");
+      onError: (error) => {
+        throw error;
       },
     }
   );

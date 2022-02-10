@@ -35,7 +35,6 @@ export const TrailingNode = Extension.create<TrailingNodeExtensionOptions>({
           const shouldInsertNodeAtEnd = plugin.getState(state);
           const endPosition = doc.content.size;
           const type = schema.nodes[this.options.node];
-          console.log(doc.content);
 
           const isEmpty = !Boolean(
             //@ts-ignore
@@ -57,7 +56,6 @@ export const TrailingNode = Extension.create<TrailingNodeExtensionOptions>({
             if (!tr.docChanged) {
               return value;
             }
-            console.log("called");
 
             const lastNode = tr.doc.lastChild;
             return !nodeEqualsType({ node: lastNode, types: disabledNodes });

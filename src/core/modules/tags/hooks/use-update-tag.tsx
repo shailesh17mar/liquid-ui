@@ -28,8 +28,8 @@ export const useUpdateTag = (callback?: (tag: Tags) => void) => {
         queryClient.invalidateQueries(["tags"]);
         if (callback) callback(tag as Tags);
       },
-      onError: () => {
-        console.log("what happened?");
+      onError: (error) => {
+        throw error;
       },
     }
   );

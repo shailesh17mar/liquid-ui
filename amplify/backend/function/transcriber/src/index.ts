@@ -2,8 +2,6 @@ import * as AWS from "aws-sdk";
 const docClient = new AWS.DynamoDB.DocumentClient();
 
 exports.handler = async (event) => {
-  console.log(JSON.stringify(event, null, 2));
-
   try {
     //loop through all the events
     for (const record of event.Records) {

@@ -37,6 +37,6 @@ const retrieveStoryById = async (id: string) => {
   }
 };
 
-export const useStory = (id: string) => {
-  return useQuery(["stories", id], () => retrieveStoryById(id));
+export const useStory = (id: string, enabled: boolean = true) => {
+  return useQuery(["stories", id], () => retrieveStoryById(id), { enabled });
 };

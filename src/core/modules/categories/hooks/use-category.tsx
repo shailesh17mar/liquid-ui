@@ -15,6 +15,8 @@ const retrieveCategoryById = async (id: string) => {
   }
 };
 
-export const useCategory = (id: string) => {
-  return useQuery(["categories", id], () => retrieveCategoryById(id));
+export const useCategory = (id: string, enabled: boolean = true) => {
+  return useQuery(["categories", id], () => retrieveCategoryById(id), {
+    enabled,
+  });
 };

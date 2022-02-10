@@ -31,7 +31,7 @@ export const useCreateStory = (callback: (story: Stories) => void) => {
         }
       },
       onError: (error) => {
-        console.log("what happened?");
+        throw error;
       },
     }
   );

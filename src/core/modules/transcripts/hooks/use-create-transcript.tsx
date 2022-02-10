@@ -34,7 +34,7 @@ export const useCreateTranscription = (
         }
       },
       onError: (error) => {
-        console.log("what happened?");
+        throw error;
       },
     }
   );

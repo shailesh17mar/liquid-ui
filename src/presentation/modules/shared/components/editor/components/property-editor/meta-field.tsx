@@ -379,9 +379,7 @@ export const MetaField: React.FC<FieldProps> = ({
                 width: 300,
                 padding: 16,
               }}
-              onSelect={(e) => {
-                console.log(e);
-              }}
+              onSelect={(e) => {}}
               size="m"
               items={items}
             />

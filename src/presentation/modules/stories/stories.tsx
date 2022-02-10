@@ -90,7 +90,6 @@ export const Stories: React.FC = () => {
   // const { data: stories } = useQuery(
   //   ["stories", id],
   //   async () => {
-  //     console.log("fetching stories");
   //     return await storiesQueryController.getAllByProjectId(id);
   //   },
   //   {

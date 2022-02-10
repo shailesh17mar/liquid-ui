@@ -26,8 +26,8 @@ export const useDeleteTranscript = () => {
       onSuccess: (data, variables) => {
         queryClient.invalidateQueries(["transcripts"]);
       },
-      onError: () => {
-        console.log("what happened?");
+      onError: (error) => {
+        throw error;
       },
     }
   );

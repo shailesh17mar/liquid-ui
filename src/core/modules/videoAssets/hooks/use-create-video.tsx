@@ -34,7 +34,7 @@ export const useCreateVideoAsset = (
         }
       },
       onError: (error) => {
-        console.log("what happened?");
+        throw error;
       },
     }
   );

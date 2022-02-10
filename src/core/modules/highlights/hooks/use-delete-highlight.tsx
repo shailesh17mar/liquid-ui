@@ -25,8 +25,8 @@ export const useDeleteHighlight = () => {
       onSuccess: (data, variables) => {
         queryClient.invalidateQueries(["highlights"]);
       },
-      onError: () => {
-        console.log("what happened?");
+      onError: (error) => {
+        throw error;
       },
     }
   );

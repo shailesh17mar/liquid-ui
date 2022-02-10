@@ -31,7 +31,7 @@ export const useCreatePerson = (callback?: (person: Persons) => void) => {
         }
       },
       onError: (error) => {
-        console.log("what happened?");
+        throw error;
       },
     }
   );

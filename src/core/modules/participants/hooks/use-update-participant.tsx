@@ -28,8 +28,8 @@ export const useUpdatePerson = (callback?: (person: Persons) => void) => {
         queryClient.invalidateQueries(["persons"]);
         if (callback) callback(person as Persons);
       },
-      onError: () => {
-        console.log("what happened?");
+      onError: (error) => {
+        throw error;
       },
     }
   );

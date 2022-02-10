@@ -73,7 +73,6 @@ export const Transcript = (props: NodeViewProps) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [annotation, setAnnotation] = useRecoilState(annotationState);
 
-  // console.log(highlights);
   const [isAssitantActive, setIsAssistantActive] = useState<boolean>(true);
   const [isUploadModalOpen, setIsUploadModalOpen] = useState<boolean>(false);
 
@@ -107,7 +106,6 @@ export const Transcript = (props: NodeViewProps) => {
   }, [video]);
 
   useEffect(() => {
-    console.log("tdd", tags, highlights, annotation);
     if (
       tags &&
       tags.length > 0 &&

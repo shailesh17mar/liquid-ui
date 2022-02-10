@@ -191,14 +191,12 @@ export const Editor: React.FC<EditorProps> = ({
 
   const handleChange = useCallback(
     (content) => {
-      console.log("handle change");
       setDocState(content);
     },
     [setDocState]
   );
   const handleSave = useCallback(
     (newDocState) => {
-      console.log("editor save called");
       if (!isUploading) {
         onSave(documentId, JSON.stringify(newDocState));
         const meta = provider.doc.getMap("meta");

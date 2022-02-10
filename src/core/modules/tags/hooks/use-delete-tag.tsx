@@ -25,8 +25,8 @@ export const useDeleteTag = () => {
       onSuccess: (data, variables) => {
         queryClient.invalidateQueries(["tags"]);
       },
-      onError: () => {
-        console.log("what happened?");
+      onError: (error) => {
+        throw error;
       },
     }
   );

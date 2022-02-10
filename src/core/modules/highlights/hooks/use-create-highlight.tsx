@@ -33,7 +33,7 @@ export const useCreateHighlight = (
         }
       },
       onError: (error) => {
-        console.log("what happened?");
+        throw error;
       },
     }
   );
