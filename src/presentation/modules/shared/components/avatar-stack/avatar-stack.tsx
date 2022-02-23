@@ -2,7 +2,7 @@ import { User } from "presentation/context/auth-context";
 import { Avatar } from "./avatar-stack.styles";
 
 const defaultProps = {
-  maxAvatars: 2,
+  maxAvatars: 4,
 };
 type Props = {
   users: User[];
@@ -14,7 +14,7 @@ export const AvatarStack: React.FC<Props> = ({ users, maxAvatars }) => {
   return (
     <div>
       {users.slice(0, maxAvatars).map((user, idx) => (
-        <Avatar name={user.name} key={user.id} />
+        <Avatar name={user.name} />
       ))}
       {remaining > 0 && <Avatar color="#f2f2f3" name={`+${remaining}`} />}
     </div>

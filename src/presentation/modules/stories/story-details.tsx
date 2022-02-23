@@ -1,6 +1,5 @@
 import {
   EuiBadge,
-  EuiBetaBadge,
   EuiFlexGroup,
   EuiFlexItem,
   EuiPageContentBody,
@@ -9,10 +8,9 @@ import { PropertiesEditor } from "../shared/components/editor/components/propert
 import { Editor } from "../shared/components/editor/editor";
 import { annotationState } from "main/pages/make-story-details-page";
 import { useRecoilValue } from "recoil";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { JSONContent } from "@tiptap/react";
-import { matchPath, useParams } from "react-router-dom";
-import { WebrtcProvider } from "y-webrtc";
+import { useParams } from "react-router-dom";
 import { Doc } from "yjs";
 import {
   FIELD_TYPES,
@@ -20,7 +18,7 @@ import {
 } from "../shared/components/editor/components/property-editor/types";
 import { Persons as Participant, Persons } from "models";
 import { ModelInit } from "@aws-amplify/datastore";
-import { useDebouncedCallback } from "use-debounce/lib";
+import { useDebouncedCallback } from "use-debounce";
 import { StoryMetadataProvider } from "./story-context";
 import { useStory, useUpdateStory } from "core/modules/stories/hooks";
 import {
@@ -28,6 +26,8 @@ import {
   useUpdatePerson,
 } from "core/modules/participants/hooks";
 import { TagAnnotation } from "./story.styles";
+import { WebsocketProvider } from "main/factories/websocket-provider";
+import { ContentLoader } from "../shared/components/content-loader/content-loader";
 
 const DefaultStoryDocument = {
   type: "doc",
@@ -57,20 +57,46 @@ const DefaultStoryDocument = {
     },
   ],
 } as JSONContent;
+var provider: WebsocketProvider;
 
-const route = matchPath("/stories/:id", window.location.pathname);
-const id = route?.params.id;
-const doc = new Doc({ guid: id });
-const provider = new WebrtcProvider(`story-${id}`, doc);
-
+const doc = new Doc();
+// export const syncType = doc.getXmlFragment("prosemirror");
 export const StoryDetails: React.FC = () => {
+  const [isSynced, setIsSynced] = useState(false);
   const annotation = useRecoilValue(annotationState);
   const annotationRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const [version, setVersion] = useState<number>(-1);
   const { id } = useParams() as { id: string };
 
   const { data: story } = useStory(id);
-  const updateStoryMutation = useUpdateStory(id);
+  const updateStoryMutation = useUpdateStory();
   const [isMutatingParticipant, setIsMutatingParticipant] = useState(false);
+
+  const provider = useMemo(() => {
+    //@ts-ignore
+    const clientName = Math.random().toString(36).substr(2, 20);
+    const doc = new Doc({ guid: id });
+    return new WebsocketProvider(
+      // "wss://5i8xukkihh.execute-api.us-east-2.amazonaws.com/lab",
+      "ws://colla-Publi-DG2HJTMSKDFA-121107920.us-east-2.elb.amazonaws.com",
+      // "ws://localhost:5000",
+      `?=doc-${id}&`,
+      doc,
+      {
+        params: { name: clientName },
+      }
+    );
+  }, []);
+
+  useEffect(() => {
+    provider.on("sync", (synced: boolean) => {
+      console.log("sync", synced);
+      if (!isSynced && synced) {
+        setIsSynced(true);
+      }
+    });
+  }, [isSynced, provider]);
+
   const handleStoryParticipants = (participant: Persons) => {
     updateStoryMutation.mutate({
       id,
@@ -83,22 +109,25 @@ export const StoryDetails: React.FC = () => {
   const handleDocumentChange = useCallback(
     async (id, body) => {
       if (body) {
-        updateStoryMutation.mutate({
-          id,
-          content: body,
-          _version: story?._version,
-        });
+        // updateStoryMutation.mutate({
+        //   id,
+        //   content: body,
+        //   _version: story?._version,
+        // });
       }
     },
     [story?._version, updateStoryMutation]
   );
-  const handleTitleChange = useDebouncedCallback((id, title) => {
+  const handleTitleChange = useDebouncedCallback(async (id, title) => {
     if (story) {
-      updateStoryMutation.mutate({
+      const updatedStory = await updateStoryMutation.mutateAsync({
         id,
         title,
-        _version: story._version,
+        _version: version < 0 ? story._version : version,
       });
+      if (updatedStory) {
+        setVersion(updatedStory._version);
+      }
     }
   }, 500);
 
@@ -132,46 +161,107 @@ export const StoryDetails: React.FC = () => {
         projectId: story.projectsID,
       }
     : null;
-  const handleMetadataChange = async (
-    properties: MetaProperty[]
-  ): Promise<void> => {
-    const participantDetails = properties.reduce(
-      (person: any, property: MetaProperty) => {
-        if (property.label)
-          person[property.label.toLowerCase()] = property.selectedOptions
-            ? property.selectedOptions
-            : property.value;
-        return person;
-      },
-      {}
-    );
 
-    if (story) {
-      if (participant) {
-        updateParticipantMutation.mutate({
-          id: participant.id,
-          name: participantDetails.name,
-          email: participantDetails.email,
-          business: JSON.stringify(participantDetails.company),
-          persona: participantDetails.persona,
-          _version: participant._version,
-        });
-      } else {
-        createParticipantMutation.mutate({
-          name: participantDetails.name,
-          email: participantDetails.email,
-          business: JSON.stringify(participantDetails.company),
-          persona: participantDetails.persona,
-        });
+  const handleMetadataChange = useDebouncedCallback(
+    async (properties: MetaProperty[]): Promise<void> => {
+      const participantDetails = properties.reduce(
+        (person: any, property: MetaProperty) => {
+          if (property.label) {
+            const isNativeProperty = [
+              "name",
+              "email",
+              "company",
+              "persona",
+            ].includes(property.label.toLowerCase());
+            const label = isNativeProperty
+              ? property.label.toLowerCase()
+              : property.label;
+            const value = property.selectedOptions
+              ? property.selectedOptions
+              : property.value;
+            person[label] = isNativeProperty ? value : property;
+          }
+          return person;
+        },
+        {}
+      );
+
+      if (story) {
+        const { name, email, company, persona, ...additionalFields } =
+          participantDetails;
+        if (participant) {
+          updateParticipantMutation.mutate({
+            id: participant.id,
+            name,
+            email,
+            business: JSON.stringify(company),
+            persona,
+            additonalFields: JSON.stringify(additionalFields),
+            _version: participant._version,
+          });
+        } else {
+          createParticipantMutation.mutate({
+            name,
+            email,
+            business: JSON.stringify(company),
+            additonalFields: JSON.stringify(additionalFields),
+            persona,
+          });
+        }
       }
-    }
-    // handleDocumentChange(id, {
-    //   ...story,
-    //   Persons: participant as ModelInit<Participant>,
-    // });
-  };
+      handleDocumentChange(id, {
+        ...story,
+        Persons: participant as ModelInit<Participant>,
+      });
+    },
+    500
+  );
 
-  return story ? (
+  const StoryEditor = useMemo(
+    () =>
+      provider && (
+        <Editor
+          onSave={handleDocumentChange}
+          documentId={id}
+          provider={provider}
+        />
+      ),
+    [handleDocumentChange, id, provider]
+  );
+
+  const storyProperties = [
+    {
+      label: "Name",
+      type: FIELD_TYPES.TEXT,
+      value: participant?.name,
+    },
+    {
+      label: "Email",
+      type: FIELD_TYPES.EMAIL,
+      value: participant?.email,
+    },
+    {
+      label: "Company",
+      type: FIELD_TYPES.COMPANY,
+      selectedOptions: participant?.business,
+    },
+    {
+      label: "Persona",
+      type: FIELD_TYPES.TEXT,
+      value: participant?.persona,
+    },
+  ].concat(
+    //@ts-ignore
+    participant && participant.additonalFields
+      ? //@ts-ignore
+        Object.keys(participant.additonalFields).map((key: any) => {
+          //@ts-ignore
+          const property = participant.additonalFields[key];
+          return property as unknown as MetaProperty;
+        })
+      : []
+  ) as MetaProperty[];
+  return (
     <StoryMetadataProvider value={storyMetadata}>
       <EuiPageContentBody
         className="eui-yScroll"
@@ -182,105 +272,82 @@ export const StoryDetails: React.FC = () => {
           justifyContent="spaceAround"
           style={{ width: 900, margin: "0 auto" }}
         >
-          <EuiFlexItem>
-            <EuiFlexGroup direction="column">
+          {story && isSynced ? (
+            <>
+              <EuiFlexItem>
+                <EuiFlexGroup direction="column">
+                  <EuiFlexItem grow={false}>
+                    <EuiFlexGroup justifyContent="center">
+                      <EuiFlexItem>
+                        <span
+                          className="euiTitle--large"
+                          contentEditable
+                          onInput={(e: any) => {
+                            handleTitleChange(id, e.target.innerText);
+                          }}
+                          suppressContentEditableWarning
+                        >
+                          {story?.title}
+                        </span>
+                      </EuiFlexItem>
+                    </EuiFlexGroup>
+                  </EuiFlexItem>
+                  <hr />
+                  <EuiFlexItem grow={false}>
+                    <EuiFlexGroup justifyContent="center">
+                      {story && (
+                        <EuiFlexItem>
+                          <PropertiesEditor
+                            properties={storyProperties}
+                            onChange={handleMetadataChange}
+                          />
+                        </EuiFlexItem>
+                      )}
+                    </EuiFlexGroup>
+                  </EuiFlexItem>
+                  <hr />
+                  <EuiFlexItem
+                    style={{
+                      minHeight: 400,
+                      margin: "12px 0",
+                    }}
+                  >
+                    <EuiFlexGroup gutterSize="none">
+                      <EuiFlexItem>{StoryEditor}</EuiFlexItem>
+                      <EuiFlexItem grow={false}></EuiFlexItem>
+                    </EuiFlexGroup>
+                  </EuiFlexItem>
+                  <hr />
+                </EuiFlexGroup>
+              </EuiFlexItem>
               <EuiFlexItem grow={false}>
-                <EuiFlexGroup justifyContent="center">
-                  <EuiFlexItem>
-                    <span
-                      className="euiTitle--large"
-                      contentEditable
-                      onInput={(e: any) => {
-                        handleTitleChange(id, e.target.innerText);
-                      }}
+                {Object.keys(annotation).map((id, index) => {
+                  return (
+                    <TagAnnotation
+                      ref={(el) => (annotationRefs.current[index] = el)}
+                      key={id}
+                      type={annotation[id].type}
+                      top={positionDictionary[id]}
                     >
-                      {story?.title}
-                    </span>
-                  </EuiFlexItem>
-                </EuiFlexGroup>
+                      {annotation[id].tags.map((tag, index) => (
+                        <>
+                          <EuiBadge key={id + index} color="default">
+                            {tag.label}
+                          </EuiBadge>
+                          &nbsp;
+                        </>
+                      ))}
+                    </TagAnnotation>
+                  );
+                })}
               </EuiFlexItem>
-              <hr />
-              <EuiFlexItem grow={false}>
-                <EuiFlexGroup justifyContent="center">
-                  {story && (
-                    <EuiFlexItem>
-                      <PropertiesEditor
-                        properties={
-                          [
-                            {
-                              label: "Name",
-                              type: FIELD_TYPES.TEXT,
-                              value: participant?.name,
-                            },
-                            {
-                              label: "Email",
-                              type: FIELD_TYPES.EMAIL,
-                              value: participant?.email,
-                            },
-                            {
-                              label: "Company",
-                              type: FIELD_TYPES.COMPANY,
-                              selectedOptions: participant?.business,
-                            },
-                            {
-                              label: "Persona",
-                              type: FIELD_TYPES.TEXT,
-                              value: participant?.persona,
-                            },
-                          ] as MetaProperty[]
-                        }
-                        onChange={handleMetadataChange}
-                      />
-                    </EuiFlexItem>
-                  )}
-                </EuiFlexGroup>
-              </EuiFlexItem>
-              <hr />
-              <EuiFlexItem
-                style={{
-                  minHeight: 400,
-                  margin: "12px 0",
-                }}
-              >
-                <EuiFlexGroup gutterSize="none">
-                  <EuiFlexItem>
-                    <Editor
-                      onSave={handleDocumentChange}
-                      documentId={id}
-                      content={story.content || DefaultStoryDocument}
-                      provider={provider}
-                    />
-                  </EuiFlexItem>
-                  <EuiFlexItem grow={false}></EuiFlexItem>
-                </EuiFlexGroup>
-              </EuiFlexItem>
-              <hr />
-            </EuiFlexGroup>
-          </EuiFlexItem>
-          <EuiFlexItem grow={false}>
-            {Object.keys(annotation).map((id, index) => {
-              return (
-                <TagAnnotation
-                  ref={(el) => (annotationRefs.current[index] = el)}
-                  key={id}
-                  type={annotation[id].type}
-                  top={positionDictionary[id]}
-                >
-                  {annotation[id].tags.map((tag, index) => (
-                    <>
-                      <EuiBadge key={id + index} color="default">
-                        {tag.label}
-                      </EuiBadge>
-                      &nbsp;
-                    </>
-                  ))}
-                </TagAnnotation>
-              );
-            })}
-          </EuiFlexItem>
+            </>
+          ) : (
+            <ContentLoader />
+          )}
         </EuiFlexGroup>
       </EuiPageContentBody>
     </StoryMetadataProvider>
-  ) : null;
+  );
   // );
 };

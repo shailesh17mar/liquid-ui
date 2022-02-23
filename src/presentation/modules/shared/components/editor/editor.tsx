@@ -6,7 +6,6 @@ import {
   useEditor,
   BubbleMenu,
   JSONContent,
-  generateHTML,
 } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { useDebouncedCallback } from "use-debounce";
@@ -17,21 +16,17 @@ import Image from "@tiptap/extension-image";
 import Color from "@tiptap/extension-color";
 import Paragraph from "@tiptap/extension-paragraph";
 import Collaboration from "@tiptap/extension-collaboration";
-import { Highlight } from "./extensions/transcript/highlight";
 import TaskItem from "@tiptap/extension-task-item";
 import { MenuBar } from "./components/menu-bar/menu-bar";
-import { nanoid } from "nanoid";
 import {
-  EuiButton,
-  EuiButtonEmpty,
   EuiFlexGroup,
   EuiFlexItem,
+  euiPaletteColorBlindBehindText,
 } from "@elastic/eui";
 import commands from "./extensions/commander/commands";
 import { Commander } from "./extensions/commander/commander";
 import TextStyle from "@tiptap/extension-text-style";
-import { BubbleControl } from "./components/bubble-control/bubble-control";
-import { TranscriptComponent } from "./extensions/transcript/extension";
+import { TranscriptExtension } from "./extensions/transcript/extension";
 import { ImageExtension } from "./extensions/image/extension";
 import {
   highlightAtom,
@@ -40,17 +35,15 @@ import {
 } from "./components/highlight-control/highlight-control";
 import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "presentation/context/auth-context";
-import useWebRtcProvider from "./hooks/use-webrtc-provider";
-import { WebrtcProvider } from "y-webrtc";
-import { Doc } from "yjs";
 import { QuickActionButton } from "./editor.styles";
-import { Storage } from "aws-amplify";
 import { TrailingNode } from "./extensions/trailing-node/trailing-node";
 import TimeOffset from "./extensions/time-offset";
 import { useRecoilState } from "recoil";
+import { WebsocketProvider } from "main/factories/websocket-provider";
+import { VideoExtension } from "./extensions/video/extension";
 
 const CustomDocument = Document.extend({
-  content: "heading block*",
+  content: "heading block+",
 });
 
 export const CustomParagraph = Paragraph.extend({
@@ -96,24 +89,25 @@ export const CustomParagraph = Paragraph.extend({
   },
 });
 
-const TIMEOUT = 100 + Math.floor(Math.random() * 1000);
+// const TIMEOUT = 100 + Math.floor(Math.random() * 1000);
+const TIMEOUT = 3000 + Math.floor(Math.random() * 7000);
 
 interface EditorProps {
   documentId: string;
-  provider: WebrtcProvider;
-  content: JSONContent | string;
+  provider: WebsocketProvider;
+  content?: JSONContent | string;
   onSave: Function;
 }
 
 export const Editor: React.FC<EditorProps> = ({
   provider,
-  content,
   documentId,
   onSave,
 }) => {
   const [docState, setDocState] = useState<JSONContent>();
   const [isUploading, setIsUploading] = useState(false);
   const [highlightState, setHighlightState] = useRecoilState(highlightAtom);
+  const visColorsBehindText = euiPaletteColorBlindBehindText();
   const { user } = useAuth();
 
   const extensions = [
@@ -131,9 +125,6 @@ export const Editor: React.FC<EditorProps> = ({
     TrailingNode.configure({
       node: "paragraph",
     }),
-    Highlight.configure({
-      multicolor: true,
-    }),
     Commander.configure({
       suggestion: commands,
     }),
@@ -147,7 +138,8 @@ export const Editor: React.FC<EditorProps> = ({
       document: false,
       history: false,
     }),
-    TranscriptComponent,
+    TranscriptExtension,
+    VideoExtension,
     ImageExtension,
     CustomParagraph,
     Placeholder.configure({
@@ -162,6 +154,7 @@ export const Editor: React.FC<EditorProps> = ({
         return "";
       },
     }),
+    // ySyncPlugin(syncType),
     Collaboration.configure({
       document: provider.doc,
     }),
@@ -169,32 +162,29 @@ export const Editor: React.FC<EditorProps> = ({
       provider,
       user: {
         name: user.name,
-        color: "#f783ac",
+        color: visColorsBehindText[Math.floor(Math.random() * 7)],
       },
     }),
   ];
 
-  const x = (content: JSONContent) => {
-    generateHTML(content, extensions);
-  };
   const editor = useEditor({
     extensions,
-    content: Array.isArray(content) ? { type: "doc", content } : content,
-    // autofocus: true,
-    onUpdate({ editor }) {
-      const content = editor.getJSON();
-      handleChange(content);
-      if (content) setDocState(content);
+    content: provider.doc,
+    onUpdate() {
+      // const content = editor.getJSON();
+      // handleChange(content);
+      // if (content) setDocState(content);
       // The content has changed.
     },
   });
 
-  const handleChange = useCallback(
-    (content) => {
-      setDocState(content);
-    },
-    [setDocState]
-  );
+  // const handleSelection = useDebouncedCallback(() => {
+  //   setIsSelectionComplete(true);
+  // }, 0);
+  // document.addEventListener("selectionchange", (e) => {
+  //   handleSelection();
+  // });
+
   const handleSave = useCallback(
     (newDocState) => {
       if (!isUploading) {
@@ -205,6 +195,7 @@ export const Editor: React.FC<EditorProps> = ({
     },
     [documentId, isUploading, onSave, provider.doc]
   );
+
   const handleSaveDebounced = useDebouncedCallback(handleSave, TIMEOUT);
 
   useEffect(() => {
@@ -212,8 +203,9 @@ export const Editor: React.FC<EditorProps> = ({
   }, [handleSaveDebounced, docState]);
 
   const handleVideoClick = () => {
-    editor?.chain().focus().initTranscript().run();
+    editor?.chain().focus().initVideo().run();
   };
+
   const handleImageClick = () => {
     editor?.chain().focus().setSignedImage({}).run();
   };
@@ -221,33 +213,26 @@ export const Editor: React.FC<EditorProps> = ({
     <>
       {editor && (
         <>
-          <BubbleMenu
+          {/* <BubbleMenu
             shouldShow={({ editor, view, state, oldState, from, to }) => {
               return !editor.isActive("transcriptComponent") && to > from;
             }}
             editor={editor}
           >
-            <BubbleControl editor={editor} />
-          </BubbleMenu>
+            {isSelectionComplete && <BubbleControl editor={editor} />}
+          </BubbleMenu> */}
           <BubbleMenu
-            shouldShow={({ editor, view, state, oldState, from, to }) => {
-              return (
-                editor.isActive("transcriptComponent") &&
-                to > from &&
-                to - from > 5
-              );
+            shouldShow={({ from, to }) => {
+              return to > from && to - from > 5;
             }}
             tippyOptions={{
               onHide() {
-                editor.isActive("transcriptComponent") &&
-                  setHighlightState({} as HighlightState);
+                setHighlightState({} as HighlightState);
               },
             }}
             editor={editor}
           >
-            {editor.isActive("transcriptComponent") && (
-              <HighlightControl editor={editor} />
-            )}
+            <HighlightControl editor={editor} />
           </BubbleMenu>
         </>
       )}

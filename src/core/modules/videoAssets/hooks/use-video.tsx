@@ -4,8 +4,7 @@ import { getVodAsset } from "graphql/queries";
 import { VodAsset } from "models";
 import { useQuery } from "react-query";
 
-const retrieveVideoAssetById = async (id?: string) => {
-  if (id === undefined) return {} as { data?: VodAsset };
+const retrieveVideoAssetById = async (id: string) => {
   const videoAssetResponse = (await API.graphql({
     query: getVodAsset,
     variables: {
@@ -18,6 +17,13 @@ const retrieveVideoAssetById = async (id?: string) => {
   }
 };
 
-export const useVideoAsset = (id?: string) => {
-  return useQuery(["videoAssets", id], () => retrieveVideoAssetById(id));
+export const useVideoAsset = (
+  id: string,
+  enabled: boolean = true,
+  isPolling: boolean = false
+) => {
+  return useQuery(["videoAssets", id], () => retrieveVideoAssetById(id), {
+    refetchInterval: isPolling && 10000,
+    enabled,
+  });
 };

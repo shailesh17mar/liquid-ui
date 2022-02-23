@@ -30,7 +30,6 @@ export const SideNav = styled(EuiSideNav)`
     font-size: 1.1rem;
     padding: 10px 20px;
     border-radius: 5px;
-
     .euiSideNavItemButton__label {
       text-decoration: none;
     }

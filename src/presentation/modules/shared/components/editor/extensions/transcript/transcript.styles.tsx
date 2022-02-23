@@ -2,6 +2,13 @@ import { EuiButton, EuiButtonIcon } from "@elastic/eui";
 import { NodeViewContent, NodeViewWrapper } from "@tiptap/react";
 import styled from "styled-components";
 
+export const DeleteButton = styled(EuiButtonIcon)`
+  visibility: hidden;
+  position: absolute;
+  right: 0;
+  top: 1rem;
+`;
+
 export const TranscriptContainer = styled(NodeViewWrapper)`
   margin: 1rem 0;
   position: relative;
@@ -24,13 +31,23 @@ export const TranscriptContainer = styled(NodeViewWrapper)`
   .euiPopover_panel {
     border: none !important;
   }
+
+  &:hover ${DeleteButton} {
+    visibility: visible;
+  }
 `;
 
 export const TranscriptContent = styled(NodeViewContent)`
-  /* margin-top: ; */
   padding: 1rem;
-  border-right: 1px solid #d3dae6;
+  border: 1px solid #d3dae6;
+  border-radius: 0.5rem;
 
+  p span {
+    display: inline-block;
+    margin-right: -10px;
+    padding-right: 10px;
+    /* margin-right: 0.3rem; */
+  }
   mark {
     margin: 0 -0.4em;
     padding: 0.1em 0.4em;
@@ -39,51 +56,6 @@ export const TranscriptContent = styled(NodeViewContent)`
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
     font-weight: 500;
-  }
-
-  // “:)	Excited
-  mark[data-color="#fbbc04"]:before {
-    content: "😁";
-  }
-  // :( 	Angry
-  mark[data-color="#f28b82"]:before {
-    content: "😡";
-  }
-  // :|	Embarrassed
-  mark[data-color="#fdcfe8"]:before {
-    content: "😳";
-  }
-  // ☇ Pain or problem (symbol is a lightning bolt)
-  mark[data-color="#fff475"]:before {
-    content: "☇";
-  }
-  // ⨅ 	Goal or job-to-be-done (symbol is a soccer/football goal)
-  mark[data-color="#ccff90"]:before {
-    content: "🥅";
-  }
-  // ☐ 	Obstacle
-  mark[data-color="#e6c9a8"]:before {
-    content: "🪨";
-  }
-  // 	Workaround
-  mark[data-color="#d7aefb"]:before {
-    content: "⤴";
-  }
-  // 	Background or context (symbol is a distant mountain)
-  mark[data-color="#aecbfa"]:before {
-    content: "^";
-  }
-  // 	Money or budgets or purchasing process
-  mark[data-color="#178117"]:before {
-    content: "＄";
-  }
-  //  	Feature request or purchasing criteria
-  mark[data-color="#e8eaed"]:before {
-    content: "☑";
-  }
-  //  	Mentioned a specific person or company
-  mark[data-color="#cbf0f8"]:before {
-    content: "♀";
   }
 
   span[data-hc="excited"] {

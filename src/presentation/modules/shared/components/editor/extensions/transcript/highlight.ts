@@ -1,16 +1,7 @@
-import {
-  Mark,
-  markInputRule,
-  markPasteRule,
-  mergeAttributes,
-} from "@tiptap/core";
-import "./set-highlight";
+import { Mark, markInputRule, markPasteRule } from "@tiptap/core";
+// import "./set-highlight";
 
-export interface HighlightOptions {
-  multicolor: boolean;
-  id?: string;
-  HTMLAttributes: Record<string, any>;
-}
+export interface HighlightOptions {}
 
 declare module "@tiptap/core" {
   interface Commands<ReturnType> {
@@ -19,17 +10,15 @@ declare module "@tiptap/core" {
        * Set a highlight mark
        */
       setHighlight: (attributes?: {
-        color: string;
-        type: string;
-        id: string;
+        highlightId: string;
+        highlightCategory: string;
       }) => ReturnType;
       /**
        * Toggle a highlight mark
        */
       toggleHighlight: (attributes?: {
-        color: string;
-        type: string;
-        id: string;
+        highlightId: string;
+        highlightCategory: string;
       }) => ReturnType;
       /**
        * Unset a highlight mark
@@ -42,65 +31,33 @@ declare module "@tiptap/core" {
 export const inputRegex = /(?:^|\s)((?:==)((?:[^~]+))(?:==))$/;
 export const pasteRegex = /(?:^|\s)((?:==)((?:[^~]+))(?:==))/g;
 
-export const Highlight = Mark.create<HighlightOptions>({
+export const HighlightExtension = Mark.create<HighlightOptions>({
   name: "highlight",
 
   addOptions() {
     return {
-      multicolor: true,
       HTMLAttributes: this.parent?.(),
     };
   },
 
   addAttributes() {
-    if (!this.options.multicolor) {
-      return {};
-    }
-
     return {
-      id: {
-        parseHTML: (element) => element.id,
+      ...this.parent?.(),
+      highlightCategory: {
+        parseHTML: (element) => element.getAttribute("data-hc"),
         renderHTML: (attributes) => {
           return {
             ...attributes,
-            id: attributes.id,
+            "data-hc": attributes.type,
           };
         },
       },
-      type: {
-        default: "goal",
-        parseHTML: (element) => element.getAttribute("data-type"),
+      highlightId: {
+        parseHTML: (element) => element.getAttribute("data-hid"),
         renderHTML: (attributes) => {
-          if (!attributes.type) {
-            return {};
-          }
-
           return {
             ...attributes,
-            "data-type": attributes.type,
-          };
-        },
-      },
-      color: {
-        default: "#aecbfa",
-        parseHTML: (element) =>
-          element.getAttribute("data-color") || element.style.backgroundColor,
-        renderHTML: (attributes) => {
-          if (!attributes.color) {
-            return {};
-          }
-
-          return {
-            ...attributes,
-            "data-color": attributes.color,
-            style: `
-                  background-image: linear-gradient(
-                    to right,
-                    ${attributes.color}1a,
-                    ${attributes.color}4d 4%,
-                    ${attributes.color}b3
-                  )
-            `,
+            "data-hid": attributes.color,
           };
         },
       },
@@ -110,17 +67,13 @@ export const Highlight = Mark.create<HighlightOptions>({
   parseHTML() {
     return [
       {
-        tag: "span[id]",
+        tag: "timeOffset",
       },
     ];
   },
 
   renderHTML({ HTMLAttributes }) {
-    return [
-      "span",
-      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
-      0,
-    ];
+    return ["span", HTMLAttributes, 0];
   },
 
   addCommands() {
@@ -128,7 +81,7 @@ export const Highlight = Mark.create<HighlightOptions>({
       setHighlight:
         (attributes) =>
         ({ commands }) => {
-          return commands.toggleMark(this.name, attributes);
+          return commands.setMark(this.name, attributes);
         },
       toggleHighlight:
         (attributes) =>

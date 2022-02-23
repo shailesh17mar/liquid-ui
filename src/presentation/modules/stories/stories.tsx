@@ -26,26 +26,25 @@ import {
 } from "@elastic/eui";
 import { AvatarStack } from "../shared/components/avatar-stack/avatar-stack";
 import { useAuth } from "presentation/context/auth-context";
-import { StoriesQueryController } from "core/modules/stories/usecases/story-query-controller";
-import { StoryMutationController } from "core/modules/stories/usecases/story-mutation-controller";
-import { CategoryMutationController } from "core/modules/categories/usecases/category-mutation-controller";
-import { CategoriesQueryController } from "core/modules/categories/usecases/category-query-controller";
 import { useNavigate, useParams } from "react-router-dom";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { Categories, Stories as Story } from "models";
-import { ModelInit } from "@aws-amplify/datastore";
 import {
   useCategories,
   useCreateCategory,
 } from "core/modules/categories/hooks";
-import { useCreateStory, useStories } from "core/modules/stories/hooks";
+import {
+  useCreateStory,
+  useStories,
+  useUpdateStory,
+} from "core/modules/stories/hooks";
 import { CreateStoriesInput } from "API";
+import { CategoryMenu } from "./components/category-menu/category-menu";
 
 const makeId = htmlIdGenerator();
 
 interface IList {
-  content: string;
+  content: any;
   id: string;
+  version: number;
 }
 
 interface Category {
@@ -61,21 +60,18 @@ const makeList = (number: number, start: number = 1) =>
     } as unknown as IList;
   });
 
-//TODO: Think of better way of props her
-// interface Props {
-//   storiesQueryController: StoriesQueryController;
-//   storyMutationController: StoryMutationController;
-//   categoryMutationController: CategoryMutationController;
-//   categoriesQueryController: CategoriesQueryController;
-// }
 export const Stories: React.FC = () => {
   const navigate = useNavigate();
   const [isSeeding, setIsSeeding] = useState(false);
+  const [storyVersionMap, setStoryVersionMap] =
+    useState<{ [id: string]: number }>();
+  const [lists, setLists] = useState<{ [id: string]: IList[] }>();
   const { user } = useAuth();
   const { id } = useParams() as { id: string };
   const { data: categories } = useCategories(id);
   const categoryMutation = useCreateCategory();
-  const storyMutation = useCreateStory((story: Story) => {
+  const storyUpdateMutation = useUpdateStory();
+  const storyMutation = useCreateStory((story) => {
     navigate(`/stories/${story.id}`);
   });
   const { data: stories } = useStories(id, categories && categories.length > 0);
@@ -87,16 +83,22 @@ export const Stories: React.FC = () => {
     }
   }, [categories, categoryMutation, id, isSeeding]);
 
-  // const { data: stories } = useQuery(
-  //   ["stories", id],
-  //   async () => {
-  //     return await storiesQueryController.getAllByProjectId(id);
-  //   },
-  //   {
-  //     enabled: categories && categories.length > 0,
-  //   }
-  // );
+  useEffect(() => {
+    const lists = categories?.reduce((acc: any, category) => {
+      acc[category.id] = stories
+        ?.filter((story) => story && story.categoriesID === category.id)
+        .map((story) => {
+          return {
+            content: getStoryCard(story),
+            id: story?.id,
+            version: story?._version,
+          };
+        });
+      return acc;
+    }, {});
 
+    setLists(lists);
+  }, [categories, stories]);
   const [list, setList] = useState<Category[]>([
     { id: 1, title: "B2B Interviews" },
     { title: "B2C Interviews", id: 2 },
@@ -115,11 +117,11 @@ export const Stories: React.FC = () => {
   const closePopover = () => {
     setPopover(false);
   };
-  const lists = {
-    COMPLEX_DROPPABLE_PARENT: list,
-    COMPLEX_DROPPABLE_AREA_1: list1,
-    COMPLEX_DROPPABLE_AREA_2: list2,
-  } as unknown as { [key: string]: IList[] };
+  // const lists = {
+  //   COMPLEX_DROPPABLE_PARENT: list,
+  //   COMPLEX_DROPPABLE_AREA_1: list1,
+  //   COMPLEX_DROPPABLE_AREA_2: list2,
+  // } as unknown as { [key: string]: IList[] };
   const actions = {
     COMPLEX_DROPPABLE_PARENT: setList,
     COMPLEX_DROPPABLE_AREA_1: setList1,
@@ -146,10 +148,20 @@ export const Stories: React.FC = () => {
     />
   );
   const visColorsBehindText = euiPaletteColorBlindBehindText();
-  const onDragEnd = ({ source, destination }: DropResult) => {
+  const onDragEnd = async ({ source, destination }: DropResult) => {
+    if (!lists) return;
+    const actions = Object.keys(lists).reduce((acc: any, id: string) => {
+      acc[id] = (list: IList[]) =>
+        setLists({
+          ...lists,
+          [id]: list,
+        });
+      return acc;
+    }, {});
     if (source && destination) {
       if (source.droppableId === destination.droppableId) {
         const items = euiDragDropReorder(
+          //@ts-ignore
           lists[destination.droppableId],
           source.index,
           destination.index
@@ -160,14 +172,36 @@ export const Stories: React.FC = () => {
         const sourceId = source.droppableId;
         const destinationId = destination.droppableId;
         const result = euiDragDropMove(
+          //@ts-ignore
           lists[sourceId],
+          //@ts-ignore
           lists[destinationId],
           source,
           destination
         );
+        const story = lists[sourceId][source.index];
+        const optimisticVersion =
+          storyVersionMap && storyVersionMap[story.id]
+            ? storyVersionMap[story.id]
+            : -1;
 
-        actions[sourceId](result[sourceId]);
-        actions[destinationId](result[destinationId]);
+        storyUpdateMutation.mutate({
+          id: story.id,
+          categoriesID: destinationId,
+          _version: optimisticVersion >= 0 ? optimisticVersion : story.version,
+        });
+        setStoryVersionMap({
+          ...storyVersionMap,
+          [id]:
+            optimisticVersion >= 0 ? optimisticVersion + 1 : story.version + 1,
+        });
+        setLists({
+          ...lists,
+          [sourceId]: result[sourceId],
+          [destinationId]: result[destinationId],
+        });
+
+        //update the category of these stories
       }
     }
   };
@@ -181,83 +215,118 @@ export const Stories: React.FC = () => {
     } as CreateStoriesInput);
     //Make a call to create story and then redirect
   };
-  return categories && stories && categories.length > 0 ? (
-    <EuiFlexGroup responsive={false} gutterSize="none">
-      <EuiFlexItem grow={false}>
-        <EuiDragDropContext onDragEnd={onDragEnd}>
-          <EuiDroppable
-            droppableId="COMPLEX_DROPPABLE_PARENT"
-            type="MACRO"
-            direction="horizontal"
-            spacing="l"
-            grow
-            style={{ display: "flex" }}
-          >
-            {categories.map((category, didx) => (
-              <EuiDraggable
-                key={category.id}
-                index={didx}
-                draggableId={`COMPLEX_DRAGGABLE_${category.id}`}
-                spacing="l"
-                disableInteractiveElementBlocking // Allows button to be drag handle
-              >
-                {() => (
-                  <EuiPanel
-                    hasShadow={false}
-                    hasBorder={false}
-                    paddingSize="s"
-                    style={{
-                      width: 320,
-                      height: "100%",
-                      borderRight: "1px solid #D3DAE6",
-                    }}
-                  >
-                    <EuiFlexGroup
-                      responsive={false}
-                      gutterSize="s"
-                      alignItems="center"
-                    >
-                      <EuiFlexItem grow={false}>
-                        <EuiTitle size="xxs">
-                          <h1 color={visColorsBehindText[didx]}>
-                            {category.name}
-                          </h1>
-                        </EuiTitle>
-                      </EuiFlexItem>
-                      <EuiFlexItem></EuiFlexItem>
-                      <EuiFlexItem grow={false}>
-                        <EuiPopover
-                          id={smallContextMenuPopoverId}
-                          button={button}
-                          isOpen={isPopoverOpen}
-                          closePopover={closePopover}
-                          panelPaddingSize="none"
-                          anchorPosition="downRight"
-                        >
-                          <EuiContextMenuPanel size="s" items={items} />
-                        </EuiPopover>
-                      </EuiFlexItem>
-                    </EuiFlexGroup>
-                    <EuiSpacer />
-                    <EuiButton
-                      size="s"
-                      color="text"
-                      fullWidth
-                      onClick={() => handleAddStory(category.id)}
-                    >
-                      Add Story
-                    </EuiButton>
 
-                    <EuiDroppable
-                      droppableId={`COMPLEX_DROPPABLE_AREA_${category.id}`}
-                      grow
-                      type="MICRO"
-                      spacing="s"
-                      style={{ flex: "1 0 50%", marginTop: "1rem" }}
+  const handleAddCategory = () => {
+    categoryMutation.mutate({ name: "Get started", projectsID: id });
+  };
+
+  const getStoryCard = (story: any) => {
+    const business =
+      story.participants &&
+      story.participants.business &&
+      JSON.parse(story.participants.business)[0];
+
+    return (
+      <EuiCard
+        hasBorder
+        layout="horizontal"
+        icon={
+          <EuiIcon
+            size="xxl"
+            color="text"
+            type={
+              business
+                ? `//logo.clearbit.com/${business.value}`
+                : "/business.svg"
+            }
+          />
+        }
+        onClick={() => {
+          navigate(`/stories/${story.id}`);
+        }}
+        titleSize="xs"
+        title={story.title}
+        description=""
+        // description={<AvatarStack maxAvatars={2} users={[user, user]} />}
+      />
+    );
+  };
+  return categories && lists && categories.length > 0 ? (
+    <>
+      <EuiFlexGroup responsive={false} gutterSize="none">
+        <EuiFlexItem grow={false}>
+          <EuiDragDropContext onDragEnd={onDragEnd}>
+            <EuiDroppable
+              droppableId="COMPLEX_DROPPABLE_PARENT"
+              type="MACRO"
+              direction="horizontal"
+              spacing="l"
+              grow
+              style={{ display: "flex" }}
+            >
+              {categories.map((category, didx) => (
+                <EuiDraggable
+                  key={category.id}
+                  index={didx}
+                  draggableId={category.id}
+                  spacing="l"
+                  disableInteractiveElementBlocking // Allows button to be drag handle
+                >
+                  {() => (
+                    <EuiPanel
+                      hasShadow={false}
+                      hasBorder={false}
+                      paddingSize="s"
+                      style={{
+                        width: 320,
+                        height: "100%",
+                        borderRight: "1px solid #D3DAE6",
+                      }}
                     >
-                      {stories
-                        .filter((story) => story.categoriesID === category.id)
-                        .map((story, idx) => (
+                      <EuiFlexGroup
+                        responsive={false}
+                        gutterSize="s"
+                        alignItems="center"
+                      >
+                        <EuiFlexItem grow={false}>
+                          <EuiTitle size="xxs">
+                            <h1 color={visColorsBehindText[didx]}>
+                              {category.name}
+                            </h1>
+                          </EuiTitle>
+                        </EuiFlexItem>
+                        <EuiFlexItem></EuiFlexItem>
+                        <EuiFlexItem grow={false}>
+                          <EuiPopover
+                            id={smallContextMenuPopoverId}
+                            button={button}
+                            isOpen={isPopoverOpen}
+                            closePopover={closePopover}
+                            panelPaddingSize="none"
+                            anchorPosition="downRight"
+                          >
+                            <EuiContextMenuPanel size="s" items={items} />
+                          </EuiPopover>
+                        </EuiFlexItem>
+                      </EuiFlexGroup>
+                      <EuiSpacer />
+                      <EuiButton
+                        size="s"
+                        color="text"
+                        fullWidth
+                        onClick={() => handleAddStory(category.id)}
+                      >
+                        Add Story
+                      </EuiButton>
+
+                      <EuiDroppable
+                        droppableId={category.id}
+                        grow
+                        type="MICRO"
+                        spacing="s"
+                        style={{ flex: "1 0 50%", marginTop: "1rem" }}
+                      >
+                        {(lists[category.id] || []).map((story, idx) => (
                           <EuiDraggable
                             key={story.id}
                             index={idx}
@@ -268,59 +337,38 @@ export const Stories: React.FC = () => {
                               marginBottom: "1rem",
                             }}
                           >
-                            <EuiCard
-                              hasBorder
-                              layout="horizontal"
-                              icon={
-                                <EuiIcon
-                                  size="xxl"
-                                  type={"//logo.clearbit.com/spotify.com"}
-                                />
-                              }
-                              onClick={() => {
-                                navigate(`/stories/${story.id}`);
-                              }}
-                              titleSize="xs"
-                              title={story.title}
-                              description={
-                                <AvatarStack
-                                  maxAvatars={2}
-                                  users={[user, user]}
-                                />
-                              }
-                            />
+                            {story.content}
                           </EuiDraggable>
                         ))}
-                    </EuiDroppable>
-                  </EuiPanel>
-                )}
-              </EuiDraggable>
-            ))}
-          </EuiDroppable>
-        </EuiDragDropContext>
-      </EuiFlexItem>
-      <EuiFlexItem
-        style={{
-          width: "306px",
-          height: "324px",
-          padding: "16px 0",
-        }}
-        grow={false}
-      >
-        <EuiPanel
+                      </EuiDroppable>
+                    </EuiPanel>
+                  )}
+                </EuiDraggable>
+              ))}
+            </EuiDroppable>
+          </EuiDragDropContext>
+        </EuiFlexItem>
+        <EuiFlexItem
           style={{
-            backgroundColor: "#f2f2f3",
+            width: "306px",
+            height: "324px",
+            padding: "16px 0",
           }}
           grow={false}
-          hasShadow={false}
-          hasBorder={false}
-          paddingSize="s"
         >
-          <EuiButton color="primary" fill={false} size="s" fullWidth>
-            New Group
-          </EuiButton>
-        </EuiPanel>
-      </EuiFlexItem>
-    </EuiFlexGroup>
+          <EuiPanel
+            style={{
+              backgroundColor: "#f2f2f3",
+            }}
+            grow={false}
+            hasShadow={false}
+            hasBorder={false}
+            paddingSize="s"
+          >
+            <CategoryMenu />
+          </EuiPanel>
+        </EuiFlexItem>
+      </EuiFlexGroup>
+    </>
   ) : null;
 };

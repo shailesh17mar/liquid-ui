@@ -3,23 +3,20 @@ import {
   EuiFlexGroup,
   EuiFlexItem,
   EuiIcon,
-  EuiLoadingChart,
   EuiPanel,
   EuiTitle,
 } from "@elastic/eui";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useProjects } from "../../../core/modules/projects/hooks";
+import { SampleProject } from "../projects/sample-project";
 import { CreateProjectModal } from "../shared/components/create-project-modal/create-project-modal";
 import { IconContainer, ProjectButton } from "./home.styles";
 
-// interface HomeProps {
-//   controller: ProjectsQueryController;
-// }
 export const Home: React.FC = () => {
   const navigate = useNavigate();
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const { data: projects, isLoading } = useProjects();
+  const { data: projects } = useProjects();
 
   const handleAddProject = () => {
     setIsModalVisible(true);
@@ -27,10 +24,11 @@ export const Home: React.FC = () => {
 
   const handleAddProjectSuccess = (id: string) => {
     setIsModalVisible(false);
-    navigate(`/projects/${id}`);
+    navigate(`/projects/${id}`, {
+      state: SampleProject,
+    });
   };
 
-  if (isLoading) return <EuiLoadingChart size="xl" />;
   return projects ? (
     <EuiPanel paddingSize="none">
       {isModalVisible && (

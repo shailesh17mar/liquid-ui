@@ -95,7 +95,7 @@ export default {
         title: "Transcript",
         icon: "visText",
         command: ({ editor, range }: { editor: Editor; range: Range }) => {
-          editor.chain().focus().deleteRange(range).initTranscript().run();
+          // editor.chain().focus().deleteRange(range).initTranscript().run();
         },
       },
     ];

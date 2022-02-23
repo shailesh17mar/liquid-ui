@@ -20,7 +20,6 @@ const updateHighlight = async (highlightInput: UpdateHighlightsInput) => {
 };
 
 export const useUpdateHighlight = (
-  id: string,
   callback?: (highlight: Highlights) => void
 ) => {
   const queryClient = useQueryClient();
@@ -31,7 +30,7 @@ export const useUpdateHighlight = (
     },
     {
       onSuccess: (highlight, variables) => {
-        queryClient.invalidateQueries(["highlights", id]);
+        // queryClient.invalidateQueries(["highlights", id]);
         if (callback) callback(highlight as Highlights);
       },
       onError: (error) => {

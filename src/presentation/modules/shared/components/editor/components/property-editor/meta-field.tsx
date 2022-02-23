@@ -13,13 +13,10 @@ import {
   EuiFieldNumber,
   EuiSelect,
   EuiTextColor,
-  EuiText,
   EuiBadge,
-  EuiFormRow,
-  EuiIcon,
 } from "@elastic/eui";
-import { Control, Controller } from "react-hook-form";
-import React, { useCallback, useEffect, useState } from "react";
+import { Control, Controller, UseFieldArrayUpdate } from "react-hook-form";
+import React, { useState } from "react";
 import {
   ComboBoxOption,
   FIELD_TYPES,
@@ -28,9 +25,8 @@ import {
 } from "./types";
 import { Moment } from "moment";
 import moment from "moment";
-import { string } from "prop-types";
-import { profileEnd } from "console";
 import { CompanyFinder } from "./company-finder";
+import { FormValues } from "./property-editor";
 
 interface PrimitiveValue {
   value?: string | number;
@@ -170,7 +166,7 @@ export interface FieldProps {
       },
       object
     >;
-    update: (index: number, value: Partial<MetaProperty>) => void;
+    update: UseFieldArrayUpdate<FormValues, "properties">;
     remove: () => void;
   };
   property: MetaProperty;
@@ -273,6 +269,7 @@ export const MetaField: React.FC<FieldProps> = ({
   );
   const fieldSchema = SCHEMA[fieldType];
   const MetaFieldEditor = fieldSchema.component;
+  console.log("re rendering");
   const props =
     property.type === FIELD_TYPES.MULTI_SELECT ||
     property.type === FIELD_TYPES.COMPANY
@@ -285,16 +282,24 @@ export const MetaField: React.FC<FieldProps> = ({
               selectedOptions,
             });
           },
+          onBlur: () => {
+            setEditMode(false);
+          },
         } as ComplexValue)
       : ({
           options: property.options as SelectOption[],
-          value: property.value,
+          value: value,
           onChange: (e) => {
+            setValue(e.target.value);
+          },
+          onBlur: (e) => {
+            console.log("blur", e.target);
             update(index, {
               ...property,
               value: typeof e === "object" ? e.target.value : e,
               selectedIndex: typeof e === "object" && e.target.selectedIndex,
             });
+            setEditMode(false);
           },
         } as PrimitiveValue);
   const smallContextMenuPopoverId = useGeneratedHtmlId({
@@ -392,14 +397,7 @@ export const MetaField: React.FC<FieldProps> = ({
             <Controller
               name={`properties.${index}.value`}
               control={control}
-              render={({ field }) => (
-                <MetaFieldEditor
-                  {...props}
-                  onBlur={() => {
-                    setEditMode(false);
-                  }}
-                />
-              )}
+              render={({ field }) => <MetaFieldEditor {...props} />}
             />
           ) : (
             <EuiButtonEmpty onClick={onValueButtonClick}>

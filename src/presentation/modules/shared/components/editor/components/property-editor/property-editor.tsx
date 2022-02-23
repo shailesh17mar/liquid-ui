@@ -16,9 +16,9 @@ import { FIELD_TYPES, MetaProperty } from "./types";
 import { MetaField } from "./meta-field";
 import { DraggableLocation } from "@elastic/eui/src/components/drag_and_drop";
 import { DragHandle, Dragula } from "./property-editor.styles";
-import { useDebouncedCallback } from "use-debounce/lib";
+import { useDebouncedCallback } from "use-debounce";
 
-interface FormValues {
+export interface FormValues {
   properties: MetaProperty[];
 }
 
@@ -39,7 +39,6 @@ export const PropertiesEditor: React.FC<Props> = ({ properties, onChange }) => {
     },
   });
 
-  console.log("rerender");
   const { fields, update, append, remove, move } = useFieldArray({
     name: "properties",
     control,
@@ -51,7 +50,7 @@ export const PropertiesEditor: React.FC<Props> = ({ properties, onChange }) => {
     },
     [onChange]
   );
-  const handleSaveDebounced = useDebouncedCallback(handleSave, 2000);
+  const handleSaveDebounced = useDebouncedCallback(handleSave, 1000);
   useEffect(() => {
     const subscription = watch((value) =>
       handleSaveDebounced(value.properties)

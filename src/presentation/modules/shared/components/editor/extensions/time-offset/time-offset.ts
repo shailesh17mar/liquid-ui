@@ -7,10 +7,21 @@ export interface TimeOffsetOptions {
 declare module "@tiptap/core" {
   interface Commands<ReturnType> {
     timeOffset: {
+      setTHighlight: (attributes?: {
+        highlightId: string;
+        highlightCategory: string;
+      }) => ReturnType;
       /**
-       * Remove spans without inline style attributes.
+       * Toggle a highlight mark
        */
-      //   removeEmptyTextStyle: () => ReturnType;
+      toggleTHighlight: (attributes?: {
+        highlightId: string;
+        highlightCategory: string;
+      }) => ReturnType;
+      /**
+       * Unset a highlight mark
+       */
+      unsetTHighlight: () => ReturnType;
     };
   }
 }
@@ -93,6 +104,38 @@ export const TimeOffset = Mark.create<TimeOffsetOptions>({
         tag: "span",
       },
     ];
+  },
+
+  addCommands() {
+    return {
+      setTHighlight:
+        (attributes) =>
+        ({ commands }) => {
+          return commands.updateAttributes(this.name, {
+            ...this.parent?.(),
+            attributes,
+          });
+        },
+      toggleTHighlight:
+        (attributes) =>
+        ({ commands, state }) => {
+          const existingAttributes = getMarkAttributes(state, this.type);
+          return commands.updateAttributes(this.name, {
+            ...existingAttributes,
+            ...attributes,
+          });
+        },
+      unsetTHighlight:
+        () =>
+        ({ commands, state }) => {
+          const existingAttributes = getMarkAttributes(state, this.type);
+          return commands.updateAttributes(this.name, {
+            ...existingAttributes,
+            highlightId: undefined,
+            highlightCategory: undefined,
+          });
+        },
+    };
   },
 
   renderHTML({ HTMLAttributes }) {

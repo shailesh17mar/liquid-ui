@@ -33,7 +33,7 @@ type Highlights
   text: String!
   Tags: [String]
   tagIds: String
-  transcriptionID: ID! @index(name: "byTranscription")
+  transcriptionID: ID @index(name: "byTranscription")
   projectsID: ID! @index(name: "byProjects")
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
@@ -54,6 +54,7 @@ type Transcription
   id: ID!
   tenant: ID!
   video: String!
+  docId: ID
   transcription: AWSURL
   content: AWSJSON
   Highlights: [Highlights]

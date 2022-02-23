@@ -1,6 +1,5 @@
 import {
   EuiButton,
-  EuiComboBox,
   EuiComboBoxOptionOption,
   EuiFieldText,
   EuiFlexGroup,
@@ -11,12 +10,10 @@ import {
   EuiSelectable,
   EuiSpacer,
   EuiSuperSelect,
-  EuiText,
   EuiTextColor,
   htmlIdGenerator,
-  useGeneratedHtmlId,
 } from "@elastic/eui";
-import { Editor, JSONContent } from "@tiptap/react";
+import { Editor } from "@tiptap/react";
 import _ from "lodash";
 import {
   Annotation,
@@ -29,10 +26,12 @@ import { useParams } from "react-router-dom";
 import { useStoryMetadata } from "presentation/modules/stories/story-context";
 import {
   useCreateHighlight,
-  useHighlight,
   useUpdateHighlight,
 } from "core/modules/highlights/hooks";
 import { useCreateTag, useTags } from "core/modules/tags/hooks";
+import { retrieveHighlightById } from "core/modules/highlights/hooks/use-highlight";
+import { Highlights } from "API";
+import { useDebouncedCallback } from "use-debounce";
 
 interface Props {
   id?: string;
@@ -109,16 +108,14 @@ export const HighlightControl: React.FC<Props> = ({ editor }) => {
   const { id: storyId } = useParams() as { id: string };
   const newId = htmlIdGenerator()();
   const storyMetadata = useStoryMetadata();
-  // const { data: story } = useStory(storyId);
-  // const [highlight, setHighlight] = useState<Highlight | undefined>();
   const [annotation, setAnnotation] =
     useRecoilState<Annotation>(annotationState);
   const transcriptState = useRecoilValue(transcriptAtom);
   const highlightState = useRecoilValue(highlightAtom);
-  const { data: highlight } = useHighlight(highlightState?.id!!);
+  const [highlight, setHighlight] = useState<Highlights>();
   const { data: tags } = useTags(storyMetadata.projectId);
   const createHighlightMutation = useCreateHighlight();
-  const updateHighlightMutation = useUpdateHighlight(highlightState?.id!!);
+  const updateHighlightMutation = useUpdateHighlight();
   const createTagMutation = useCreateTag();
   const [highlightId, setHighlightId] = useState<string | null>(
     highlightState && highlightState.id
@@ -127,31 +124,23 @@ export const HighlightControl: React.FC<Props> = ({ editor }) => {
   const [newTag, setNewTag] = useState<string | undefined>();
   const [eg1IsOpen, setEg1IsOpen] = useState<boolean>(false);
   const [eg2IsOpen, setEg2IsOpen] = useState<boolean>(false);
-  // const content =
-  const transcript = editor
-    .getJSON()
-    .content?.filter(
-      (content: JSONContent) => content.type === "transcriptComponent"
-    )[0];
   //let this state be maintained by the component since later on this will be async
   const [tagOptions, setTagOptions] = useState<any[]>([]);
   //get the relevant state
   const [selectedTags, setSelectedTags] = useState<any[]>([]);
   const [hasTagsChanged, setHasTagsChanged] = useState(false);
-  useEffect(() => () => console.log("unmount"), []);
-  // useEffect(() => {
-  //   if (highlight && tagOptions && tagOptions.length > 0 && highlight.tagIds) {
-  //     const tags = highlight.tagIds.split("|");
-  //     const selectedTags = tagOptions.map((option) => {
-  //       if (tags.includes(option.id)) {
-  //         option.checked = "on";
-  //       }
-  //       return option;
-  //     });
-  //     setTagOptions(tagOptions);
-  //     setSelectedTags(selectedTags);
-  //   }
-  // }, [highlight, tagOptions]);
+
+  useEffect(() => {
+    async function fetchHighlight() {
+      if (highlightState?.id) {
+        const highlight = await retrieveHighlightById(highlightState.id);
+        setHighlight(highlight);
+      }
+    }
+    if (highlightState?.id) {
+      fetchHighlight();
+    }
+  }, [highlightState?.id]);
 
   useEffect(() => {
     if (tagOptions.length === 0 && tags && highlight) {
@@ -162,20 +151,17 @@ export const HighlightControl: React.FC<Props> = ({ editor }) => {
       });
       setTagOptions(options);
     }
-  }, [highlight, tagOptions, tags]);
+  }, [highlight, tagOptions.length, tags]);
 
-  const saveTags = useCallback(
-    async (tags: string[]) => {
-      if (highlight) {
-        await updateHighlightMutation.mutateAsync({
-          id: highlight.id,
-          tagIds: tags.join("|"),
-          _version: highlight._version,
-        });
-      }
-    },
-    [highlight, updateHighlightMutation]
-  );
+  const saveTags = useDebouncedCallback(async (tags: string[]) => {
+    if (highlight && highlight.id) {
+      await updateHighlightMutation.mutateAsync({
+        id: highlight.id,
+        tagIds: tags.join("|"),
+        _version: highlight._version,
+      });
+    }
+  }, 3000);
 
   const highlightOnDOM = useCallback(() => {
     let range = document.createRange();
@@ -197,7 +183,7 @@ export const HighlightControl: React.FC<Props> = ({ editor }) => {
       saveTags(tagIds);
       setHasTagsChanged(false);
     }
-  }, [hasTagsChanged, highlightOnDOM, saveTags, selectedTags]);
+  }, [hasTagsChanged, saveTags, selectedTags]);
 
   const saveHighlight = async (
     text: string,
@@ -205,11 +191,13 @@ export const HighlightControl: React.FC<Props> = ({ editor }) => {
     tagIds?: string[]
   ) => {
     if (highlight) {
-      await updateHighlightMutation.mutateAsync({
-        id: highlight.id,
+      const updatedHighlight = await updateHighlightMutation.mutateAsync({
+        id: highlight.id!!,
+        type: highlightCategory,
         text,
         _version: highlight._version,
       });
+      setHighlight(updatedHighlight);
       return highlight.id;
     } else {
       const transcriptionID = highlightState?.transcriptionId!!;
@@ -221,19 +209,11 @@ export const HighlightControl: React.FC<Props> = ({ editor }) => {
       });
       if (highlight) {
         setHighlightId(highlight.id);
+        setHighlight(highlight);
         return highlight.id;
       }
     }
   };
-
-  // const saveTags = async (tags: string[]) => {
-  //   if (highlight) {
-  //     await updateHighlightMutation.mutateAsync({
-  //       id: highlight.id,
-  //       tags,
-  //     });
-  //   }
-  // };
 
   const toggleHighlight = async (
     highlightCategory: string,
@@ -249,211 +229,25 @@ export const HighlightControl: React.FC<Props> = ({ editor }) => {
           highlightCategory,
           tagIds
         );
-
-        //get all the spans
-        //@ts-ignore
-        // const paragraphId = 0;
-        //@ts-ignore
-        const paragraphId = parseInt(
-          //@ts-ignore
-          range.commonAncestorContainer.id.replace("para-", "")
-        );
-        if (transcript) {
-          const spans = Array.from(range.cloneContents().children);
-          const startWordId = _.find(
-            spans,
-            (span) => parseInt(span.getAttribute("data-m") || "-1") >= 0
-          )?.getAttribute("data-m");
-          const lastWordId = _.findLast(
-            spans,
-            (span: any) => parseInt(span.getAttribute("data-m") || "-1") >= 0
-          )?.getAttribute("data-m");
-          spans[spans.length - 1].getAttribute("data-m");
-
-          let highlightingStarted = false;
-          //@ts-ignore
-          const paragraph = transcript.content[paragraphId];
-
-          // const highlight = [];
-          //@ts-ignore
-          // const x = paragraph.content.reduce((aggregate: any[], span: any) => {
-          //   let { marks, ...word } = span;
-          //   if (marks) {
-          //     const mark = marks[0];
-          //     const wordAttributes = mark.attrs;
-          //     const wordId = wordAttributes.startTime;
-          //     if (wordId === startWordId) {
-          //       //highlight.push
-          //       aggregate.push({
-          //         type: "text",
-          //         marks: [
-          //           {
-          //             highlightId: id || newId,
-          //             highlightCategory: highlightType,
-          //           },
-          //         ],
-          //         content: [],
-          //       });
-          //       // counter++;
-          //       highlightingStarted = true;
-          //     }
-          //     if (highlightingStarted) {
-          //       if (wordId === lastWordId) {
-          //         highlightingStarted = false;
-          //       }
-          //       // if (wordId !== lastWordId) {
-          //       //update attributes
-          //       aggregate[aggregate.length - 1].content.push({
-          //         ...word,
-          //         marks: [
-          //           {
-          //             ...mark,
-          //             attrs: {
-          //               ...wordAttributes,
-          //             },
-          //           },
-          //         ],
-          //       });
-          //       // } else {
-          //       // aggregate.push(span)
-          //       // }
-          //       return aggregate;
-          //       // return {
-          //       //   ...word,
-          //       //   marks: [
-          //       //     {
-          //       //       ...mark,
-          //       //       attrs: {
-          //       //         ...wordAttributes,
-          //       //         highlightId: "123",
-          //       //         highlightType: "angry",
-          //       //       },
-          //       //     },
-          //       //   ],
-          //       // };
-          //     }
-          //   } else {
-          //     if (highlightingStarted ) {
-          //       aggregate[aggregate.length - 1].content.push(span);
-          //       return aggregate;
-          //     }
-          //   }
-          //   aggregate.push(span);
-          //   return aggregate;
-          //   //when word id matches the start Id
-          //   //add attributes to that word
-          // }, []);
-          const x = paragraph.content.map((span: any) => {
-            let { marks, ...word } = span;
-            if (marks) {
-              const mark = marks[0];
-              const wordAttributes = mark.attrs;
-              const wordId = wordAttributes.startTime;
-              if (wordId === startWordId) {
-                //found the starting word
-                //highlight.push
-                highlightingStarted = true;
-                // counter++;
-              }
-              if (highlightingStarted) {
-                if (wordId === lastWordId) {
-                  highlightingStarted = false;
-                }
-                return {
-                  ...word,
-                  marks: [
-                    {
-                      ...mark,
-                      attrs: {
-                        ...wordAttributes,
-                        highlightId,
-                        highlightCategory,
-                      },
-                    },
-                  ],
-                };
-              }
-            } else {
-              // if (counter >= 0 && counter < spans.length) {
-              if (highlightingStarted) {
-                // counter++;
-                return {
-                  ...span,
-                  marks: [
-                    {
-                      attrs: {
-                        highlightId,
-                        highlightCategory,
-                      },
-                      type: "timeOffset",
-                    },
-                  ],
-                };
-              }
-            }
-            return span;
+        highlightId &&
+          editor.commands.toggleTHighlight({
+            highlightId,
+            highlightCategory,
           });
-          const contentX = [
-            ...transcript.content!!.slice(0, paragraphId),
-            { ...paragraph, content: x },
-            ...transcript.content!!.slice(paragraphId + 1),
-          ];
 
-          // const story = await DataStore.query(Story, storyId);
-          // if (story) {
-          let doc = editor.getJSON();
-          //  Object.assign(
-          //   {},
-          //   story?.content as unknown as JSONContent
-          // );
-          if (doc.content) {
-            let index = doc.content.findIndex(
-              (content) => content.type === "transcriptComponent"
-            );
-            if (index && index >= 0) {
-              // const updatedStory = Story.copyOf(story, (updated) => {
-              //   let doc = story?.content as unknown as JSONContent;
-              //   const currentValue = doc!!.content!![index];
-              //   // doc.content!![index].content = content.content as JSONContent[];
-              //   //@ts-ignore
-              //   updated.content = {
-              //   };
-              // });
-              // let doc = story?.content as unknown as JSONContent;
-              const currentValue = doc!!.content!![index];
-              editor.commands.setContent(
-                {
-                  type: "doc",
-                  content: Object.assign([], doc.content, {
-                    [index]: { ...currentValue, content: contentX },
-                  }),
-                },
-                true
-              );
-              // await DataStore.save(updatedStory);
-              // doc.content[index].content = content.content as JSONContent[];
-            }
-          }
-          // }
-          // setTranscript({
-          //   ...transcript,
-          //   content: contentX,
-          // });
-          if (window.getSelection) {
-            const selection = window.getSelection();
-            if (selection) {
-              if (selection.empty) {
-                // Chrome
-                selection.empty();
-              } else if (selection.removeAllRanges) {
-                // Firefox
-                selection.removeAllRanges();
-              }
+        if (window.getSelection) {
+          const selection = window.getSelection();
+          if (selection) {
+            if (selection.empty) {
+              // Chrome
+              selection.empty();
+            } else if (selection.removeAllRanges) {
+              // Firefox
+              selection.removeAllRanges();
             }
           }
         }
         return highlightId;
-        //convert the spans into marks
       }
     }
   };
@@ -506,32 +300,7 @@ export const HighlightControl: React.FC<Props> = ({ editor }) => {
       setHasTagsChanged(true);
       // highlightOnDOM();
     };
-    //   if (newTag) {
-    //     const option = { label: newTag.label, id: newTag.id };
-    //     setTagOptions([...tagOptions, option]);
-    //     setSelectedTags([...selectedTags, option]);
-    //     if (highlightId) {
-    //       //update the relation model
-    //       await API.graphql({
-    //         query: createHighlightTags,
-    //         variables: {
-    //           input: {
-    //             highlightsID: highlightId,
-    //             tagsID: option.id,
-    //           } as CreateHighlightTagsInput,
-    //         },
-    //         authMode: "AMAZON_COGNITO_USER_POOLS",
-    //       });
-    //       setAnnotation({
-    //         ...annotation,
-    //         [highlightId]: {
-    //           type: highlightCategory,
-    //           tags: [...selectedTags, option],
-    //         },
-    //       });
-    //     }
-    //   }
-    // };
+
     const normalizedSearchValue = searchValue.trim().toLowerCase();
 
     if (!normalizedSearchValue) {
@@ -551,22 +320,6 @@ export const HighlightControl: React.FC<Props> = ({ editor }) => {
     }
 
     createTag(newOption);
-
-    // if (highlightId) {
-    //   createTagMutation.mutateAsync({
-    //     label: newOption.label,
-    //     projectsID: storyMetadata.projectId,
-    //   });
-    //   setAnnotation({
-    //     ...annotation,
-    //     [highlightId]: {
-    //       type: highlightCategory,
-    //       tags: [...selectedTags, newOption],
-    //     },
-    //   });
-    // }
-
-    // Select the option.
   };
 
   const handleTagsChange = (newOptions: any[]) => {
@@ -577,44 +330,19 @@ export const HighlightControl: React.FC<Props> = ({ editor }) => {
       // const highlightId = toggleHighlight()
     } else {
     }
-    setSelectedTags(selectedOptions);
-    setTagOptions(newOptions);
     setHasTagsChanged(true);
-    if (highlight?.id && highlightCategory) {
+    if (highlight?.id && highlight?.type) {
       setAnnotation({
         ...annotation,
         [highlight.id]: {
-          type: highlightCategory,
+          type: highlight.type,
           tags: selectedOptions,
         },
       });
     }
-    // highlightOnDOM();
-    // editor
-    //   .chain()
-    //   .focus()
-    //   .setHighlight({
-    //     id: id || newId,
-    //     color: HIGHLIGHT_TYPES[highlight].color,
-    //     type: highlight,
-    //   })
-    //   .run();
-    //clear existing relationships
-    //get all existing by highlights id
-    //if existing has an id that doesn't exist in current
-    //delete it
-    //get new elements to be added
-    // create new highlight
-    // await API.graphql({
-    //   query: createHighlightTags,
-    //   variables: {
-    //     input: {
-    //       highlightsID: highlightId,
-    //       tagsID: option.id,
-    //     },
-    //   },
-    //   authMode: "AMAZON_COGNITO_USER_POOLS",
-    // });
+    setSelectedTags(selectedOptions);
+    setTagOptions(newOptions);
+    highlightOnDOM();
     // syncRelationship(
     //   highlightId,
     //   new Set(
@@ -623,62 +351,17 @@ export const HighlightControl: React.FC<Props> = ({ editor }) => {
     // );
   };
 
-  const [example2, setExample2] = useState<{
-    value: number | string;
-    description: string;
-    isOpen?: boolean;
-  }>({
-    value: 100,
-    description: "Is above",
-  });
-
-  const expressionPopoverId__1 = useGeneratedHtmlId({
-    prefix: "expressionPopover",
-    suffix: "first",
-  });
-  const expressionPopoverId__2 = useGeneratedHtmlId({
-    prefix: "expressionPopover",
-    suffix: "second",
-  });
-
-  const openExample1 = () => {
-    setEg1IsOpen(true);
-    setEg2IsOpen(false);
-  };
-
-  const closeExample1 = () => {
-    setEg1IsOpen(false);
-  };
-
-  const openExample2 = () => {
-    setEg1IsOpen(false);
-    setEg2IsOpen(true);
-  };
-
-  const closeExample2 = () => {
-    setEg2IsOpen(false);
-  };
-
   const onHighlightChange = (value: string) => {
     toggleHighlight(value);
-    // editor
-    //   .chain()
-    //   .focus()
-    //   .setHighlight({
-    //     id: id || newId,
-    //     color: HIGHLIGHT_TYPES[value].color,
-    //     type: value,
-    //   })
-    //   .run();
-    // if (highlightId) {
-    //   setAnnotation({
-    //     ...annotation,
-    //     [highlightId]: {
-    //       type: value,
-    //       tags: selectedTags,
-    //     },
-    //   });
-    // }
+    if (highlightId) {
+      setAnnotation({
+        ...annotation,
+        [highlightId]: {
+          type: value,
+          tags: selectedTags,
+        },
+      });
+    }
   };
 
   const options = Object.keys(HIGHLIGHT_TYPES).map((key) => {
@@ -695,126 +378,10 @@ export const HighlightControl: React.FC<Props> = ({ editor }) => {
 
   const onBlur = () => {
     highlightOnDOM();
-    // setAnnotation({
-    //   ...annotation,
-    //   [id || newId]: {
-    //     type: highlight,
-    //     tags: selectedTags,
-    //   },
-    // });
-    // setSelectedTags([]);
   };
 
   const handleDeleteHighlight = () => {
-    // const range = highlightOnDOM();
-    // if (window) {
-    const selection = window.getSelection();
-    const range = selection ? selection.getRangeAt(0) : highlightOnDOM();
-
-    const paragraphId = parseInt(
-      //@ts-ignore
-      range.commonAncestorContainer.id.replace("para-", "")
-    );
-    if (transcript) {
-      const spans = Array.from(range.cloneContents().children);
-      const startWordId = _.find(
-        spans,
-        (span) => parseInt(span.getAttribute("data-m") || "-1") >= 0
-      )?.getAttribute("data-m");
-      const lastWordId = _.findLast(
-        spans,
-        (span: any) => parseInt(span.getAttribute("data-m") || "-1") >= 0
-      )?.getAttribute("data-m");
-      spans[spans.length - 1].getAttribute("data-m");
-
-      let highlightingStarted = false;
-      //@ts-ignore
-      const paragraph = transcript.content[paragraphId];
-      //@ts-ignore
-      const x = paragraph.content.map((span: any) => {
-        let { marks, ...word } = span;
-        if (marks) {
-          const mark = marks[0];
-          const wordAttributes = mark.attrs;
-          const wordId = wordAttributes.startTime;
-          if (wordId === startWordId) {
-            highlightingStarted = true;
-          }
-          if (highlightingStarted) {
-            if (wordId === lastWordId) {
-              highlightingStarted = false;
-            }
-            return {
-              ...word,
-              marks: [
-                {
-                  ...mark,
-                  attrs: {
-                    ...wordAttributes,
-                    highlightId: undefined,
-                    highlightCategory: undefined,
-                  },
-                },
-              ],
-            };
-          }
-        } else {
-          // if (counter >= 0 && counter < spans.length) {
-          if (highlightingStarted) {
-            // counter++;
-            return {
-              ...span,
-              marks: [
-                {
-                  attrs: {
-                    highlightId: undefined,
-                    highlightCategory: undefined,
-                  },
-                  type: "timeOffset",
-                },
-              ],
-            };
-          }
-        }
-        return span;
-      });
-      const contentX = [
-        ...transcript.content!!.slice(0, paragraphId),
-        { ...paragraph, content: x },
-        ...transcript.content!!.slice(paragraphId + 1),
-      ];
-
-      let doc = editor.getJSON();
-      if (doc.content) {
-        let index = doc.content.findIndex(
-          (content) => content.type === "transcriptComponent"
-        );
-        if (index && index >= 0) {
-          const currentValue = doc!!.content!![index];
-          editor.commands.setContent(
-            {
-              type: "doc",
-              content: Object.assign([], doc.content, {
-                [index]: { ...currentValue, content: contentX },
-              }),
-            },
-            true
-          );
-        }
-      }
-      if (window.getSelection) {
-        const selection = window.getSelection();
-        if (selection) {
-          if (selection.empty) {
-            // Chrome
-            selection.empty();
-          } else if (selection.removeAllRanges) {
-            // Firefox
-            selection.removeAllRanges();
-          }
-        }
-      }
-    }
+    editor.commands.unsetTHighlight();
   };
 
   return (
@@ -826,11 +393,11 @@ export const HighlightControl: React.FC<Props> = ({ editor }) => {
             <EuiSpacer />
             <EuiSuperSelect
               options={options}
-              valueOfSelected={highlightCategory}
+              valueOfSelected={highlight?.type}
               onChange={onHighlightChange}
             />
           </EuiFlexItem>
-          {highlightCategory && (
+          {highlight?.type && (
             <>
               <EuiHorizontalRule margin="s" />
               <EuiFlexItem>
@@ -844,7 +411,6 @@ export const HighlightControl: React.FC<Props> = ({ editor }) => {
                       onKeyUp={handleTagCreation}
                     />
                   </EuiFlexItem>
-
                   <EuiFlexItem>
                     <EuiSelectable
                       aria-label="Tags"

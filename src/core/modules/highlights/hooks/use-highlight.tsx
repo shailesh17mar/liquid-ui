@@ -3,7 +3,7 @@ import { API } from "aws-amplify";
 import { getHighlights } from "graphql/queries";
 import { useQuery } from "react-query";
 
-const retrieveHighlightById = async (id: string) => {
+export const retrieveHighlightById = async (id: string) => {
   const highlightResponse = (await API.graphql({
     query: getHighlights,
     variables: {

@@ -1,6 +1,7 @@
 import { GetHighlightsQuery, GetStoriesQuery } from "API";
 import { API } from "aws-amplify";
 import { getHighlights, getStories, listHighlights } from "graphql/queries";
+import { MetaProperty } from "presentation/modules/shared/components/editor/components/property-editor/types";
 import { useQuery } from "react-query";
 
 const getMatches = (content: string, regex: any, index: number) => {
@@ -27,6 +28,9 @@ const retrieveStoryById = async (id: string) => {
       story.participants = {
         ...story.participants,
         business: JSON.parse(story.participants.business),
+        additonalFields: story.participants.additonalFields
+          ? JSON.parse(story.participants.additonalFields)
+          : {},
       };
     }
     if (story && story.content) {

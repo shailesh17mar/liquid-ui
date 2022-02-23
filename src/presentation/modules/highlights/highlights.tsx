@@ -1,5 +1,5 @@
 import React, { useState, useCallback, ReactElement } from "react";
-import { fake } from "faker";
+import fake from "@faker-js/faker";
 
 import {
   EuiDataGrid,

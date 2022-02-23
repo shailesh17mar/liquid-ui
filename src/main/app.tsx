@@ -7,6 +7,7 @@ import awsConfig from "aws-exports";
 import { Router } from "./router";
 import { RecoilRoot } from "recoil";
 import { AuthProvider } from "presentation/context/auth-context";
+import { EuiProvider } from "@elastic/eui";
 
 const isLocalhost = Boolean(
   window.location.hostname === "localhost" ||
@@ -39,13 +40,15 @@ Amplify.configure(updatedAwsConfig);
 
 const queryClient = new QueryClient();
 const App: React.FC = () => (
-  <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <RecoilRoot>
-        <Router />
-      </RecoilRoot>
-    </AuthProvider>
-  </QueryClientProvider>
+  <EuiProvider colorMode="light">
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <RecoilRoot>
+          <Router />
+        </RecoilRoot>
+      </AuthProvider>
+    </QueryClientProvider>
+  </EuiProvider>
 );
 
 export default withAuthenticator(App);

@@ -30,6 +30,10 @@ a {
 .euiTitle--large {
   font-weight: 600;
 }
+.euiButton--text {
+  border-color: transparent;
+}
+
 .euiPageHeader:not([class*="--padding"]) {
   margin-bottom: 24px;
   border-bottom: 1px solid #d3dae6;
@@ -184,4 +188,12 @@ ul[data-type="taskList"] li div {
   top: -1.4em;
   user-select: none;
   white-space: nowrap;
+}
+
+.ProseMirror-focused {
+  outline-style: none;
+}
+
+*:focus:focus-visible {
+  outline-style: none !important;
 }

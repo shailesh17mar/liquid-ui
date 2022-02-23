@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "@elastic/eui/dist/eui_theme_amsterdam_light.css";
+import "@elastic/eui/dist/eui_theme_light.min.css";
 import "./presentation/fonts/inter.css";
 import "./presentation/styles/index.css";
 import "@uppy/core/dist/style.css";
