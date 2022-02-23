@@ -216,7 +216,7 @@ export const schema = {
                     "name": "transcriptionID",
                     "isArray": false,
                     "type": "ID",
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 },
                 "projectsID": {
@@ -394,6 +394,13 @@ export const schema = {
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
+                    "attributes": []
+                },
+                "docId": {
+                    "name": "docId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
                     "attributes": []
                 },
                 "transcription": {
@@ -1141,5 +1148,5 @@ export const schema = {
         }
     },
     "nonModels": {},
-    "version": "2cda4bf04925a0b576b2d42ecede0629"
+    "version": "6a422a1e82d3c0391bb7f40730b2457b"
 };

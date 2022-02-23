@@ -297,6 +297,7 @@ export const getTranscription = /* GraphQL */ `
       id
       tenant
       video
+      docId
       transcription
       content
       Highlights {
@@ -323,6 +324,7 @@ export const listTranscriptions = /* GraphQL */ `
         id
         tenant
         video
+        docId
         transcription
         content
         status
@@ -354,6 +356,7 @@ export const syncTranscriptions = /* GraphQL */ `
         id
         tenant
         video
+        docId
         transcription
         content
         status
@@ -384,6 +387,7 @@ export const getStories = /* GraphQL */ `
         id
         tenant
         video
+        docId
         transcription
         content
         status
@@ -792,6 +796,7 @@ export const getVodAsset = /* GraphQL */ `
         id
         tenant
         video
+        docId
         transcription
         content
         status

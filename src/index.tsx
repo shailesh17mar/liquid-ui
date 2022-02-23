@@ -1,5 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import * as Sentry from "@sentry/react";
+import { BrowserTracing } from "@sentry/tracing";
 import "@elastic/eui/dist/eui_theme_light.min.css";
 import "./presentation/fonts/inter.css";
 import "./presentation/styles/index.css";
@@ -7,6 +9,16 @@ import "@uppy/core/dist/style.css";
 import "@uppy/dashboard/dist/style.css";
 import App from "./main/app";
 import reportWebVitals from "./reportWebVitals";
+
+Sentry.init({
+  dsn: "https://2d29af276d0c45f5810642b14a22f53b@o1151494.ingest.sentry.io/6228222",
+  integrations: [new BrowserTracing()],
+
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 0,
+});
 
 ReactDOM.render(
   <React.StrictMode>

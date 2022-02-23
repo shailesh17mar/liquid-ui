@@ -1,5 +1,6 @@
 import { Amplify } from "aws-amplify";
 import { View, Image, withAuthenticator } from "@aws-amplify/ui-react";
+import ReactGA from "react-ga";
 import { QueryClient, QueryClientProvider } from "react-query";
 import "@aws-amplify/ui-react/styles.css";
 
@@ -38,6 +39,7 @@ const updatedAwsConfig = {
 };
 Amplify.configure(updatedAwsConfig);
 
+if (!isLocalhost) ReactGA.initialize("UA-221274822-1");
 const queryClient = new QueryClient();
 const App: React.FC = () => (
   <EuiProvider colorMode="light">

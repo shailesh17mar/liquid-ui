@@ -6,6 +6,7 @@ import {
   EuiBreadcrumbs,
   EuiLink,
   EuiButtonEmpty,
+  EuiText,
 } from "@elastic/eui";
 import { Navigate, Outlet, useNavigate, useParams } from "react-router-dom";
 import { Page } from "./layout.styles";
@@ -18,6 +19,7 @@ import { useProjects } from "core/modules/projects/hooks";
 import { useStory } from "core/modules/stories/hooks";
 import { Stories } from "models";
 import { useCategory } from "core/modules/categories/hooks";
+import { useTracking } from "main/use-tracking";
 
 const palette = euiPaletteColorBlind({ direction: "both", order: "append" });
 const makeBreadcrumbs = (navigate: (path: string) => void, story: any) => [
@@ -28,11 +30,7 @@ const makeBreadcrumbs = (navigate: (path: string) => void, story: any) => [
     },
   },
   {
-    text: (
-      <EuiButtonEmpty color="text" iconType="layers">
-        {story.categoryName}
-      </EuiButtonEmpty>
-    ),
+    text: story.categoryName,
     onClick: () => {
       navigate(`/projects/${story?.projectsID}/stories`);
     },
@@ -108,6 +106,7 @@ export const Layout: React.FC<Props> = ({ isProjectLayout, isStoryPage }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
   const { user } = useAuth();
+  useTracking();
 
   const { data: projects } = useProjects();
   const { data: story } = useStory(id || "", Boolean(isStoryPage));
@@ -149,19 +148,17 @@ export const Layout: React.FC<Props> = ({ isProjectLayout, isStoryPage }) => {
       pageHeader={{
         iconType: "logoElastic",
         paddingSize: "m",
-        description: (
-          <EuiFieldSearch
-            placeholder="Search for anything"
-            fullWidth
-            isClearable
-          />
-        ),
         rightSideItems: [
           <UserMenu />,
           <EuiButton fill color="warning">
             Upgrade
           </EuiButton>,
           <ActionMenu onAddProject={handleAddProject} />,
+          <EuiFieldSearch
+            placeholder="Search for anything"
+            fullWidth
+            isClearable
+          />,
         ],
       }}
       pageSideBar={

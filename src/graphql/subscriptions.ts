@@ -209,6 +209,7 @@ export const onCreateTranscription = /* GraphQL */ `
       id
       tenant
       video
+      docId
       transcription
       content
       Highlights {
@@ -230,6 +231,7 @@ export const onUpdateTranscription = /* GraphQL */ `
       id
       tenant
       video
+      docId
       transcription
       content
       Highlights {
@@ -251,6 +253,7 @@ export const onDeleteTranscription = /* GraphQL */ `
       id
       tenant
       video
+      docId
       transcription
       content
       Highlights {
@@ -282,6 +285,7 @@ export const onCreateStories = /* GraphQL */ `
         id
         tenant
         video
+        docId
         transcription
         content
         status
@@ -329,6 +333,7 @@ export const onUpdateStories = /* GraphQL */ `
         id
         tenant
         video
+        docId
         transcription
         content
         status
@@ -376,6 +381,7 @@ export const onDeleteStories = /* GraphQL */ `
         id
         tenant
         video
+        docId
         transcription
         content
         status

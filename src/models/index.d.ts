@@ -39,7 +39,7 @@ export declare class Highlights {
   readonly text: string;
   readonly Tags?: (string | null)[];
   readonly tagIds?: string;
-  readonly transcriptionID: string;
+  readonly transcriptionID?: string;
   readonly projectsID: string;
   readonly createdAt: string;
   readonly updatedAt: string;
@@ -62,6 +62,7 @@ export declare class Transcription {
   readonly id: string;
   readonly tenant: string;
   readonly video: string;
+  readonly docId?: string;
   readonly transcription?: string;
   readonly content?: string;
   readonly Highlights?: (Highlights | null)[];

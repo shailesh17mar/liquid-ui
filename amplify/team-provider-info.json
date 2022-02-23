@@ -22,24 +22,24 @@
       "function": {
         "transcriber": {
           "deploymentBucketName": "amplify-liquid-lab-185828-deployment",
-          "s3Key": "amplify-builds/transcriber-69524b3737646b507759-build.zip"
+          "s3Key": "amplify-builds/transcriber-72613572753372524943-build.zip"
         },
         "transcriptor": {
           "deploymentBucketName": "amplify-liquid-lab-185828-deployment",
-          "s3Key": "amplify-builds/transcriptor-4e4a4271726c57787869-build.zip",
+          "s3Key": "amplify-builds/transcriptor-534d752f434e30525041-build.zip",
           "s3Bucket": "liquid-user-storage"
         },
         "liquidPostConfirmation": {
           "deploymentBucketName": "amplify-liquid-lab-185828-deployment",
-          "s3Key": "amplify-builds/liquidPostConfirmation-477a304661514a4f3053-build.zip"
+          "s3Key": "amplify-builds/liquidPostConfirmation-723677716c5a66763752-build.zip"
         },
         "liquidPreSignup": {
           "deploymentBucketName": "amplify-liquid-lab-185828-deployment",
-          "s3Key": "amplify-builds/liquidPreSignup-497a712b4e7233423847-build.zip"
+          "s3Key": "amplify-builds/liquidPreSignup-35476d68517553796b67-build.zip"
         },
         "liquidassets": {
           "deploymentBucketName": "amplify-liquid-lab-185828-deployment",
-          "s3Key": "amplify-builds/liquidassets-2f6c3239796731626378-build.zip"
+          "s3Key": "amplify-builds/liquidassets-39707558585450375953-build.zip"
         }
       }
     }
