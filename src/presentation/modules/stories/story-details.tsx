@@ -77,9 +77,8 @@ export const StoryDetails: React.FC = () => {
     const clientName = Math.random().toString(36).substr(2, 20);
     const doc = new Doc({ guid: id });
     return new WebsocketProvider(
-      // "wss://5i8xukkihh.execute-api.us-east-2.amazonaws.com/lab",
-      "ws://colla-Publi-DG2HJTMSKDFA-121107920.us-east-2.elb.amazonaws.com",
-      // "ws://localhost:5000",
+      //@ts-ignore
+      process.env.REACT_APP_COLLAB_ENGINE,
       `?=doc-${id}&`,
       doc,
       {
@@ -89,8 +88,8 @@ export const StoryDetails: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    //@ts-ignore
     provider.on("sync", (synced: boolean) => {
-      console.log("sync", synced);
       if (!isSynced && synced) {
         setIsSynced(true);
       }

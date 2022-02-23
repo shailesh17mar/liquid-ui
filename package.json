@@ -76,7 +76,7 @@
     "yjs": "^13.5.27"
   },
   "scripts": {
-    "start": "REACT_APP_COLLAB_ENGINE=wss://colla-Publi-DG2HJTMSKDFA-121107920.us-east-2.elb.amazonaws.com react-scripts start",
+    "start": "REACT_APP_COLLAB_ENGINE=ws://colla-Publi-DG2HJTMSKDFA-121107920.us-east-2.elb.amazonaws.com react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

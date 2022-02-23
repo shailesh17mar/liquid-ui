@@ -156,6 +156,7 @@ export const Editor: React.FC<EditorProps> = ({
     }),
     // ySyncPlugin(syncType),
     Collaboration.configure({
+      //@ts-ignore
       document: provider.doc,
     }),
     CollaborationCursor.configure({
@@ -169,6 +170,7 @@ export const Editor: React.FC<EditorProps> = ({
 
   const editor = useEditor({
     extensions,
+    //@ts-ignore
     content: provider.doc,
     onUpdate() {
       // const content = editor.getJSON();
@@ -188,12 +190,12 @@ export const Editor: React.FC<EditorProps> = ({
   const handleSave = useCallback(
     (newDocState) => {
       if (!isUploading) {
-        onSave(documentId, JSON.stringify(newDocState));
-        const meta = provider.doc.getMap("meta");
-        meta.set("lastSaved", Date.now());
+        // onSave(documentId, JSON.stringify(newDocState));
+        // const meta = provider.doc.getMap("meta");
+        // meta.set("lastSaved", Date.now());
       }
     },
-    [documentId, isUploading, onSave, provider.doc]
+    [isUploading]
   );
 
   const handleSaveDebounced = useDebouncedCallback(handleSave, TIMEOUT);
@@ -232,7 +234,9 @@ export const Editor: React.FC<EditorProps> = ({
             }}
             editor={editor}
           >
-            <HighlightControl editor={editor} />
+            {editor.isActive("transcriptComponent") && (
+              <HighlightControl editor={editor} />
+            )}
           </BubbleMenu>
         </>
       )}
