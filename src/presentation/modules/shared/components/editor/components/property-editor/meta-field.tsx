@@ -269,7 +269,6 @@ export const MetaField: React.FC<FieldProps> = ({
   );
   const fieldSchema = SCHEMA[fieldType];
   const MetaFieldEditor = fieldSchema.component;
-  console.log("re rendering");
   const props =
     property.type === FIELD_TYPES.MULTI_SELECT ||
     property.type === FIELD_TYPES.COMPANY
@@ -293,7 +292,6 @@ export const MetaField: React.FC<FieldProps> = ({
             setValue(e.target.value);
           },
           onBlur: (e) => {
-            console.log("blur", e.target);
             update(index, {
               ...property,
               value: typeof e === "object" ? e.target.value : e,

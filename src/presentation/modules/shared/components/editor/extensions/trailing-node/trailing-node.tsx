@@ -2,23 +2,24 @@ import { Extension } from "@tiptap/core";
 import { last } from "lodash";
 import { PluginKey, Plugin } from "prosemirror-state";
 
-export interface TrailingNodeExtensionOptions {
-  node: string;
-  notAfter: Array<string>;
-}
-
 function nodeEqualsType({ types, node }: { types: any; node: any }) {
   return (
     (Array.isArray(types) && types.includes(node.type)) || node.type === types
   );
 }
+export interface TrailingNodeOptions {
+  node: string;
+  notAfter: string[];
+}
 
-export const TrailingNode = Extension.create<TrailingNodeExtensionOptions>({
+export const TrailingNode = Extension.create<TrailingNodeOptions>({
   name: "trailingNode",
 
-  defaultOptions: {
-    node: "br",
-    notAfter: [],
+  addOptions() {
+    return {
+      node: "paragraph",
+      notAfter: ["paragraph"],
+    };
   },
 
   addProseMirrorPlugins() {
@@ -36,20 +37,16 @@ export const TrailingNode = Extension.create<TrailingNodeExtensionOptions>({
           const endPosition = doc.content.size;
           const type = schema.nodes[this.options.node];
 
-          const isEmpty = !Boolean(
-            //@ts-ignore
-            doc.content.content[doc.content.content.length - 1].content.size
-          );
-          if (!shouldInsertNodeAtEnd || isEmpty) {
+          if (!shouldInsertNodeAtEnd) {
             return;
           }
-          //remove all previous
 
           return tr.insert(endPosition, type.create());
         },
         state: {
           init: (_, state) => {
             const lastNode = state.tr.doc.lastChild;
+
             return !nodeEqualsType({ node: lastNode, types: disabledNodes });
           },
           apply: (tr, value) => {
@@ -58,6 +55,7 @@ export const TrailingNode = Extension.create<TrailingNodeExtensionOptions>({
             }
 
             const lastNode = tr.doc.lastChild;
+
             return !nodeEqualsType({ node: lastNode, types: disabledNodes });
           },
         },

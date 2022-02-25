@@ -39,11 +39,13 @@ import { QuickActionButton } from "./editor.styles";
 import { TrailingNode } from "./extensions/trailing-node/trailing-node";
 import TimeOffset from "./extensions/time-offset";
 import { useRecoilState } from "recoil";
-import { WebsocketProvider } from "main/factories/websocket-provider";
+// import { WebsocketProvider } from "main/factories/websocket-provider";
 import { VideoExtension } from "./extensions/video/extension";
+import { WebsocketProvider } from "y-websocket";
+import { HocuspocusProvider } from "@hocuspocus/provider";
 
 const CustomDocument = Document.extend({
-  content: "heading block+",
+  content: "paragraph block+",
 });
 
 export const CustomParagraph = Paragraph.extend({
@@ -94,7 +96,7 @@ const TIMEOUT = 3000 + Math.floor(Math.random() * 7000);
 
 interface EditorProps {
   documentId: string;
-  provider: WebsocketProvider;
+  provider: HocuspocusProvider;
   content?: JSONContent | string;
   onSave: Function;
 }
@@ -119,12 +121,10 @@ export const Editor: React.FC<EditorProps> = ({
         class: "editor-image",
       },
     }),
-    DropCursor,
+    // DropCursor,
     TextStyle,
     TimeOffset,
-    TrailingNode.configure({
-      node: "paragraph",
-    }),
+    TrailingNode,
     Commander.configure({
       suggestion: commands,
     }),
@@ -156,8 +156,7 @@ export const Editor: React.FC<EditorProps> = ({
     }),
     // ySyncPlugin(syncType),
     Collaboration.configure({
-      //@ts-ignore
-      document: provider.doc,
+      document: provider.document,
     }),
     CollaborationCursor.configure({
       provider,
@@ -170,8 +169,7 @@ export const Editor: React.FC<EditorProps> = ({
 
   const editor = useEditor({
     extensions,
-    //@ts-ignore
-    content: provider.doc,
+    content: provider.document,
     onUpdate() {
       // const content = editor.getJSON();
       // handleChange(content);

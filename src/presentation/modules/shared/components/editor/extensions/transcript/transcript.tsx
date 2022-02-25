@@ -127,6 +127,7 @@ export const Transcript = (props: NodeViewProps) => {
       </EuiTitle>
       <DeleteButton
         iconType="trash"
+        aria-label="Delete transcript"
         display="base"
         color="danger"
         onClick={showDestroyModal}

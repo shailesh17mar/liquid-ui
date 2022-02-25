@@ -2,14 +2,13 @@ import { EuiFlexGroup, EuiFlexItem, EuiPanel, EuiTitle } from "@elastic/eui";
 import { Editor } from "../shared/components/editor/editor";
 import { useParams } from "react-router-dom";
 import { useCallback, useMemo } from "react";
-import { Doc } from "yjs";
 import {
   useProject,
   useUpdateProject,
 } from "../../../core/modules/projects/hooks";
-import { WebsocketProvider } from "main/factories/websocket-provider";
 import { useDebouncedCallback } from "use-debounce";
 import { ContentLoader } from "../shared/components/content-loader/content-loader";
+import { HocuspocusProvider } from "@hocuspocus/provider";
 
 export const ProjectDetails: React.FC = () => {
   const { id } = useParams() as { id: string };
@@ -17,18 +16,10 @@ export const ProjectDetails: React.FC = () => {
   const mutation = useUpdateProject();
 
   const provider = useMemo(() => {
-    //@ts-ignore
-    const clientName = Math.random().toString(36).substr(2, 20);
-    const doc = new Doc({ guid: id });
-    return new WebsocketProvider(
-      //@ts-ignore
-      process.env.REACT_APP_COLLAB_ENGINE,
-      `?=doc-${id}&`,
-      doc,
-      {
-        params: { name: clientName },
-      }
-    );
+    return new HocuspocusProvider({
+      url: process.env.REACT_APP_COLLAB_ENGINE || "ws://localhost:5000",
+      name: `project-${id}`,
+    });
   }, []);
 
   const handleDocumentEditing = useCallback(

@@ -24,20 +24,27 @@ const queryCache = new QueryCache();
 const AuthProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<any | null>(null);
   useEffect(() => {
+    let isUnmounted = false;
     async function setCurrentUser() {
       const currentSession = await Auth.currentSession();
       const userInfo = await Auth.currentUserInfo();
       const cognitoGroups =
         currentSession.getAccessToken().payload["cognito:groups"];
       const tenant = cognitoGroups[1];
-      setUser({
-        name: userInfo.attributes.name,
-        email: userInfo.attributes.email,
-        id: userInfo.id,
-        tenant,
-      } as User);
+      !isUnmounted &&
+        setUser({
+          name: userInfo.attributes.name,
+          email: userInfo.attributes.email,
+          id: userInfo.id,
+          tenant,
+        } as User);
     }
-    setCurrentUser();
+    if (!isUnmounted) {
+      setCurrentUser();
+    }
+    return () => {
+      isUnmounted = true;
+    };
   }, []);
 
   const signOut = () => {

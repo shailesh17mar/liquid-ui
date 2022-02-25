@@ -25,21 +25,25 @@ export const BubbleControl: React.FC<Props> = ({ editor }) => {
   const buttons = [
     {
       iconType: "editorBold",
+      "aria-label": "Bold",
       onClick: () => editor.chain().focus().toggleBold().run(),
       isSelected: editor.isActive("bold"),
     },
     {
       iconType: "editorItalic",
+      "aria-label": "Italic",
       onClick: () => editor.chain().focus().toggleItalic().run(),
       isSelected: editor.isActive("italic"),
     },
     {
       iconType: "editorUnderline",
+      "aria-label": "Underline",
       onClick: () => editor.chain().focus().toggleUnderline().run(),
       isSelected: editor.isActive("underline"),
     },
     {
       iconType: "editorStrike",
+      "aria-label": "Strike",
       onClick: () => editor.chain().focus().toggleStrike().run(),
       isSelected: editor.isActive("strike"),
     },

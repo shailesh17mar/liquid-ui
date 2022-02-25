@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "presentation/modules/shared/components/layouts";
-import { EuiLoadingChart } from "@elastic/eui";
+import { FullPageLoader } from "presentation/modules/shared/components/content-loader/full-page-loader";
 
 const StoriesPage = React.lazy(() => import("./pages/make-stories-page"));
 const HighlightsPage = React.lazy(() => import("./pages/make-highlights-page"));
@@ -15,7 +15,7 @@ const HomePage = React.lazy(() => import("./pages/make-home-page"));
 
 export const Router: React.FC = () => {
   return (
-    <Suspense fallback={<EuiLoadingChart size="xl" />}>
+    <Suspense fallback={<FullPageLoader />}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>

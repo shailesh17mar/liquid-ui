@@ -26,8 +26,8 @@ import {
   useUpdatePerson,
 } from "core/modules/participants/hooks";
 import { TagAnnotation } from "./story.styles";
-import { WebsocketProvider } from "main/factories/websocket-provider";
 import { ContentLoader } from "../shared/components/content-loader/content-loader";
+import { HocuspocusProvider } from "@hocuspocus/provider";
 
 const DefaultStoryDocument = {
   type: "doc",
@@ -57,7 +57,7 @@ const DefaultStoryDocument = {
     },
   ],
 } as JSONContent;
-var provider: WebsocketProvider;
+// var provider: ;
 
 const doc = new Doc();
 // export const syncType = doc.getXmlFragment("prosemirror");
@@ -73,18 +73,11 @@ export const StoryDetails: React.FC = () => {
   const [isMutatingParticipant, setIsMutatingParticipant] = useState(false);
 
   const provider = useMemo(() => {
-    //@ts-ignore
-    const clientName = Math.random().toString(36).substr(2, 20);
-    const doc = new Doc({ guid: id });
-    return new WebsocketProvider(
-      //@ts-ignore
-      process.env.REACT_APP_COLLAB_ENGINE,
-      `?=doc-${id}&`,
-      doc,
-      {
-        params: { name: clientName },
-      }
-    );
+    return new HocuspocusProvider({
+      url: process.env.REACT_APP_COLLAB_ENGINE || "ws://localhost:5000",
+      name: `story-${id}`,
+      token: "token",
+    });
   }, []);
 
   useEffect(() => {
@@ -329,12 +322,9 @@ export const StoryDetails: React.FC = () => {
                       top={positionDictionary[id]}
                     >
                       {annotation[id].tags.map((tag, index) => (
-                        <>
-                          <EuiBadge key={id + index} color="default">
-                            {tag.label}
-                          </EuiBadge>
-                          &nbsp;
-                        </>
+                        <EuiBadge key={id + index} color="default">
+                          {tag.label}{" "}
+                        </EuiBadge>
                       ))}
                     </TagAnnotation>
                   );

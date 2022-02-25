@@ -39,7 +39,9 @@ const updatedAwsConfig = {
 };
 Amplify.configure(updatedAwsConfig);
 
-if (!isLocalhost) ReactGA.initialize("UA-221274822-1");
+ReactGA.initialize("UA-221274822-1", {
+  testMode: isLocalhost,
+});
 const queryClient = new QueryClient();
 const App: React.FC = () => (
   <EuiProvider colorMode="light">

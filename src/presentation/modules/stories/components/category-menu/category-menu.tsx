@@ -30,6 +30,7 @@ export const CategoryMenu: React.FC = () => {
 
   const button = (
     <EuiButtonIcon
+      aria-label="New category"
       onClick={handleOpenPopover}
       display="fill"
       iconType="plus"

@@ -21,6 +21,7 @@ export const ActionMenu: React.FC<Props> = ({ onAddProject }) => {
   };
   const items = [
     <EuiContextMenuItem
+      aria-label="Project"
       icon="folderClosed"
       key="project"
       onClick={() => {
@@ -30,7 +31,12 @@ export const ActionMenu: React.FC<Props> = ({ onAddProject }) => {
     >
       Project
     </EuiContextMenuItem>,
-    <EuiContextMenuItem icon="users" key="users" onClick={handleClosePopover}>
+    <EuiContextMenuItem
+      aria-label="Users"
+      icon="users"
+      key="users"
+      onClick={handleClosePopover}
+    >
       Invite
     </EuiContextMenuItem>,
   ];
@@ -39,6 +45,7 @@ export const ActionMenu: React.FC<Props> = ({ onAddProject }) => {
       id={actionsContextMenuPopoverId}
       button={
         <HeaderActionButton
+          aria-label="Action Menu"
           display="fill"
           iconType="plus"
           color="primary"

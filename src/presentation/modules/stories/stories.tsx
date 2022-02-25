@@ -24,7 +24,6 @@ import {
   EuiTitle,
   EuiSpacer,
 } from "@elastic/eui";
-import { AvatarStack } from "../shared/components/avatar-stack/avatar-stack";
 import { useAuth } from "presentation/context/auth-context";
 import { useNavigate, useParams } from "react-router-dom";
 import {

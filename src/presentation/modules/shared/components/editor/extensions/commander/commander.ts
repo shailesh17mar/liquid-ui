@@ -4,14 +4,16 @@ import { Extension } from "@tiptap/react";
 export const Commander = Extension.create({
   name: "commander",
 
-  defaultOptions: {
-    suggestion: {
-      char: "/",
-      startOfLine: true,
-      command: ({ editor, range, props }) => {
-        props.command({ editor, range, props });
-      },
-    } as SuggestionOptions,
+  addOptions() {
+    return {
+      suggestion: {
+        char: "/",
+        startOfLine: true,
+        command: ({ editor, range, props }) => {
+          props.command({ editor, range, props });
+        },
+      } as SuggestionOptions,
+    };
   },
 
   addProseMirrorPlugins() {

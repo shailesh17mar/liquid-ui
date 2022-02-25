@@ -3,7 +3,7 @@ import { useLocalStorage } from "react-use";
 import { API } from "aws-amplify";
 import Document from "@tiptap/extension-document";
 import Text from "@tiptap/extension-text";
-import { generateJSON, NodeViewProps } from "@tiptap/react";
+import { generateJSON, JSONContent, NodeViewProps } from "@tiptap/react";
 import {
   DeleteButton,
   VideoContainer,
@@ -12,23 +12,17 @@ import {
 } from "./video.styles";
 import {
   EuiButton,
-  EuiCard,
   EuiConfirmModal,
   EuiFieldText,
   EuiFlexGroup,
   EuiFlexItem,
-  EuiIcon,
   EuiLoadingSpinner,
   EuiPanel,
   EuiText,
-  EuiTitle,
 } from "@elastic/eui";
-import ReactPlayer from "react-player";
-import { VodAsset } from "models";
 import { useParams } from "react-router-dom";
 import TimeOffset from "../time-offset";
 import { CustomParagraph } from "../../editor";
-import { useRecoilState } from "recoil";
 import { useVideoUpload } from "../../../transcript/hooks/use-video-upload";
 import {
   useUpdateVideoAsset,
@@ -36,31 +30,30 @@ import {
 } from "core/modules/videoAssets/hooks";
 import { useCreateTranscription } from "core/modules/transcripts/hooks";
 import { TranscriptionStatus } from "models";
-import { useStory } from "core/modules/stories/hooks";
 import _ from "lodash";
-import { initTranscript } from "../transcript/transcript";
 import { displayTranscript } from "../transcript/transcript-parser";
 
 export const Video = (props: NodeViewProps) => {
   const { id } = useParams() as { id: string };
-  const [isTranscriptionOwner, setIsTranscriptionOwner, remove] =
-    useLocalStorage(`doc-${id}`, true);
-  const [isDestroyModalVisible, setIsDestroyModalVisible] = useState(false);
-  const [isInitTranscript, setIsInitTranscript] =
-    useRecoilState(initTranscript);
   const { video, id: transcriptId } = props.node.attrs;
-  const uploaderRef = useRef<HTMLInputElement>(null);
-  const [videoURL, setVideoURL] = useState<string | undefined>();
-  const [isPolling, setIsPolling] = useState(false);
-  const [isTranscribing, setIsTranscribing] = useState(false);
 
+  const [isTranscriptionOwner, setIsTranscriptionOwner, remove] =
+    useLocalStorage(`doc-${id}`, false);
+  const uploaderRef = useRef<HTMLInputElement>(null);
+
+  const [isDestroyModalVisible, setIsDestroyModalVisible] = useState(false);
+  const [videoURL, setVideoURL] = useState<string>();
+  const [isTranscribing, setIsTranscribing] = useState(false);
   const [isFileSelected] = useState(false);
 
-  const { data } = useVideoAsset(video || "", Boolean(video), isPolling);
-  const { data: story } = useStory(id);
+  const { data: videoAsset } = useVideoAsset(
+    video || "",
+    Boolean(video),
+    isTranscribing
+  );
+
   const transcriptCreateMutation = useCreateTranscription();
   const videoAssetUpdateMutation = useUpdateVideoAsset();
-  const videoAsset = data as VodAsset;
 
   console.log(videoAsset?.transcription?.status);
   const handleVideoUploadSuccess = (videoAssetId: string) => {
@@ -72,15 +65,19 @@ export const Video = (props: NodeViewProps) => {
     onSuccess: handleVideoUploadSuccess,
   });
 
+  const closeDestroyModal = () => setIsDestroyModalVisible(false);
+  const showDestroyModal = () => setIsDestroyModalVisible(true);
+
   useEffect(() => {
     if (
+      videoAsset?.transcription &&
       videoAsset?.transcription?.status !== TranscriptionStatus.COMPLETED &&
-      !isPolling &&
+      !isTranscribing &&
       isTranscriptionOwner
     ) {
-      setIsPolling(true);
+      setIsTranscribing(true);
     }
-  }, [videoAsset?.transcription?.status]);
+  }, [isTranscribing, isTranscriptionOwner, videoAsset?.transcription]);
 
   useEffect(() => {
     if (!video) {
@@ -102,7 +99,22 @@ export const Video = (props: NodeViewProps) => {
     }
   }, [videoAsset?.video]);
 
-  const setupTranscriptJSON = async () => {
+  const insertTranscript = useCallback(
+    (id: string, transcriptJson: JSONContent[]) => {
+      props.editor.commands.setTranscript(
+        { ...props.node.attrs, id },
+        transcriptJson
+      );
+      remove();
+      props.updateAttributes({
+        ...props.node.attrs,
+        id,
+      });
+    },
+    [props, remove]
+  );
+
+  useEffect(() => {
     const fetchTranscriptJson = async (id: string) => {
       const key = `${id}.json`;
       const { url: transcriptJSONFile } = await API.get(
@@ -110,87 +122,42 @@ export const Video = (props: NodeViewProps) => {
         `/assets/${key}`,
         {}
       );
-      //@ts-ignore
       const transcriptResponse = await fetch(transcriptJSONFile);
       const transcriptJson = await transcriptResponse.json();
       const transcriptHTML = displayTranscript(transcriptJson);
-      return generateJSON(transcriptHTML, [
+      const transcriptDocument = generateJSON(transcriptHTML, [
         Document,
         CustomParagraph,
         TimeOffset,
         Text,
       ]);
+      insertTranscript(id, transcriptDocument.content);
     };
-
     if (
-      story &&
-      videoAsset?.transcription &&
       videoAsset?.transcription?.status === TranscriptionStatus.COMPLETED &&
-      !isInitTranscript &&
-      !transcriptId
-    ) {
-      const transcriptJson = await fetchTranscriptJson(
-        videoAsset?.transcription.id
-      );
-      props.editor.commands.setTranscript(
-        { ...props.node.attrs, id: videoAsset?.transcription.id },
-        transcriptJson.content
-      );
-      props.updateAttributes({
-        ...props.node.attrs,
-        id: videoAsset?.transcription.id,
-      });
-      setIsPolling(false);
-      remove();
-    }
-  };
-
-  // useEffect(() => {
-  //   if (isInitTranscript) {
-  //     setupTranscriptJSON();
-  //   }
-  // }, [isInitTranscript, setupTranscriptJSON]);
-
-  useEffect(() => {
-    if (
-      !isInitTranscript &&
-      videoAsset?.transcription &&
+      !transcriptId &&
       isTranscriptionOwner
     ) {
-      setIsInitTranscript(true);
-      setupTranscriptJSON();
-      // setIsPolling(true);
+      fetchTranscriptJson(videoAsset.transcription.id);
+      debugger;
     }
-  }, [isInitTranscript, setIsInitTranscript, videoAsset?.transcription]);
+  }, [
+    insertTranscript,
+    isTranscriptionOwner,
+    transcriptId,
+    videoAsset?.transcription,
+  ]);
 
-  useEffect(() => {
-    const transcriptId = videoAsset?.transcription?.id;
-    if (transcriptId) {
-      //gethighlights
-    }
-  }, [videoAsset?.transcription?.id]);
-
-  const closeDestroyModal = () => setIsDestroyModalVisible(false);
-  const showDestroyModal = () => setIsDestroyModalVisible(true);
   const handleDeleteTranscript = useCallback(async () => {
-    //remove
     props.deleteNode();
-    // const doc = props.editor.getJSON();
-    // const content = doc.content?.filter(
-    //   (el) => el.type === "transcriptComponent" && el.attrs?.video !== video
-    // );
-    // if (content && content.length >= 0) {
-    //   props.editor.commands.setContent({ ...doc, content }, true);
-    // }
-  }, [props.editor]);
+  }, [props]);
 
   const handleTranscription = async () => {
-    //TODO: Check that transcription entry for the video shouldn't exist before hand.
     if (videoURL) {
-      if (!videoAsset?.transcription) {
+      if (videoAsset && !videoAsset?.transcription) {
         //create a transcription entry
         const transcript = await transcriptCreateMutation.mutateAsync({
-          video: videoAsset?.video,
+          video: videoAsset.video,
           status: TranscriptionStatus.ENQUEUED,
         });
         //update reference in transcription
@@ -199,23 +166,10 @@ export const Video = (props: NodeViewProps) => {
           id: video,
           vodAssetTranscriptionId: transcript?.id,
         });
-        setIsPolling(true);
         setIsTranscriptionOwner(true);
         setIsTranscribing(true);
       }
-      //update story
     } else throw new Error("No video to transcribe");
-    // const doc = props.editor.getJSON();
-    // const content = doc.content?.map((el) => {
-    //   if (el.type === "transcriptComponent")
-    //     return {
-    //       ...el,
-    //       content: data,
-    //     };
-    //   return el;
-    // });
-
-    // props.editor.commands.setContent({ ...doc, content });
   };
 
   const handleFocus = useCallback(() => {
@@ -245,6 +199,7 @@ export const Video = (props: NodeViewProps) => {
         iconType="trash"
         display="base"
         color="danger"
+        aria-label="Delete Video"
         onClick={showDestroyModal}
       />
       {isDestroyModalVisible && (

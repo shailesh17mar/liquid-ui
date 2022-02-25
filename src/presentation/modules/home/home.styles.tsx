@@ -1,4 +1,3 @@
-import { EuiButtonEmpty, EuiButtonIcon } from "@elastic/eui";
 import styled from "styled-components";
 
 interface Props {
