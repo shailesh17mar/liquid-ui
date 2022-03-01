@@ -112,6 +112,8 @@ export const onCreateHighlights = /* GraphQL */ `
       tagIds
       transcriptionID
       projectsID
+      startTime
+      endTime
       createdAt
       updatedAt
       _version
@@ -131,6 +133,8 @@ export const onUpdateHighlights = /* GraphQL */ `
       tagIds
       transcriptionID
       projectsID
+      startTime
+      endTime
       createdAt
       updatedAt
       _version
@@ -150,6 +154,8 @@ export const onDeleteHighlights = /* GraphQL */ `
       tagIds
       transcriptionID
       projectsID
+      startTime
+      endTime
       createdAt
       updatedAt
       _version

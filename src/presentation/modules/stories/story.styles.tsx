@@ -9,13 +9,4 @@ export const TagAnnotation = styled.div<Props>`
   position: fixed;
   top: ${(props) => props.top + "px"};
   display: ${(props) => !!!props.top && "none"};
-  &:before {
-    content: "${(props) => HIGHLIGHT_TYPES[props.type].label}  ";
-    background: ${(props) => HIGHLIGHT_TYPES[props.type].color};
-    margin-right: 5px;
-    border-radius: 3px;
-    padding: 3px;
-    font-size: 12px;
-    font-weight: 500;
-  }
 `;

@@ -48,6 +48,23 @@ export const TranscriptContent = styled(NodeViewContent)`
     padding-right: 10px;
     /* margin-right: 0.3rem; */
   }
+
+  /* span.speaker {
+    visibility: hidden;
+    position: relative;
+    margin-right: 20px !important;
+  }
+  span.speaker:after {
+    display: inline-block;
+    visibility: visible;
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: "Shailesh:";
+  } */
+  span.active {
+    background-color: red;
+  }
   mark {
     margin: 0 -0.4em;
     padding: 0.1em 0.4em;

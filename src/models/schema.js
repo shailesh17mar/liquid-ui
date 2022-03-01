@@ -226,6 +226,20 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "startTime": {
+                    "name": "startTime",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "endTime": {
+                    "name": "endTime",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -1148,5 +1162,5 @@ export const schema = {
         }
     },
     "nonModels": {},
-    "version": "6a422a1e82d3c0391bb7f40730b2457b"
+    "version": "6fbd24b227eb8b2c030f17facf72abbd"
 };

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { JSONContent, NodeViewProps } from "@tiptap/react";
 import {
   DeleteButton,
@@ -8,7 +8,7 @@ import {
 import { Highlights } from "models";
 import { EuiConfirmModal, EuiTitle } from "@elastic/eui";
 import { useParams } from "react-router-dom";
-import { atom, useRecoilState } from "recoil";
+import { atom, useRecoilState, useRecoilValue } from "recoil";
 import {
   HighlightState,
   highlightAtom,
@@ -21,6 +21,8 @@ import {
 import { useHighlights } from "core/modules/highlights/hooks";
 import { useTags } from "core/modules/tags/hooks";
 import _ from "lodash";
+import { wordTimestampsAtom } from "../video/video";
+import { useVideo } from "react-use";
 
 export const transcriptAtom = atom<JSONContent | undefined>({
   key: "transcriptState",
@@ -34,6 +36,8 @@ export const initTranscript = atom<boolean>({
 
 export const Transcript = (props: NodeViewProps) => {
   const { id } = useParams() as { id: string };
+  const [wordTimestamps, setWordTimestamps] =
+    useRecoilState(wordTimestampsAtom);
   const [isDestroyModalVisible, setIsDestroyModalVisible] = useState(false);
   const [highlightState, setHighlightState] = useRecoilState(highlightAtom);
   const { id: transcriptId } = props.node.attrs;
@@ -45,6 +49,40 @@ export const Transcript = (props: NodeViewProps) => {
   const { data: highlights } = useHighlights({
     transcriptId,
   });
+  useEffect(() => {
+    if (wordTimestamps.length === 0) {
+      const transcript = props.node.content.toJSON();
+      let wordTimestampDictionary: number[] = [];
+      let lastValue = -1;
+      (transcript || []).forEach((paragraph: any) => {
+        paragraph.content.forEach((word: any) => {
+          if (word.marks && word.marks.length > 0) {
+            const st = word.marks[0].attrs.startTime;
+            const startTime = Number(st);
+            if (
+              startTime > 100 &&
+              startTime % 1 === 0 &&
+              startTime > lastValue
+            ) {
+              lastValue = startTime;
+              wordTimestampDictionary.push(startTime);
+            }
+          }
+        });
+      });
+
+      const final = wordTimestampDictionary.reverse();
+      // setTranscript(final);
+      setTimeout(() => {
+        setWordTimestamps(final);
+      }, 3000);
+      //find the word that needs to be highlighted
+      //timestamp comparison
+      //query select
+      //set style
+    }
+  }, []);
+
   useEffect(() => {
     if (
       tags &&
@@ -81,6 +119,23 @@ export const Transcript = (props: NodeViewProps) => {
     } as HighlightState);
   }, [transcriptId]);
 
+  // useEffect(() => {
+  //   if (videoPlayer?.playedSeconds && transcript) {
+  //     const timestamp = videoPlayer.playedSeconds * 1000;
+  //     const currentWord = transcript.find((tt) => tt <= timestamp);
+  //     // const strayActive = document.getElementsByClassName("active-word")[0];
+  //     // if (strayActive) {
+  //     //   strayActive.removeAttribute("class");
+  //     // }
+  //     // const classes = document.querySelector(`span[starttime="${currentWord}"]`)
+  //     //   ?.classList.entries;
+  //     // const element = document.querySelector(
+  //     //   `span[starttime="${currentWord}"]`
+  //     // );
+  //     // element?.removeAttribute("class");
+  //     // element?.classList.add("active-word");
+  //   }
+  // }, [transcript, videoPlayer.playedSeconds]);
   const closeDestroyModal = () => setIsDestroyModalVisible(false);
   const showDestroyModal = () => setIsDestroyModalVisible(true);
 
@@ -106,6 +161,10 @@ export const Transcript = (props: NodeViewProps) => {
           id: highlightId,
           type: highlightType,
           transcriptionId: transcriptId,
+          startTime: parseInt(items[0].getAttribute("data-m") || "-1"),
+          endTime: parseInt(
+            items[items.length - 1].getAttribute("data-m") || "-1"
+          ),
         } as HighlightState);
       }
       // props.editor.chain().focus().unsetHighlight().run();

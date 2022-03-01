@@ -41,6 +41,8 @@ export declare class Highlights {
   readonly tagIds?: string;
   readonly transcriptionID?: string;
   readonly projectsID: string;
+  readonly startTime?: number;
+  readonly endTime?: number;
   readonly createdAt: string;
   readonly updatedAt: string;
   constructor(init: ModelInit<Highlights>);

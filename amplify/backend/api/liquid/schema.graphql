@@ -35,6 +35,8 @@ type Highlights
   tagIds: String
   transcriptionID: ID @index(name: "byTranscription")
   projectsID: ID! @index(name: "byProjects")
+  startTime: Int
+  endTime: Int
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
 }

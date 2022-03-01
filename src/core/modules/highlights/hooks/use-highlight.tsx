@@ -17,8 +17,8 @@ export const retrieveHighlightById = async (id: string) => {
   }
 };
 
-export const useHighlight = (id: string, enabled: boolean = true) => {
-  return useQuery(["highlights", id], () => retrieveHighlightById(id), {
-    enabled,
+export const useHighlight = (id?: string) => {
+  return useQuery(["highlights", id], () => retrieveHighlightById(id!!), {
+    enabled: Boolean(id),
   });
 };

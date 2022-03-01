@@ -1,4 +1,12 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  MutableRefObject,
+  RefObject,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useLocalStorage } from "react-use";
 import { API } from "aws-amplify";
 import Document from "@tiptap/extension-document";
@@ -32,14 +40,28 @@ import { useCreateTranscription } from "core/modules/transcripts/hooks";
 import { TranscriptionStatus } from "models";
 import _ from "lodash";
 import { displayTranscript } from "../transcript/transcript-parser";
+import { atom, useRecoilState, useRecoilValue } from "recoil";
+import ReactPlayer from "react-player";
+import InteractiveTranscript from "../transcript/interactive-transcript";
+import { workerData } from "worker_threads";
 
+export const wordTimestampsAtom = atom<number[]>({
+  key: "wordtimestamps",
+  default: [],
+});
+// var interactiveTranscript: InteractiveTranscript;
 export const Video = (props: NodeViewProps) => {
   const { id } = useParams() as { id: string };
+  // const wordTimestamps = useRecoilValue(wordTimestampsAtom);
+
+  // const interactiveTranscript = useMemo(() => {
+  //   return wordTimestamps.length > 0 ? new InteractiveTranscript() : null;
+  // }, [wordTimestamps]);
+  const uploaderRef = useRef<HTMLInputElement>(null);
   const { video, id: transcriptId } = props.node.attrs;
 
   const [isTranscriptionOwner, setIsTranscriptionOwner, remove] =
     useLocalStorage(`doc-${id}`, false);
-  const uploaderRef = useRef<HTMLInputElement>(null);
 
   const [isDestroyModalVisible, setIsDestroyModalVisible] = useState(false);
   const [videoURL, setVideoURL] = useState<string>();
@@ -55,7 +77,6 @@ export const Video = (props: NodeViewProps) => {
   const transcriptCreateMutation = useCreateTranscription();
   const videoAssetUpdateMutation = useUpdateVideoAsset();
 
-  console.log(videoAsset?.transcription?.status);
   const handleVideoUploadSuccess = (videoAssetId: string) => {
     props.updateAttributes({
       video: videoAssetId,
@@ -139,7 +160,6 @@ export const Video = (props: NodeViewProps) => {
       isTranscriptionOwner
     ) {
       fetchTranscriptJson(videoAsset.transcription.id);
-      debugger;
     }
   }, [
     insertTranscript,
@@ -232,6 +252,30 @@ export const Video = (props: NodeViewProps) => {
                 width={768}
                 height={428}
                 url={videoURL}
+                onProgress={(state: any) => {
+                  // state.playedSeconds &&
+                  // interactiveTranscript?.updateTranscriptVisualState(
+                  //   state.playedSeconds
+                  // );
+                  // if (state?.playedSeconds && wordTimestamps) {
+                  //   const timestamp = state.playedSeconds * 1000;
+                  //   const currentWord = wordTimestamps.find(
+                  //     (tt: number) => tt <= timestamp
+                  //   );
+                  //   console.log(currentWord, timestamp);
+                  //   // const strayActive =
+                  //   //   document.getElementsByClassName("active-word")[0];
+                  //   // if (strayActive) {
+                  //   //   strayActive.classList.remove("active-word");
+                  //   // }
+                  //   const element = document.querySelector(
+                  //     `span[starttime="${currentWord}"]`
+                  //   );
+                  //   console.log(element);
+                  //   // element?.removeAttribute("class");
+                  //   // element?.classList.add("active-word");
+                  // }
+                }}
                 // config={{
                 //   file: {
                 //     hlsOptions: {
@@ -276,6 +320,13 @@ export const Video = (props: NodeViewProps) => {
                 </EuiButton>
               )}
             </EuiFlexItem>
+            {/* <EuiButton
+              onClick={() => {
+                // interactiveTranscript = new InteractiveTranscript();
+              }}
+            >
+              XXX
+            </EuiButton> */}
           </EuiFlexGroup>
         </EuiPanel>
       ) : (

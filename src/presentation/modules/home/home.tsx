@@ -1,9 +1,11 @@
 import {
   EuiCallOut,
+  EuiFlexGrid,
   EuiFlexGroup,
   EuiFlexItem,
   EuiIcon,
   EuiPanel,
+  EuiText,
   EuiTitle,
 } from "@elastic/eui";
 import { useState } from "react";
@@ -11,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { useProjects } from "../../../core/modules/projects/hooks";
 import { SampleProject } from "../projects/sample-project";
 import { CreateProjectModal } from "../shared/components/create-project-modal/create-project-modal";
-import { IconContainer, ProjectButton } from "./home.styles";
+import { Container, IconContainer, ProjectButton, Title } from "./home.styles";
 
 export const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -37,11 +39,7 @@ export const Home: React.FC = () => {
           onConfirm={handleAddProjectSuccess}
         />
       )}
-      <EuiFlexGroup
-        style={{ width: 900, height: "100%", margin: "0 auto" }}
-        justifyContent="spaceAround"
-        direction="column"
-      >
+      <Container justifyContent="spaceAround" direction="column">
         {projects.length === 0 && (
           <EuiCallOut color="success" iconType="user" title="No projects, yet!">
             <p>Create a project by clicking on button 'Add Project'.</p>
@@ -53,31 +51,49 @@ export const Home: React.FC = () => {
           </EuiTitle>
         </EuiFlexItem>
         <EuiFlexItem>
-          <EuiFlexGroup>
-            {projects.map((project) => (
-              <EuiFlexItem key={project.id} grow={false}>
-                <ProjectButton
-                  color="text"
-                  onClick={() => navigate(`/projects/${project.id}`)}
-                >
-                  <IconContainer>
-                    <EuiIcon color="subdued" type="folderClosed" />
+          <EuiFlexGrid columns={4} gutterSize="m">
+            <EuiFlexItem>
+              <ProjectButton
+                style={{
+                  border: "dashed 1px #d3dae6",
+                }}
+                gutterSize="none"
+                alignItems="center"
+                color="text"
+                onClick={handleAddProject}
+              >
+                <EuiFlexItem grow={false}>
+                  <IconContainer isPlaceholder>
+                    <EuiIcon color="subdued" type="plus" />
                   </IconContainer>
-                  {project.name}
+                </EuiFlexItem>
+                <EuiFlexItem>
+                  <Title size="s">Create Project</Title>
+                </EuiFlexItem>
+              </ProjectButton>
+            </EuiFlexItem>
+            {projects.map((project) => (
+              <EuiFlexItem key={project.id}>
+                <ProjectButton
+                  gutterSize="none"
+                  alignItems="center"
+                  color="text"
+                  onClick={() => navigate(`/projects/${project.id}/stories`)}
+                >
+                  <EuiFlexItem grow={false}>
+                    <IconContainer>
+                      <EuiIcon color="subdued" type="folderClosed" />
+                    </IconContainer>
+                  </EuiFlexItem>
+                  <EuiFlexItem>
+                    <Title size="s">{project.name}</Title>
+                  </EuiFlexItem>
                 </ProjectButton>
               </EuiFlexItem>
             ))}
-            <EuiFlexItem grow={false}>
-              <ProjectButton color="text" onClick={handleAddProject}>
-                <IconContainer isPlaceholder>
-                  <EuiIcon color="subdued" type="plus" />
-                </IconContainer>
-                Add Project
-              </ProjectButton>
-            </EuiFlexItem>
-          </EuiFlexGroup>
+          </EuiFlexGrid>
         </EuiFlexItem>
-      </EuiFlexGroup>
+      </Container>
     </EuiPanel>
   ) : null;
 };

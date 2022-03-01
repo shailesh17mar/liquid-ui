@@ -66,7 +66,7 @@ function CreateNewPara(timeOfFirstWord, speaker, paraId) {
     "'>";
   // only give it span if it's a word?
   var paraSpeaker =
-    "<span class='unread' data-m='" +
+    "<span data-m='" +
     timeOfFirstWord +
     "' data-d='0' class='speaker'>" +
     speaker +

@@ -121,7 +121,7 @@ export const TimeOffset = Mark.create<TimeOffsetOptions>({
         ({ commands, state }) => {
           const existingAttributes = getMarkAttributes(state, this.type);
           return commands.updateAttributes(this.name, {
-            ...existingAttributes,
+            ...this.parent?.(),
             ...attributes,
           });
         },

@@ -30,7 +30,7 @@ export const useUpdateHighlight = (
     },
     {
       onSuccess: (highlight, variables) => {
-        // queryClient.invalidateQueries(["highlights", id]);
+        queryClient.invalidateQueries(["highlights", highlight?.id]);
         if (callback) callback(highlight as Highlights);
       },
       onError: (error) => {

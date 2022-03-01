@@ -28,7 +28,7 @@ export const useCreateHighlight = (
     {
       onSuccess: (highlight, variables) => {
         if (Boolean(highlight)) {
-          queryClient.invalidateQueries(["highlights"]);
+          // queryClient.invalidateQueries(["highlights"]);
           if (callback) callback(highlight as Highlights);
         }
       },

@@ -1,5 +1,5 @@
-import React, { useState, useCallback, ReactElement } from "react";
-import fake from "@faker-js/faker";
+import React, { useState, useCallback, ReactElement, useMemo } from "react";
+import { faker } from "@faker-js/faker";
 
 import {
   EuiDataGrid,
@@ -12,7 +12,11 @@ import {
 import moment from "moment";
 import { useParams } from "react-router-dom";
 import { useHighlights } from "core/modules/highlights/hooks";
+import { Tags } from "API";
+import { useTags } from "core/modules/tags/hooks";
+import { HIGHLIGHT_TYPES } from "../shared/components/editor/components/highlight-control/color-picker";
 
+const fake = faker.fake;
 const visColorsBehindText = euiPaletteColorBlindBehindText();
 const columns = [
   {
@@ -36,22 +40,14 @@ const columns = [
     id: "updated",
     displayAsText: "Updated at",
   },
-  {
-    id: "name",
-    displayAsText: "Name",
-  },
-  {
-    id: "role",
-    displayAsText: "Role",
-  },
-  {
-    id: "companySize",
-    displayAsText: "Company Size",
-  },
-  {
-    id: "annualSpend",
-    displayAsText: "Annual Spend",
-  },
+  // {
+  //   id: "name",
+  //   displayAsText: "Name",
+  // },
+  // {
+  //   id: "role",
+  //   displayAsText: "Role",
+  // },
 ];
 
 interface IHighlight {
@@ -61,44 +57,44 @@ interface IHighlight {
   created: string;
   updated: string;
   name: string;
-  role: string;
-  companySize: string;
-  annualSpend: string;
+  // role: string;
+  // companySize: string;
+  // annualSpend: string;
   [key: string]: string | ReactElement | null;
 }
-const data: IHighlight[] = [];
+// const data: IHighlight[] = [];
 
-for (let i = 1; i < 100; i++) {
-  const color: string = visColorsBehindText[Math.floor(Math.random() * 7)];
-  data.push({
-    content: (
-      <>
-        <span
-          style={{
-            backgroundColor: transparentize(color, 0.3),
-            paddingTop: "4px",
-          }}
-        >
-          {fake("{{lorem.lines}}")}
-        </span>
-      </>
-    ),
-    tags: (
-      <>
-        <EuiBadge color={color}>{fake("{{lorem.words}}")}</EuiBadge>
-        <EuiBadge color={color}>{fake("{{lorem.words}}")}</EuiBadge>
-        <EuiBadge color={color}>{fake("{{lorem.words}}")}</EuiBadge>
-      </>
-    ),
-    note: fake("{{name.firstName}} {{name.lastName}}"),
-    created: moment(fake("{{date.past}}")).fromNow(),
-    updated: moment(fake("{{date.recent}}")).fromNow(),
-    name: fake("{{name.firstName}} {{name.lastName}}"),
-    role: fake("{{music.genre}}"),
-    companySize: fake("{{datatype.number}}"),
-    annualSpend: fake("{{finance.amount}}"),
-  } as IHighlight);
-}
+// for (let i = 1; i < 100; i++) {
+//   const color: string = visColorsBehindText[Math.floor(Math.random() * 7)];
+//   data.push({
+//     content: (
+//       <>
+//         <span
+//           style={{
+//             backgroundColor: transparentize(color, 0.3),
+//             paddingTop: "4px",
+//           }}
+//         >
+//           {fake("{{lorem.lines}}")}
+//         </span>
+//       </>
+//     ),
+//     tags: (
+//       <>
+//         <EuiBadge color={color}>{fake("{{lorem.words}}")}</EuiBadge>
+//         <EuiBadge color={color}>{fake("{{lorem.words}}")}</EuiBadge>
+//         <EuiBadge color={color}>{fake("{{lorem.words}}")}</EuiBadge>
+//       </>
+//     ),
+//     note: fake("{{name.firstName}} {{name.lastName}}"),
+//     created: moment(fake("{{date.past}}")).fromNow(),
+//     updated: moment(fake("{{date.recent}}")).fromNow(),
+//     name: fake("{{name.firstName}} {{name.lastName}}"),
+//     role: fake("{{music.genre}}"),
+//     companySize: fake("{{datatype.number}}"),
+//     annualSpend: fake("{{finance.amount}}"),
+//   } as IHighlight);
+// }
 
 const SelectionHeaderCell = () => (
   <EuiCheckbox
@@ -119,6 +115,7 @@ export const Highlights: React.FC = () => {
   const [rowHoverSelected] = useState("none");
   const [headerSelected] = useState("underline");
   const [footerSelected] = useState("overline");
+  const { data: tags } = useTags();
   const { data: highlights } = useHighlights({
     projectId: id,
   });
@@ -138,6 +135,46 @@ export const Highlights: React.FC = () => {
       rowCellRender: SelectionRowCell,
     },
   ];
+
+  const data = useMemo(() => {
+    const rows: IHighlight[] = [];
+    (highlights || []).forEach((highlight, index) => {
+      const tagIds = highlight.tagIds ? highlight.tagIds.split("|") : [];
+      const highlightTags = (tags || []).filter((tag) =>
+        tagIds.includes(tag.id!!)
+      );
+      const highlightType = HIGHLIGHT_TYPES[highlight.type];
+      if (highlightType)
+        rows.push({
+          content: (
+            <>
+              <span
+                style={{
+                  backgroundColor: transparentize(
+                    HIGHLIGHT_TYPES[highlight.type].color,
+                    0.3
+                  ),
+                  paddingTop: "4px",
+                }}
+              >
+                {highlight.text}
+              </span>
+            </>
+          ),
+          tags: (
+            <>
+              {highlightTags.map((tag) => (
+                <EuiBadge key={`${tag.id}.${index}`}>{tag.label}</EuiBadge>
+              ))}
+            </>
+          ),
+          note: fake("{{name.firstName}} {{name.lastName}}"),
+          created: moment(highlight.createdAt).fromNow(),
+          updated: moment(highlight.updatedAt).fromNow(),
+        } as IHighlight);
+    });
+    return rows;
+  }, [tags, highlights]);
 
   const setPageIndex = useCallback(
     (pageIndex) => {

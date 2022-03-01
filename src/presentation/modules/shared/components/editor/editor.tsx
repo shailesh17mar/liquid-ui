@@ -38,11 +38,14 @@ import { useAuth } from "presentation/context/auth-context";
 import { QuickActionButton } from "./editor.styles";
 import { TrailingNode } from "./extensions/trailing-node/trailing-node";
 import TimeOffset from "./extensions/time-offset";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useResetRecoilState, useSetRecoilState } from "recoil";
 // import { WebsocketProvider } from "main/factories/websocket-provider";
 import { VideoExtension } from "./extensions/video/extension";
 import { WebsocketProvider } from "y-websocket";
 import { HocuspocusProvider } from "@hocuspocus/provider";
+import { TagManager } from "./components/highlight-control/tag-manager";
+import { nanoid } from "nanoid";
+import { SpeakerExtension } from "./extensions/speaker/extension";
 
 const CustomDocument = Document.extend({
   content: "paragraph block+",
@@ -108,7 +111,8 @@ export const Editor: React.FC<EditorProps> = ({
 }) => {
   const [docState, setDocState] = useState<JSONContent>();
   const [isUploading, setIsUploading] = useState(false);
-  const [highlightState, setHighlightState] = useRecoilState(highlightAtom);
+  const resetHighlight = useResetRecoilState(highlightAtom);
+  const [temp, setTemp] = useState<string>(nanoid());
   const visColorsBehindText = euiPaletteColorBlindBehindText();
   const { user } = useAuth();
 
@@ -140,6 +144,7 @@ export const Editor: React.FC<EditorProps> = ({
     }),
     TranscriptExtension,
     VideoExtension,
+    SpeakerExtension,
     ImageExtension,
     CustomParagraph,
     Placeholder.configure({
@@ -227,13 +232,14 @@ export const Editor: React.FC<EditorProps> = ({
             }}
             tippyOptions={{
               onHide() {
-                setHighlightState({} as HighlightState);
+                resetHighlight();
+                setTemp(nanoid());
               },
             }}
             editor={editor}
           >
             {editor.isActive("transcriptComponent") && (
-              <HighlightControl editor={editor} />
+              <TagManager id={temp} editor={editor} />
             )}
           </BubbleMenu>
         </>
