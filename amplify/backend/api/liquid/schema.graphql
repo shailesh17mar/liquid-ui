@@ -46,6 +46,7 @@ type Tags @model @auth(rules: [{ allow: groups, groupsField: "tenant" }]) {
   tenant: ID!
   label: String!
   projectsID: ID! @index(name: "byProjects")
+  tagCategoryID: ID @index(name: "byTagCategories")
   updatedAt: AWSDateTime!
   createdAt: AWSDateTime
 }
@@ -137,4 +138,14 @@ type VodAsset
   title: String!
   transcription: Transcription @hasOne
   video: String!
+}
+
+type TagCategory
+  @model
+  @auth(rules: [{ allow: groups, groupsField: "tenant" }]) {
+  id: ID!
+  tenant: ID!
+  name: String!
+  projectsID: ID! @index(name: "byProjects")
+  tags: [Tags] @hasMany(indexName: "byTagCategories", fields: ["id"])
 }

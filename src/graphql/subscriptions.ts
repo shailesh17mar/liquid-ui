@@ -171,6 +171,7 @@ export const onCreateTags = /* GraphQL */ `
       tenant
       label
       projectsID
+      tagCategoryID
       updatedAt
       createdAt
       _version
@@ -186,6 +187,7 @@ export const onUpdateTags = /* GraphQL */ `
       tenant
       label
       projectsID
+      tagCategoryID
       updatedAt
       createdAt
       _version
@@ -201,6 +203,7 @@ export const onDeleteTags = /* GraphQL */ `
       tenant
       label
       projectsID
+      tagCategoryID
       updatedAt
       createdAt
       _version
@@ -681,6 +684,63 @@ export const onDeleteOrganisations = /* GraphQL */ `
       name
       type
       Workspaces {
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onCreateTagCategory = /* GraphQL */ `
+  subscription OnCreateTagCategory {
+    onCreateTagCategory {
+      id
+      tenant
+      name
+      projectsID
+      tags {
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onUpdateTagCategory = /* GraphQL */ `
+  subscription OnUpdateTagCategory {
+    onUpdateTagCategory {
+      id
+      tenant
+      name
+      projectsID
+      tags {
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onDeleteTagCategory = /* GraphQL */ `
+  subscription OnDeleteTagCategory {
+    onDeleteTagCategory {
+      id
+      tenant
+      name
+      projectsID
+      tags {
         nextToken
         startedAt
       }

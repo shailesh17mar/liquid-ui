@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { HIGHLIGHT_TYPES } from "../shared/components/editor/components/highlight-control/highlight-control";
 
 interface Props {
   type: string;

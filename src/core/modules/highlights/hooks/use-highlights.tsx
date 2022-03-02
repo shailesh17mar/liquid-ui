@@ -1,7 +1,10 @@
-import { ListHighlightsQuery, ModelHighlightsFilterInput } from "API";
+import {
+  Highlights,
+  ListHighlightsQuery,
+  ModelHighlightsFilterInput,
+} from "API";
 import { API } from "aws-amplify";
 import { listHighlights } from "graphql/queries";
-import { Highlights } from "models";
 import { useQuery } from "react-query";
 
 interface Filter {
@@ -24,8 +27,10 @@ const retrieveHighlights = async (filter?: Filter) => {
     data: ListHighlightsQuery;
   };
   if (highlightsResponse.data && highlightsResponse.data.listHighlights) {
-    return highlightsResponse.data.listHighlights.items as Highlights[];
+    return highlightsResponse.data.listHighlights
+      .items as Required<Highlights>[];
   }
+  return [];
 };
 
 export const useHighlights = (filter?: Filter, enabled: boolean = true) => {

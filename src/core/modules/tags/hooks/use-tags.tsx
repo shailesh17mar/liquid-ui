@@ -1,7 +1,6 @@
-import { ListTagsQuery, ModelTagsFilterInput } from "API";
+import { ListTagsQuery, ModelTagsFilterInput, Tags } from "API";
 import { API } from "aws-amplify";
 import { listTags } from "graphql/queries";
-import { Tags } from "models";
 import { useQuery } from "react-query";
 
 const retrieveTags = async (projectId?: string) => {
@@ -18,8 +17,9 @@ const retrieveTags = async (projectId?: string) => {
     data: ListTagsQuery;
   };
   if (tagsResponse.data && tagsResponse.data.listTags) {
-    return tagsResponse.data.listTags.items as Tags[];
+    return tagsResponse.data.listTags.items as Required<Tags>[];
   }
+  return [];
 };
 
 export const useTags = (projectId?: string, enabled: boolean = true) => {

@@ -201,6 +201,7 @@ export const createTags = /* GraphQL */ `
       tenant
       label
       projectsID
+      tagCategoryID
       updatedAt
       createdAt
       _version
@@ -219,6 +220,7 @@ export const updateTags = /* GraphQL */ `
       tenant
       label
       projectsID
+      tagCategoryID
       updatedAt
       createdAt
       _version
@@ -237,6 +239,7 @@ export const deleteTags = /* GraphQL */ `
       tenant
       label
       projectsID
+      tagCategoryID
       updatedAt
       createdAt
       _version
@@ -878,6 +881,72 @@ export const deleteVodAsset = /* GraphQL */ `
       _deleted
       _lastChangedAt
       vodAssetTranscriptionId
+    }
+  }
+`;
+export const createTagCategory = /* GraphQL */ `
+  mutation CreateTagCategory(
+    $input: CreateTagCategoryInput!
+    $condition: ModelTagCategoryConditionInput
+  ) {
+    createTagCategory(input: $input, condition: $condition) {
+      id
+      tenant
+      name
+      projectsID
+      tags {
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updateTagCategory = /* GraphQL */ `
+  mutation UpdateTagCategory(
+    $input: UpdateTagCategoryInput!
+    $condition: ModelTagCategoryConditionInput
+  ) {
+    updateTagCategory(input: $input, condition: $condition) {
+      id
+      tenant
+      name
+      projectsID
+      tags {
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deleteTagCategory = /* GraphQL */ `
+  mutation DeleteTagCategory(
+    $input: DeleteTagCategoryInput!
+    $condition: ModelTagCategoryConditionInput
+  ) {
+    deleteTagCategory(input: $input, condition: $condition) {
+      id
+      tenant
+      name
+      projectsID
+      tags {
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;

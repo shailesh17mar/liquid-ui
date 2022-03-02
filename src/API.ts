@@ -252,6 +252,7 @@ export type CreateTagsInput = {
   tenant: string,
   label: string,
   projectsID: string,
+  tagCategoryID?: string | null,
   updatedAt?: string | null,
   createdAt?: string | null,
   _version?: number | null,
@@ -261,6 +262,7 @@ export type ModelTagsConditionInput = {
   tenant?: ModelIDInput | null,
   label?: ModelStringInput | null,
   projectsID?: ModelIDInput | null,
+  tagCategoryID?: ModelIDInput | null,
   updatedAt?: ModelStringInput | null,
   createdAt?: ModelStringInput | null,
   and?: Array< ModelTagsConditionInput | null > | null,
@@ -274,6 +276,7 @@ export type Tags = {
   tenant?: string,
   label?: string,
   projectsID?: string,
+  tagCategoryID?: string | null,
   updatedAt?: string,
   createdAt?: string | null,
   _version?: number,
@@ -286,6 +289,7 @@ export type UpdateTagsInput = {
   tenant?: string | null,
   label?: string | null,
   projectsID?: string | null,
+  tagCategoryID?: string | null,
   updatedAt?: string | null,
   createdAt?: string | null,
   _version?: number | null,
@@ -735,6 +739,50 @@ export type DeleteVodAssetInput = {
   _version?: number | null,
 };
 
+export type CreateTagCategoryInput = {
+  id?: string | null,
+  tenant: string,
+  name: string,
+  projectsID: string,
+  _version?: number | null,
+};
+
+export type ModelTagCategoryConditionInput = {
+  tenant?: ModelIDInput | null,
+  name?: ModelStringInput | null,
+  projectsID?: ModelIDInput | null,
+  and?: Array< ModelTagCategoryConditionInput | null > | null,
+  or?: Array< ModelTagCategoryConditionInput | null > | null,
+  not?: ModelTagCategoryConditionInput | null,
+};
+
+export type TagCategory = {
+  __typename: "TagCategory",
+  id?: string,
+  tenant?: string,
+  name?: string,
+  projectsID?: string,
+  tags?: ModelTagsConnection,
+  createdAt?: string,
+  updatedAt?: string,
+  _version?: number,
+  _deleted?: boolean | null,
+  _lastChangedAt?: number,
+};
+
+export type UpdateTagCategoryInput = {
+  id: string,
+  tenant?: string | null,
+  name?: string | null,
+  projectsID?: string | null,
+  _version?: number | null,
+};
+
+export type DeleteTagCategoryInput = {
+  id: string,
+  _version?: number | null,
+};
+
 export type ModelPersonsFilterInput = {
   id?: ModelIDInput | null,
   tenant?: ModelIDInput | null,
@@ -790,6 +838,7 @@ export type ModelTagsFilterInput = {
   tenant?: ModelIDInput | null,
   label?: ModelStringInput | null,
   projectsID?: ModelIDInput | null,
+  tagCategoryID?: ModelIDInput | null,
   updatedAt?: ModelStringInput | null,
   createdAt?: ModelStringInput | null,
   and?: Array< ModelTagsFilterInput | null > | null,
@@ -911,6 +960,23 @@ export type ModelVodAssetFilterInput = {
 export type ModelVodAssetConnection = {
   __typename: "ModelVodAssetConnection",
   items?:  Array<VodAsset | null >,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
+export type ModelTagCategoryFilterInput = {
+  id?: ModelIDInput | null,
+  tenant?: ModelIDInput | null,
+  name?: ModelStringInput | null,
+  projectsID?: ModelIDInput | null,
+  and?: Array< ModelTagCategoryFilterInput | null > | null,
+  or?: Array< ModelTagCategoryFilterInput | null > | null,
+  not?: ModelTagCategoryFilterInput | null,
+};
+
+export type ModelTagCategoryConnection = {
+  __typename: "ModelTagCategoryConnection",
+  items?:  Array<TagCategory | null >,
   nextToken?: string | null,
   startedAt?: number | null,
 };
@@ -1134,6 +1200,7 @@ export type CreateTagsMutation = {
     tenant: string,
     label: string,
     projectsID: string,
+    tagCategoryID?: string | null,
     updatedAt: string,
     createdAt?: string | null,
     _version: number,
@@ -1154,6 +1221,7 @@ export type UpdateTagsMutation = {
     tenant: string,
     label: string,
     projectsID: string,
+    tagCategoryID?: string | null,
     updatedAt: string,
     createdAt?: string | null,
     _version: number,
@@ -1174,6 +1242,7 @@ export type DeleteTagsMutation = {
     tenant: string,
     label: string,
     projectsID: string,
+    tagCategoryID?: string | null,
     updatedAt: string,
     createdAt?: string | null,
     _version: number,
@@ -1893,6 +1962,81 @@ export type DeleteVodAssetMutation = {
   } | null,
 };
 
+export type CreateTagCategoryMutationVariables = {
+  input?: CreateTagCategoryInput,
+  condition?: ModelTagCategoryConditionInput | null,
+};
+
+export type CreateTagCategoryMutation = {
+  createTagCategory?:  {
+    __typename: "TagCategory",
+    id: string,
+    tenant: string,
+    name: string,
+    projectsID: string,
+    tags?:  {
+      __typename: "ModelTagsConnection",
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type UpdateTagCategoryMutationVariables = {
+  input?: UpdateTagCategoryInput,
+  condition?: ModelTagCategoryConditionInput | null,
+};
+
+export type UpdateTagCategoryMutation = {
+  updateTagCategory?:  {
+    __typename: "TagCategory",
+    id: string,
+    tenant: string,
+    name: string,
+    projectsID: string,
+    tags?:  {
+      __typename: "ModelTagsConnection",
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type DeleteTagCategoryMutationVariables = {
+  input?: DeleteTagCategoryInput,
+  condition?: ModelTagCategoryConditionInput | null,
+};
+
+export type DeleteTagCategoryMutation = {
+  deleteTagCategory?:  {
+    __typename: "TagCategory",
+    id: string,
+    tenant: string,
+    name: string,
+    projectsID: string,
+    tags?:  {
+      __typename: "ModelTagsConnection",
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
 export type GetPersonsQueryVariables = {
   id?: string,
 };
@@ -2147,6 +2291,7 @@ export type GetTagsQuery = {
     tenant: string,
     label: string,
     projectsID: string,
+    tagCategoryID?: string | null,
     updatedAt: string,
     createdAt?: string | null,
     _version: number,
@@ -2170,6 +2315,7 @@ export type ListTagsQuery = {
       tenant: string,
       label: string,
       projectsID: string,
+      tagCategoryID?: string | null,
       updatedAt: string,
       createdAt?: string | null,
       _version: number,
@@ -2197,6 +2343,7 @@ export type SyncTagsQuery = {
       tenant: string,
       label: string,
       projectsID: string,
+      tagCategoryID?: string | null,
       updatedAt: string,
       createdAt?: string | null,
       _version: number,
@@ -2833,6 +2980,83 @@ export type SyncVodAssetsQuery = {
   } | null,
 };
 
+export type GetTagCategoryQueryVariables = {
+  id?: string,
+};
+
+export type GetTagCategoryQuery = {
+  getTagCategory?:  {
+    __typename: "TagCategory",
+    id: string,
+    tenant: string,
+    name: string,
+    projectsID: string,
+    tags?:  {
+      __typename: "ModelTagsConnection",
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type ListTagCategoriesQueryVariables = {
+  filter?: ModelTagCategoryFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListTagCategoriesQuery = {
+  listTagCategories?:  {
+    __typename: "ModelTagCategoryConnection",
+    items:  Array< {
+      __typename: "TagCategory",
+      id: string,
+      tenant: string,
+      name: string,
+      projectsID: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type SyncTagCategoriesQueryVariables = {
+  filter?: ModelTagCategoryFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
+};
+
+export type SyncTagCategoriesQuery = {
+  syncTagCategories?:  {
+    __typename: "ModelTagCategoryConnection",
+    items:  Array< {
+      __typename: "TagCategory",
+      id: string,
+      tenant: string,
+      name: string,
+      projectsID: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
 export type OnCreatePersonsSubscription = {
   onCreatePersons?:  {
     __typename: "Persons",
@@ -3002,6 +3226,7 @@ export type OnCreateTagsSubscription = {
     tenant: string,
     label: string,
     projectsID: string,
+    tagCategoryID?: string | null,
     updatedAt: string,
     createdAt?: string | null,
     _version: number,
@@ -3017,6 +3242,7 @@ export type OnUpdateTagsSubscription = {
     tenant: string,
     label: string,
     projectsID: string,
+    tagCategoryID?: string | null,
     updatedAt: string,
     createdAt?: string | null,
     _version: number,
@@ -3032,6 +3258,7 @@ export type OnDeleteTagsSubscription = {
     tenant: string,
     label: string,
     projectsID: string,
+    tagCategoryID?: string | null,
     updatedAt: string,
     createdAt?: string | null,
     _version: number,
@@ -3542,6 +3769,66 @@ export type OnDeleteOrganisationsSubscription = {
     type?: string | null,
     Workspaces?:  {
       __typename: "ModelWorkspacesConnection",
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnCreateTagCategorySubscription = {
+  onCreateTagCategory?:  {
+    __typename: "TagCategory",
+    id: string,
+    tenant: string,
+    name: string,
+    projectsID: string,
+    tags?:  {
+      __typename: "ModelTagsConnection",
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnUpdateTagCategorySubscription = {
+  onUpdateTagCategory?:  {
+    __typename: "TagCategory",
+    id: string,
+    tenant: string,
+    name: string,
+    projectsID: string,
+    tags?:  {
+      __typename: "ModelTagsConnection",
+      nextToken?: string | null,
+      startedAt?: number | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnDeleteTagCategorySubscription = {
+  onDeleteTagCategory?:  {
+    __typename: "TagCategory",
+    id: string,
+    tenant: string,
+    name: string,
+    projectsID: string,
+    tags?:  {
+      __typename: "ModelTagsConnection",
       nextToken?: string | null,
       startedAt?: number | null,
     } | null,

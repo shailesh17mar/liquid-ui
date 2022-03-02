@@ -237,6 +237,7 @@ export const getTags = /* GraphQL */ `
       tenant
       label
       projectsID
+      tagCategoryID
       updatedAt
       createdAt
       _version
@@ -257,6 +258,7 @@ export const listTags = /* GraphQL */ `
         tenant
         label
         projectsID
+        tagCategoryID
         updatedAt
         createdAt
         _version
@@ -286,6 +288,7 @@ export const syncTags = /* GraphQL */ `
         tenant
         label
         projectsID
+        tagCategoryID
         updatedAt
         createdAt
         _version
@@ -870,6 +873,77 @@ export const syncVodAssets = /* GraphQL */ `
         _deleted
         _lastChangedAt
         vodAssetTranscriptionId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getTagCategory = /* GraphQL */ `
+  query GetTagCategory($id: ID!) {
+    getTagCategory(id: $id) {
+      id
+      tenant
+      name
+      projectsID
+      tags {
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listTagCategories = /* GraphQL */ `
+  query ListTagCategories(
+    $filter: ModelTagCategoryFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTagCategories(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        tenant
+        name
+        projectsID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncTagCategories = /* GraphQL */ `
+  query SyncTagCategories(
+    $filter: ModelTagCategoryFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncTagCategories(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        tenant
+        name
+        projectsID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       nextToken
       startedAt

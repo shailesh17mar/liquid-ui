@@ -81,7 +81,6 @@ export const StoryDetails: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    //@ts-ignore
     provider.on("sync", (synced: boolean) => {
       if (!isSynced && synced) {
         setIsSynced(true);

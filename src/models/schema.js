@@ -333,6 +333,13 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "tagCategoryID": {
+                    "name": "tagCategoryID",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "updatedAt": {
                     "name": "updatedAt",
                     "isArray": false,
@@ -361,6 +368,15 @@ export const schema = {
                         "name": "byProjects",
                         "fields": [
                             "projectsID"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byTagCategories",
+                        "fields": [
+                            "tagCategoryID"
                         ]
                     }
                 },
@@ -1148,6 +1164,90 @@ export const schema = {
                     }
                 }
             ]
+        },
+        "TagCategory": {
+            "name": "TagCategory",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "tenant": {
+                    "name": "tenant",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "name": {
+                    "name": "name",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "projectsID": {
+                    "name": "projectsID",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "tags": {
+                    "name": "tags",
+                    "isArray": true,
+                    "type": {
+                        "model": "Tags"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": "tagCategoryID"
+                    }
+                }
+            },
+            "syncable": true,
+            "pluralName": "TagCategories",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byProjects",
+                        "fields": [
+                            "projectsID"
+                        ]
+                    }
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "groupClaim": "cognito:groups",
+                                "provider": "userPools",
+                                "allow": "groups",
+                                "groupsField": "tenant",
+                                "groupField": "groups",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
         }
     },
     "enums": {
@@ -1162,5 +1262,5 @@ export const schema = {
         }
     },
     "nonModels": {},
-    "version": "6fbd24b227eb8b2c030f17facf72abbd"
+    "version": "0a8da9ab74e70993625a3795696dcb8b"
 };

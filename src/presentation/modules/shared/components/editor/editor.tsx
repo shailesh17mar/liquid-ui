@@ -10,7 +10,6 @@ import {
 import StarterKit from "@tiptap/starter-kit";
 import { useDebouncedCallback } from "use-debounce";
 import TaskList from "@tiptap/extension-task-list";
-import DropCursor from "@tiptap/extension-dropcursor";
 import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
 import Image from "@tiptap/extension-image";
 import Color from "@tiptap/extension-color";
@@ -28,22 +27,19 @@ import { Commander } from "./extensions/commander/commander";
 import TextStyle from "@tiptap/extension-text-style";
 import { TranscriptExtension } from "./extensions/transcript/extension";
 import { ImageExtension } from "./extensions/image/extension";
-import {
-  highlightAtom,
-  HighlightControl,
-  HighlightState,
-} from "./components/highlight-control/highlight-control";
 import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "presentation/context/auth-context";
 import { QuickActionButton } from "./editor.styles";
 import { TrailingNode } from "./extensions/trailing-node/trailing-node";
 import TimeOffset from "./extensions/time-offset";
-import { useRecoilState, useResetRecoilState, useSetRecoilState } from "recoil";
+import { useResetRecoilState } from "recoil";
 // import { WebsocketProvider } from "main/factories/websocket-provider";
 import { VideoExtension } from "./extensions/video/extension";
-import { WebsocketProvider } from "y-websocket";
 import { HocuspocusProvider } from "@hocuspocus/provider";
-import { TagManager } from "./components/highlight-control/tag-manager";
+import {
+  highlightAtom,
+  TagManager,
+} from "./components/highlight-control/tag-manager";
 import { nanoid } from "nanoid";
 import { SpeakerExtension } from "./extensions/speaker/extension";
 

@@ -54,6 +54,7 @@ export declare class Tags {
   readonly tenant: string;
   readonly label: string;
   readonly projectsID: string;
+  readonly tagCategoryID?: string;
   readonly updatedAt: string;
   readonly createdAt?: string;
   constructor(init: ModelInit<Tags>);
@@ -152,4 +153,14 @@ export declare class VodAsset {
   readonly vodAssetTranscriptionId?: string;
   constructor(init: ModelInit<VodAsset>);
   static copyOf(source: VodAsset, mutator: (draft: MutableModel<VodAsset>) => MutableModel<VodAsset> | void): VodAsset;
+}
+
+export declare class TagCategory {
+  readonly id: string;
+  readonly tenant: string;
+  readonly name: string;
+  readonly projectsID: string;
+  readonly tags?: (Tags | null)[];
+  constructor(init: ModelInit<TagCategory>);
+  static copyOf(source: TagCategory, mutator: (draft: MutableModel<TagCategory>) => MutableModel<TagCategory> | void): TagCategory;
 }

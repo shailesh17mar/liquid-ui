@@ -30,10 +30,10 @@ import { useCreateTag, useTags } from "core/modules/tags/hooks";
 import { useHighlight } from "core/modules/highlights/hooks/use-highlight";
 import { useDebouncedCallback } from "use-debounce";
 import { ColorPicker } from "./color-picker";
-import { highlightAtom } from "./highlight-control";
 import { euiCardSelectableColor } from "@elastic/eui/src/components/card/card_select";
 import { nanoid } from "nanoid";
 import { Highlights } from "API";
+import { useDefaultTagCategory } from "core/modules/tag-categories/hooks/use-tag-category";
 
 interface Props {
   id?: string;
@@ -55,6 +55,18 @@ export interface HighlightState {
   startTime?: number;
   endTime?: number;
 }
+export interface HighlightState {
+  id: string;
+  type: string;
+  transcriptionId?: string;
+  startTime?: number;
+  endTime?: number;
+}
+
+export const highlightAtom = atom<HighlightState | null>({
+  key: "highlightState",
+  default: null,
+});
 
 export const TagManager: React.FC<Props> = ({ editor, id }) => {
   const storyMetadata = useStoryMetadata();
@@ -68,6 +80,9 @@ export const TagManager: React.FC<Props> = ({ editor, id }) => {
   const [color, setColor] = useState("pain");
 
   const { data: tags } = useTags(storyMetadata.projectId);
+  const { data: defaultTagCategory } = useDefaultTagCategory(
+    storyMetadata.projectId
+  );
   const { data: highlight } = useHighlight(highlightProps?.id);
   const [newTag, setNewTag] = useState<string>("");
   const [tagCreatedSuccessfully, setTagCreatedSuccessfully] = useState(false);
@@ -191,6 +206,7 @@ export const TagManager: React.FC<Props> = ({ editor, id }) => {
         id: tagId,
         label: newOption.label,
         projectsID: storyMetadata.projectId,
+        tagCategoryId: defaultTagCategory?.id,
       };
       const option = { label: newTag.label, id: newTag.id, checked: "on" };
       const newOptions = [option, ...tagOptions];

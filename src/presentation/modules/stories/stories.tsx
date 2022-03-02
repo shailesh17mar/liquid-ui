@@ -295,7 +295,7 @@ export const Stories: React.FC = () => {
                           </EuiTitle>
                         </EuiFlexItem>
                         <EuiFlexItem></EuiFlexItem>
-                        <EuiFlexItem grow={false}>
+                        {/* <EuiFlexItem grow={false}>
                           <EuiPopover
                             id={smallContextMenuPopoverId}
                             button={button}
@@ -306,8 +306,9 @@ export const Stories: React.FC = () => {
                           >
                             <EuiContextMenuPanel size="s" items={items} />
                           </EuiPopover>
-                        </EuiFlexItem>
+                        </EuiFlexItem> */}
                       </EuiFlexGroup>
+
                       <EuiSpacer />
                       <EuiButton
                         size="s"
@@ -317,7 +318,6 @@ export const Stories: React.FC = () => {
                       >
                         Add Story
                       </EuiButton>
-
                       <EuiDroppable
                         droppableId={category.id}
                         grow

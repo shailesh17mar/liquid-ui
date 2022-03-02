@@ -9,10 +9,6 @@ import { Highlights } from "models";
 import { EuiConfirmModal, EuiTitle } from "@elastic/eui";
 import { useParams } from "react-router-dom";
 import { atom, useRecoilState, useRecoilValue } from "recoil";
-import {
-  HighlightState,
-  highlightAtom,
-} from "../../components/highlight-control/highlight-control";
 import { useStory } from "core/modules/stories/hooks";
 import {
   Annotation,
@@ -23,6 +19,10 @@ import { useTags } from "core/modules/tags/hooks";
 import _ from "lodash";
 import { wordTimestampsAtom } from "../video/video";
 import { useVideo } from "react-use";
+import {
+  highlightAtom,
+  HighlightState,
+} from "../../components/highlight-control/tag-manager";
 
 export const transcriptAtom = atom<JSONContent | undefined>({
   key: "transcriptState",
@@ -91,24 +91,21 @@ export const Transcript = (props: NodeViewProps) => {
       highlights.length > 0 &&
       _.isEmpty(annotation)
     ) {
-      const annotation = highlights.reduce<Annotation>(
-        (acc, highlight: Highlights) => {
-          const tagIds = highlight.tagIds?.split("|") || [];
-          const selectedTags = tags.filter((tag) => tagIds.includes(tag.id));
-          const annotationTags = selectedTags.map((tag) => {
-            return {
-              label: tag.label,
-              id: tag.id,
-            };
-          });
-          acc[highlight.id] = {
-            type: highlight.type,
-            tags: annotationTags,
+      const annotation = highlights.reduce<Annotation>((acc, highlight) => {
+        const tagIds = highlight.tagIds?.split("|") || [];
+        const selectedTags = tags.filter((tag) => tagIds.includes(tag.id));
+        const annotationTags = selectedTags.map((tag) => {
+          return {
+            label: tag.label,
+            id: tag.id,
           };
-          return acc;
-        },
-        {}
-      );
+        });
+        acc[highlight.id] = {
+          type: highlight.type,
+          tags: annotationTags,
+        };
+        return acc;
+      }, {});
       setAnnotation(annotation);
     }
   }, [annotation, highlights, setAnnotation, tags]);
