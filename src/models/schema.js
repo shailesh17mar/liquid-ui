@@ -212,6 +212,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "user": {
+                    "name": "user",
+                    "isArray": false,
+                    "type": "AWSJSON",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "transcriptionID": {
                     "name": "transcriptionID",
                     "isArray": false,
@@ -1262,5 +1269,5 @@ export const schema = {
         }
     },
     "nonModels": {},
-    "version": "0a8da9ab74e70993625a3795696dcb8b"
+    "version": "e523fccd612c4cc053dfe5608e7b7dd9"
 };

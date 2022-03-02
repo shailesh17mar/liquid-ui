@@ -27,6 +27,7 @@ export const ProjectButton = styled(EuiFlexGroup)`
   cursor: pointer;
   border: solid 1px #d3dae6;
   border-radius: 10px;
+  min-width: 280px;
   padding: 10px;
   :hover {
     background-color: #e0e2e6;

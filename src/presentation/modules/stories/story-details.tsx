@@ -205,7 +205,7 @@ export const StoryDetails: React.FC = () => {
         Persons: participant as ModelInit<Participant>,
       });
     },
-    500
+    2000
   );
 
   const StoryEditor = useMemo(

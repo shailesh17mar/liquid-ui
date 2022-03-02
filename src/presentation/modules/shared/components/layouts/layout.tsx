@@ -24,7 +24,11 @@ import { useTracking } from "main/use-tracking";
 const palette = euiPaletteColorBlind({ direction: "both", order: "append" });
 const makeBreadcrumbs = (navigate: (path: string) => void, story: any) => [
   {
-    text: "Stories",
+    text: (
+      <EuiButtonEmpty color="text" iconType="folderOpen">
+        {story?.projectName}
+      </EuiButtonEmpty>
+    ),
     onClick: () => {
       navigate(`/projects/${story?.projectsID}/stories`);
     },
@@ -52,7 +56,7 @@ const makeProjectNavItems = (id: string = "") => [
     color: palette[0],
   },
   {
-    label: "Stories",
+    label: "Data",
     icon: "tableOfContents",
     path: `/projects/${id}/stories`,
     route: ["/stories/:id", "/projects/:id/stories"],
@@ -89,13 +93,13 @@ const MainNavItems = [
     route: "/",
     color: "rgb(252, 180, 21)",
   },
-  {
-    label: "Find",
-    icon: "search",
-    path: "/find",
-    route: "/find",
-    color: "#a21a68",
-  },
+  // {
+  //   label: "Find",
+  //   icon: "search",
+  //   path: "/find",
+  //   route: "/find",
+  //   color: "#a21a68",
+  // },
 ];
 interface Props {
   isProjectLayout?: boolean;
@@ -114,6 +118,12 @@ export const Layout: React.FC<Props> = ({ isProjectLayout, isStoryPage }) => {
     story?.categoriesID || "",
     Boolean(story)
   );
+  const currentProject =
+    isStoryPage && story
+      ? projects?.filter((project) => project.id === story?.projectsID)[0]
+      : isProjectLayout
+      ? projects?.filter((project) => project.id === id)[0]
+      : undefined;
   const navItems = isProjectLayout
     ? isStoryPage
       ? makeProjectNavItems(story?.projectsID)
@@ -126,7 +136,7 @@ export const Layout: React.FC<Props> = ({ isProjectLayout, isStoryPage }) => {
 
   const handleAddProjectSuccess = (id: string) => {
     setIsModalVisible(false);
-    navigate(`/projects/${id}`);
+    navigate(`/projects/${id}/stories`);
   };
 
   return user ? (
@@ -150,15 +160,15 @@ export const Layout: React.FC<Props> = ({ isProjectLayout, isStoryPage }) => {
         paddingSize: "m",
         rightSideItems: [
           <UserMenu />,
-          <EuiButton fill color="warning">
-            Upgrade
-          </EuiButton>,
+          // <EuiButton fill color="warning">
+          //   Upgrade
+          // </EuiButton>,
           <ActionMenu onAddProject={handleAddProject} />,
-          <EuiFieldSearch
-            placeholder="Search for anything"
-            fullWidth
-            isClearable
-          />,
+          // <EuiFieldSearch
+          //   placeholder="Search for anything"
+          //   fullWidth
+          //   isClearable
+          // />,
         ],
       }}
       pageSideBar={
@@ -180,6 +190,7 @@ export const Layout: React.FC<Props> = ({ isProjectLayout, isStoryPage }) => {
           breadcrumbs={makeBreadcrumbs(navigate, {
             ...story,
             categoryName: category.name,
+            projectName: currentProject?.name,
           })}
           truncate={false}
           aria-label="An example of EuiBreadcrumbs"

@@ -217,11 +217,13 @@ export const Video = (props: NodeViewProps) => {
     <VideoContainer>
       <DeleteButton
         iconType="trash"
-        display="base"
+        size="s"
         color="danger"
         aria-label="Delete Video"
         onClick={showDestroyModal}
-      />
+      >
+        Remove video
+      </DeleteButton>
       {isDestroyModalVisible && (
         <EuiConfirmModal
           title="Do you want to remove this video?"

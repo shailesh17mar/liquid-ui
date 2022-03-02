@@ -1,9 +1,9 @@
-import { EuiButtonIcon } from "@elastic/eui";
+import { EuiButton, EuiButtonIcon } from "@elastic/eui";
 import { NodeViewWrapper } from "@tiptap/react";
 import ReactPlayer from "react-player";
 import styled from "styled-components";
 
-export const DeleteButton = styled(EuiButtonIcon)`
+export const DeleteButton = styled(EuiButton)`
   visibility: hidden;
   position: absolute;
   right: 1rem;

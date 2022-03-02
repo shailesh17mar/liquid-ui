@@ -145,14 +145,7 @@ export const Editor: React.FC<EditorProps> = ({
     CustomParagraph,
     Placeholder.configure({
       placeholder: ({ node }) => {
-        if (node.type.name === "heading") {
-          return "Title goes here";
-        }
-
-        if (node.type.name === "paragraph") {
-          return "Type '/' for commands";
-        }
-        return "";
+        return "Type '/' for commands";
       },
     }),
     // ySyncPlugin(syncType),
@@ -278,12 +271,12 @@ export const Editor: React.FC<EditorProps> = ({
                 Image
               </QuickActionButton>
             </EuiFlexItem>
-            <EuiFlexItem grow={false}>
+            {/* <EuiFlexItem grow={false}>
               <QuickActionButton iconType="paperClip" color="warning">
                 File
               </QuickActionButton>
-            </EuiFlexItem>
-            <EuiFlexItem grow={false}>
+            </EuiFlexItem> */}
+            {/* <EuiFlexItem grow={false}>
               <QuickActionButton
                 color="success"
                 iconType="editorTable"
@@ -291,7 +284,7 @@ export const Editor: React.FC<EditorProps> = ({
               >
                 Table
               </QuickActionButton>
-            </EuiFlexItem>
+            </EuiFlexItem> */}
           </EuiFlexGroup>
         </EuiFlexItem>
       </EuiFlexGroup>

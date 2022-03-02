@@ -33,6 +33,7 @@ type Highlights
   text: String!
   Tags: [String]
   tagIds: String
+  user: AWSJSON
   transcriptionID: ID @index(name: "byTranscription")
   projectsID: ID! @index(name: "byProjects")
   startTime: Int

@@ -121,7 +121,7 @@ export const Highlights: React.FC = () => {
   });
   const [pagination, setPagination] = useState({
     pageIndex: 0,
-    pageSize: 25,
+    pageSize: 10,
   });
   const [visibleColumns, setVisibleColumns] = useState(
     columns.map(({ id }) => id)

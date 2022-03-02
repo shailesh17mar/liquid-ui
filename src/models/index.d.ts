@@ -39,6 +39,7 @@ export declare class Highlights {
   readonly text: string;
   readonly Tags?: (string | null)[];
   readonly tagIds?: string;
+  readonly user?: string;
   readonly transcriptionID?: string;
   readonly projectsID: string;
   readonly startTime?: number;

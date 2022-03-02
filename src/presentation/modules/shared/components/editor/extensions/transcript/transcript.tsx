@@ -184,10 +184,12 @@ export const Transcript = (props: NodeViewProps) => {
       <DeleteButton
         iconType="trash"
         aria-label="Delete transcript"
-        display="base"
         color="danger"
+        size="s"
         onClick={showDestroyModal}
-      />
+      >
+        Delete transcript
+      </DeleteButton>
 
       {isDestroyModalVisible && (
         <EuiConfirmModal

@@ -22,27 +22,16 @@ export const ProjectDetails: React.FC = () => {
     });
   }, []);
 
-  const handleDocumentEditing = useCallback(
-    async (id, body) => {
-      if (body && project) {
-        mutation.mutate({
-          id,
-          readme: body,
-          _version: project._version,
-        });
-      }
-    },
-    [mutation, project]
-  );
+  const handleDocumentEditing = async () => {};
   const handleNameChange = useDebouncedCallback((id, name) => {
     if (project) {
-      mutation.mutate({
+      mutation.mutateAsync({
         id,
         name,
         _version: project._version,
       });
     }
-  }, 1000);
+  }, 2000);
 
   return (
     <EuiPanel>

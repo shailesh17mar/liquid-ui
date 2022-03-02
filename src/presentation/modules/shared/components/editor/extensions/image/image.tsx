@@ -24,6 +24,7 @@ export const Image = (props: NodeViewProps) => {
     }
   }, [key]);
 
+  //TODO: These images are public right now.
   useEffect(() => {
     async function fetchImageURL() {
       if (key && !image) {
