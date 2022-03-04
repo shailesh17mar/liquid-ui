@@ -3,11 +3,12 @@ import { API } from "aws-amplify";
 import { useCreateVideoAsset } from "core/modules/videoAssets/hooks";
 
 interface Props {
+  isVideoAsset: boolean;
   onSuccess: (id: string) => void;
 }
-export const useVideoUpload = ({ onSuccess }: Props) => {
-  const [progress, setProgress] = useState(0);
-  const [videoUrl, setVideoUrl] = useState<string | undefined>();
+export const useAssetUpload = ({ onSuccess, isVideoAsset }: Props) => {
+  const [progress, setProgress] = useState(1);
+  const [assetUrl] = useState<string | undefined>();
   const videoAssetMutation = useCreateVideoAsset();
 
   const uploadToS3 = (
@@ -52,22 +53,23 @@ export const useVideoUpload = ({ onSuccess }: Props) => {
     await uploadToS3(uploadTarget.uploadURL, file, (progress: number) => {
       setProgress(Math.round(progress));
     });
-    const videoAsset = await videoAssetMutation.mutateAsync({
-      title: file.name,
-      video: uploadTarget.name,
-    });
-    if (videoAsset) {
-      const { url } = await API.get(
-        "assets",
-        `/assets/${uploadTarget.name}`,
-        {}
-      );
-      onSuccess(videoAsset?.id);
+    if (isVideoAsset) {
+      const videoAsset = await videoAssetMutation.mutateAsync({
+        title: file.name,
+        video: uploadTarget.name,
+      });
+      if (videoAsset) {
+        await API.get("assets", `/assets/${uploadTarget.name}`, {});
+        onSuccess(videoAsset?.id);
+      }
+    } else {
+      await API.get("assets", `/assets/${uploadTarget.name}`, {});
+      onSuccess(uploadTarget.name);
     }
   };
   return {
     upload,
     progress,
-    videoUrl,
+    videoUrl: assetUrl,
   };
 };

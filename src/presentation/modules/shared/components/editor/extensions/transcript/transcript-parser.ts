@@ -71,10 +71,8 @@ function CreateNewPara(timeOfFirstWord, speaker, paraId) {
     "' data-d='0' class='speaker'>" +
     speaker +
     " </span>";
-  var paraFormattedTime =
-    "<span class ='timecode'>[" + formattedTime + "] </span>";
   var endPara = "</p>";
-  var newPara = paraTime + paraSpeaker + paraFormattedTime + "{{}}" + endPara;
+  var newPara = paraTime + paraSpeaker + "{{}}" + endPara;
   return newPara;
 }
 
@@ -154,7 +152,6 @@ export function displayTranscript(userJson: any) {
   // parse the DeepSPeech formatted json
   if (data.results) {
     // AWS formatted json
-    console.log("AWS formatted data detected");
     // turn on confidence display toggle
 
     // parse the AWS formatted json
@@ -170,13 +167,12 @@ export function displayTranscript(userJson: any) {
     // we simplify this
 
     if (results.speaker_labels) {
-      console.log("multiple speakers");
       var whoIsSpeaker;
       var speaker_times = [];
       var segments = results.speaker_labels.segments;
       for (var i = 1; i < segments.length; i++) {
         // check if the speaker has changed
-        if (whoIsSpeaker != segments[i].speaker_label) {
+        if (whoIsSpeaker !== segments[i].speaker_label) {
           // if so add to the array
           whoIsSpeaker = segments[i].speaker_label;
           let speaker = [];
@@ -186,7 +182,6 @@ export function displayTranscript(userJson: any) {
         }
       }
     } else {
-      console.log("one speaker");
       new_speaker = "speaker";
       let speaker_times = [[]];
       let speaker_counter = 0;
@@ -391,6 +386,5 @@ export function displayTranscript(userJson: any) {
     const content = paraDictionary[id] ? paraDictionary[id].join("") : "";
     output = output + paragraphs[id].replace("{{}}", content);
   });
-  // console.log(paraDictionary);
   return output;
 }

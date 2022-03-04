@@ -1,12 +1,4 @@
-import {
-  MutableRefObject,
-  RefObject,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useLocalStorage } from "react-use";
 import { API } from "aws-amplify";
 import Document from "@tiptap/extension-document";
@@ -31,7 +23,7 @@ import {
 import { useParams } from "react-router-dom";
 import TimeOffset from "../time-offset";
 import { CustomParagraph } from "../../editor";
-import { useVideoUpload } from "../../../transcript/hooks/use-video-upload";
+import { useAssetUpload } from "../../../../hooks/use-asset-upload";
 import {
   useUpdateVideoAsset,
   useVideoAsset,
@@ -40,25 +32,12 @@ import { useCreateTranscription } from "core/modules/transcripts/hooks";
 import { TranscriptionStatus } from "models";
 import _ from "lodash";
 import { displayTranscript } from "../transcript/transcript-parser";
-import { atom, useRecoilState, useRecoilValue } from "recoil";
-import ReactPlayer from "react-player";
-import InteractiveTranscript from "../transcript/interactive-transcript";
-import { workerData } from "worker_threads";
 
-export const wordTimestampsAtom = atom<number[]>({
-  key: "wordtimestamps",
-  default: [],
-});
 // var interactiveTranscript: InteractiveTranscript;
 export const Video = (props: NodeViewProps) => {
   const { id } = useParams() as { id: string };
-  // const wordTimestamps = useRecoilValue(wordTimestampsAtom);
-
-  // const interactiveTranscript = useMemo(() => {
-  //   return wordTimestamps.length > 0 ? new InteractiveTranscript() : null;
-  // }, [wordTimestamps]);
   const uploaderRef = useRef<HTMLInputElement>(null);
-  const { video, id: transcriptId } = props.node.attrs;
+  const { video, transcriptId } = props.node.attrs;
 
   const [isTranscriptionOwner, setIsTranscriptionOwner, remove] =
     useLocalStorage(`doc-${id}`, false);
@@ -82,8 +61,9 @@ export const Video = (props: NodeViewProps) => {
       video: videoAssetId,
     });
   };
-  const { upload, progress } = useVideoUpload({
+  const { upload, progress } = useAssetUpload({
     onSuccess: handleVideoUploadSuccess,
+    isVideoAsset: true,
   });
 
   const closeDestroyModal = () => setIsDestroyModalVisible(false);
@@ -120,20 +100,16 @@ export const Video = (props: NodeViewProps) => {
     }
   }, [videoAsset?.video]);
 
-  const insertTranscript = useCallback(
-    (id: string, transcriptJson: JSONContent[]) => {
-      props.editor.commands.setTranscript(
-        { ...props.node.attrs, id },
-        transcriptJson
-      );
-      remove();
-      props.updateAttributes({
-        ...props.node.attrs,
-        id,
-      });
-    },
-    [props, remove]
-  );
+  const insertTranscript = (id: string, transcriptJson: JSONContent[]) => {
+    remove();
+    props.updateAttributes({
+      video,
+      transcriptId: id,
+    });
+    props.editor.commands.focus("end");
+
+    props.editor.commands.setTranscript({ transcriptId: id }, transcriptJson);
+  };
 
   useEffect(() => {
     const fetchTranscriptJson = async (id: string) => {
@@ -159,35 +135,28 @@ export const Video = (props: NodeViewProps) => {
       !transcriptId &&
       isTranscriptionOwner
     ) {
+      setIsTranscribing(false);
       fetchTranscriptJson(videoAsset.transcription.id);
     }
-  }, [
-    insertTranscript,
-    isTranscriptionOwner,
-    transcriptId,
-    videoAsset?.transcription,
-  ]);
+  }, [isTranscriptionOwner, transcriptId, videoAsset?.transcription]);
 
-  const handleDeleteTranscript = useCallback(async () => {
+  const handleDeleteVideo = () => {
     props.deleteNode();
-  }, [props]);
+  };
 
   const handleTranscription = async () => {
     if (videoURL) {
       if (videoAsset && !videoAsset?.transcription) {
-        //create a transcription entry
         const transcript = await transcriptCreateMutation.mutateAsync({
           video: videoAsset.video,
           status: TranscriptionStatus.ENQUEUED,
         });
-        //update reference in transcription
 
         await videoAssetUpdateMutation.mutateAsync({
           id: video,
           vodAssetTranscriptionId: transcript?.id,
         });
         setIsTranscriptionOwner(true);
-        setIsTranscribing(true);
       }
     } else throw new Error("No video to transcribe");
   };
@@ -195,13 +164,13 @@ export const Video = (props: NodeViewProps) => {
   const handleFocus = useCallback(() => {
     setTimeout(() => {
       if (!isFileSelected && uploaderRef?.current) {
-        if (uploaderRef?.current.files?.length === 0) {
+        if (uploaderRef?.current.files?.length === 0 && !video) {
           window.removeEventListener("focus", handleFocus);
-          handleDeleteTranscript();
+          handleDeleteVideo();
         }
       }
     }, 500);
-  }, [handleDeleteTranscript, isFileSelected]);
+  }, [isFileSelected]);
 
   const handleFileTrigger = () => {
     window.addEventListener("focus", handleFocus);
@@ -215,134 +184,113 @@ export const Video = (props: NodeViewProps) => {
 
   return (
     <VideoContainer>
-      <DeleteButton
-        iconType="trash"
-        size="s"
-        color="danger"
-        aria-label="Delete Video"
-        onClick={showDestroyModal}
-      >
-        Remove video
-      </DeleteButton>
-      {isDestroyModalVisible && (
-        <EuiConfirmModal
-          title="Do you want to remove this video?"
-          onCancel={closeDestroyModal}
-          onConfirm={handleDeleteTranscript}
-          cancelButtonText="No"
-          confirmButtonText="Yes, Please"
-          buttonColor="danger"
-          defaultFocusedButton="confirm"
+      <div className="content">
+        <DeleteButton
+          iconType="trash"
+          size="s"
+          color="danger"
+          aria-label="Delete Video"
+          onClick={showDestroyModal}
         >
-          <p>Are you sure you want to do this?</p>
-        </EuiConfirmModal>
-      )}
-      <EuiFieldText
-        style={{ display: "none" }}
-        type="file"
-        inputRef={uploaderRef}
-        accept="video/*"
-        onClick={handleFileTrigger}
-        onChange={handleFileUpload}
-      />
+          Remove video
+        </DeleteButton>
+        {isDestroyModalVisible && (
+          <EuiConfirmModal
+            title="Do you want to remove this video?"
+            onCancel={closeDestroyModal}
+            onConfirm={() => handleDeleteVideo()}
+            cancelButtonText="No"
+            confirmButtonText="Yes, Please"
+            buttonColor="danger"
+            defaultFocusedButton="confirm"
+          >
+            <p>Are you sure you want to do this?</p>
+          </EuiConfirmModal>
+        )}
+        <EuiFieldText
+          style={{ display: "none" }}
+          type="file"
+          inputRef={uploaderRef}
+          accept="video/*"
+          onClick={handleFileTrigger}
+          onChange={handleFileUpload}
+        />
 
-      {videoURL ? (
-        <EuiPanel hasShadow={false}>
-          <EuiFlexGroup direction="column" justifyContent="spaceAround">
-            <EuiFlexItem grow={false}>
-              <VideoPlayer
-                width={768}
-                height={428}
-                url={videoURL}
-                onProgress={(state: any) => {
-                  // state.playedSeconds &&
-                  // interactiveTranscript?.updateTranscriptVisualState(
-                  //   state.playedSeconds
-                  // );
-                  // if (state?.playedSeconds && wordTimestamps) {
-                  //   const timestamp = state.playedSeconds * 1000;
-                  //   const currentWord = wordTimestamps.find(
-                  //     (tt: number) => tt <= timestamp
-                  //   );
-                  //   console.log(currentWord, timestamp);
-                  //   // const strayActive =
-                  //   //   document.getElementsByClassName("active-word")[0];
-                  //   // if (strayActive) {
-                  //   //   strayActive.classList.remove("active-word");
-                  //   // }
-                  //   const element = document.querySelector(
-                  //     `span[starttime="${currentWord}"]`
-                  //   );
-                  //   console.log(element);
-                  //   // element?.removeAttribute("class");
-                  //   // element?.classList.add("active-word");
-                  // }
-                }}
-                // config={{
-                //   file: {
-                //     hlsOptions: {
-                //       xhrSetup: function xhrSetup(xhr: any, url: string) {
-                //         xhr.setRequestHeader(
-                //           "Access-Control-Allow-Headers",
-                //           "Content-Type, Accept, X-Requested-With"
-                //         );
-                //         // xhr.setRequestHeader(
-                //         //   "Access-Control-Allow-Origin",
-                //         //   "http://localhost:3000"
-                //         // );
-                //         xhr.setRequestHeader(
-                //           "Access-Control-Allow-Credentials",
-                //           "true"
-                //         );
-                //         xhr.open("GET", url + token);
-                //       },
-                //     },
-                //   },
-                // }}
-                playbackRate={1.0}
-                controls
-                onError={(e: any) => console.log("onError", e)}
-              />
-            </EuiFlexItem>
-            <EuiFlexItem>
-              {isTranscribing ||
-              (videoAsset?.transcription &&
-                [
-                  TranscriptionStatus.INPROGRESS,
-                  TranscriptionStatus.ENQUEUED,
-                ].includes(
-                  videoAsset.transcription.status as TranscriptionStatus
-                )) ? (
-                <EuiButton fullWidth={false} disabled isLoading>
-                  Transcribing...
-                </EuiButton>
-              ) : (
-                <EuiButton fullWidth={false} onClick={handleTranscription}>
-                  Start Transcribing
-                </EuiButton>
-              )}
-            </EuiFlexItem>
-            {/* <EuiButton
+        {videoURL ? (
+          <EuiPanel hasShadow={false}>
+            <EuiFlexGroup direction="column" justifyContent="spaceAround">
+              <EuiFlexItem grow={false}>
+                <VideoPlayer
+                  style={{ width: "100%", height: "auto" }}
+                  width="100%"
+                  url={videoURL}
+                  // config={{
+                  //   file: {
+                  //     hlsOptions: {
+                  //       xhrSetup: function xhrSetup(xhr: any, url: string) {
+                  //         xhr.setRequestHeader(
+                  //           "Access-Control-Allow-Headers",
+                  //           "Content-Type, Accept, X-Requested-With"
+                  //         );
+                  //         // xhr.setRequestHeader(
+                  //         //   "Access-Control-Allow-Origin",
+                  //         //   "http://localhost:3000"
+                  //         // );
+                  //         xhr.setRequestHeader(
+                  //           "Access-Control-Allow-Credentials",
+                  //           "true"
+                  //         );
+                  //         xhr.open("GET", url + token);
+                  //       },
+                  //     },
+                  //   },
+                  // }}
+                  playbackRate={1.0}
+                  controls
+                  onError={(e: any) => console.log("onError", e)}
+                />
+              </EuiFlexItem>
+              <EuiFlexItem>
+                {isTranscribing ||
+                (videoAsset?.transcription &&
+                  [
+                    TranscriptionStatus.INPROGRESS,
+                    TranscriptionStatus.ENQUEUED,
+                  ].includes(
+                    videoAsset.transcription.status as TranscriptionStatus
+                  )) ? (
+                  <EuiButton fullWidth={false} disabled isLoading>
+                    Transcribing...
+                  </EuiButton>
+                ) : (
+                  <EuiButton fullWidth={false} onClick={handleTranscription}>
+                    Start Transcribing
+                  </EuiButton>
+                )}
+              </EuiFlexItem>
+              {/* <EuiButton
               onClick={() => {
                 // interactiveTranscript = new InteractiveTranscript();
               }}
             >
               XXX
             </EuiButton> */}
-          </EuiFlexGroup>
-        </EuiPanel>
-      ) : (
-        <>
-          {video && <VideoPlayerSkeleton />}
-          {progress > 0 && (
-            <EuiPanel color="subdued">
-              <EuiText color="subdued">
-                <EuiLoadingSpinner /> &nbsp; Upload in progress... {progress}%
-              </EuiText>
-            </EuiPanel>
-          )}
-        </>
-      )}
+            </EuiFlexGroup>
+          </EuiPanel>
+        ) : (
+          <>
+            {video && <VideoPlayerSkeleton />}
+            {progress > 0 && !video && (
+              <EuiPanel color="subdued">
+                <EuiText color="subdued">
+                  <EuiLoadingSpinner /> &nbsp;
+                  {`Upload in progress... ${progress}%`}
+                </EuiText>
+              </EuiPanel>
+            )}
+          </>
+        )}
+      </div>
     </VideoContainer>
   );
 };

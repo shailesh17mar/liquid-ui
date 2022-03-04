@@ -13,7 +13,7 @@ export const DeleteButton = styled(EuiButton)`
 export const VideoContainer = styled(NodeViewWrapper)`
   margin: 1rem 0;
   position: relative;
-  border: 1px solid #d3dae6;
+  /* border: 1px solid #d3dae6; */
   border-radius: 0.5rem;
 
   .label {
@@ -63,6 +63,6 @@ export const VideoPlayerSkeleton = styled.div`
   background: rgba(0, 0, 0, 0.1);
   width: 768px;
   height: 428px;
-  margin: 0 auto;
+  margin: 20px auto;
   margin-bottom: 20px;
 `;

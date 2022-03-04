@@ -299,7 +299,6 @@ export const StoryDetails: React.FC = () => {
                   <hr />
                   <EuiFlexItem
                     style={{
-                      minHeight: 400,
                       margin: "12px 0",
                     }}
                   >

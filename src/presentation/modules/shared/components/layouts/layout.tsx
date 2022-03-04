@@ -1,14 +1,6 @@
 import React, { useState } from "react";
-import {
-  EuiFieldSearch,
-  EuiButton,
-  euiPaletteColorBlind,
-  EuiBreadcrumbs,
-  EuiLink,
-  EuiButtonEmpty,
-  EuiText,
-} from "@elastic/eui";
-import { Navigate, Outlet, useNavigate, useParams } from "react-router-dom";
+import { euiPaletteColorBlind, EuiBreadcrumbs, EuiIcon } from "@elastic/eui";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { Page } from "./layout.styles";
 import { useAuth } from "presentation/context/auth-context";
 import { CreateProjectModal } from "../create-project-modal/create-project-modal";
@@ -17,7 +9,6 @@ import { UserMenu } from "./components/user-menu";
 import { ActionMenu } from "./components/action-menu";
 import { useProjects } from "core/modules/projects/hooks";
 import { useStory } from "core/modules/stories/hooks";
-import { Stories } from "models";
 import { useCategory } from "core/modules/categories/hooks";
 import { useTracking } from "main/use-tracking";
 
@@ -25,10 +16,12 @@ const palette = euiPaletteColorBlind({ direction: "both", order: "append" });
 const makeBreadcrumbs = (navigate: (path: string) => void, story: any) => [
   {
     text: (
-      <EuiButtonEmpty color="text" iconType="folderOpen">
+      <>
+        <EuiIcon type="folderOpen" style={{ marginRight: 5 }} />
         {story?.projectName}
-      </EuiButtonEmpty>
+      </>
     ),
+
     onClick: () => {
       navigate(`/projects/${story?.projectsID}/stories`);
     },

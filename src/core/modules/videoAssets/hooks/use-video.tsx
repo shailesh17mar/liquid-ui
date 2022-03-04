@@ -23,7 +23,7 @@ export const useVideoAsset = (
   isPolling: boolean = false
 ) => {
   return useQuery(["videoAssets", id], () => retrieveVideoAssetById(id), {
-    refetchInterval: isPolling && 10000,
+    refetchInterval: isPolling ? 10000 : undefined,
     enabled,
   });
 };

@@ -197,3 +197,8 @@ ul[data-type="taskList"] li div {
 *:focus:focus-visible {
   outline-style: none !important;
 }
+
+.euiButton:focus,
+.euiButton:hover:not([class*="isDisabled"]) {
+  text-decoration: none;
+}

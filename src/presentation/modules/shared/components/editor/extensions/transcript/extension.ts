@@ -1,23 +1,21 @@
 import { Node, mergeAttributes } from "@tiptap/core";
-import { Content, JSONContent, ReactNodeViewRenderer } from "@tiptap/react";
+import { JSONContent, ReactNodeViewRenderer } from "@tiptap/react";
 import { Transcript } from "./transcript";
 
 export interface TranscriptOptions {
-  id?: string;
-  video?: string;
+  transcriptId: string;
 }
 
 declare module "@tiptap/core" {
   interface Commands<ReturnType> {
     transcript: {
       /**
-       * Add an image
+       * Add transcript
        */
       setTranscript: (
         options: TranscriptOptions | undefined,
         content: JSONContent[]
       ) => ReturnType;
-      initTranscript: () => ReturnType;
     };
   }
 }
@@ -50,39 +48,17 @@ export const TranscriptExtension = Node.create<TranscriptOptions>({
             content,
           });
         },
-      initTranscript:
-        () =>
-        ({ commands }) => {
-          return commands.insertContent({
-            type: this.name,
-          });
-        },
     };
   },
 
   addAttributes() {
     return {
-      id: {
-        parseHTML: (element) => element.id,
+      transcriptId: {
+        parseHTML: (element) => element.getAttribute("transcriptId"),
         renderHTML: (attributes) => {
           return {
             ...attributes,
-            id: attributes.id,
-            default: undefined,
-          };
-        },
-      },
-      video: {
-        parseHTML: (element) => element.getAttribute("video"),
-        renderHTML: (attributes) => {
-          if (!attributes.video) {
-            return {};
-          }
-
-          return {
-            ...attributes,
-            video: attributes.video,
-            default: undefined,
+            transcriptId: attributes.transcriptId,
           };
         },
       },

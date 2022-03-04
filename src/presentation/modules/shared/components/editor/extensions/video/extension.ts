@@ -3,7 +3,7 @@ import { ReactNodeViewRenderer } from "@tiptap/react";
 import { Video } from "./video";
 
 export interface VideoOptions {
-  id?: string;
+  transcriptId?: string;
   video?: string;
 }
 
@@ -28,7 +28,7 @@ export const VideoExtension = Node.create<VideoOptions>({
   parseHTML() {
     return [
       {
-        tag: "video",
+        tag: "recording",
       },
     ];
   },
@@ -55,13 +55,12 @@ export const VideoExtension = Node.create<VideoOptions>({
 
   addAttributes() {
     return {
-      id: {
-        parseHTML: (element) => element.id,
+      transcriptId: {
+        parseHTML: (element) => element.getAttribute("transcriptId"),
         renderHTML: (attributes) => {
           return {
             ...attributes,
-            id: attributes.id,
-            default: undefined,
+            transcriptId: attributes.transcriptId,
           };
         },
       },
@@ -75,7 +74,6 @@ export const VideoExtension = Node.create<VideoOptions>({
           return {
             ...attributes,
             video: attributes.video,
-            default: undefined,
           };
         },
       },
@@ -83,7 +81,7 @@ export const VideoExtension = Node.create<VideoOptions>({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ["video", mergeAttributes(HTMLAttributes), 0];
+    return ["recording", mergeAttributes(HTMLAttributes), 0];
   },
 
   addNodeView() {

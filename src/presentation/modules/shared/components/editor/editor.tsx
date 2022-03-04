@@ -41,10 +41,9 @@ import {
   TagManager,
 } from "./components/highlight-control/tag-manager";
 import { nanoid } from "nanoid";
-import { SpeakerExtension } from "./extensions/speaker/extension";
 
 const CustomDocument = Document.extend({
-  content: "paragraph block+",
+  content: "block+ paragraph",
 });
 
 export const CustomParagraph = Paragraph.extend({
@@ -137,18 +136,20 @@ export const Editor: React.FC<EditorProps> = ({
     StarterKit.configure({
       document: false,
       history: false,
+      paragraph: false,
     }),
     TranscriptExtension,
     VideoExtension,
-    SpeakerExtension,
     ImageExtension,
     CustomParagraph,
     Placeholder.configure({
       placeholder: ({ node }) => {
-        return "Type '/' for commands";
+        if (node.type.name === "paragraph") {
+          return "Type '/' for commands";
+        }
+        return "";
       },
     }),
-    // ySyncPlugin(syncType),
     Collaboration.configure({
       document: provider.document,
     }),
@@ -164,12 +165,6 @@ export const Editor: React.FC<EditorProps> = ({
   const editor = useEditor({
     extensions,
     content: provider.document,
-    onUpdate() {
-      // const content = editor.getJSON();
-      // handleChange(content);
-      // if (content) setDocState(content);
-      // The content has changed.
-    },
   });
 
   // const handleSelection = useDebouncedCallback(() => {
@@ -197,7 +192,13 @@ export const Editor: React.FC<EditorProps> = ({
   }, [handleSaveDebounced, docState]);
 
   const handleVideoClick = () => {
-    editor?.chain().focus().initVideo().run();
+    editor
+      ?.chain()
+      .focus()
+      .setVideo({
+        video: "c0e7e661-971e-409b-ac6c-b596d6648e3d",
+      })
+      .run();
   };
 
   const handleImageClick = () => {
@@ -251,7 +252,7 @@ export const Editor: React.FC<EditorProps> = ({
         >
           <EditorContent editor={editor} />
         </EuiFlexItem>
-        <EuiFlexItem>
+        <EuiFlexItem grow={false}>
           <EuiFlexGroup>
             <EuiFlexItem grow={false}>
               <QuickActionButton

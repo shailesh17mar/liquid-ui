@@ -27,7 +27,7 @@ export const Page = styled(EuiPageTemplate)`
 export const SideNav = styled(EuiSideNav)`
   .euiSideNavItemButton.euiSideNavItemButton--isClickable:not(:disabled) {
     margin-bottom: 4px;
-    font-size: 1.1rem;
+    /* font-size: 1.1rem; */
     padding: 10px 20px;
     border-radius: 5px;
     .euiSideNavItemButton__label {
@@ -35,8 +35,8 @@ export const SideNav = styled(EuiSideNav)`
     }
   }
   .euiSideNavItemButton .euiSideNavItemButton__label {
-    font-weight: 500;
-    font-size: 1.1rem;
+    /* font-weight: 500; */
+    /* font-size: 1.1rem; */
   }
   .euiSideNavItemButton.euiSideNavItemButton-isSelected {
     color: #0061a6;

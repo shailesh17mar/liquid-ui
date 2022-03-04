@@ -1,6 +1,6 @@
 import { NodeViewProps, NodeViewWrapper } from "@tiptap/react";
-import { useEffect, useRef, useState } from "react";
-import { Storage } from "aws-amplify";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { API, Storage } from "aws-amplify";
 import {
   EuiImage,
   EuiLoadingSpinner,
@@ -10,13 +10,23 @@ import {
 } from "@elastic/eui";
 import { nanoid } from "nanoid";
 import { ImageContainer } from "./image.styles";
+import { useAssetUpload } from "../../../../hooks/use-asset-upload";
 
 export const Image = (props: NodeViewProps) => {
   const { key } = props.node.attrs;
   const uploaderRef = useRef<HTMLInputElement>(null);
-  const [progress, setProgress] = useState(0);
+  const [isFileSelected] = useState(false);
   const [image, setImage] = useState<string | undefined>();
 
+  const handleImageUploadSuccess = (key: string) => {
+    props.updateAttributes({
+      key,
+    });
+  };
+  const { upload, progress } = useAssetUpload({
+    onSuccess: handleImageUploadSuccess,
+    isVideoAsset: false,
+  });
   //when key is not present
   useEffect(() => {
     if (!key) {
@@ -24,46 +34,36 @@ export const Image = (props: NodeViewProps) => {
     }
   }, [key]);
 
-  //TODO: These images are public right now.
   useEffect(() => {
-    async function fetchImageURL() {
+    async function fetchImage() {
       if (key && !image) {
-        const uri = await Storage.get(key, {
-          level: "public",
-        });
-        setImage(uri);
+        const { url } = await API.get("assets", `/assets/${key}`, {});
+        setImage(url);
       }
     }
-    fetchImageURL();
-  }, [image, key]);
+    fetchImage();
+  }, [key, image]);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files!![0];
-    const ext = file.name.substring(file.name.lastIndexOf(".") + 1);
-    const key = `${nanoid()}.${ext}`;
-    Storage.put(key, file, {
-      resumable: true,
-      completeCallback: (event) => {
-        //update key on p
-        props.updateAttributes({
-          key,
-        });
-        // setImage(event.key);
-      },
-      progressCallback: (progress) => {
-        setProgress(Math.round((progress.loaded / progress.total) * 100));
-      },
-      errorCallback: (err) => {
-        console.error("Unexpected error while uploading", err);
-      },
-    });
-    setProgress(10);
+  const handleFocus = useCallback(() => {
+    setTimeout(() => {
+      if (!isFileSelected && uploaderRef?.current) {
+        if (uploaderRef?.current.files?.length === 0 && !key) {
+          window.removeEventListener("focus", handleFocus);
+          props.deleteNode();
+        }
+      }
+    }, 500);
+  }, [isFileSelected]);
+
+  const handleFileTrigger = () => {
+    window.addEventListener("focus", handleFocus);
   };
-  // useEffect(() => {
-  //   ;
-  // }, [file, key]);
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    window.removeEventListener("focus", handleFocus);
+    const file = e.target.files!![0];
+    upload(file);
+  };
 
-  //TODO: Clear the empty placeholder
   return (
     <ImageContainer>
       <div className="content">
@@ -73,16 +73,18 @@ export const Image = (props: NodeViewProps) => {
             id="imageInput"
             ref={uploaderRef}
             accept="image/*"
+            onClick={handleFileTrigger}
             onChange={handleFileChange}
           />
         </form>
         {image ? (
           <EuiImage src={image} alt="image bro" />
         ) : (
-          progress > 0 && (
+          progress > 0 &&
+          !key && (
             <EuiPanel color="subdued">
               <EuiText color="subdued">
-                <EuiLoadingSpinner /> &nbsp; Upload in progress
+                <EuiLoadingSpinner /> &nbsp; Upload in progress... {progress}%
               </EuiText>
             </EuiPanel>
           )

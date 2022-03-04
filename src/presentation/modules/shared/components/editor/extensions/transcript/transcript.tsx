@@ -17,7 +17,6 @@ import {
 import { useHighlights } from "core/modules/highlights/hooks";
 import { useTags } from "core/modules/tags/hooks";
 import _ from "lodash";
-import { wordTimestampsAtom } from "../video/video";
 import { useVideo } from "react-use";
 import {
   highlightAtom,
@@ -36,11 +35,9 @@ export const initTranscript = atom<boolean>({
 
 export const Transcript = (props: NodeViewProps) => {
   const { id } = useParams() as { id: string };
-  const [wordTimestamps, setWordTimestamps] =
-    useRecoilState(wordTimestampsAtom);
   const [isDestroyModalVisible, setIsDestroyModalVisible] = useState(false);
   const [highlightState, setHighlightState] = useRecoilState(highlightAtom);
-  const { id: transcriptId } = props.node.attrs;
+  const { transcriptId } = props.node.attrs;
   const [annotation, setAnnotation] = useRecoilState(annotationState);
 
   const { data: story } = useStory(id);
@@ -49,39 +46,6 @@ export const Transcript = (props: NodeViewProps) => {
   const { data: highlights } = useHighlights({
     transcriptId,
   });
-  useEffect(() => {
-    if (wordTimestamps.length === 0) {
-      const transcript = props.node.content.toJSON();
-      let wordTimestampDictionary: number[] = [];
-      let lastValue = -1;
-      (transcript || []).forEach((paragraph: any) => {
-        paragraph.content.forEach((word: any) => {
-          if (word.marks && word.marks.length > 0) {
-            const st = word.marks[0].attrs.startTime;
-            const startTime = Number(st);
-            if (
-              startTime > 100 &&
-              startTime % 1 === 0 &&
-              startTime > lastValue
-            ) {
-              lastValue = startTime;
-              wordTimestampDictionary.push(startTime);
-            }
-          }
-        });
-      });
-
-      const final = wordTimestampDictionary.reverse();
-      // setTranscript(final);
-      setTimeout(() => {
-        setWordTimestamps(final);
-      }, 3000);
-      //find the word that needs to be highlighted
-      //timestamp comparison
-      //query select
-      //set style
-    }
-  }, []);
 
   useEffect(() => {
     if (
@@ -136,7 +100,7 @@ export const Transcript = (props: NodeViewProps) => {
   const closeDestroyModal = () => setIsDestroyModalVisible(false);
   const showDestroyModal = () => setIsDestroyModalVisible(true);
 
-  const handleDeleteTranscript = async () => {
+  const handleDeleteTranscript = () => {
     props.deleteNode();
   };
 
@@ -195,7 +159,7 @@ export const Transcript = (props: NodeViewProps) => {
         <EuiConfirmModal
           title="Do you want to delete this transcript?"
           onCancel={closeDestroyModal}
-          onConfirm={handleDeleteTranscript}
+          onConfirm={() => handleDeleteTranscript()}
           cancelButtonText="No"
           confirmButtonText="Yes, Please"
           buttonColor="danger"
@@ -206,7 +170,6 @@ export const Transcript = (props: NodeViewProps) => {
       )}
 
       <TranscriptContent
-        className="content"
         contentEditable={false}
         onClick={handleClickOnContent}
       />
