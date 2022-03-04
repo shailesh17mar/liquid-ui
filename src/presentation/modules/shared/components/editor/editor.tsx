@@ -192,13 +192,7 @@ export const Editor: React.FC<EditorProps> = ({
   }, [handleSaveDebounced, docState]);
 
   const handleVideoClick = () => {
-    editor
-      ?.chain()
-      .focus()
-      .setVideo({
-        video: "c0e7e661-971e-409b-ac6c-b596d6648e3d",
-      })
-      .run();
+    editor?.chain().focus().initVideo().run();
   };
 
   const handleImageClick = () => {
