@@ -128,6 +128,17 @@ export const Video = (props: NodeViewProps) => {
         TimeOffset,
         Text,
       ]);
+      transcriptDocument.content = transcriptDocument.content.reduce(
+        (acc: any[], para: any) => {
+          if (para.content) {
+            acc.push(para);
+          } else {
+            acc.pop();
+          }
+          return acc;
+        },
+        []
+      );
       insertTranscript(id, transcriptDocument.content);
     };
     if (

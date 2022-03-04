@@ -112,13 +112,17 @@ export const TranscriptContent = styled(NodeViewContent)`
     background: #cbf0f8;
   }
 
-  p {
+  p.content {
+    margin-top: 10px !important;
+  }
+  p.speaker-para {
     color: #202124;
+    margin-bottom: 0 !important;
     span:first-of-type {
       font-weight: 600;
     }
     span:nth-child(2) {
-      display: none;
+      color: #888;
     }
   }
 

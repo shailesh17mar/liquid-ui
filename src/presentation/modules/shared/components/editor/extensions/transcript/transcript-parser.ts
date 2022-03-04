@@ -55,6 +55,7 @@ function fmtMSS(s) {
 
 // create a new paragraph tag
 function CreateNewPara(timeOfFirstWord, speaker, paraId) {
+  const speakerLabel = speaker.replace("spk_", "Speaker ");
   var formattedTime = fmtMSS(timeOfFirstWord);
   var paraTime =
     "<p class='content' id='" +
@@ -69,10 +70,19 @@ function CreateNewPara(timeOfFirstWord, speaker, paraId) {
     "<span data-m='" +
     timeOfFirstWord +
     "' data-d='0' class='speaker'>" +
-    speaker +
+    speakerLabel +
     " </span>";
+  var paraFormattedTime =
+    "<span class ='timecode'>[" + formattedTime + "] </span>";
   var endPara = "</p>";
-  var newPara = paraTime + paraSpeaker + "{{}}" + endPara;
+  var newPara =
+    `<p class="speaker-para">` +
+    paraSpeaker +
+    paraFormattedTime +
+    endPara +
+    paraTime +
+    "{{}}" +
+    endPara;
   return newPara;
 }
 
