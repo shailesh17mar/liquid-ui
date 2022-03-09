@@ -202,3 +202,8 @@ ul[data-type="taskList"] li div {
 .euiButton:hover:not([class*="isDisabled"]) {
   text-decoration: none;
 }
+
+.euiPageHeader {
+  z-index: 1;
+  background-color: #fff;
+}

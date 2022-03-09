@@ -183,8 +183,8 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "type": {
-                    "name": "type",
+                "color": {
+                    "name": "color",
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
@@ -219,6 +219,15 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "type": {
+                    "name": "type",
+                    "isArray": false,
+                    "type": {
+                        "enum": "HighlightType"
+                    },
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "transcriptionID": {
                     "name": "transcriptionID",
                     "isArray": false,
@@ -228,6 +237,13 @@ export const schema = {
                 },
                 "projectsID": {
                     "name": "projectsID",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "storyID": {
+                    "name": "storyID",
                     "isArray": false,
                     "type": "ID",
                     "isRequired": true,
@@ -284,6 +300,15 @@ export const schema = {
                         "name": "byProjects",
                         "fields": [
                             "projectsID"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byStory",
+                        "fields": [
+                            "storyID"
                         ]
                     }
                 },
@@ -537,6 +562,20 @@ export const schema = {
                     "type": "ID",
                     "isRequired": true,
                     "attributes": []
+                },
+                "Highlights": {
+                    "name": "Highlights",
+                    "isArray": true,
+                    "type": {
+                        "model": "Highlights"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": "storyID"
+                    }
                 },
                 "type": {
                     "name": "type",
@@ -1266,8 +1305,15 @@ export const schema = {
                 "INPROGRESS",
                 "FAILED"
             ]
+        },
+        "HighlightType": {
+            "name": "HighlightType",
+            "values": [
+                "TRANSCRIPT",
+                "NORMAL"
+            ]
         }
     },
     "nonModels": {},
-    "version": "e523fccd612c4cc053dfe5608e7b7dd9"
+    "version": "fd3d146741febf4eb958380c26ac837d"
 };

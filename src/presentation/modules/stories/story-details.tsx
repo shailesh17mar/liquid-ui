@@ -6,8 +6,11 @@ import {
 } from "@elastic/eui";
 import { PropertiesEditor } from "../shared/components/editor/components/property-editor/property-editor";
 import { Editor } from "../shared/components/editor/editor";
-import { annotationState } from "main/pages/make-story-details-page";
-import { useRecoilValue } from "recoil";
+import {
+  Annotation,
+  annotationState,
+} from "main/pages/make-story-details-page";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { JSONContent } from "@tiptap/react";
 import { useParams } from "react-router-dom";
@@ -28,6 +31,9 @@ import {
 import { TagAnnotation } from "./story.styles";
 import { ContentLoader } from "../shared/components/content-loader/content-loader";
 import { HocuspocusProvider } from "@hocuspocus/provider";
+import _ from "lodash";
+import { useHighlights } from "core/modules/highlights/hooks";
+import { useTags } from "core/modules/tags/hooks";
 
 const DefaultStoryDocument = {
   type: "doc",
@@ -63,7 +69,7 @@ const doc = new Doc();
 // export const syncType = doc.getXmlFragment("prosemirror");
 export const StoryDetails: React.FC = () => {
   const [isSynced, setIsSynced] = useState(false);
-  const annotation = useRecoilValue(annotationState);
+  const [annotation, setAnnotation] = useRecoilState(annotationState);
   const annotationRefs = useRef<Array<HTMLDivElement | null>>([]);
   const [version, setVersion] = useState<number>(-1);
   const { id } = useParams() as { id: string };
@@ -71,6 +77,32 @@ export const StoryDetails: React.FC = () => {
   const { data: story } = useStory(id);
   const updateStoryMutation = useUpdateStory();
   const [isMutatingParticipant, setIsMutatingParticipant] = useState(false);
+
+  const { data: tags } = useTags(story?.projectsID, Boolean(story?.projectsID));
+  const { data: highlights } = useHighlights({
+    storyId: id,
+  });
+
+  useEffect(() => {
+    if (tags && tags.length > 0 && highlights && highlights.length > 0) {
+      const annotation = highlights.reduce<Annotation>((acc, highlight) => {
+        const tagIds = highlight.Tags || [];
+        const selectedTags = tags.filter((tag) => tagIds.includes(tag.id));
+        const annotationTags = selectedTags.map((tag) => {
+          return {
+            label: tag.label,
+            id: tag.id,
+          };
+        });
+        acc[highlight.id] = {
+          type: highlight.color,
+          tags: annotationTags,
+        };
+        return acc;
+      }, {});
+      setAnnotation(annotation);
+    }
+  }, [highlights, setAnnotation, tags]);
 
   const provider = useMemo(() => {
     return new HocuspocusProvider({

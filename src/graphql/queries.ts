@@ -150,12 +150,15 @@ export const getHighlights = /* GraphQL */ `
     getHighlights(id: $id) {
       id
       tenant
-      type
+      color
       text
       Tags
       tagIds
+      user
+      type
       transcriptionID
       projectsID
+      storyID
       startTime
       endTime
       createdAt
@@ -176,12 +179,15 @@ export const listHighlights = /* GraphQL */ `
       items {
         id
         tenant
-        type
+        color
         text
         Tags
         tagIds
+        user
+        type
         transcriptionID
         projectsID
+        storyID
         startTime
         endTime
         createdAt
@@ -211,12 +217,15 @@ export const syncHighlights = /* GraphQL */ `
       items {
         id
         tenant
-        type
+        color
         text
         Tags
         tagIds
+        user
+        type
         transcriptionID
         projectsID
+        storyID
         startTime
         endTime
         createdAt
@@ -387,6 +396,10 @@ export const getStories = /* GraphQL */ `
       tenant
       categoriesID
       projectsID
+      Highlights {
+        nextToken
+        startedAt
+      }
       type
       createdAt
       updatedAt

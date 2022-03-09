@@ -93,6 +93,7 @@ export const Video = (props: NodeViewProps) => {
         `/assets/${videoAsset?.video}`,
         {}
       );
+
       setVideoURL(url);
     }
     if (videoAsset?.video) {

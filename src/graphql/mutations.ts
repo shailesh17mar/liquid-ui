@@ -127,12 +127,15 @@ export const createHighlights = /* GraphQL */ `
     createHighlights(input: $input, condition: $condition) {
       id
       tenant
-      type
+      color
       text
       Tags
       tagIds
+      user
+      type
       transcriptionID
       projectsID
+      storyID
       startTime
       endTime
       createdAt
@@ -151,12 +154,15 @@ export const updateHighlights = /* GraphQL */ `
     updateHighlights(input: $input, condition: $condition) {
       id
       tenant
-      type
+      color
       text
       Tags
       tagIds
+      user
+      type
       transcriptionID
       projectsID
+      storyID
       startTime
       endTime
       createdAt
@@ -175,12 +181,15 @@ export const deleteHighlights = /* GraphQL */ `
     deleteHighlights(input: $input, condition: $condition) {
       id
       tenant
-      type
+      color
       text
       Tags
       tagIds
+      user
+      type
       transcriptionID
       projectsID
+      storyID
       startTime
       endTime
       createdAt
@@ -333,6 +342,10 @@ export const createStories = /* GraphQL */ `
       tenant
       categoriesID
       projectsID
+      Highlights {
+        nextToken
+        startedAt
+      }
       type
       createdAt
       updatedAt
@@ -384,6 +397,10 @@ export const updateStories = /* GraphQL */ `
       tenant
       categoriesID
       projectsID
+      Highlights {
+        nextToken
+        startedAt
+      }
       type
       createdAt
       updatedAt
@@ -435,6 +452,10 @@ export const deleteStories = /* GraphQL */ `
       tenant
       categoriesID
       projectsID
+      Highlights {
+        nextToken
+        startedAt
+      }
       type
       createdAt
       updatedAt

@@ -9,6 +9,11 @@ const TranscriptionStatus = {
   "FAILED": "FAILED"
 };
 
+const HighlightType = {
+  "TRANSCRIPT": "TRANSCRIPT",
+  "NORMAL": "NORMAL"
+};
+
 const { Persons, Insights, Highlights, Tags, Transcription, Stories, Categories, Projects, Workspaces, Organisations, VodAsset, TagCategory } = initSchema(schema);
 
 export {
@@ -24,5 +29,6 @@ export {
   Organisations,
   VodAsset,
   TagCategory,
-  TranscriptionStatus
+  TranscriptionStatus,
+  HighlightType
 };

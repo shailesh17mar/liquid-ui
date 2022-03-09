@@ -5,6 +5,11 @@ enum TranscriptionStatus {
   FAILED
 }
 
+enum HighlightType {
+  TRANSCRIPT
+  NORMAL
+}
+
 type Persons @model @auth(rules: [{ allow: groups, groupsField: "tenant" }]) {
   id: ID!
   tenant: ID!
@@ -29,13 +34,15 @@ type Highlights
   @auth(rules: [{ allow: groups, groupsField: "tenant" }]) {
   id: ID!
   tenant: ID!
-  type: String!
+  color: String!
   text: String!
   Tags: [String]
   tagIds: String
   user: AWSJSON
+  type: HighlightType!
   transcriptionID: ID @index(name: "byTranscription")
   projectsID: ID! @index(name: "byProjects")
+  storyID: ID! @index(name: "byStory")
   startTime: Int
   endTime: Int
   createdAt: AWSDateTime!
@@ -71,6 +78,7 @@ type Stories @model @auth(rules: [{ allow: groups, groupsField: "tenant" }]) {
   tenant: ID!
   categoriesID: ID! @index(name: "byCategories")
   projectsID: ID! @index(name: "byProjects")
+  Highlights: [Highlights] @hasMany(indexName: "byStory", fields: ["id"])
   type: String!
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!

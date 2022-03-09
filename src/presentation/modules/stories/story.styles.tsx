@@ -6,6 +6,6 @@ interface Props {
 }
 export const TagAnnotation = styled.div<Props>`
   position: fixed;
-  top: ${(props) => props.top + "px"};
-  display: ${(props) => !!!props.top && "none"};
+  top: ${(props) => props.top || -8000 + "px"};
+  /* display: ${(props) => (props.top ? "block" : "none")}; */
 `;

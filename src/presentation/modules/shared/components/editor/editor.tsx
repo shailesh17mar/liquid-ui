@@ -222,7 +222,9 @@ export const Editor: React.FC<EditorProps> = ({
             }}
             editor={editor}
           >
-            {editor.isActive("transcriptComponent") && (
+            {editor.isActive("transcriptComponent") ? (
+              <TagManager id={temp} editor={editor} isTranscript />
+            ) : (
               <TagManager id={temp} editor={editor} />
             )}
           </BubbleMenu>

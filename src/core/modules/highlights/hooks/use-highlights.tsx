@@ -10,9 +10,10 @@ import { useQuery } from "react-query";
 interface Filter {
   projectId?: string;
   transcriptId?: string;
+  storyId?: string;
 }
 const retrieveHighlights = async (filter?: Filter) => {
-  const { projectId, transcriptId } = filter || {};
+  const { projectId, transcriptId, storyId } = filter || {};
   const highlightsResponse = (await API.graphql({
     query: listHighlights,
     variables: projectId
@@ -20,6 +21,7 @@ const retrieveHighlights = async (filter?: Filter) => {
           filter: {
             projectsID: projectId && { eq: projectId },
             transcriptionID: transcriptId && { eq: transcriptId },
+            storyID: storyId && { eq: storyId },
           } as ModelHighlightsFilterInput,
         }
       : undefined,

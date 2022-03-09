@@ -3,7 +3,6 @@ import {
   EuiFieldText,
   EuiFlexGroup,
   EuiFlexItem,
-  EuiHealth,
   EuiPanel,
   EuiSelectable,
 } from "@elastic/eui";
@@ -13,13 +12,8 @@ import {
   Annotation,
   annotationState,
 } from "main/pages/make-story-details-page";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import {
-  atom,
-  useRecoilState,
-  useRecoilValue,
-  useSetRecoilState,
-} from "recoil";
+import { useEffect, useState } from "react";
+import { atom, useRecoilValue, useSetRecoilState } from "recoil";
 import { useStoryMetadata } from "presentation/modules/stories/story-context";
 import {
   useCreateHighlight,
@@ -30,14 +24,16 @@ import { useCreateTag, useTags } from "core/modules/tags/hooks";
 import { useHighlight } from "core/modules/highlights/hooks/use-highlight";
 import { useDebouncedCallback } from "use-debounce";
 import { ColorPicker } from "./color-picker";
-import { euiCardSelectableColor } from "@elastic/eui/src/components/card/card_select";
 import { nanoid } from "nanoid";
 import { Highlights } from "API";
 import { useDefaultTagCategory } from "core/modules/tag-categories/hooks/use-tag-category";
+import { HighlightType } from "models";
+import { useAuth } from "presentation/context/auth-context";
 
 interface Props {
   id?: string;
   editor: Editor;
+  isTranscript?: boolean;
 }
 
 const POPOVER_STYLE = {
@@ -69,6 +65,7 @@ export const highlightAtom = atom<HighlightState | null>({
 });
 
 export const TagManager: React.FC<Props> = ({ editor, id }) => {
+  const { user } = useAuth();
   const storyMetadata = useStoryMetadata();
   const createTagMutation = useCreateTag();
   const createHighlightMutation = useCreateHighlight();
@@ -94,6 +91,7 @@ export const TagManager: React.FC<Props> = ({ editor, id }) => {
   useEffect(() => {
     if (highlight) {
       setHighlightState(highlight);
+      setColor(highlight.color);
     }
   }, [highlight, highlightState]);
 
@@ -104,8 +102,9 @@ export const TagManager: React.FC<Props> = ({ editor, id }) => {
 
   useEffect(() => {
     if (tags && (tagOptions.length === 0 || highlight)) {
-      const tagIds =
-        highlight && highlight.tagIds ? highlight.tagIds.split("|") : [];
+      // const tagIds =
+      // highlight && highlight.tagIds ? highlight.tagIds.split("|") : [];
+      const tagIds = highlight && highlight.Tags ? highlight.Tags : [];
       const selectedTags: any[] = [];
       const options = tags.map((option) => {
         const checked = tagIds.includes(option.id) ? "on" : null;
@@ -121,7 +120,7 @@ export const TagManager: React.FC<Props> = ({ editor, id }) => {
 
   const createHighlight = async (
     id: string,
-    type: string,
+    color: string,
     tagIds: string[] = []
   ) => {
     const selector = `span[data-hid="${id}"]`;
@@ -136,11 +135,15 @@ export const TagManager: React.FC<Props> = ({ editor, id }) => {
     const newHighlight = await createHighlightMutation.mutateAsync({
       id,
       text,
-      type,
+      color,
+      type: HighlightType.TRANSCRIPT,
       startTime,
+      user: JSON.stringify(user),
+      Tags: tagIds,
       tagIds: tagIds.length > 0 ? tagIds.join("|") : undefined,
       endTime,
       projectsID: storyMetadata.projectId,
+      storyID: storyMetadata.id,
     });
     if (newHighlight) {
       setHighlightState(newHighlight);
@@ -150,11 +153,13 @@ export const TagManager: React.FC<Props> = ({ editor, id }) => {
   };
 
   const updateHighlight = useDebouncedCallback(
-    async (type: string, tags: string[]) => {
+    async (color: string, tags: string[]) => {
       if (highlightState) {
         const updatedHighlight = await updateHighlightMutation.mutateAsync({
           id: highlightState.id!!,
-          type,
+          color,
+          type: HighlightType.TRANSCRIPT,
+          Tags: tags.map((option: any) => option.id as unknown as string),
           tagIds: tags
             .map((option: any) => option.id as unknown as string)
             .join("|"),

@@ -7,6 +7,11 @@ export enum TranscriptionStatus {
   FAILED = "FAILED"
 }
 
+export enum HighlightType {
+  TRANSCRIPT = "TRANSCRIPT",
+  NORMAL = "NORMAL"
+}
+
 
 
 export declare class Persons {
@@ -35,13 +40,15 @@ export declare class Insights {
 export declare class Highlights {
   readonly id: string;
   readonly tenant: string;
-  readonly type: string;
+  readonly color: string;
   readonly text: string;
   readonly Tags?: (string | null)[];
   readonly tagIds?: string;
   readonly user?: string;
+  readonly type: HighlightType | keyof typeof HighlightType;
   readonly transcriptionID?: string;
   readonly projectsID: string;
+  readonly storyID: string;
   readonly startTime?: number;
   readonly endTime?: number;
   readonly createdAt: string;
@@ -80,6 +87,7 @@ export declare class Stories {
   readonly tenant: string;
   readonly categoriesID: string;
   readonly projectsID: string;
+  readonly Highlights?: (Highlights | null)[];
   readonly type: string;
   readonly createdAt: string;
   readonly updatedAt: string;

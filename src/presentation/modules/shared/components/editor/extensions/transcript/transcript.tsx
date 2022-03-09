@@ -34,45 +34,10 @@ export const initTranscript = atom<boolean>({
 });
 
 export const Transcript = (props: NodeViewProps) => {
-  const { id } = useParams() as { id: string };
+  // const { id } = useParams() as { id: string };
   const [isDestroyModalVisible, setIsDestroyModalVisible] = useState(false);
   const [highlightState, setHighlightState] = useRecoilState(highlightAtom);
   const { transcriptId } = props.node.attrs;
-  const [annotation, setAnnotation] = useRecoilState(annotationState);
-
-  const { data: story } = useStory(id);
-
-  const { data: tags } = useTags(story?.projectsID, Boolean(story?.projectsID));
-  const { data: highlights } = useHighlights({
-    transcriptId,
-  });
-
-  useEffect(() => {
-    if (
-      tags &&
-      tags.length > 0 &&
-      highlights &&
-      highlights.length > 0 &&
-      _.isEmpty(annotation)
-    ) {
-      const annotation = highlights.reduce<Annotation>((acc, highlight) => {
-        const tagIds = highlight.tagIds?.split("|") || [];
-        const selectedTags = tags.filter((tag) => tagIds.includes(tag.id));
-        const annotationTags = selectedTags.map((tag) => {
-          return {
-            label: tag.label,
-            id: tag.id,
-          };
-        });
-        acc[highlight.id] = {
-          type: highlight.type,
-          tags: annotationTags,
-        };
-        return acc;
-      }, {});
-      setAnnotation(annotation);
-    }
-  }, [annotation, highlights, setAnnotation, tags]);
 
   useEffect(() => {
     setHighlightState({
@@ -80,23 +45,6 @@ export const Transcript = (props: NodeViewProps) => {
     } as HighlightState);
   }, [transcriptId]);
 
-  // useEffect(() => {
-  //   if (videoPlayer?.playedSeconds && transcript) {
-  //     const timestamp = videoPlayer.playedSeconds * 1000;
-  //     const currentWord = transcript.find((tt) => tt <= timestamp);
-  //     // const strayActive = document.getElementsByClassName("active-word")[0];
-  //     // if (strayActive) {
-  //     //   strayActive.removeAttribute("class");
-  //     // }
-  //     // const classes = document.querySelector(`span[starttime="${currentWord}"]`)
-  //     //   ?.classList.entries;
-  //     // const element = document.querySelector(
-  //     //   `span[starttime="${currentWord}"]`
-  //     // );
-  //     // element?.removeAttribute("class");
-  //     // element?.classList.add("active-word");
-  //   }
-  // }, [transcript, videoPlayer.playedSeconds]);
   const closeDestroyModal = () => setIsDestroyModalVisible(false);
   const showDestroyModal = () => setIsDestroyModalVisible(true);
 
