@@ -35,7 +35,6 @@ import { DEFAULT_COLOR_MODE } from "@elastic/eui/src/services/theme/utils";
 interface IList {
   content: any;
   id: string;
-  version: number;
 }
 
 interface Category {
@@ -47,8 +46,6 @@ const DEFAULT_CATEGORY = "default";
 export const TagsPage = () => {
   const navigate = useNavigate();
   const [isSeeding, setIsSeeding] = useState(false);
-  const [tagVersionMap, setTagVersionMap] =
-    useState<{ [id: string]: number }>();
   const [lists, setLists] = useState<{ [id: string]: IList[] }>();
   const { id } = useParams() as { id: string };
   const { data: categories } = useTagCategories(id);
@@ -72,7 +69,6 @@ export const TagsPage = () => {
           return {
             content: getTagCard(tag),
             id: tag?.id,
-            version: tag?._version,
           };
         });
       return acc;
@@ -143,20 +139,9 @@ export const TagsPage = () => {
           destination
         );
         const story = lists[sourceId][source.index];
-        const optimisticVersion =
-          tagVersionMap && tagVersionMap[story.id]
-            ? tagVersionMap[story.id]
-            : -1;
-
         updateTagMutation.mutate({
           id: story.id,
           tagCategoryID: destinationId,
-          _version: optimisticVersion >= 0 ? optimisticVersion : story.version,
-        });
-        setTagVersionMap({
-          ...tagVersionMap,
-          [id]:
-            optimisticVersion >= 0 ? optimisticVersion + 1 : story.version + 1,
         });
         setLists({
           ...lists,

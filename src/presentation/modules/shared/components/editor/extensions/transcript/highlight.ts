@@ -48,7 +48,7 @@ export const HighlightExtension = Mark.create<HighlightOptions>({
         renderHTML: (attributes) => {
           return {
             ...attributes,
-            "data-hc": attributes.type,
+            "data-hc": attributes.highlightCategory,
           };
         },
       },
@@ -57,7 +57,7 @@ export const HighlightExtension = Mark.create<HighlightOptions>({
         renderHTML: (attributes) => {
           return {
             ...attributes,
-            "data-hid": attributes.color,
+            "data-hid": attributes.highlightId,
           };
         },
       },

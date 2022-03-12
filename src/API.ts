@@ -12,7 +12,6 @@ export type CreatePersonsInput = {
   createdAt?: string | null,
   updatedAt?: string | null,
   business?: string | null,
-  _version?: number | null,
 };
 
 export type ModelPersonsConditionInput = {
@@ -96,9 +95,6 @@ export type Persons = {
   createdAt?: string,
   updatedAt?: string,
   business?: string | null,
-  _version?: number,
-  _deleted?: boolean | null,
-  _lastChangedAt?: number,
 };
 
 export type UpdatePersonsInput = {
@@ -111,12 +107,10 @@ export type UpdatePersonsInput = {
   createdAt?: string | null,
   updatedAt?: string | null,
   business?: string | null,
-  _version?: number | null,
 };
 
 export type DeletePersonsInput = {
   id: string,
-  _version?: number | null,
 };
 
 export type CreateInsightsInput = {
@@ -124,7 +118,6 @@ export type CreateInsightsInput = {
   tenant: string,
   projectsID: string,
   content?: string | null,
-  _version?: number | null,
 };
 
 export type ModelInsightsConditionInput = {
@@ -144,9 +137,6 @@ export type Insights = {
   content?: string | null,
   createdAt?: string,
   updatedAt?: string,
-  _version?: number,
-  _deleted?: boolean | null,
-  _lastChangedAt?: number,
 };
 
 export type UpdateInsightsInput = {
@@ -154,12 +144,10 @@ export type UpdateInsightsInput = {
   tenant?: string | null,
   projectsID?: string | null,
   content?: string | null,
-  _version?: number | null,
 };
 
 export type DeleteInsightsInput = {
   id: string,
-  _version?: number | null,
 };
 
 export type CreateHighlightsInput = {
@@ -178,7 +166,6 @@ export type CreateHighlightsInput = {
   endTime?: number | null,
   createdAt?: string | null,
   updatedAt?: string | null,
-  _version?: number | null,
 };
 
 export enum HighlightType {
@@ -241,9 +228,6 @@ export type Highlights = {
   endTime?: number | null,
   createdAt?: string,
   updatedAt?: string,
-  _version?: number,
-  _deleted?: boolean | null,
-  _lastChangedAt?: number,
 };
 
 export type UpdateHighlightsInput = {
@@ -262,12 +246,10 @@ export type UpdateHighlightsInput = {
   endTime?: number | null,
   createdAt?: string | null,
   updatedAt?: string | null,
-  _version?: number | null,
 };
 
 export type DeleteHighlightsInput = {
   id: string,
-  _version?: number | null,
 };
 
 export type CreateTagsInput = {
@@ -278,7 +260,6 @@ export type CreateTagsInput = {
   tagCategoryID?: string | null,
   updatedAt?: string | null,
   createdAt?: string | null,
-  _version?: number | null,
 };
 
 export type ModelTagsConditionInput = {
@@ -302,9 +283,6 @@ export type Tags = {
   tagCategoryID?: string | null,
   updatedAt?: string,
   createdAt?: string | null,
-  _version?: number,
-  _deleted?: boolean | null,
-  _lastChangedAt?: number,
 };
 
 export type UpdateTagsInput = {
@@ -315,12 +293,10 @@ export type UpdateTagsInput = {
   tagCategoryID?: string | null,
   updatedAt?: string | null,
   createdAt?: string | null,
-  _version?: number | null,
 };
 
 export type DeleteTagsInput = {
   id: string,
-  _version?: number | null,
 };
 
 export type CreateTranscriptionInput = {
@@ -331,7 +307,6 @@ export type CreateTranscriptionInput = {
   transcription?: string | null,
   content?: string | null,
   status: TranscriptionStatus,
-  _version?: number | null,
 };
 
 export enum TranscriptionStatus {
@@ -371,16 +346,12 @@ export type Transcription = {
   status?: TranscriptionStatus,
   createdAt?: string,
   updatedAt?: string,
-  _version?: number,
-  _deleted?: boolean | null,
-  _lastChangedAt?: number,
 };
 
 export type ModelHighlightsConnection = {
   __typename: "ModelHighlightsConnection",
   items?:  Array<Highlights | null >,
   nextToken?: string | null,
-  startedAt?: number | null,
 };
 
 export type UpdateTranscriptionInput = {
@@ -391,12 +362,10 @@ export type UpdateTranscriptionInput = {
   transcription?: string | null,
   content?: string | null,
   status?: TranscriptionStatus | null,
-  _version?: number | null,
 };
 
 export type DeleteTranscriptionInput = {
   id: string,
-  _version?: number | null,
 };
 
 export type CreateStoriesInput = {
@@ -409,7 +378,6 @@ export type CreateStoriesInput = {
   updatedAt?: string | null,
   title: string,
   content?: string | null,
-  _version?: number | null,
   storiesTranscriptionId?: string | null,
   storiesParticipantsId?: string | null,
 };
@@ -444,9 +412,6 @@ export type Stories = {
   content?: string | null,
   transcription?: Transcription,
   participants?: Persons,
-  _version?: number,
-  _deleted?: boolean | null,
-  _lastChangedAt?: number,
   storiesTranscriptionId?: string | null,
   storiesParticipantsId?: string | null,
 };
@@ -461,14 +426,12 @@ export type UpdateStoriesInput = {
   updatedAt?: string | null,
   title?: string | null,
   content?: string | null,
-  _version?: number | null,
   storiesTranscriptionId?: string | null,
   storiesParticipantsId?: string | null,
 };
 
 export type DeleteStoriesInput = {
   id: string,
-  _version?: number | null,
 };
 
 export type CreateCategoriesInput = {
@@ -476,7 +439,6 @@ export type CreateCategoriesInput = {
   tenant: string,
   name: string,
   projectsID: string,
-  _version?: number | null,
 };
 
 export type ModelCategoriesConditionInput = {
@@ -497,16 +459,12 @@ export type Categories = {
   Stories?: ModelStoriesConnection,
   createdAt?: string,
   updatedAt?: string,
-  _version?: number,
-  _deleted?: boolean | null,
-  _lastChangedAt?: number,
 };
 
 export type ModelStoriesConnection = {
   __typename: "ModelStoriesConnection",
   items?:  Array<Stories | null >,
   nextToken?: string | null,
-  startedAt?: number | null,
 };
 
 export type UpdateCategoriesInput = {
@@ -514,12 +472,10 @@ export type UpdateCategoriesInput = {
   tenant?: string | null,
   name?: string | null,
   projectsID?: string | null,
-  _version?: number | null,
 };
 
 export type DeleteCategoriesInput = {
   id: string,
-  _version?: number | null,
 };
 
 export type CreateProjectsInput = {
@@ -529,7 +485,6 @@ export type CreateProjectsInput = {
   readme?: string | null,
   createdAt?: string | null,
   updatedAt?: string | null,
-  _version?: number | null,
 };
 
 export type ModelProjectsConditionInput = {
@@ -556,30 +511,24 @@ export type Projects = {
   Tags?: ModelTagsConnection,
   Highlights?: ModelHighlightsConnection,
   Insights?: ModelInsightsConnection,
-  _version?: number,
-  _deleted?: boolean | null,
-  _lastChangedAt?: number,
 };
 
 export type ModelCategoriesConnection = {
   __typename: "ModelCategoriesConnection",
   items?:  Array<Categories | null >,
   nextToken?: string | null,
-  startedAt?: number | null,
 };
 
 export type ModelTagsConnection = {
   __typename: "ModelTagsConnection",
   items?:  Array<Tags | null >,
   nextToken?: string | null,
-  startedAt?: number | null,
 };
 
 export type ModelInsightsConnection = {
   __typename: "ModelInsightsConnection",
   items?:  Array<Insights | null >,
   nextToken?: string | null,
-  startedAt?: number | null,
 };
 
 export type UpdateProjectsInput = {
@@ -589,12 +538,10 @@ export type UpdateProjectsInput = {
   readme?: string | null,
   createdAt?: string | null,
   updatedAt?: string | null,
-  _version?: number | null,
 };
 
 export type DeleteProjectsInput = {
   id: string,
-  _version?: number | null,
 };
 
 export type CreateWorkspacesInput = {
@@ -607,7 +554,6 @@ export type CreateWorkspacesInput = {
   createdAt?: string | null,
   updatedAt?: string | null,
   personTemplate?: string | null,
-  _version?: number | null,
 };
 
 export type ModelWorkspacesConditionInput = {
@@ -635,9 +581,6 @@ export type Workspaces = {
   createdAt?: string,
   updatedAt?: string,
   personTemplate?: string | null,
-  _version?: number,
-  _deleted?: boolean | null,
-  _lastChangedAt?: number,
 };
 
 export type UpdateWorkspacesInput = {
@@ -650,12 +593,10 @@ export type UpdateWorkspacesInput = {
   createdAt?: string | null,
   updatedAt?: string | null,
   personTemplate?: string | null,
-  _version?: number | null,
 };
 
 export type DeleteWorkspacesInput = {
   id: string,
-  _version?: number | null,
 };
 
 export type CreateOrganisationsInput = {
@@ -665,7 +606,6 @@ export type CreateOrganisationsInput = {
   type?: string | null,
   createdAt?: string | null,
   updatedAt?: string | null,
-  _version?: number | null,
 };
 
 export type ModelOrganisationsConditionInput = {
@@ -688,16 +628,12 @@ export type Organisations = {
   Workspaces?: ModelWorkspacesConnection,
   createdAt?: string,
   updatedAt?: string,
-  _version?: number,
-  _deleted?: boolean | null,
-  _lastChangedAt?: number,
 };
 
 export type ModelWorkspacesConnection = {
   __typename: "ModelWorkspacesConnection",
   items?:  Array<Workspaces | null >,
   nextToken?: string | null,
-  startedAt?: number | null,
 };
 
 export type UpdateOrganisationsInput = {
@@ -707,12 +643,10 @@ export type UpdateOrganisationsInput = {
   type?: string | null,
   createdAt?: string | null,
   updatedAt?: string | null,
-  _version?: number | null,
 };
 
 export type DeleteOrganisationsInput = {
   id: string,
-  _version?: number | null,
 };
 
 export type CreateVodAssetInput = {
@@ -720,7 +654,6 @@ export type CreateVodAssetInput = {
   tenant: string,
   title: string,
   video: string,
-  _version?: number | null,
   vodAssetTranscriptionId?: string | null,
 };
 
@@ -743,9 +676,6 @@ export type VodAsset = {
   video?: string,
   createdAt?: string,
   updatedAt?: string,
-  _version?: number,
-  _deleted?: boolean | null,
-  _lastChangedAt?: number,
   vodAssetTranscriptionId?: string | null,
 };
 
@@ -754,13 +684,11 @@ export type UpdateVodAssetInput = {
   tenant?: string | null,
   title?: string | null,
   video?: string | null,
-  _version?: number | null,
   vodAssetTranscriptionId?: string | null,
 };
 
 export type DeleteVodAssetInput = {
   id: string,
-  _version?: number | null,
 };
 
 export type CreateTagCategoryInput = {
@@ -768,7 +696,6 @@ export type CreateTagCategoryInput = {
   tenant: string,
   name: string,
   projectsID: string,
-  _version?: number | null,
 };
 
 export type ModelTagCategoryConditionInput = {
@@ -789,9 +716,6 @@ export type TagCategory = {
   tags?: ModelTagsConnection,
   createdAt?: string,
   updatedAt?: string,
-  _version?: number,
-  _deleted?: boolean | null,
-  _lastChangedAt?: number,
 };
 
 export type UpdateTagCategoryInput = {
@@ -799,12 +723,10 @@ export type UpdateTagCategoryInput = {
   tenant?: string | null,
   name?: string | null,
   projectsID?: string | null,
-  _version?: number | null,
 };
 
 export type DeleteTagCategoryInput = {
   id: string,
-  _version?: number | null,
 };
 
 export type ModelPersonsFilterInput = {
@@ -826,7 +748,6 @@ export type ModelPersonsConnection = {
   __typename: "ModelPersonsConnection",
   items?:  Array<Persons | null >,
   nextToken?: string | null,
-  startedAt?: number | null,
 };
 
 export type ModelInsightsFilterInput = {
@@ -890,7 +811,6 @@ export type ModelTranscriptionConnection = {
   __typename: "ModelTranscriptionConnection",
   items?:  Array<Transcription | null >,
   nextToken?: string | null,
-  startedAt?: number | null,
 };
 
 export type ModelStoriesFilterInput = {
@@ -936,7 +856,6 @@ export type ModelProjectsConnection = {
   __typename: "ModelProjectsConnection",
   items?:  Array<Projects | null >,
   nextToken?: string | null,
-  startedAt?: number | null,
 };
 
 export type ModelWorkspacesFilterInput = {
@@ -970,7 +889,6 @@ export type ModelOrganisationsConnection = {
   __typename: "ModelOrganisationsConnection",
   items?:  Array<Organisations | null >,
   nextToken?: string | null,
-  startedAt?: number | null,
 };
 
 export type ModelVodAssetFilterInput = {
@@ -988,7 +906,6 @@ export type ModelVodAssetConnection = {
   __typename: "ModelVodAssetConnection",
   items?:  Array<VodAsset | null >,
   nextToken?: string | null,
-  startedAt?: number | null,
 };
 
 export type ModelTagCategoryFilterInput = {
@@ -1005,7 +922,6 @@ export type ModelTagCategoryConnection = {
   __typename: "ModelTagCategoryConnection",
   items?:  Array<TagCategory | null >,
   nextToken?: string | null,
-  startedAt?: number | null,
 };
 
 export type CreatePersonsMutationVariables = {
@@ -1025,9 +941,6 @@ export type CreatePersonsMutation = {
     createdAt: string,
     updatedAt: string,
     business?: string | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1048,9 +961,6 @@ export type UpdatePersonsMutation = {
     createdAt: string,
     updatedAt: string,
     business?: string | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1071,9 +981,6 @@ export type DeletePersonsMutation = {
     createdAt: string,
     updatedAt: string,
     business?: string | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1091,9 +998,6 @@ export type CreateInsightsMutation = {
     content?: string | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1111,9 +1015,6 @@ export type UpdateInsightsMutation = {
     content?: string | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1131,9 +1032,6 @@ export type DeleteInsightsMutation = {
     content?: string | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1160,9 +1058,6 @@ export type CreateHighlightsMutation = {
     endTime?: number | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1189,9 +1084,6 @@ export type UpdateHighlightsMutation = {
     endTime?: number | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1218,9 +1110,6 @@ export type DeleteHighlightsMutation = {
     endTime?: number | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1239,9 +1128,6 @@ export type CreateTagsMutation = {
     tagCategoryID?: string | null,
     updatedAt: string,
     createdAt?: string | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1260,9 +1146,6 @@ export type UpdateTagsMutation = {
     tagCategoryID?: string | null,
     updatedAt: string,
     createdAt?: string | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1281,9 +1164,6 @@ export type DeleteTagsMutation = {
     tagCategoryID?: string | null,
     updatedAt: string,
     createdAt?: string | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1304,14 +1184,10 @@ export type CreateTranscriptionMutation = {
     Highlights?:  {
       __typename: "ModelHighlightsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     status: TranscriptionStatus,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1332,14 +1208,10 @@ export type UpdateTranscriptionMutation = {
     Highlights?:  {
       __typename: "ModelHighlightsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     status: TranscriptionStatus,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1360,14 +1232,10 @@ export type DeleteTranscriptionMutation = {
     Highlights?:  {
       __typename: "ModelHighlightsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     status: TranscriptionStatus,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1386,7 +1254,6 @@ export type CreateStoriesMutation = {
     Highlights?:  {
       __typename: "ModelHighlightsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     type: string,
     createdAt: string,
@@ -1404,9 +1271,6 @@ export type CreateStoriesMutation = {
       status: TranscriptionStatus,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     } | null,
     participants?:  {
       __typename: "Persons",
@@ -1419,13 +1283,7 @@ export type CreateStoriesMutation = {
       createdAt: string,
       updatedAt: string,
       business?: string | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     } | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
     storiesTranscriptionId?: string | null,
     storiesParticipantsId?: string | null,
   } | null,
@@ -1446,7 +1304,6 @@ export type UpdateStoriesMutation = {
     Highlights?:  {
       __typename: "ModelHighlightsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     type: string,
     createdAt: string,
@@ -1464,9 +1321,6 @@ export type UpdateStoriesMutation = {
       status: TranscriptionStatus,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     } | null,
     participants?:  {
       __typename: "Persons",
@@ -1479,13 +1333,7 @@ export type UpdateStoriesMutation = {
       createdAt: string,
       updatedAt: string,
       business?: string | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     } | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
     storiesTranscriptionId?: string | null,
     storiesParticipantsId?: string | null,
   } | null,
@@ -1506,7 +1354,6 @@ export type DeleteStoriesMutation = {
     Highlights?:  {
       __typename: "ModelHighlightsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     type: string,
     createdAt: string,
@@ -1524,9 +1371,6 @@ export type DeleteStoriesMutation = {
       status: TranscriptionStatus,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     } | null,
     participants?:  {
       __typename: "Persons",
@@ -1539,13 +1383,7 @@ export type DeleteStoriesMutation = {
       createdAt: string,
       updatedAt: string,
       business?: string | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     } | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
     storiesTranscriptionId?: string | null,
     storiesParticipantsId?: string | null,
   } | null,
@@ -1566,13 +1404,9 @@ export type CreateCategoriesMutation = {
     Stories?:  {
       __typename: "ModelStoriesConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1591,13 +1425,9 @@ export type UpdateCategoriesMutation = {
     Stories?:  {
       __typename: "ModelStoriesConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1616,13 +1446,9 @@ export type DeleteCategoriesMutation = {
     Stories?:  {
       __typename: "ModelStoriesConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1643,31 +1469,23 @@ export type CreateProjectsMutation = {
     Categories?:  {
       __typename: "ModelCategoriesConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Stories?:  {
       __typename: "ModelStoriesConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Tags?:  {
       __typename: "ModelTagsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Highlights?:  {
       __typename: "ModelHighlightsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Insights?:  {
       __typename: "ModelInsightsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1688,31 +1506,23 @@ export type UpdateProjectsMutation = {
     Categories?:  {
       __typename: "ModelCategoriesConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Stories?:  {
       __typename: "ModelStoriesConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Tags?:  {
       __typename: "ModelTagsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Highlights?:  {
       __typename: "ModelHighlightsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Insights?:  {
       __typename: "ModelInsightsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1733,31 +1543,23 @@ export type DeleteProjectsMutation = {
     Categories?:  {
       __typename: "ModelCategoriesConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Stories?:  {
       __typename: "ModelStoriesConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Tags?:  {
       __typename: "ModelTagsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Highlights?:  {
       __typename: "ModelHighlightsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Insights?:  {
       __typename: "ModelInsightsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1778,9 +1580,6 @@ export type CreateWorkspacesMutation = {
     createdAt: string,
     updatedAt: string,
     personTemplate?: string | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1801,9 +1600,6 @@ export type UpdateWorkspacesMutation = {
     createdAt: string,
     updatedAt: string,
     personTemplate?: string | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1824,9 +1620,6 @@ export type DeleteWorkspacesMutation = {
     createdAt: string,
     updatedAt: string,
     personTemplate?: string | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1845,13 +1638,9 @@ export type CreateOrganisationsMutation = {
     Workspaces?:  {
       __typename: "ModelWorkspacesConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1870,13 +1659,9 @@ export type UpdateOrganisationsMutation = {
     Workspaces?:  {
       __typename: "ModelWorkspacesConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1895,13 +1680,9 @@ export type DeleteOrganisationsMutation = {
     Workspaces?:  {
       __typename: "ModelWorkspacesConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -1927,16 +1708,10 @@ export type CreateVodAssetMutation = {
       status: TranscriptionStatus,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     } | null,
     video: string,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
     vodAssetTranscriptionId?: string | null,
   } | null,
 };
@@ -1963,16 +1738,10 @@ export type UpdateVodAssetMutation = {
       status: TranscriptionStatus,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     } | null,
     video: string,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
     vodAssetTranscriptionId?: string | null,
   } | null,
 };
@@ -1999,16 +1768,10 @@ export type DeleteVodAssetMutation = {
       status: TranscriptionStatus,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     } | null,
     video: string,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
     vodAssetTranscriptionId?: string | null,
   } | null,
 };
@@ -2028,13 +1791,9 @@ export type CreateTagCategoryMutation = {
     tags?:  {
       __typename: "ModelTagsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -2053,13 +1812,9 @@ export type UpdateTagCategoryMutation = {
     tags?:  {
       __typename: "ModelTagsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -2078,13 +1833,9 @@ export type DeleteTagCategoryMutation = {
     tags?:  {
       __typename: "ModelTagsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -2104,9 +1855,6 @@ export type GetPersonsQuery = {
     createdAt: string,
     updatedAt: string,
     business?: string | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -2130,42 +1878,8 @@ export type ListPersonsQuery = {
       createdAt: string,
       updatedAt: string,
       business?: string | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     } | null >,
     nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type SyncPersonsQueryVariables = {
-  filter?: ModelPersonsFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  lastSync?: number | null,
-};
-
-export type SyncPersonsQuery = {
-  syncPersons?:  {
-    __typename: "ModelPersonsConnection",
-    items:  Array< {
-      __typename: "Persons",
-      id: string,
-      tenant: string,
-      additonalFields?: string | null,
-      name?: string | null,
-      email?: string | null,
-      persona?: string | null,
-      createdAt: string,
-      updatedAt: string,
-      business?: string | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
   } | null,
 };
 
@@ -2182,9 +1896,6 @@ export type GetInsightsQuery = {
     content?: string | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -2205,39 +1916,8 @@ export type ListInsightsQuery = {
       content?: string | null,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     } | null >,
     nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type SyncInsightsQueryVariables = {
-  filter?: ModelInsightsFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  lastSync?: number | null,
-};
-
-export type SyncInsightsQuery = {
-  syncInsights?:  {
-    __typename: "ModelInsightsConnection",
-    items:  Array< {
-      __typename: "Insights",
-      id: string,
-      tenant: string,
-      projectsID: string,
-      content?: string | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
   } | null,
 };
 
@@ -2263,9 +1943,6 @@ export type GetHighlightsQuery = {
     endTime?: number | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -2295,48 +1972,8 @@ export type ListHighlightsQuery = {
       endTime?: number | null,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     } | null >,
     nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type SyncHighlightsQueryVariables = {
-  filter?: ModelHighlightsFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  lastSync?: number | null,
-};
-
-export type SyncHighlightsQuery = {
-  syncHighlights?:  {
-    __typename: "ModelHighlightsConnection",
-    items:  Array< {
-      __typename: "Highlights",
-      id: string,
-      tenant: string,
-      color: string,
-      text: string,
-      Tags?: Array< string | null > | null,
-      tagIds?: string | null,
-      user?: string | null,
-      type: HighlightType,
-      transcriptionID?: string | null,
-      projectsID: string,
-      storyID: string,
-      startTime?: number | null,
-      endTime?: number | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
   } | null,
 };
 
@@ -2354,9 +1991,6 @@ export type GetTagsQuery = {
     tagCategoryID?: string | null,
     updatedAt: string,
     createdAt?: string | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -2378,40 +2012,8 @@ export type ListTagsQuery = {
       tagCategoryID?: string | null,
       updatedAt: string,
       createdAt?: string | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     } | null >,
     nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type SyncTagsQueryVariables = {
-  filter?: ModelTagsFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  lastSync?: number | null,
-};
-
-export type SyncTagsQuery = {
-  syncTags?:  {
-    __typename: "ModelTagsConnection",
-    items:  Array< {
-      __typename: "Tags",
-      id: string,
-      tenant: string,
-      label: string,
-      projectsID: string,
-      tagCategoryID?: string | null,
-      updatedAt: string,
-      createdAt?: string | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
   } | null,
 };
 
@@ -2431,14 +2033,10 @@ export type GetTranscriptionQuery = {
     Highlights?:  {
       __typename: "ModelHighlightsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     status: TranscriptionStatus,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -2462,42 +2060,8 @@ export type ListTranscriptionsQuery = {
       status: TranscriptionStatus,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     } | null >,
     nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type SyncTranscriptionsQueryVariables = {
-  filter?: ModelTranscriptionFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  lastSync?: number | null,
-};
-
-export type SyncTranscriptionsQuery = {
-  syncTranscriptions?:  {
-    __typename: "ModelTranscriptionConnection",
-    items:  Array< {
-      __typename: "Transcription",
-      id: string,
-      tenant: string,
-      video: string,
-      docId?: string | null,
-      transcription?: string | null,
-      content?: string | null,
-      status: TranscriptionStatus,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
   } | null,
 };
 
@@ -2515,7 +2079,6 @@ export type GetStoriesQuery = {
     Highlights?:  {
       __typename: "ModelHighlightsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     type: string,
     createdAt: string,
@@ -2533,9 +2096,6 @@ export type GetStoriesQuery = {
       status: TranscriptionStatus,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     } | null,
     participants?:  {
       __typename: "Persons",
@@ -2548,13 +2108,7 @@ export type GetStoriesQuery = {
       createdAt: string,
       updatedAt: string,
       business?: string | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     } | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
     storiesTranscriptionId?: string | null,
     storiesParticipantsId?: string | null,
   } | null,
@@ -2580,46 +2134,10 @@ export type ListStoriesQuery = {
       updatedAt: string,
       title: string,
       content?: string | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
       storiesTranscriptionId?: string | null,
       storiesParticipantsId?: string | null,
     } | null >,
     nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type SyncStoriesQueryVariables = {
-  filter?: ModelStoriesFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  lastSync?: number | null,
-};
-
-export type SyncStoriesQuery = {
-  syncStories?:  {
-    __typename: "ModelStoriesConnection",
-    items:  Array< {
-      __typename: "Stories",
-      id: string,
-      tenant: string,
-      categoriesID: string,
-      projectsID: string,
-      type: string,
-      createdAt: string,
-      updatedAt: string,
-      title: string,
-      content?: string | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      storiesTranscriptionId?: string | null,
-      storiesParticipantsId?: string | null,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
   } | null,
 };
 
@@ -2637,13 +2155,9 @@ export type GetCategoriesQuery = {
     Stories?:  {
       __typename: "ModelStoriesConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -2664,39 +2178,8 @@ export type ListCategoriesQuery = {
       projectsID: string,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     } | null >,
     nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type SyncCategoriesQueryVariables = {
-  filter?: ModelCategoriesFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  lastSync?: number | null,
-};
-
-export type SyncCategoriesQuery = {
-  syncCategories?:  {
-    __typename: "ModelCategoriesConnection",
-    items:  Array< {
-      __typename: "Categories",
-      id: string,
-      tenant: string,
-      name: string,
-      projectsID: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
   } | null,
 };
 
@@ -2716,31 +2199,23 @@ export type GetProjectsQuery = {
     Categories?:  {
       __typename: "ModelCategoriesConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Stories?:  {
       __typename: "ModelStoriesConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Tags?:  {
       __typename: "ModelTagsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Highlights?:  {
       __typename: "ModelHighlightsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Insights?:  {
       __typename: "ModelInsightsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -2761,39 +2236,8 @@ export type ListProjectsQuery = {
       readme?: string | null,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     } | null >,
     nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type SyncProjectsQueryVariables = {
-  filter?: ModelProjectsFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  lastSync?: number | null,
-};
-
-export type SyncProjectsQuery = {
-  syncProjects?:  {
-    __typename: "ModelProjectsConnection",
-    items:  Array< {
-      __typename: "Projects",
-      id: string,
-      tenant: string,
-      name: string,
-      readme?: string | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
   } | null,
 };
 
@@ -2813,9 +2257,6 @@ export type GetWorkspacesQuery = {
     createdAt: string,
     updatedAt: string,
     personTemplate?: string | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -2839,42 +2280,8 @@ export type ListWorkspacesQuery = {
       createdAt: string,
       updatedAt: string,
       personTemplate?: string | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     } | null >,
     nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type SyncWorkspacesQueryVariables = {
-  filter?: ModelWorkspacesFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  lastSync?: number | null,
-};
-
-export type SyncWorkspacesQuery = {
-  syncWorkspaces?:  {
-    __typename: "ModelWorkspacesConnection",
-    items:  Array< {
-      __typename: "Workspaces",
-      id: string,
-      tenant: string,
-      organisationsID?: string | null,
-      name: string,
-      color?: string | null,
-      logo?: string | null,
-      createdAt: string,
-      updatedAt: string,
-      personTemplate?: string | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
   } | null,
 };
 
@@ -2892,13 +2299,9 @@ export type GetOrganisationsQuery = {
     Workspaces?:  {
       __typename: "ModelWorkspacesConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -2919,39 +2322,8 @@ export type ListOrganisationsQuery = {
       type?: string | null,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     } | null >,
     nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type SyncOrganisationsQueryVariables = {
-  filter?: ModelOrganisationsFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  lastSync?: number | null,
-};
-
-export type SyncOrganisationsQuery = {
-  syncOrganisations?:  {
-    __typename: "ModelOrganisationsConnection",
-    items:  Array< {
-      __typename: "Organisations",
-      id: string,
-      tenant: string,
-      name: string,
-      type?: string | null,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
   } | null,
 };
 
@@ -2976,16 +2348,10 @@ export type GetVodAssetQuery = {
       status: TranscriptionStatus,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     } | null,
     video: string,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
     vodAssetTranscriptionId?: string | null,
   } | null,
 };
@@ -3007,41 +2373,9 @@ export type ListVodAssetsQuery = {
       video: string,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
       vodAssetTranscriptionId?: string | null,
     } | null >,
     nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type SyncVodAssetsQueryVariables = {
-  filter?: ModelVodAssetFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  lastSync?: number | null,
-};
-
-export type SyncVodAssetsQuery = {
-  syncVodAssets?:  {
-    __typename: "ModelVodAssetConnection",
-    items:  Array< {
-      __typename: "VodAsset",
-      id: string,
-      tenant: string,
-      title: string,
-      video: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-      vodAssetTranscriptionId?: string | null,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
   } | null,
 };
 
@@ -3059,13 +2393,9 @@ export type GetTagCategoryQuery = {
     tags?:  {
       __typename: "ModelTagsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -3086,39 +2416,8 @@ export type ListTagCategoriesQuery = {
       projectsID: string,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     } | null >,
     nextToken?: string | null,
-    startedAt?: number | null,
-  } | null,
-};
-
-export type SyncTagCategoriesQueryVariables = {
-  filter?: ModelTagCategoryFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-  lastSync?: number | null,
-};
-
-export type SyncTagCategoriesQuery = {
-  syncTagCategories?:  {
-    __typename: "ModelTagCategoryConnection",
-    items:  Array< {
-      __typename: "TagCategory",
-      id: string,
-      tenant: string,
-      name: string,
-      projectsID: string,
-      createdAt: string,
-      updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
-    } | null >,
-    nextToken?: string | null,
-    startedAt?: number | null,
   } | null,
 };
 
@@ -3134,9 +2433,6 @@ export type OnCreatePersonsSubscription = {
     createdAt: string,
     updatedAt: string,
     business?: string | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -3152,9 +2448,6 @@ export type OnUpdatePersonsSubscription = {
     createdAt: string,
     updatedAt: string,
     business?: string | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -3170,9 +2463,6 @@ export type OnDeletePersonsSubscription = {
     createdAt: string,
     updatedAt: string,
     business?: string | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -3185,9 +2475,6 @@ export type OnCreateInsightsSubscription = {
     content?: string | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -3200,9 +2487,6 @@ export type OnUpdateInsightsSubscription = {
     content?: string | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -3215,9 +2499,6 @@ export type OnDeleteInsightsSubscription = {
     content?: string | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -3239,9 +2520,6 @@ export type OnCreateHighlightsSubscription = {
     endTime?: number | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -3263,9 +2541,6 @@ export type OnUpdateHighlightsSubscription = {
     endTime?: number | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -3287,9 +2562,6 @@ export type OnDeleteHighlightsSubscription = {
     endTime?: number | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -3303,9 +2575,6 @@ export type OnCreateTagsSubscription = {
     tagCategoryID?: string | null,
     updatedAt: string,
     createdAt?: string | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -3319,9 +2588,6 @@ export type OnUpdateTagsSubscription = {
     tagCategoryID?: string | null,
     updatedAt: string,
     createdAt?: string | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -3335,9 +2601,6 @@ export type OnDeleteTagsSubscription = {
     tagCategoryID?: string | null,
     updatedAt: string,
     createdAt?: string | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -3353,14 +2616,10 @@ export type OnCreateTranscriptionSubscription = {
     Highlights?:  {
       __typename: "ModelHighlightsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     status: TranscriptionStatus,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -3376,14 +2635,10 @@ export type OnUpdateTranscriptionSubscription = {
     Highlights?:  {
       __typename: "ModelHighlightsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     status: TranscriptionStatus,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -3399,14 +2654,10 @@ export type OnDeleteTranscriptionSubscription = {
     Highlights?:  {
       __typename: "ModelHighlightsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     status: TranscriptionStatus,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -3420,7 +2671,6 @@ export type OnCreateStoriesSubscription = {
     Highlights?:  {
       __typename: "ModelHighlightsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     type: string,
     createdAt: string,
@@ -3438,9 +2688,6 @@ export type OnCreateStoriesSubscription = {
       status: TranscriptionStatus,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     } | null,
     participants?:  {
       __typename: "Persons",
@@ -3453,13 +2700,7 @@ export type OnCreateStoriesSubscription = {
       createdAt: string,
       updatedAt: string,
       business?: string | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     } | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
     storiesTranscriptionId?: string | null,
     storiesParticipantsId?: string | null,
   } | null,
@@ -3475,7 +2716,6 @@ export type OnUpdateStoriesSubscription = {
     Highlights?:  {
       __typename: "ModelHighlightsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     type: string,
     createdAt: string,
@@ -3493,9 +2733,6 @@ export type OnUpdateStoriesSubscription = {
       status: TranscriptionStatus,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     } | null,
     participants?:  {
       __typename: "Persons",
@@ -3508,13 +2745,7 @@ export type OnUpdateStoriesSubscription = {
       createdAt: string,
       updatedAt: string,
       business?: string | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     } | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
     storiesTranscriptionId?: string | null,
     storiesParticipantsId?: string | null,
   } | null,
@@ -3530,7 +2761,6 @@ export type OnDeleteStoriesSubscription = {
     Highlights?:  {
       __typename: "ModelHighlightsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     type: string,
     createdAt: string,
@@ -3548,9 +2778,6 @@ export type OnDeleteStoriesSubscription = {
       status: TranscriptionStatus,
       createdAt: string,
       updatedAt: string,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     } | null,
     participants?:  {
       __typename: "Persons",
@@ -3563,13 +2790,7 @@ export type OnDeleteStoriesSubscription = {
       createdAt: string,
       updatedAt: string,
       business?: string | null,
-      _version: number,
-      _deleted?: boolean | null,
-      _lastChangedAt: number,
     } | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
     storiesTranscriptionId?: string | null,
     storiesParticipantsId?: string | null,
   } | null,
@@ -3585,13 +2806,9 @@ export type OnCreateCategoriesSubscription = {
     Stories?:  {
       __typename: "ModelStoriesConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -3605,13 +2822,9 @@ export type OnUpdateCategoriesSubscription = {
     Stories?:  {
       __typename: "ModelStoriesConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -3625,13 +2838,9 @@ export type OnDeleteCategoriesSubscription = {
     Stories?:  {
       __typename: "ModelStoriesConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -3647,31 +2856,23 @@ export type OnCreateProjectsSubscription = {
     Categories?:  {
       __typename: "ModelCategoriesConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Stories?:  {
       __typename: "ModelStoriesConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Tags?:  {
       __typename: "ModelTagsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Highlights?:  {
       __typename: "ModelHighlightsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Insights?:  {
       __typename: "ModelInsightsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -3687,31 +2888,23 @@ export type OnUpdateProjectsSubscription = {
     Categories?:  {
       __typename: "ModelCategoriesConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Stories?:  {
       __typename: "ModelStoriesConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Tags?:  {
       __typename: "ModelTagsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Highlights?:  {
       __typename: "ModelHighlightsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Insights?:  {
       __typename: "ModelInsightsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -3727,31 +2920,23 @@ export type OnDeleteProjectsSubscription = {
     Categories?:  {
       __typename: "ModelCategoriesConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Stories?:  {
       __typename: "ModelStoriesConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Tags?:  {
       __typename: "ModelTagsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Highlights?:  {
       __typename: "ModelHighlightsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     Insights?:  {
       __typename: "ModelInsightsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -3767,9 +2952,6 @@ export type OnCreateWorkspacesSubscription = {
     createdAt: string,
     updatedAt: string,
     personTemplate?: string | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -3785,9 +2967,6 @@ export type OnUpdateWorkspacesSubscription = {
     createdAt: string,
     updatedAt: string,
     personTemplate?: string | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -3803,9 +2982,6 @@ export type OnDeleteWorkspacesSubscription = {
     createdAt: string,
     updatedAt: string,
     personTemplate?: string | null,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -3819,13 +2995,9 @@ export type OnCreateOrganisationsSubscription = {
     Workspaces?:  {
       __typename: "ModelWorkspacesConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -3839,13 +3011,9 @@ export type OnUpdateOrganisationsSubscription = {
     Workspaces?:  {
       __typename: "ModelWorkspacesConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -3859,13 +3027,9 @@ export type OnDeleteOrganisationsSubscription = {
     Workspaces?:  {
       __typename: "ModelWorkspacesConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -3879,13 +3043,9 @@ export type OnCreateTagCategorySubscription = {
     tags?:  {
       __typename: "ModelTagsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -3899,13 +3059,9 @@ export type OnUpdateTagCategorySubscription = {
     tags?:  {
       __typename: "ModelTagsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };
 
@@ -3919,12 +3075,8 @@ export type OnDeleteTagCategorySubscription = {
     tags?:  {
       __typename: "ModelTagsConnection",
       nextToken?: string | null,
-      startedAt?: number | null,
     } | null,
     createdAt: string,
     updatedAt: string,
-    _version: number,
-    _deleted?: boolean | null,
-    _lastChangedAt: number,
   } | null,
 };

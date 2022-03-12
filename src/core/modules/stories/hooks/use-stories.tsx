@@ -20,7 +20,6 @@ export const listStories = /* GraphQL */ `
         updatedAt
         title
         _lastChangedAt
-        _version
         participants {
           name
           email

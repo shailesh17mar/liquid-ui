@@ -32,15 +32,18 @@ import { useAuth } from "presentation/context/auth-context";
 import { QuickActionButton } from "./editor.styles";
 import { TrailingNode } from "./extensions/trailing-node/trailing-node";
 import TimeOffset from "./extensions/time-offset";
-import { useResetRecoilState } from "recoil";
+import { useRecoilState, useResetRecoilState } from "recoil";
 // import { WebsocketProvider } from "main/factories/websocket-provider";
 import { VideoExtension } from "./extensions/video/extension";
 import { HocuspocusProvider } from "@hocuspocus/provider";
 import {
   highlightAtom,
+  HighlightState,
   TagManager,
 } from "./components/highlight-control/tag-manager";
 import { nanoid } from "nanoid";
+import { HighlightExtension } from "./extensions/transcript/highlight";
+import { BubbleControl } from "./components/bubble-control/bubble-control";
 
 const CustomDocument = Document.extend({
   content: "block+ paragraph",
@@ -107,6 +110,7 @@ export const Editor: React.FC<EditorProps> = ({
   const [docState, setDocState] = useState<JSONContent>();
   const [isUploading, setIsUploading] = useState(false);
   const resetHighlight = useResetRecoilState(highlightAtom);
+  const [highlightState, setHighlightState] = useRecoilState(highlightAtom);
   const [temp, setTemp] = useState<string>(nanoid());
   const visColorsBehindText = euiPaletteColorBlindBehindText();
   const { user } = useAuth();
@@ -123,6 +127,7 @@ export const Editor: React.FC<EditorProps> = ({
     // DropCursor,
     TextStyle,
     TimeOffset,
+    HighlightExtension,
     TrailingNode,
     Commander.configure({
       suggestion: commands,
@@ -174,6 +179,40 @@ export const Editor: React.FC<EditorProps> = ({
   //   handleSelection();
   // });
 
+  const handleClickOnContent = (e: MouseEvent) => {
+    if (e.target instanceof Element && e.target.hasAttribute("data-hid")) {
+      let range = document.createRange();
+      const highlightId = e.target.getAttribute("data-hid");
+      const highlightType = e.target.getAttribute("data-hc");
+      var rootNode = e.target.parentNode;
+      if (rootNode) {
+        const selector = `span[data-hid="${highlightId}"]`;
+        const items = rootNode.querySelectorAll(selector);
+        range.setStart(items[0], 0);
+        range.setEnd(items[items.length - 1], 1);
+        const selection = window.getSelection();
+        selection?.removeAllRanges();
+        selection?.addRange(range);
+        setHighlightState({
+          id: highlightId,
+          type: highlightType,
+          startTime: parseInt(items[0].getAttribute("data-m") || "-1"),
+          endTime: parseInt(
+            items[items.length - 1].getAttribute("data-m") || "-1"
+          ),
+        } as HighlightState);
+      }
+      // props.editor.chain().focus().unsetHighlight().run();
+      // let range = document.createRange();
+      // range.selectNodeContents(e.target);
+      // // const highlight = highlights[e.target.id];
+
+      // // range.setStart(highlight.startNode, highlight.startOffset);
+      // // range.setEnd(highlight.endNode, highlight.endOffset);
+      // window.getSelection()?.removeAllRanges();
+      // window.getSelection()?.addRange(range);
+    }
+  };
   const handleSave = useCallback(
     (newDocState) => {
       if (!isUploading) {
@@ -198,18 +237,19 @@ export const Editor: React.FC<EditorProps> = ({
   const handleImageClick = () => {
     editor?.chain().focus().setSignedImage({}).run();
   };
+
   return (
     <>
       {editor && (
         <>
-          {/* <BubbleMenu
+          <BubbleMenu
             shouldShow={({ editor, view, state, oldState, from, to }) => {
               return !editor.isActive("transcriptComponent") && to > from;
             }}
             editor={editor}
           >
-            {isSelectionComplete && <BubbleControl editor={editor} />}
-          </BubbleMenu> */}
+            {<BubbleControl editor={editor} />}
+          </BubbleMenu>
           <BubbleMenu
             shouldShow={({ from, to }) => {
               return to > from && to - from > 5;

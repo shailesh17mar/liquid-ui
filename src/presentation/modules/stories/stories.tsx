@@ -43,7 +43,6 @@ const makeId = htmlIdGenerator();
 interface IList {
   content: any;
   id: string;
-  version: number;
 }
 
 interface Category {
@@ -62,8 +61,6 @@ const makeList = (number: number, start: number = 1) =>
 export const Stories: React.FC = () => {
   const navigate = useNavigate();
   const [isSeeding, setIsSeeding] = useState(false);
-  const [storyVersionMap, setStoryVersionMap] =
-    useState<{ [id: string]: number }>();
   const [lists, setLists] = useState<{ [id: string]: IList[] }>();
   const { user } = useAuth();
   const { id } = useParams() as { id: string };
@@ -90,7 +87,6 @@ export const Stories: React.FC = () => {
           return {
             content: getStoryCard(story),
             id: story?.id,
-            version: story?._version,
           };
         });
       return acc;
@@ -179,20 +175,10 @@ export const Stories: React.FC = () => {
           destination
         );
         const story = lists[sourceId][source.index];
-        const optimisticVersion =
-          storyVersionMap && storyVersionMap[story.id]
-            ? storyVersionMap[story.id]
-            : -1;
 
         storyUpdateMutation.mutate({
           id: story.id,
           categoriesID: destinationId,
-          _version: optimisticVersion >= 0 ? optimisticVersion : story.version,
-        });
-        setStoryVersionMap({
-          ...storyVersionMap,
-          [id]:
-            optimisticVersion >= 0 ? optimisticVersion + 1 : story.version + 1,
         });
         setLists({
           ...lists,

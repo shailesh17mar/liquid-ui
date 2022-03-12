@@ -14,9 +14,6 @@ export const getPersons = /* GraphQL */ `
       createdAt
       updatedAt
       business
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -37,44 +34,8 @@ export const listPersons = /* GraphQL */ `
         createdAt
         updatedAt
         business
-        _version
-        _deleted
-        _lastChangedAt
       }
       nextToken
-      startedAt
-    }
-  }
-`;
-export const syncPersons = /* GraphQL */ `
-  query SyncPersons(
-    $filter: ModelPersonsFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncPersons(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        tenant
-        additonalFields
-        name
-        email
-        persona
-        createdAt
-        updatedAt
-        business
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
     }
   }
 `;
@@ -87,9 +48,6 @@ export const getInsights = /* GraphQL */ `
       content
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -107,41 +65,8 @@ export const listInsights = /* GraphQL */ `
         content
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       nextToken
-      startedAt
-    }
-  }
-`;
-export const syncInsights = /* GraphQL */ `
-  query SyncInsights(
-    $filter: ModelInsightsFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncInsights(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        tenant
-        projectsID
-        content
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
     }
   }
 `;
@@ -163,9 +88,6 @@ export const getHighlights = /* GraphQL */ `
       endTime
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -192,50 +114,8 @@ export const listHighlights = /* GraphQL */ `
         endTime
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       nextToken
-      startedAt
-    }
-  }
-`;
-export const syncHighlights = /* GraphQL */ `
-  query SyncHighlights(
-    $filter: ModelHighlightsFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncHighlights(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        tenant
-        color
-        text
-        Tags
-        tagIds
-        user
-        type
-        transcriptionID
-        projectsID
-        storyID
-        startTime
-        endTime
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
     }
   }
 `;
@@ -249,9 +129,6 @@ export const getTags = /* GraphQL */ `
       tagCategoryID
       updatedAt
       createdAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -270,42 +147,8 @@ export const listTags = /* GraphQL */ `
         tagCategoryID
         updatedAt
         createdAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       nextToken
-      startedAt
-    }
-  }
-`;
-export const syncTags = /* GraphQL */ `
-  query SyncTags(
-    $filter: ModelTagsFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncTags(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        tenant
-        label
-        projectsID
-        tagCategoryID
-        updatedAt
-        createdAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
     }
   }
 `;
@@ -320,14 +163,10 @@ export const getTranscription = /* GraphQL */ `
       content
       Highlights {
         nextToken
-        startedAt
       }
       status
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -348,44 +187,8 @@ export const listTranscriptions = /* GraphQL */ `
         status
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       nextToken
-      startedAt
-    }
-  }
-`;
-export const syncTranscriptions = /* GraphQL */ `
-  query SyncTranscriptions(
-    $filter: ModelTranscriptionFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncTranscriptions(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        tenant
-        video
-        docId
-        transcription
-        content
-        status
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
     }
   }
 `;
@@ -398,7 +201,6 @@ export const getStories = /* GraphQL */ `
       projectsID
       Highlights {
         nextToken
-        startedAt
       }
       type
       createdAt
@@ -415,9 +217,6 @@ export const getStories = /* GraphQL */ `
         status
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       participants {
         id
@@ -429,13 +228,7 @@ export const getStories = /* GraphQL */ `
         createdAt
         updatedAt
         business
-        _version
-        _deleted
-        _lastChangedAt
       }
-      _version
-      _deleted
-      _lastChangedAt
       storiesTranscriptionId
       storiesParticipantsId
     }
@@ -458,48 +251,10 @@ export const listStories = /* GraphQL */ `
         updatedAt
         title
         content
-        _version
-        _deleted
-        _lastChangedAt
         storiesTranscriptionId
         storiesParticipantsId
       }
       nextToken
-      startedAt
-    }
-  }
-`;
-export const syncStories = /* GraphQL */ `
-  query SyncStories(
-    $filter: ModelStoriesFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncStories(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        tenant
-        categoriesID
-        projectsID
-        type
-        createdAt
-        updatedAt
-        title
-        content
-        _version
-        _deleted
-        _lastChangedAt
-        storiesTranscriptionId
-        storiesParticipantsId
-      }
-      nextToken
-      startedAt
     }
   }
 `;
@@ -512,13 +267,9 @@ export const getCategories = /* GraphQL */ `
       projectsID
       Stories {
         nextToken
-        startedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -536,41 +287,8 @@ export const listCategories = /* GraphQL */ `
         projectsID
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       nextToken
-      startedAt
-    }
-  }
-`;
-export const syncCategories = /* GraphQL */ `
-  query SyncCategories(
-    $filter: ModelCategoriesFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncCategories(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        tenant
-        name
-        projectsID
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
     }
   }
 `;
@@ -585,27 +303,19 @@ export const getProjects = /* GraphQL */ `
       updatedAt
       Categories {
         nextToken
-        startedAt
       }
       Stories {
         nextToken
-        startedAt
       }
       Tags {
         nextToken
-        startedAt
       }
       Highlights {
         nextToken
-        startedAt
       }
       Insights {
         nextToken
-        startedAt
       }
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -623,41 +333,8 @@ export const listProjects = /* GraphQL */ `
         readme
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       nextToken
-      startedAt
-    }
-  }
-`;
-export const syncProjects = /* GraphQL */ `
-  query SyncProjects(
-    $filter: ModelProjectsFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncProjects(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        tenant
-        name
-        readme
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
     }
   }
 `;
@@ -673,9 +350,6 @@ export const getWorkspaces = /* GraphQL */ `
       createdAt
       updatedAt
       personTemplate
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -696,44 +370,8 @@ export const listWorkspaces = /* GraphQL */ `
         createdAt
         updatedAt
         personTemplate
-        _version
-        _deleted
-        _lastChangedAt
       }
       nextToken
-      startedAt
-    }
-  }
-`;
-export const syncWorkspaces = /* GraphQL */ `
-  query SyncWorkspaces(
-    $filter: ModelWorkspacesFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncWorkspaces(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        tenant
-        organisationsID
-        name
-        color
-        logo
-        createdAt
-        updatedAt
-        personTemplate
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
     }
   }
 `;
@@ -746,13 +384,9 @@ export const getOrganisations = /* GraphQL */ `
       type
       Workspaces {
         nextToken
-        startedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -770,41 +404,8 @@ export const listOrganisations = /* GraphQL */ `
         type
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       nextToken
-      startedAt
-    }
-  }
-`;
-export const syncOrganisations = /* GraphQL */ `
-  query SyncOrganisations(
-    $filter: ModelOrganisationsFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncOrganisations(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        tenant
-        name
-        type
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
     }
   }
 `;
@@ -824,16 +425,10 @@ export const getVodAsset = /* GraphQL */ `
         status
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       video
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
       vodAssetTranscriptionId
     }
   }
@@ -852,43 +447,9 @@ export const listVodAssets = /* GraphQL */ `
         video
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
         vodAssetTranscriptionId
       }
       nextToken
-      startedAt
-    }
-  }
-`;
-export const syncVodAssets = /* GraphQL */ `
-  query SyncVodAssets(
-    $filter: ModelVodAssetFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncVodAssets(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        tenant
-        title
-        video
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-        vodAssetTranscriptionId
-      }
-      nextToken
-      startedAt
     }
   }
 `;
@@ -901,13 +462,9 @@ export const getTagCategory = /* GraphQL */ `
       projectsID
       tags {
         nextToken
-        startedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -925,41 +482,8 @@ export const listTagCategories = /* GraphQL */ `
         projectsID
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       nextToken
-      startedAt
-    }
-  }
-`;
-export const syncTagCategories = /* GraphQL */ `
-  query SyncTagCategories(
-    $filter: ModelTagCategoryFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncTagCategories(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        tenant
-        name
-        projectsID
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
     }
   }
 `;

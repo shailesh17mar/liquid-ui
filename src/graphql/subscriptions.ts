@@ -14,9 +14,6 @@ export const onCreatePersons = /* GraphQL */ `
       createdAt
       updatedAt
       business
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -32,9 +29,6 @@ export const onUpdatePersons = /* GraphQL */ `
       createdAt
       updatedAt
       business
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -50,9 +44,6 @@ export const onDeletePersons = /* GraphQL */ `
       createdAt
       updatedAt
       business
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -65,9 +56,6 @@ export const onCreateInsights = /* GraphQL */ `
       content
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -80,9 +68,6 @@ export const onUpdateInsights = /* GraphQL */ `
       content
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -95,9 +80,6 @@ export const onDeleteInsights = /* GraphQL */ `
       content
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -119,9 +101,6 @@ export const onCreateHighlights = /* GraphQL */ `
       endTime
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -143,9 +122,6 @@ export const onUpdateHighlights = /* GraphQL */ `
       endTime
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -167,9 +143,6 @@ export const onDeleteHighlights = /* GraphQL */ `
       endTime
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -183,9 +156,6 @@ export const onCreateTags = /* GraphQL */ `
       tagCategoryID
       updatedAt
       createdAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -199,9 +169,6 @@ export const onUpdateTags = /* GraphQL */ `
       tagCategoryID
       updatedAt
       createdAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -215,9 +182,6 @@ export const onDeleteTags = /* GraphQL */ `
       tagCategoryID
       updatedAt
       createdAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -232,14 +196,10 @@ export const onCreateTranscription = /* GraphQL */ `
       content
       Highlights {
         nextToken
-        startedAt
       }
       status
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -254,14 +214,10 @@ export const onUpdateTranscription = /* GraphQL */ `
       content
       Highlights {
         nextToken
-        startedAt
       }
       status
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -276,14 +232,10 @@ export const onDeleteTranscription = /* GraphQL */ `
       content
       Highlights {
         nextToken
-        startedAt
       }
       status
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -296,7 +248,6 @@ export const onCreateStories = /* GraphQL */ `
       projectsID
       Highlights {
         nextToken
-        startedAt
       }
       type
       createdAt
@@ -313,9 +264,6 @@ export const onCreateStories = /* GraphQL */ `
         status
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       participants {
         id
@@ -327,13 +275,7 @@ export const onCreateStories = /* GraphQL */ `
         createdAt
         updatedAt
         business
-        _version
-        _deleted
-        _lastChangedAt
       }
-      _version
-      _deleted
-      _lastChangedAt
       storiesTranscriptionId
       storiesParticipantsId
     }
@@ -348,7 +290,6 @@ export const onUpdateStories = /* GraphQL */ `
       projectsID
       Highlights {
         nextToken
-        startedAt
       }
       type
       createdAt
@@ -365,9 +306,6 @@ export const onUpdateStories = /* GraphQL */ `
         status
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       participants {
         id
@@ -379,13 +317,7 @@ export const onUpdateStories = /* GraphQL */ `
         createdAt
         updatedAt
         business
-        _version
-        _deleted
-        _lastChangedAt
       }
-      _version
-      _deleted
-      _lastChangedAt
       storiesTranscriptionId
       storiesParticipantsId
     }
@@ -400,7 +332,6 @@ export const onDeleteStories = /* GraphQL */ `
       projectsID
       Highlights {
         nextToken
-        startedAt
       }
       type
       createdAt
@@ -417,9 +348,6 @@ export const onDeleteStories = /* GraphQL */ `
         status
         createdAt
         updatedAt
-        _version
-        _deleted
-        _lastChangedAt
       }
       participants {
         id
@@ -431,13 +359,7 @@ export const onDeleteStories = /* GraphQL */ `
         createdAt
         updatedAt
         business
-        _version
-        _deleted
-        _lastChangedAt
       }
-      _version
-      _deleted
-      _lastChangedAt
       storiesTranscriptionId
       storiesParticipantsId
     }
@@ -452,13 +374,9 @@ export const onCreateCategories = /* GraphQL */ `
       projectsID
       Stories {
         nextToken
-        startedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -471,13 +389,9 @@ export const onUpdateCategories = /* GraphQL */ `
       projectsID
       Stories {
         nextToken
-        startedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -490,13 +404,9 @@ export const onDeleteCategories = /* GraphQL */ `
       projectsID
       Stories {
         nextToken
-        startedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -511,27 +421,19 @@ export const onCreateProjects = /* GraphQL */ `
       updatedAt
       Categories {
         nextToken
-        startedAt
       }
       Stories {
         nextToken
-        startedAt
       }
       Tags {
         nextToken
-        startedAt
       }
       Highlights {
         nextToken
-        startedAt
       }
       Insights {
         nextToken
-        startedAt
       }
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -546,27 +448,19 @@ export const onUpdateProjects = /* GraphQL */ `
       updatedAt
       Categories {
         nextToken
-        startedAt
       }
       Stories {
         nextToken
-        startedAt
       }
       Tags {
         nextToken
-        startedAt
       }
       Highlights {
         nextToken
-        startedAt
       }
       Insights {
         nextToken
-        startedAt
       }
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -581,27 +475,19 @@ export const onDeleteProjects = /* GraphQL */ `
       updatedAt
       Categories {
         nextToken
-        startedAt
       }
       Stories {
         nextToken
-        startedAt
       }
       Tags {
         nextToken
-        startedAt
       }
       Highlights {
         nextToken
-        startedAt
       }
       Insights {
         nextToken
-        startedAt
       }
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -617,9 +503,6 @@ export const onCreateWorkspaces = /* GraphQL */ `
       createdAt
       updatedAt
       personTemplate
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -635,9 +518,6 @@ export const onUpdateWorkspaces = /* GraphQL */ `
       createdAt
       updatedAt
       personTemplate
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -653,9 +533,6 @@ export const onDeleteWorkspaces = /* GraphQL */ `
       createdAt
       updatedAt
       personTemplate
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -668,13 +545,9 @@ export const onCreateOrganisations = /* GraphQL */ `
       type
       Workspaces {
         nextToken
-        startedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -687,13 +560,9 @@ export const onUpdateOrganisations = /* GraphQL */ `
       type
       Workspaces {
         nextToken
-        startedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -706,13 +575,9 @@ export const onDeleteOrganisations = /* GraphQL */ `
       type
       Workspaces {
         nextToken
-        startedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -725,13 +590,9 @@ export const onCreateTagCategory = /* GraphQL */ `
       projectsID
       tags {
         nextToken
-        startedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -744,13 +605,9 @@ export const onUpdateTagCategory = /* GraphQL */ `
       projectsID
       tags {
         nextToken
-        startedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;
@@ -763,13 +620,9 @@ export const onDeleteTagCategory = /* GraphQL */ `
       projectsID
       tags {
         nextToken
-        startedAt
       }
       createdAt
       updatedAt
-      _version
-      _deleted
-      _lastChangedAt
     }
   }
 `;

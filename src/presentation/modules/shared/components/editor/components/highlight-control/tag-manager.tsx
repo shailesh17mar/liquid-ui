@@ -64,7 +64,7 @@ export const highlightAtom = atom<HighlightState | null>({
   default: null,
 });
 
-export const TagManager: React.FC<Props> = ({ editor, id }) => {
+export const TagManager: React.FC<Props> = ({ editor, id, isTranscript }) => {
   const { user } = useAuth();
   const storyMetadata = useStoryMetadata();
   const createTagMutation = useCreateTag();
@@ -125,10 +125,12 @@ export const TagManager: React.FC<Props> = ({ editor, id }) => {
   ) => {
     const selector = `span[data-hid="${id}"]`;
     const words = document.querySelectorAll(selector);
-    const startTime = parseInt(words[0].getAttribute("data-m") || "-1");
-    const endTime = parseInt(
-      words[words.length - 1].getAttribute("data-m") || "-1"
-    );
+    const startTime = isTranscript
+      ? parseInt(words[0].getAttribute("data-m") || "-1")
+      : undefined;
+    const endTime = isTranscript
+      ? parseInt(words[words.length - 1].getAttribute("data-m") || "-1")
+      : undefined;
     const text = Array.from(words)
       .map((span) => span.textContent)
       .join(" ");
@@ -136,7 +138,7 @@ export const TagManager: React.FC<Props> = ({ editor, id }) => {
       id,
       text,
       color,
-      type: HighlightType.TRANSCRIPT,
+      type: isTranscript ? HighlightType.TRANSCRIPT : HighlightType.NORMAL,
       startTime,
       user: JSON.stringify(user),
       Tags: tagIds,
@@ -163,7 +165,6 @@ export const TagManager: React.FC<Props> = ({ editor, id }) => {
           tagIds: tags
             .map((option: any) => option.id as unknown as string)
             .join("|"),
-          _version: highlightState._version,
         });
         if (updatedHighlight) setHighlightState(updatedHighlight);
       }
@@ -188,10 +189,17 @@ export const TagManager: React.FC<Props> = ({ editor, id }) => {
     setColor("pain");
   };
   const toggleHighlight = (highlightId: string, highlightCategory: string) => {
-    editor.commands.toggleTHighlight({
-      highlightId,
-      highlightCategory,
-    });
+    if (isTranscript) {
+      editor.commands.toggleTHighlight({
+        highlightId,
+        highlightCategory,
+      });
+    } else {
+      editor.commands.toggleHighlight({
+        highlightId,
+        highlightCategory,
+      });
+    }
   };
 
   const handleHighlightSelection = () => {
@@ -225,7 +233,7 @@ export const TagManager: React.FC<Props> = ({ editor, id }) => {
             type: color,
             tags: selectedOptions,
           },
-        };
+        } as Annotation;
       });
       setTagOptions(newOptions);
       createTagMutation.mutate(newTag);
@@ -264,7 +272,7 @@ export const TagManager: React.FC<Props> = ({ editor, id }) => {
             type: color,
             tags: selectedOptions,
           },
-        };
+        } as Annotation;
       });
       createHighlight(id, color, tagIds);
     } else {
@@ -275,7 +283,7 @@ export const TagManager: React.FC<Props> = ({ editor, id }) => {
             type: color,
             tags: selectedOptions,
           },
-        };
+        } as Annotation;
       });
       updateHighlight(color, selectedOptions);
     }
@@ -299,7 +307,6 @@ export const TagManager: React.FC<Props> = ({ editor, id }) => {
       });
       deleteHighlightMutation.mutateAsync({
         id,
-        version: highlightState._version!!,
       });
       reset();
     }

@@ -28,7 +28,6 @@ export const ProjectDetails: React.FC = () => {
       mutation.mutateAsync({
         id,
         name,
-        _version: project._version,
       });
     }
   }, 2000);

@@ -3,13 +3,12 @@ import { API } from "aws-amplify";
 import { deleteHighlights } from "graphql/mutations";
 import { useMutation, useQueryClient } from "react-query";
 
-const deleteHighlight = async (id: string, version: number) => {
+const deleteHighlight = async (id: string) => {
   const highlightResponse = (await API.graphql({
     query: deleteHighlights,
     variables: {
       input: {
         id,
-        _version: version,
       } as DeleteHighlightsInput,
     },
     authMode: "AMAZON_COGNITO_USER_POOLS",
@@ -20,8 +19,8 @@ const deleteHighlight = async (id: string, version: number) => {
 export const useDeleteHighlight = () => {
   const queryClient = useQueryClient();
   return useMutation(
-    ({ id, version }: { id: string; version: number }) => {
-      return deleteHighlight(id, version);
+    ({ id }: { id: string }) => {
+      return deleteHighlight(id);
     },
     {
       onSuccess: (data, variables) => {

@@ -19,7 +19,7 @@ import {
   FIELD_TYPES,
   MetaProperty,
 } from "../shared/components/editor/components/property-editor/types";
-import { Persons as Participant, Persons } from "models";
+import { HighlightType, Persons as Participant, Persons } from "models";
 import { ModelInit } from "@aws-amplify/datastore";
 import { useDebouncedCallback } from "use-debounce";
 import { StoryMetadataProvider } from "./story-context";
@@ -28,12 +28,19 @@ import {
   useCreatePerson,
   useUpdatePerson,
 } from "core/modules/participants/hooks";
-import { TagAnnotation } from "./story.styles";
+import { StoryDocument, TagAnnotation } from "./story.styles";
 import { ContentLoader } from "../shared/components/content-loader/content-loader";
 import { HocuspocusProvider } from "@hocuspocus/provider";
 import _ from "lodash";
-import { useHighlights } from "core/modules/highlights/hooks";
+import {
+  useHighlights,
+  useUpdateHighlight,
+} from "core/modules/highlights/hooks";
 import { useTags } from "core/modules/tags/hooks";
+import {
+  highlightAtom,
+  HighlightState,
+} from "../shared/components/editor/components/highlight-control/tag-manager";
 
 const DefaultStoryDocument = {
   type: "doc",
@@ -70,8 +77,9 @@ const doc = new Doc();
 export const StoryDetails: React.FC = () => {
   const [isSynced, setIsSynced] = useState(false);
   const [annotation, setAnnotation] = useRecoilState(annotationState);
+  const [highlightState, setHighlightState] = useRecoilState(highlightAtom);
+  const updateHighlightMutation = useUpdateHighlight();
   const annotationRefs = useRef<Array<HTMLDivElement | null>>([]);
-  const [version, setVersion] = useState<number>(-1);
   const { id } = useParams() as { id: string };
 
   const { data: story } = useStory(id);
@@ -124,7 +132,6 @@ export const StoryDetails: React.FC = () => {
     updateStoryMutation.mutate({
       id,
       storiesParticipantsId: participant.id,
-      _version: story?._version,
     });
   };
   const updateParticipantMutation = useUpdatePerson();
@@ -135,36 +142,44 @@ export const StoryDetails: React.FC = () => {
         // updateStoryMutation.mutate({
         //   id,
         //   content: body,
-        //   _version: story?._version,
         // });
       }
     },
-    [story?._version, updateStoryMutation]
+    [updateStoryMutation]
   );
   const handleTitleChange = useDebouncedCallback(async (id, title) => {
     if (story) {
       const updatedStory = await updateStoryMutation.mutateAsync({
         id,
         title,
-        _version: version < 0 ? story._version : version,
       });
-      if (updatedStory) {
-        setVersion(updatedStory._version);
-      }
     }
   }, 500);
 
-  const positionDictionary = useMemo(
+  const updateHighlight = useDebouncedCallback(
+    async (id: string, text: string) => {
+      updateHighlightMutation.mutateAsync({
+        id,
+        text,
+      });
+    },
+    1000
+  );
+
+  useMemo(
     () =>
       (Object.keys(annotation) as string[]).reduce<{
         [key: string]: number | undefined;
       }>((dict, id: string) => {
         const element = document.querySelector(`span[data-hid="${id}"]`);
         const top = element?.getBoundingClientRect().top;
+        element?.addEventListener("DOMSubtreeModified", (e) =>
+          updateHighlight(id, e.target as unknown as string)
+        );
         dict[id] = top;
         return dict;
       }, {}),
-    [annotation]
+    [annotation, annotationRefs.current?.length]
   );
   const updatePositions = () => {
     (Object.keys(annotation) as string[]).forEach((id: string, index) => {
@@ -220,7 +235,6 @@ export const StoryDetails: React.FC = () => {
             business: JSON.stringify(company),
             persona,
             additonalFields: JSON.stringify(additionalFields),
-            _version: participant._version,
           });
         } else {
           createParticipantMutation.mutate({
@@ -286,7 +300,7 @@ export const StoryDetails: React.FC = () => {
   ) as MetaProperty[];
   return (
     <StoryMetadataProvider value={storyMetadata}>
-      <EuiPageContentBody
+      <StoryDocument
         className="eui-yScroll"
         onScroll={() => updatePositions()}
         paddingSize="none"
@@ -349,7 +363,7 @@ export const StoryDetails: React.FC = () => {
                       ref={(el) => (annotationRefs.current[index] = el)}
                       key={id}
                       type={annotation[id].type}
-                      top={positionDictionary[id]}
+                      // top={positionDictionary[id]}
                     >
                       {annotation[id].tags.map((tag, index) => (
                         <EuiBadge key={id + index} color="default">
@@ -365,7 +379,7 @@ export const StoryDetails: React.FC = () => {
             <ContentLoader />
           )}
         </EuiFlexGroup>
-      </EuiPageContentBody>
+      </StoryDocument>
     </StoryMetadataProvider>
   );
   // );
