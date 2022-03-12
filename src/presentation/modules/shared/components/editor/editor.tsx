@@ -99,13 +99,13 @@ interface EditorProps {
   documentId: string;
   provider: HocuspocusProvider;
   content?: JSONContent | string;
+  withHighlighting?: Boolean;
   onSave: Function;
 }
 
 export const Editor: React.FC<EditorProps> = ({
   provider,
-  documentId,
-  onSave,
+  withHighlighting,
 }) => {
   const [docState, setDocState] = useState<JSONContent>();
   const [isUploading, setIsUploading] = useState(false);
@@ -262,10 +262,12 @@ export const Editor: React.FC<EditorProps> = ({
             }}
             editor={editor}
           >
-            {editor.isActive("transcriptComponent") ? (
-              <TagManager id={temp} editor={editor} isTranscript />
-            ) : (
-              <TagManager id={temp} editor={editor} />
+            {withHighlighting && (
+              <TagManager
+                id={temp}
+                editor={editor}
+                isTranscript={editor.isActive("transcriptComponent")}
+              />
             )}
           </BubbleMenu>
         </>

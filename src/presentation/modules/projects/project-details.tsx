@@ -70,7 +70,6 @@ export const ProjectDetails: React.FC = () => {
                     <Editor
                       onSave={handleDocumentEditing}
                       documentId={id}
-                      // content={project.readme || DefaultReadmeDocument}
                       provider={provider}
                     />
                   }

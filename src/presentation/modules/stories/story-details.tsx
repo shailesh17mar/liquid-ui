@@ -258,6 +258,7 @@ export const StoryDetails: React.FC = () => {
     () =>
       provider && (
         <Editor
+          withHighlighting
           onSave={handleDocumentChange}
           documentId={id}
           provider={provider}
