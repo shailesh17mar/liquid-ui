@@ -19,7 +19,6 @@ export const listStories = /* GraphQL */ `
         createdAt
         updatedAt
         title
-        _lastChangedAt
         participants {
           name
           email
@@ -28,7 +27,6 @@ export const listStories = /* GraphQL */ `
         }
       }
       nextToken
-      startedAt
     }
   }
 `;
