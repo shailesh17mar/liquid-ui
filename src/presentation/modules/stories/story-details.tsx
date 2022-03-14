@@ -41,6 +41,10 @@ import {
   highlightAtom,
   HighlightState,
 } from "../shared/components/editor/components/highlight-control/tag-manager";
+import {
+  HIGHLIGHT_COLORS,
+  HIGHLIGHT_TYPES,
+} from "../shared/components/editor/components/highlight-control/color-picker";
 
 const DefaultStoryDocument = {
   type: "doc",
@@ -81,6 +85,7 @@ export const StoryDetails: React.FC = () => {
   const updateHighlightMutation = useUpdateHighlight();
   const annotationRefs = useRef<Array<HTMLDivElement | null>>([]);
   const { id } = useParams() as { id: string };
+  const [isInit, setIsInit] = useState(false);
 
   const { data: story } = useStory(id);
   const updateStoryMutation = useUpdateStory();
@@ -92,7 +97,13 @@ export const StoryDetails: React.FC = () => {
   });
 
   useEffect(() => {
-    if (tags && tags.length > 0 && highlights && highlights.length > 0) {
+    if (
+      !isInit &&
+      tags &&
+      tags.length > 0 &&
+      highlights &&
+      highlights.length > 0
+    ) {
       const annotation = highlights.reduce<Annotation>((acc, highlight) => {
         const tagIds = highlight.Tags || [];
         const selectedTags = tags.filter((tag) => tagIds.includes(tag.id));
@@ -100,6 +111,7 @@ export const StoryDetails: React.FC = () => {
           return {
             label: tag.label,
             id: tag.id,
+            color: HIGHLIGHT_TYPES[tag.color as HIGHLIGHT_COLORS].color,
           };
         });
         acc[highlight.id] = {
@@ -109,8 +121,9 @@ export const StoryDetails: React.FC = () => {
         return acc;
       }, {});
       setAnnotation(annotation);
+      setIsInit(true);
     }
-  }, [highlights, setAnnotation, tags]);
+  }, [highlights, isInit, setAnnotation, tags]);
 
   const provider = useMemo(() => {
     return new HocuspocusProvider({
@@ -120,6 +133,9 @@ export const StoryDetails: React.FC = () => {
     });
   }, []);
 
+  useEffect(() => {
+    updatePositions();
+  }, [annotation]);
   useEffect(() => {
     provider.on("sync", (synced: boolean) => {
       if (!isSynced && synced) {
@@ -367,7 +383,10 @@ export const StoryDetails: React.FC = () => {
                       // top={positionDictionary[id]}
                     >
                       {annotation[id].tags.map((tag, index) => (
-                        <EuiBadge key={id + index} color="default">
+                        <EuiBadge
+                          key={id + index}
+                          color={tag.color || "default"}
+                        >
                           {tag.label}{" "}
                         </EuiBadge>
                       ))}

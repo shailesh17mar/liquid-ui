@@ -182,8 +182,31 @@ export const createTags = /* GraphQL */ `
       id
       tenant
       label
+      color
       projectsID
       tagCategoryID
+      tagCategory {
+        id
+        tenant
+        name
+        color
+        projectsID
+        tags {
+          items {
+            id
+            tenant
+            label
+            color
+            projectsID
+            tagCategoryID
+            updatedAt
+            createdAt
+          }
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       updatedAt
       createdAt
     }
@@ -198,8 +221,31 @@ export const updateTags = /* GraphQL */ `
       id
       tenant
       label
+      color
       projectsID
       tagCategoryID
+      tagCategory {
+        id
+        tenant
+        name
+        color
+        projectsID
+        tags {
+          items {
+            id
+            tenant
+            label
+            color
+            projectsID
+            tagCategoryID
+            updatedAt
+            createdAt
+          }
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       updatedAt
       createdAt
     }
@@ -214,8 +260,31 @@ export const deleteTags = /* GraphQL */ `
       id
       tenant
       label
+      color
       projectsID
       tagCategoryID
+      tagCategory {
+        id
+        tenant
+        name
+        color
+        projectsID
+        tags {
+          items {
+            id
+            tenant
+            label
+            color
+            projectsID
+            tagCategoryID
+            updatedAt
+            createdAt
+          }
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       updatedAt
       createdAt
     }
@@ -234,6 +303,23 @@ export const createTranscription = /* GraphQL */ `
       transcription
       content
       Highlights {
+        items {
+          id
+          tenant
+          color
+          text
+          Tags
+          tagIds
+          user
+          type
+          transcriptionID
+          projectsID
+          storyID
+          startTime
+          endTime
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       status
@@ -255,6 +341,23 @@ export const updateTranscription = /* GraphQL */ `
       transcription
       content
       Highlights {
+        items {
+          id
+          tenant
+          color
+          text
+          Tags
+          tagIds
+          user
+          type
+          transcriptionID
+          projectsID
+          storyID
+          startTime
+          endTime
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       status
@@ -276,6 +379,23 @@ export const deleteTranscription = /* GraphQL */ `
       transcription
       content
       Highlights {
+        items {
+          id
+          tenant
+          color
+          text
+          Tags
+          tagIds
+          user
+          type
+          transcriptionID
+          projectsID
+          storyID
+          startTime
+          endTime
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       status
@@ -295,6 +415,23 @@ export const createStories = /* GraphQL */ `
       categoriesID
       projectsID
       Highlights {
+        items {
+          id
+          tenant
+          color
+          text
+          Tags
+          tagIds
+          user
+          type
+          transcriptionID
+          projectsID
+          storyID
+          startTime
+          endTime
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       type
@@ -309,6 +446,26 @@ export const createStories = /* GraphQL */ `
         docId
         transcription
         content
+        Highlights {
+          items {
+            id
+            tenant
+            color
+            text
+            Tags
+            tagIds
+            user
+            type
+            transcriptionID
+            projectsID
+            storyID
+            startTime
+            endTime
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
         status
         createdAt
         updatedAt
@@ -340,6 +497,23 @@ export const updateStories = /* GraphQL */ `
       categoriesID
       projectsID
       Highlights {
+        items {
+          id
+          tenant
+          color
+          text
+          Tags
+          tagIds
+          user
+          type
+          transcriptionID
+          projectsID
+          storyID
+          startTime
+          endTime
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       type
@@ -354,6 +528,26 @@ export const updateStories = /* GraphQL */ `
         docId
         transcription
         content
+        Highlights {
+          items {
+            id
+            tenant
+            color
+            text
+            Tags
+            tagIds
+            user
+            type
+            transcriptionID
+            projectsID
+            storyID
+            startTime
+            endTime
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
         status
         createdAt
         updatedAt
@@ -385,6 +579,23 @@ export const deleteStories = /* GraphQL */ `
       categoriesID
       projectsID
       Highlights {
+        items {
+          id
+          tenant
+          color
+          text
+          Tags
+          tagIds
+          user
+          type
+          transcriptionID
+          projectsID
+          storyID
+          startTime
+          endTime
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       type
@@ -399,6 +610,26 @@ export const deleteStories = /* GraphQL */ `
         docId
         transcription
         content
+        Highlights {
+          items {
+            id
+            tenant
+            color
+            text
+            Tags
+            tagIds
+            user
+            type
+            transcriptionID
+            projectsID
+            storyID
+            startTime
+            endTime
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
         status
         createdAt
         updatedAt
@@ -430,6 +661,44 @@ export const createCategories = /* GraphQL */ `
       name
       projectsID
       Stories {
+        items {
+          id
+          tenant
+          categoriesID
+          projectsID
+          Highlights {
+            nextToken
+          }
+          type
+          createdAt
+          updatedAt
+          title
+          content
+          transcription {
+            id
+            tenant
+            video
+            docId
+            transcription
+            content
+            status
+            createdAt
+            updatedAt
+          }
+          participants {
+            id
+            tenant
+            additonalFields
+            name
+            email
+            persona
+            createdAt
+            updatedAt
+            business
+          }
+          storiesTranscriptionId
+          storiesParticipantsId
+        }
         nextToken
       }
       createdAt
@@ -448,6 +717,44 @@ export const updateCategories = /* GraphQL */ `
       name
       projectsID
       Stories {
+        items {
+          id
+          tenant
+          categoriesID
+          projectsID
+          Highlights {
+            nextToken
+          }
+          type
+          createdAt
+          updatedAt
+          title
+          content
+          transcription {
+            id
+            tenant
+            video
+            docId
+            transcription
+            content
+            status
+            createdAt
+            updatedAt
+          }
+          participants {
+            id
+            tenant
+            additonalFields
+            name
+            email
+            persona
+            createdAt
+            updatedAt
+            business
+          }
+          storiesTranscriptionId
+          storiesParticipantsId
+        }
         nextToken
       }
       createdAt
@@ -466,6 +773,44 @@ export const deleteCategories = /* GraphQL */ `
       name
       projectsID
       Stories {
+        items {
+          id
+          tenant
+          categoriesID
+          projectsID
+          Highlights {
+            nextToken
+          }
+          type
+          createdAt
+          updatedAt
+          title
+          content
+          transcription {
+            id
+            tenant
+            video
+            docId
+            transcription
+            content
+            status
+            createdAt
+            updatedAt
+          }
+          participants {
+            id
+            tenant
+            additonalFields
+            name
+            email
+            persona
+            createdAt
+            updatedAt
+            business
+          }
+          storiesTranscriptionId
+          storiesParticipantsId
+        }
         nextToken
       }
       createdAt
@@ -486,18 +831,111 @@ export const createProjects = /* GraphQL */ `
       createdAt
       updatedAt
       Categories {
+        items {
+          id
+          tenant
+          name
+          projectsID
+          Stories {
+            nextToken
+          }
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       Stories {
+        items {
+          id
+          tenant
+          categoriesID
+          projectsID
+          Highlights {
+            nextToken
+          }
+          type
+          createdAt
+          updatedAt
+          title
+          content
+          transcription {
+            id
+            tenant
+            video
+            docId
+            transcription
+            content
+            status
+            createdAt
+            updatedAt
+          }
+          participants {
+            id
+            tenant
+            additonalFields
+            name
+            email
+            persona
+            createdAt
+            updatedAt
+            business
+          }
+          storiesTranscriptionId
+          storiesParticipantsId
+        }
         nextToken
       }
       Tags {
+        items {
+          id
+          tenant
+          label
+          color
+          projectsID
+          tagCategoryID
+          tagCategory {
+            id
+            tenant
+            name
+            color
+            projectsID
+            createdAt
+            updatedAt
+          }
+          updatedAt
+          createdAt
+        }
         nextToken
       }
       Highlights {
+        items {
+          id
+          tenant
+          color
+          text
+          Tags
+          tagIds
+          user
+          type
+          transcriptionID
+          projectsID
+          storyID
+          startTime
+          endTime
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       Insights {
+        items {
+          id
+          tenant
+          projectsID
+          content
+          createdAt
+          updatedAt
+        }
         nextToken
       }
     }
@@ -516,18 +954,111 @@ export const updateProjects = /* GraphQL */ `
       createdAt
       updatedAt
       Categories {
+        items {
+          id
+          tenant
+          name
+          projectsID
+          Stories {
+            nextToken
+          }
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       Stories {
+        items {
+          id
+          tenant
+          categoriesID
+          projectsID
+          Highlights {
+            nextToken
+          }
+          type
+          createdAt
+          updatedAt
+          title
+          content
+          transcription {
+            id
+            tenant
+            video
+            docId
+            transcription
+            content
+            status
+            createdAt
+            updatedAt
+          }
+          participants {
+            id
+            tenant
+            additonalFields
+            name
+            email
+            persona
+            createdAt
+            updatedAt
+            business
+          }
+          storiesTranscriptionId
+          storiesParticipantsId
+        }
         nextToken
       }
       Tags {
+        items {
+          id
+          tenant
+          label
+          color
+          projectsID
+          tagCategoryID
+          tagCategory {
+            id
+            tenant
+            name
+            color
+            projectsID
+            createdAt
+            updatedAt
+          }
+          updatedAt
+          createdAt
+        }
         nextToken
       }
       Highlights {
+        items {
+          id
+          tenant
+          color
+          text
+          Tags
+          tagIds
+          user
+          type
+          transcriptionID
+          projectsID
+          storyID
+          startTime
+          endTime
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       Insights {
+        items {
+          id
+          tenant
+          projectsID
+          content
+          createdAt
+          updatedAt
+        }
         nextToken
       }
     }
@@ -546,18 +1077,111 @@ export const deleteProjects = /* GraphQL */ `
       createdAt
       updatedAt
       Categories {
+        items {
+          id
+          tenant
+          name
+          projectsID
+          Stories {
+            nextToken
+          }
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       Stories {
+        items {
+          id
+          tenant
+          categoriesID
+          projectsID
+          Highlights {
+            nextToken
+          }
+          type
+          createdAt
+          updatedAt
+          title
+          content
+          transcription {
+            id
+            tenant
+            video
+            docId
+            transcription
+            content
+            status
+            createdAt
+            updatedAt
+          }
+          participants {
+            id
+            tenant
+            additonalFields
+            name
+            email
+            persona
+            createdAt
+            updatedAt
+            business
+          }
+          storiesTranscriptionId
+          storiesParticipantsId
+        }
         nextToken
       }
       Tags {
+        items {
+          id
+          tenant
+          label
+          color
+          projectsID
+          tagCategoryID
+          tagCategory {
+            id
+            tenant
+            name
+            color
+            projectsID
+            createdAt
+            updatedAt
+          }
+          updatedAt
+          createdAt
+        }
         nextToken
       }
       Highlights {
+        items {
+          id
+          tenant
+          color
+          text
+          Tags
+          tagIds
+          user
+          type
+          transcriptionID
+          projectsID
+          storyID
+          startTime
+          endTime
+          createdAt
+          updatedAt
+        }
         nextToken
       }
       Insights {
+        items {
+          id
+          tenant
+          projectsID
+          content
+          createdAt
+          updatedAt
+        }
         nextToken
       }
     }
@@ -628,6 +1252,17 @@ export const createOrganisations = /* GraphQL */ `
       name
       type
       Workspaces {
+        items {
+          id
+          tenant
+          organisationsID
+          name
+          color
+          logo
+          createdAt
+          updatedAt
+          personTemplate
+        }
         nextToken
       }
       createdAt
@@ -646,6 +1281,17 @@ export const updateOrganisations = /* GraphQL */ `
       name
       type
       Workspaces {
+        items {
+          id
+          tenant
+          organisationsID
+          name
+          color
+          logo
+          createdAt
+          updatedAt
+          personTemplate
+        }
         nextToken
       }
       createdAt
@@ -664,6 +1310,17 @@ export const deleteOrganisations = /* GraphQL */ `
       name
       type
       Workspaces {
+        items {
+          id
+          tenant
+          organisationsID
+          name
+          color
+          logo
+          createdAt
+          updatedAt
+          personTemplate
+        }
         nextToken
       }
       createdAt
@@ -687,6 +1344,26 @@ export const createVodAsset = /* GraphQL */ `
         docId
         transcription
         content
+        Highlights {
+          items {
+            id
+            tenant
+            color
+            text
+            Tags
+            tagIds
+            user
+            type
+            transcriptionID
+            projectsID
+            storyID
+            startTime
+            endTime
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
         status
         createdAt
         updatedAt
@@ -714,6 +1391,26 @@ export const updateVodAsset = /* GraphQL */ `
         docId
         transcription
         content
+        Highlights {
+          items {
+            id
+            tenant
+            color
+            text
+            Tags
+            tagIds
+            user
+            type
+            transcriptionID
+            projectsID
+            storyID
+            startTime
+            endTime
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
         status
         createdAt
         updatedAt
@@ -741,6 +1438,26 @@ export const deleteVodAsset = /* GraphQL */ `
         docId
         transcription
         content
+        Highlights {
+          items {
+            id
+            tenant
+            color
+            text
+            Tags
+            tagIds
+            user
+            type
+            transcriptionID
+            projectsID
+            storyID
+            startTime
+            endTime
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
         status
         createdAt
         updatedAt
@@ -761,8 +1478,28 @@ export const createTagCategory = /* GraphQL */ `
       id
       tenant
       name
+      color
       projectsID
       tags {
+        items {
+          id
+          tenant
+          label
+          color
+          projectsID
+          tagCategoryID
+          tagCategory {
+            id
+            tenant
+            name
+            color
+            projectsID
+            createdAt
+            updatedAt
+          }
+          updatedAt
+          createdAt
+        }
         nextToken
       }
       createdAt
@@ -779,8 +1516,28 @@ export const updateTagCategory = /* GraphQL */ `
       id
       tenant
       name
+      color
       projectsID
       tags {
+        items {
+          id
+          tenant
+          label
+          color
+          projectsID
+          tagCategoryID
+          tagCategory {
+            id
+            tenant
+            name
+            color
+            projectsID
+            createdAt
+            updatedAt
+          }
+          updatedAt
+          createdAt
+        }
         nextToken
       }
       createdAt
@@ -797,8 +1554,28 @@ export const deleteTagCategory = /* GraphQL */ `
       id
       tenant
       name
+      color
       projectsID
       tags {
+        items {
+          id
+          tenant
+          label
+          color
+          projectsID
+          tagCategoryID
+          tagCategory {
+            id
+            tenant
+            name
+            color
+            projectsID
+            createdAt
+            updatedAt
+          }
+          updatedAt
+          createdAt
+        }
         nextToken
       }
       createdAt

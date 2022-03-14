@@ -64,7 +64,7 @@ export const TagsPage = () => {
   useEffect(() => {
     const lists = categories?.reduce((acc: any, category) => {
       acc[category.id] = tags
-        ?.filter((story) => story && story.tagCategoryID === category.id)
+        ?.filter((story) => story && story.tagCategory.id === category.id)
         .map((tag) => {
           return {
             content: getTagCard(tag),

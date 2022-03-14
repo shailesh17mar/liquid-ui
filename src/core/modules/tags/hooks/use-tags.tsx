@@ -1,8 +1,33 @@
 import { ListTagsQuery, ModelTagsFilterInput, Tags } from "API";
 import { API } from "aws-amplify";
-import { listTags } from "graphql/queries";
+// import { listTags } from "graphql/queries";
 import { useQuery } from "react-query";
 
+export const listTags = /* GraphQL */ `
+  query ListTags(
+    $filter: ModelTagsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTags(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        tenant
+        label
+        color
+        projectsID
+        tagCategory {
+          id
+          name
+          color
+        }
+        updatedAt
+        createdAt
+      }
+      nextToken
+    }
+  }
+`;
 const retrieveTags = async (projectId?: string) => {
   const tagsResponse = (await API.graphql({
     query: listTags,

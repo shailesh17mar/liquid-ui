@@ -8,13 +8,17 @@ import {
   euiPaletteColorBlindBehindText,
   transparentize,
   EuiCheckbox,
+  EuiPanel,
 } from "@elastic/eui";
 import moment from "moment";
 import { useParams } from "react-router-dom";
 import { useHighlights } from "core/modules/highlights/hooks";
 import { Tags } from "API";
 import { useTags } from "core/modules/tags/hooks";
-import { HIGHLIGHT_TYPES } from "../shared/components/editor/components/highlight-control/color-picker";
+import {
+  HIGHLIGHT_COLORS,
+  HIGHLIGHT_TYPES,
+} from "../shared/components/editor/components/highlight-control/color-picker";
 
 const fake = faker.fake;
 const visColorsBehindText = euiPaletteColorBlindBehindText();
@@ -108,12 +112,12 @@ const SelectionRowCell = ({ rowIndex }: { rowIndex: number }) => (
 );
 export const Highlights: React.FC = () => {
   const { id } = useParams() as { id: string };
-  const [borderSelected] = useState("none");
-  const [fontSizeSelected] = useState("m");
-  const [cellPaddingSelected] = useState("m");
+  const [borderSelected] = useState("all");
+  const [fontSizeSelected] = useState("l");
+  const [cellPaddingSelected] = useState("l");
   const [stripesSelected] = useState(false);
   const [rowHoverSelected] = useState("none");
-  const [headerSelected] = useState("underline");
+  const [headerSelected] = useState("shade");
   const [footerSelected] = useState("overline");
   const { data: tags } = useTags();
   const { data: highlights } = useHighlights({
@@ -139,11 +143,12 @@ export const Highlights: React.FC = () => {
   const data = useMemo(() => {
     const rows: IHighlight[] = [];
     (highlights || []).forEach((highlight, index) => {
-      const tagIds = highlight.tagIds ? highlight.tagIds.split("|") : [];
+      const tagIds = highlight.Tags || [];
       const highlightTags = (tags || []).filter((tag) =>
         tagIds.includes(tag.id!!)
       );
-      const highlightType = HIGHLIGHT_TYPES[highlight.type];
+      const highlightType =
+        HIGHLIGHT_TYPES[highlight.color as HIGHLIGHT_COLORS];
       if (highlightType)
         rows.push({
           content: (
@@ -151,7 +156,7 @@ export const Highlights: React.FC = () => {
               <span
                 style={{
                   backgroundColor: transparentize(
-                    HIGHLIGHT_TYPES[highlight.type].color,
+                    HIGHLIGHT_TYPES[highlight.color as HIGHLIGHT_COLORS].color,
                     0.3
                   ),
                   paddingTop: "4px",
@@ -202,37 +207,32 @@ export const Highlights: React.FC = () => {
   let toolbarConfig = toolbarVisibilityOptions;
 
   return (
-    <EuiDataGrid
-      aria-label="Highlights"
-      columns={columns}
-      columnVisibility={{
-        visibleColumns: visibleColumns,
-        setVisibleColumns: handleVisibleColumns,
-      }}
-      leadingControlColumns={leadingControlColumns}
-      rowCount={data.length}
-      rowHeightsOptions={{
-        defaultHeight: "auto",
-      }}
-      gridStyle={
-        {
-          border: borderSelected,
-          fontSize: fontSizeSelected,
-          cellPadding: cellPaddingSelected,
-          stripes: stripesSelected,
-          rowHover: rowHoverSelected,
-          header: headerSelected,
-          footer: footerSelected,
-        } as EuiDataGridStyle
-      }
-      toolbarVisibility={toolbarConfig}
-      renderCellValue={({ rowIndex, columnId }) => data[rowIndex][columnId]}
-      pagination={{
-        ...pagination,
-        pageSizeOptions: [5, 10, 25, 50, 100],
-        onChangeItemsPerPage: setPageSize,
-        onChangePage: setPageIndex,
-      }}
-    />
+    <EuiPanel grow={false} hasShadow={false}>
+      <EuiDataGrid
+        aria-label="Highlights"
+        columns={columns}
+        columnVisibility={{
+          visibleColumns: visibleColumns,
+          setVisibleColumns: handleVisibleColumns,
+        }}
+        leadingControlColumns={leadingControlColumns}
+        rowCount={data.length}
+        rowHeightsOptions={{
+          defaultHeight: "auto",
+        }}
+        gridStyle={
+          {
+            border: borderSelected,
+            fontSize: fontSizeSelected,
+            cellPadding: cellPaddingSelected,
+            stripes: stripesSelected,
+            rowHover: rowHoverSelected,
+            header: headerSelected,
+          } as EuiDataGridStyle
+        }
+        toolbarVisibility={false}
+        renderCellValue={({ rowIndex, columnId }) => data[rowIndex][columnId]}
+      />
+    </EuiPanel>
   );
 };

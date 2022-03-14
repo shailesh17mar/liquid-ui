@@ -358,6 +358,13 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "color": {
+                    "name": "color",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "projectsID": {
                     "name": "projectsID",
                     "isArray": false,
@@ -365,12 +372,18 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "tagCategoryID": {
-                    "name": "tagCategoryID",
+                "tagCategory": {
+                    "name": "tagCategory",
                     "isArray": false,
-                    "type": "ID",
+                    "type": {
+                        "model": "TagCategory"
+                    },
                     "isRequired": false,
-                    "attributes": []
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetName": "tagCategoryID"
+                    }
                 },
                 "updatedAt": {
                     "name": "updatedAt",
@@ -409,6 +422,97 @@ export const schema = {
                         "name": "byTagCategories",
                         "fields": [
                             "tagCategoryID"
+                        ]
+                    }
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "groupClaim": "cognito:groups",
+                                "provider": "userPools",
+                                "allow": "groups",
+                                "groupsField": "tenant",
+                                "groupField": "groups",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "TagCategory": {
+            "name": "TagCategory",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "tenant": {
+                    "name": "tenant",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "name": {
+                    "name": "name",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "color": {
+                    "name": "color",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "projectsID": {
+                    "name": "projectsID",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "tags": {
+                    "name": "tags",
+                    "isArray": true,
+                    "type": {
+                        "model": "Tags"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": "tagCategory"
+                    }
+                }
+            },
+            "syncable": true,
+            "pluralName": "TagCategories",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byProjects",
+                        "fields": [
+                            "projectsID"
                         ]
                     }
                 },
@@ -1210,90 +1314,6 @@ export const schema = {
                     }
                 }
             ]
-        },
-        "TagCategory": {
-            "name": "TagCategory",
-            "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "tenant": {
-                    "name": "tenant",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "name": {
-                    "name": "name",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "projectsID": {
-                    "name": "projectsID",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "tags": {
-                    "name": "tags",
-                    "isArray": true,
-                    "type": {
-                        "model": "Tags"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": "tagCategoryID"
-                    }
-                }
-            },
-            "syncable": true,
-            "pluralName": "TagCategories",
-            "attributes": [
-                {
-                    "type": "model",
-                    "properties": {}
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "byProjects",
-                        "fields": [
-                            "projectsID"
-                        ]
-                    }
-                },
-                {
-                    "type": "auth",
-                    "properties": {
-                        "rules": [
-                            {
-                                "groupClaim": "cognito:groups",
-                                "provider": "userPools",
-                                "allow": "groups",
-                                "groupsField": "tenant",
-                                "groupField": "groups",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            }
-                        ]
-                    }
-                }
-            ]
         }
     },
     "enums": {
@@ -1315,5 +1335,5 @@ export const schema = {
         }
     },
     "nonModels": {},
-    "version": "fd3d146741febf4eb958380c26ac837d"
+    "version": "0ed3fb66ad0f882032fb471bafedde53"
 };

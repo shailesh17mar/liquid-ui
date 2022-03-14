@@ -75,6 +75,12 @@ export const TranscriptContent = styled(NodeViewContent)`
     font-weight: 500;
   }
 
+  span[data-hc="default"] {
+    background: #cbf0f8;
+  }
+  span[data-hc="mixed"] {
+    background: #feefc3;
+  }
   span[data-hc="excited"] {
     background: #fbbc04;
   }

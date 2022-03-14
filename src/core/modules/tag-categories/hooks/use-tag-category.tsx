@@ -6,7 +6,7 @@ import {
   TagCategory,
 } from "API";
 import { API } from "aws-amplify";
-import { getTagCategory } from "graphql/queries";
+import { getTagCategory, listTagCategories } from "graphql/queries";
 import { useQuery } from "react-query";
 
 const retrieveCategoryById = async (id: string) => {
@@ -23,11 +23,11 @@ const retrieveCategoryById = async (id: string) => {
 
 const retrieveDefaultCategory = async (projectId: string) => {
   const categoriesResponse = (await API.graphql({
-    query: getTagCategory,
+    query: listTagCategories,
     variables: {
       filter: {
         projectsID: { eq: projectId },
-        label: { eq: "Uncategorized" },
+        name: { eq: "Uncategorized" },
       } as ModelTagCategoryFilterInput,
     },
   })) as { data: ListTagCategoriesQuery };

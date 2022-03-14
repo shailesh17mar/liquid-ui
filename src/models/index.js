@@ -14,13 +14,14 @@ const HighlightType = {
   "NORMAL": "NORMAL"
 };
 
-const { Persons, Insights, Highlights, Tags, Transcription, Stories, Categories, Projects, Workspaces, Organisations, VodAsset, TagCategory } = initSchema(schema);
+const { Persons, Insights, Highlights, Tags, TagCategory, Transcription, Stories, Categories, Projects, Workspaces, Organisations, VodAsset } = initSchema(schema);
 
 export {
   Persons,
   Insights,
   Highlights,
   Tags,
+  TagCategory,
   Transcription,
   Stories,
   Categories,
@@ -28,7 +29,6 @@ export {
   Workspaces,
   Organisations,
   VodAsset,
-  TagCategory,
   TranscriptionStatus,
   HighlightType
 };

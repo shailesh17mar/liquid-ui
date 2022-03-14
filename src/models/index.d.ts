@@ -61,12 +61,24 @@ export declare class Tags {
   readonly id: string;
   readonly tenant: string;
   readonly label: string;
+  readonly color: string;
   readonly projectsID: string;
-  readonly tagCategoryID?: string;
+  readonly tagCategory?: TagCategory;
   readonly updatedAt: string;
   readonly createdAt?: string;
   constructor(init: ModelInit<Tags>);
   static copyOf(source: Tags, mutator: (draft: MutableModel<Tags>) => MutableModel<Tags> | void): Tags;
+}
+
+export declare class TagCategory {
+  readonly id: string;
+  readonly tenant: string;
+  readonly name: string;
+  readonly color?: string;
+  readonly projectsID: string;
+  readonly tags?: (Tags | null)[];
+  constructor(init: ModelInit<TagCategory>);
+  static copyOf(source: TagCategory, mutator: (draft: MutableModel<TagCategory>) => MutableModel<TagCategory> | void): TagCategory;
 }
 
 export declare class Transcription {
@@ -162,14 +174,4 @@ export declare class VodAsset {
   readonly vodAssetTranscriptionId?: string;
   constructor(init: ModelInit<VodAsset>);
   static copyOf(source: VodAsset, mutator: (draft: MutableModel<VodAsset>) => MutableModel<VodAsset> | void): VodAsset;
-}
-
-export declare class TagCategory {
-  readonly id: string;
-  readonly tenant: string;
-  readonly name: string;
-  readonly projectsID: string;
-  readonly tags?: (Tags | null)[];
-  constructor(init: ModelInit<TagCategory>);
-  static copyOf(source: TagCategory, mutator: (draft: MutableModel<TagCategory>) => MutableModel<TagCategory> | void): TagCategory;
 }
