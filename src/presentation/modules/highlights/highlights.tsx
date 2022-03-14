@@ -144,10 +144,11 @@ export const Highlights: React.FC = () => {
     const rows: IHighlight[] = [];
     (highlights || []).forEach((highlight, index) => {
       const tagIds = highlight.Tags || [];
+      const user = highlight.user && JSON.parse(highlight.user);
+      debugger;
       const highlightTags = (tags || []).filter((tag) =>
         tagIds.includes(tag.id!!)
       );
-      debugger;
       const highlightType =
         HIGHLIGHT_TYPES[highlight.color as HIGHLIGHT_COLORS];
       if (highlightType)
@@ -182,7 +183,7 @@ export const Highlights: React.FC = () => {
               ))}
             </>
           ),
-          note: fake("{{name.firstName}} {{name.lastName}}"),
+          note: user ? user.name : "Anonymous",
           created: moment(highlight.createdAt).fromNow(),
           updated: moment(highlight.updatedAt).fromNow(),
         } as IHighlight);
