@@ -147,6 +147,7 @@ export const Highlights: React.FC = () => {
       const highlightTags = (tags || []).filter((tag) =>
         tagIds.includes(tag.id!!)
       );
+      debugger;
       const highlightType =
         HIGHLIGHT_TYPES[highlight.color as HIGHLIGHT_COLORS];
       if (highlightType)
@@ -169,7 +170,15 @@ export const Highlights: React.FC = () => {
           tags: (
             <>
               {highlightTags.map((tag) => (
-                <EuiBadge key={`${tag.id}.${index}`}>{tag.label}</EuiBadge>
+                <EuiBadge
+                  color={
+                    HIGHLIGHT_TYPES[tag.color as HIGHLIGHT_COLORS].color ||
+                    "default"
+                  }
+                  key={`${tag.id}.${index}`}
+                >
+                  {tag.label}
+                </EuiBadge>
               ))}
             </>
           ),
