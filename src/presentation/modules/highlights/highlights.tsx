@@ -1,11 +1,9 @@
-import React, { useState, useCallback, ReactElement, useMemo } from "react";
-import { faker } from "@faker-js/faker";
+import React, { useState, ReactElement, useMemo } from "react";
 
 import {
   EuiDataGrid,
   EuiDataGridStyle,
   EuiBadge,
-  euiPaletteColorBlindBehindText,
   transparentize,
   EuiCheckbox,
   EuiPanel,
@@ -13,15 +11,12 @@ import {
 import moment from "moment";
 import { useParams } from "react-router-dom";
 import { useHighlights } from "core/modules/highlights/hooks";
-import { Tags } from "API";
 import { useTags } from "core/modules/tags/hooks";
 import {
   HIGHLIGHT_COLORS,
   HIGHLIGHT_TYPES,
 } from "../shared/components/editor/components/highlight-control/color-picker";
 
-const fake = faker.fake;
-const visColorsBehindText = euiPaletteColorBlindBehindText();
 const columns = [
   {
     id: "content",
@@ -54,6 +49,7 @@ const columns = [
   // },
 ];
 
+// Link to the story
 interface IHighlight {
   content: ReactElement;
   tags: ReactElement;
@@ -66,39 +62,6 @@ interface IHighlight {
   // annualSpend: string;
   [key: string]: string | ReactElement | null;
 }
-// const data: IHighlight[] = [];
-
-// for (let i = 1; i < 100; i++) {
-//   const color: string = visColorsBehindText[Math.floor(Math.random() * 7)];
-//   data.push({
-//     content: (
-//       <>
-//         <span
-//           style={{
-//             backgroundColor: transparentize(color, 0.3),
-//             paddingTop: "4px",
-//           }}
-//         >
-//           {fake("{{lorem.lines}}")}
-//         </span>
-//       </>
-//     ),
-//     tags: (
-//       <>
-//         <EuiBadge color={color}>{fake("{{lorem.words}}")}</EuiBadge>
-//         <EuiBadge color={color}>{fake("{{lorem.words}}")}</EuiBadge>
-//         <EuiBadge color={color}>{fake("{{lorem.words}}")}</EuiBadge>
-//       </>
-//     ),
-//     note: fake("{{name.firstName}} {{name.lastName}}"),
-//     created: moment(fake("{{date.past}}")).fromNow(),
-//     updated: moment(fake("{{date.recent}}")).fromNow(),
-//     name: fake("{{name.firstName}} {{name.lastName}}"),
-//     role: fake("{{music.genre}}"),
-//     companySize: fake("{{datatype.number}}"),
-//     annualSpend: fake("{{finance.amount}}"),
-//   } as IHighlight);
-// }
 
 const SelectionHeaderCell = () => (
   <EuiCheckbox
@@ -145,7 +108,6 @@ export const Highlights: React.FC = () => {
     (highlights || []).forEach((highlight, index) => {
       const tagIds = highlight.Tags || [];
       const user = highlight.user && JSON.parse(highlight.user);
-      debugger;
       const highlightTags = (tags || []).filter((tag) =>
         tagIds.includes(tag.id!!)
       );
@@ -191,20 +153,6 @@ export const Highlights: React.FC = () => {
     return rows;
   }, [tags, highlights]);
 
-  const setPageIndex = useCallback(
-    (pageIndex) => {
-      setPagination({ ...pagination, pageIndex });
-    },
-    [pagination, setPagination]
-  );
-
-  const setPageSize = useCallback(
-    (pageSize) => {
-      setPagination({ ...pagination, pageSize, pageIndex: 0 });
-    },
-    [pagination, setPagination]
-  );
-
   const handleVisibleColumns = (visibleColumns: string[]) =>
     setVisibleColumns(visibleColumns);
 
@@ -213,8 +161,6 @@ export const Highlights: React.FC = () => {
     showSortSelector: false,
     showFullScreenSelector: true,
   };
-
-  let toolbarConfig = toolbarVisibilityOptions;
 
   return (
     <EuiPanel grow={false} hasShadow={false}>
@@ -225,7 +171,6 @@ export const Highlights: React.FC = () => {
           visibleColumns: visibleColumns,
           setVisibleColumns: handleVisibleColumns,
         }}
-        leadingControlColumns={leadingControlColumns}
         rowCount={data.length}
         rowHeightsOptions={{
           defaultHeight: "auto",
