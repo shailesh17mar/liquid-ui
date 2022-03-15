@@ -11,6 +11,11 @@ import { useProjects } from "core/modules/projects/hooks";
 import { useStory } from "core/modules/stories/hooks";
 import { useCategory } from "core/modules/categories/hooks";
 import { useTracking } from "main/use-tracking";
+import { CgReadme } from "react-icons/cg";
+import { BsFolder, BsTags } from "react-icons/bs";
+import { AiOutlineHighlight } from "react-icons/ai";
+import { IoIosAnalytics } from "react-icons/io";
+import { FiHome } from "react-icons/fi";
 
 const palette = euiPaletteColorBlind({ direction: "both", order: "append" });
 const makeBreadcrumbs = (navigate: (path: string) => void, story: any) => [
@@ -43,35 +48,35 @@ const makeBreadcrumbs = (navigate: (path: string) => void, story: any) => [
 const makeProjectNavItems = (id: string = "") => [
   {
     label: "About",
-    icon: "documentation",
+    icon: CgReadme,
     path: `/projects/${id}`,
     route: "/projects/:id",
     color: palette[0],
   },
   {
     label: "Data",
-    icon: "tableOfContents",
+    icon: BsFolder,
     path: `/projects/${id}/stories`,
     route: ["/stories/:id", "/projects/:id/stories"],
     color: palette[1],
   },
   {
     label: "Highlights",
-    icon: "documentEdit",
+    icon: AiOutlineHighlight,
     path: `/projects/${id}/highlights`,
     route: "/projects/:id/highlights",
     color: palette[2],
   },
   {
     label: "Tags",
-    icon: "tag",
+    icon: BsTags,
     path: `/projects/${id}/tags`,
     route: "/projects/:id/tags",
     color: palette[3],
   },
   {
     label: "Insights",
-    icon: "visPie",
+    icon: IoIosAnalytics,
     path: `/projects/${id}/insights`,
     route: "/projects/:id/insights",
     color: palette[4],
@@ -81,7 +86,7 @@ const MainNavItems = [
   {
     label: "Home",
     isIndex: true,
-    icon: "home",
+    icon: FiHome,
     path: "/",
     route: "/",
     color: "rgb(252, 180, 21)",

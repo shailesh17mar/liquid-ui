@@ -4,9 +4,11 @@ import {
   EuiCard,
   EuiContextMenuItem,
   EuiContextMenuPanel,
+  EuiFieldText,
   EuiFlexGroup,
   EuiFlexItem,
   EuiIcon,
+  EuiOutsideClickDetector,
   euiPaletteColorBlindBehindText,
   EuiPopover,
   htmlIdGenerator,
@@ -29,6 +31,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   useCategories,
   useCreateCategory,
+  useUpdateCategory,
 } from "core/modules/categories/hooks";
 import {
   useCreateStory,
@@ -65,7 +68,9 @@ export const Stories: React.FC = () => {
   const { user } = useAuth();
   const { id } = useParams() as { id: string };
   const { data: categories } = useCategories(id);
+  const [editingTitle, setEditingTitle] = useState<number>(-1);
   const categoryMutation = useCreateCategory();
+  const updateCategoryMutation = useUpdateCategory();
   const storyUpdateMutation = useUpdateStory();
   const storyMutation = useCreateStory((story) => {
     navigate(`/stories/${story.id}`);
@@ -94,6 +99,12 @@ export const Stories: React.FC = () => {
 
     setLists(lists);
   }, [categories, stories]);
+  const handleCategoryUpdate = async (id: string, name: string) => {
+    updateCategoryMutation.mutateAsync({
+      id,
+      name,
+    });
+  };
   const [list, setList] = useState<Category[]>([
     { id: 1, title: "B2B Interviews" },
     { title: "B2C Interviews", id: 2 },
@@ -255,7 +266,6 @@ export const Stories: React.FC = () => {
                   index={didx}
                   draggableId={category.id}
                   spacing="l"
-                  disableInteractiveElementBlocking // Allows button to be drag handle
                 >
                   {() => (
                     <EuiPanel
@@ -273,14 +283,38 @@ export const Stories: React.FC = () => {
                         gutterSize="s"
                         alignItems="center"
                       >
-                        <EuiFlexItem grow={false}>
-                          <EuiTitle size="xxs">
-                            <h1 color={visColorsBehindText[didx]}>
-                              {category.name}
-                            </h1>
-                          </EuiTitle>
+                        <EuiFlexItem>
+                          {editingTitle === didx ? (
+                            <EuiOutsideClickDetector
+                              onOutsideClick={() => {
+                                setEditingTitle(-1);
+                              }}
+                            >
+                              <EuiFieldText
+                                placeholder={category.name}
+                                autoFocus
+                                onKeyDown={(e) => {
+                                  if (e.key === "Enter") {
+                                    e.preventDefault();
+                                    handleCategoryUpdate(
+                                      category.id,
+                                      //@ts-ignore
+                                      e.target.value
+                                    );
+                                    setEditingTitle(-1);
+                                  }
+                                }}
+                              />
+                            </EuiOutsideClickDetector>
+                          ) : (
+                            <EuiTitle size="xs">
+                              <h2 onClick={() => setEditingTitle(didx)}>
+                                {category.name}
+                              </h2>
+                            </EuiTitle>
+                          )}
                         </EuiFlexItem>
-                        <EuiFlexItem></EuiFlexItem>
+                        <EuiFlexItem grow={false}></EuiFlexItem>
                         {/* <EuiFlexItem grow={false}>
                           <EuiPopover
                             id={smallContextMenuPopoverId}

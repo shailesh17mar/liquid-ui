@@ -1,5 +1,9 @@
 import { useQueryClient, useMutation } from "react-query";
-import { UpdateCategoriesInput, UpdateCategoriesMutation } from "API";
+import {
+  Categories,
+  UpdateCategoriesInput,
+  UpdateCategoriesMutation,
+} from "API";
 import { API } from "aws-amplify";
 import { updateCategories } from "graphql/mutations";
 import { useAuth } from "presentation/context/auth-context";
@@ -23,8 +27,27 @@ export const useUpdateCategory = () => {
       return updateCategory({ ...input, tenant: user.tenant });
     },
     {
-      onSuccess: (data, variables) => {
+      onSettled: (data, variables) => {
         queryClient.invalidateQueries(["categories"]);
+      },
+      onMutate: async (updatedCategory) => {
+        await queryClient.cancelQueries(["categories"]);
+
+        // Snapshot the previous value
+        const categories: Required<Categories>[] =
+          queryClient.getQueryData(["categories"]) || [];
+        const updatedCategories = categories.map((category) => {
+          if (category.id === updatedCategory.id) {
+            return { ...category, ...updatedCategory };
+          }
+          return category;
+        });
+
+        // Optimistically update to the new value
+        queryClient.setQueryData("categories", updatedCategories);
+
+        // Return a context object with the snapshotted value
+        return { categories };
       },
       onError: (error) => {
         throw error;

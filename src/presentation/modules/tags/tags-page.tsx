@@ -4,8 +4,10 @@ import {
   EuiColorPickerSwatch,
   EuiContextMenuItem,
   EuiContextMenuPanel,
+  EuiFieldText,
   EuiFlexGroup,
   EuiFlexItem,
+  EuiOutsideClickDetector,
   euiPaletteColorBlindBehindText,
   EuiPopover,
   transparentize,
@@ -57,6 +59,7 @@ export const TagsPage = () => {
   const navigate = useNavigate();
   const [isSeeding, setIsSeeding] = useState(false);
   const [lists, setLists] = useState<{ [id: string]: IList[] }>();
+  const [editingTitle, setEditingTitle] = useState<number>(-1);
   const { id } = useParams() as { id: string };
   const { data: categories } = useTagCategories(id);
   const createCategoryMutation = useCreateTagCategory();
@@ -80,13 +83,17 @@ export const TagsPage = () => {
     }
   }, [categories, createCategoryMutation, id, isSeeding]);
 
-  const handleCategoryUpdate = useDebouncedCallback(async (id, name, color) => {
+  const handleCategoryUpdate = async (
+    id: string,
+    name: string,
+    color: string
+  ) => {
     updateCategoryMutation.mutateAsync({
       id,
       name,
       color,
     });
-  }, 500);
+  };
 
   useEffect(() => {
     const lists = (categories || []).reduce((acc: any, category) => {
@@ -253,12 +260,38 @@ export const TagsPage = () => {
                       <EuiFlexGroup
                         responsive={false}
                         alignItems="center"
-                        gutterSize="none"
+                        gutterSize="s"
                       >
                         <EuiFlexItem>
-                          <EuiTitle size="xs">
-                            <h1>{category.name}</h1>
-                          </EuiTitle>
+                          {editingTitle === didx ? (
+                            <EuiOutsideClickDetector
+                              onOutsideClick={() => {
+                                setEditingTitle(-1);
+                              }}
+                            >
+                              <EuiFieldText
+                                placeholder={category.name}
+                                onKeyDown={(e) => {
+                                  if (e.key === "Enter") {
+                                    e.preventDefault();
+                                    handleCategoryUpdate(
+                                      category.id,
+                                      //@ts-ignore
+                                      e.target.value,
+                                      getColor(categoryColor)
+                                    );
+                                    setEditingTitle(-1);
+                                  }
+                                }}
+                              />
+                            </EuiOutsideClickDetector>
+                          ) : (
+                            <EuiTitle size="xs">
+                              <h2 onClick={() => setEditingTitle(didx)}>
+                                {category.name}
+                              </h2>
+                            </EuiTitle>
+                          )}
                         </EuiFlexItem>
                         {
                           <EuiFlexItem grow={false}>

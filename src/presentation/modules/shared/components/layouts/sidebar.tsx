@@ -3,6 +3,7 @@ import {
   EuiIcon,
   EuiPageSideBar,
   EuiSideNavItemType,
+  IconType,
 } from "@elastic/eui";
 import { Projects as Project } from "models";
 import { useEffect, useState } from "react";
@@ -12,7 +13,7 @@ import { Logo, SideNav } from "./layout.styles";
 export interface Item {
   label: string;
   isIndex?: boolean;
-  icon: string;
+  icon: string | IconType;
   path: string;
   route: string | string[];
   color: string;
