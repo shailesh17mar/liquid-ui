@@ -653,6 +653,13 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "icon": {
+                    "name": "icon",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "categoriesID": {
                     "name": "categoriesID",
                     "isArray": false,
@@ -912,6 +919,13 @@ export const schema = {
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
+                    "attributes": []
+                },
+                "icon": {
+                    "name": "icon",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
                     "attributes": []
                 },
                 "readme": {
@@ -1335,5 +1349,5 @@ export const schema = {
         }
     },
     "nonModels": {},
-    "version": "e0fd846562a52c44e458056fbdfaef08"
+    "version": "40df75addee73bbdc6e70bd0ee094b0c"
 };

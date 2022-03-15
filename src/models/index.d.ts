@@ -97,6 +97,7 @@ export declare class Transcription {
 export declare class Stories {
   readonly id: string;
   readonly tenant: string;
+  readonly icon?: string;
   readonly categoriesID: string;
   readonly projectsID: string;
   readonly Highlights?: (Highlights | null)[];
@@ -127,6 +128,7 @@ export declare class Projects {
   readonly id: string;
   readonly tenant: string;
   readonly name: string;
+  readonly icon?: string;
   readonly readme?: string;
   readonly createdAt: string;
   readonly updatedAt: string;

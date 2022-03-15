@@ -270,6 +270,7 @@ export const getStories = /* GraphQL */ `
     getStories(id: $id) {
       id
       tenant
+      icon
       categoriesID
       projectsID
       Highlights {
@@ -354,6 +355,7 @@ export const listStories = /* GraphQL */ `
       items {
         id
         tenant
+        icon
         categoriesID
         projectsID
         Highlights {
@@ -424,6 +426,7 @@ export const getCategories = /* GraphQL */ `
         items {
           id
           tenant
+          icon
           categoriesID
           projectsID
           Highlights {
@@ -482,6 +485,7 @@ export const listCategories = /* GraphQL */ `
           items {
             id
             tenant
+            icon
             categoriesID
             projectsID
             type
@@ -507,6 +511,7 @@ export const getProjects = /* GraphQL */ `
       id
       tenant
       name
+      icon
       readme
       createdAt
       updatedAt
@@ -528,6 +533,7 @@ export const getProjects = /* GraphQL */ `
         items {
           id
           tenant
+          icon
           categoriesID
           projectsID
           Highlights {
@@ -632,6 +638,7 @@ export const listProjects = /* GraphQL */ `
         id
         tenant
         name
+        icon
         readme
         createdAt
         updatedAt
@@ -650,6 +657,7 @@ export const listProjects = /* GraphQL */ `
           items {
             id
             tenant
+            icon
             categoriesID
             projectsID
             type

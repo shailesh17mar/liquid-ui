@@ -99,8 +99,14 @@ export const SideBar: React.FC<Props> = ({ projects, items, hasProjects }) => {
                     project.name,
                     `/projects/${project.id}`,
                     {
-                      icon: (
-                        <EuiIcon color="#207af1" size="l" type="folderClosed" />
+                      icon: project.icon ? (
+                        <span style={{ fontSize: 24 }}>{project.icon}</span>
+                      ) : (
+                        <EuiIcon
+                          color="#207af1"
+                          size="l"
+                          type={"folderClosed"}
+                        />
                       ),
                     },
                     "/projects/:id"

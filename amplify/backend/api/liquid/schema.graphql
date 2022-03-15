@@ -78,6 +78,7 @@ type Transcription
 type Stories @model @auth(rules: [{ allow: groups, groupsField: "tenant" }]) {
   id: ID!
   tenant: ID!
+  icon: String
   categoriesID: ID! @index(name: "byCategories")
   projectsID: ID! @index(name: "byProjects")
   Highlights: [Highlights] @hasMany(indexName: "byStory", fields: ["id"])
@@ -104,6 +105,7 @@ type Projects @model @auth(rules: [{ allow: groups, groupsField: "tenant" }]) {
   id: ID!
   tenant: ID!
   name: String!
+  icon: String
   readme: AWSJSON
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!

@@ -287,7 +287,7 @@ export const TagsPage = () => {
                             </EuiOutsideClickDetector>
                           ) : (
                             <EuiTitle size="xs">
-                              <h2 onClick={() => setEditingTitle(didx)}>
+                              <h2 onClick={() => didx && setEditingTitle(didx)}>
                                 {category.name}
                               </h2>
                             </EuiTitle>

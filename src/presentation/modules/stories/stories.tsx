@@ -275,7 +275,8 @@ export const Stories: React.FC = () => {
                       style={{
                         width: 320,
                         height: "100%",
-                        borderRight: "1px solid #D3DAE6",
+                        background: "#F5F7FA",
+                        border: "1px solid #D3DAE6",
                       }}
                     >
                       <EuiFlexGroup
@@ -308,7 +309,7 @@ export const Stories: React.FC = () => {
                             </EuiOutsideClickDetector>
                           ) : (
                             <EuiTitle size="xs">
-                              <h2 onClick={() => setEditingTitle(didx)}>
+                              <h2 onClick={() => didx && setEditingTitle(didx)}>
                                 {category.name}
                               </h2>
                             </EuiTitle>

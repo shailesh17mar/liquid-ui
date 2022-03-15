@@ -1,7 +1,16 @@
-import { EuiFlexGroup, EuiFlexItem, EuiPanel, EuiTitle } from "@elastic/eui";
+import {
+  EuiButton,
+  EuiButtonEmpty,
+  EuiButtonIcon,
+  EuiFlexGroup,
+  EuiFlexItem,
+  EuiPanel,
+  EuiPopover,
+  EuiTitle,
+} from "@elastic/eui";
 import { Editor } from "../shared/components/editor/editor";
 import { useParams } from "react-router-dom";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   useProject,
   useUpdateProject,
@@ -9,10 +18,15 @@ import {
 import { useDebouncedCallback } from "use-debounce";
 import { ContentLoader } from "../shared/components/content-loader/content-loader";
 import { HocuspocusProvider } from "@hocuspocus/provider";
+import Picker, { IEmojiData } from "emoji-picker-react";
+import { BsEmojiSmile } from "react-icons/bs";
 
 export const ProjectDetails: React.FC = () => {
   const { id } = useParams() as { id: string };
   const { data: project, isLoading } = useProject(id);
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+
+  const [chosenEmoji, setChosenEmoji] = useState<string | undefined>();
   const mutation = useUpdateProject();
 
   const provider = useMemo(() => {
@@ -23,6 +37,12 @@ export const ProjectDetails: React.FC = () => {
   }, []);
 
   const handleDocumentEditing = async () => {};
+  const handleIconChange = (id: string, icon: string) => {
+    mutation.mutateAsync({
+      id,
+      icon,
+    });
+  };
   const handleNameChange = useDebouncedCallback((id, name) => {
     if (project) {
       mutation.mutateAsync({
@@ -32,6 +52,12 @@ export const ProjectDetails: React.FC = () => {
     }
   }, 2000);
 
+  useEffect(() => {
+    if (project?.icon) setChosenEmoji(project.icon);
+  }, [project?.icon]);
+  const onButtonClick = () =>
+    setIsPopoverOpen((isPopoverOpen) => !isPopoverOpen);
+  const closePopover = () => setIsPopoverOpen(false);
   return (
     <EuiPanel>
       <EuiFlexGroup
@@ -42,7 +68,47 @@ export const ProjectDetails: React.FC = () => {
         {project && !isLoading ? (
           <>
             <EuiFlexItem>
-              <EuiFlexGroup justifyContent="center">
+              <EuiFlexGroup
+                justifyContent="center"
+                alignItems="center"
+                gutterSize="s"
+              >
+                <EuiFlexItem grow={false}>
+                  <EuiPopover
+                    button={
+                      chosenEmoji ? (
+                        <EuiButtonEmpty
+                          style={{
+                            fontSize: "60px",
+                            lineHeight: "100px",
+                          }}
+                          onClick={onButtonClick}
+                        >
+                          {chosenEmoji}
+                        </EuiButtonEmpty>
+                      ) : (
+                        <EuiButton
+                          color="text"
+                          size="s"
+                          iconType={BsEmojiSmile}
+                          onClick={onButtonClick}
+                        >
+                          Add Icon
+                        </EuiButton>
+                      )
+                    }
+                    isOpen={isPopoverOpen}
+                    closePopover={closePopover}
+                  >
+                    <Picker
+                      onEmojiClick={(event, emojiObject) => {
+                        setChosenEmoji(emojiObject.emoji);
+                        handleIconChange(id, emojiObject.emoji);
+                        closePopover();
+                      }}
+                    />
+                  </EuiPopover>
+                </EuiFlexItem>
                 <EuiFlexItem>
                   <EuiTitle size="l">
                     <span

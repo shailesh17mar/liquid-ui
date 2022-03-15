@@ -364,6 +364,7 @@ export const onCreateStories = /* GraphQL */ `
     onCreateStories {
       id
       tenant
+      icon
       categoriesID
       projectsID
       Highlights {
@@ -443,6 +444,7 @@ export const onUpdateStories = /* GraphQL */ `
     onUpdateStories {
       id
       tenant
+      icon
       categoriesID
       projectsID
       Highlights {
@@ -522,6 +524,7 @@ export const onDeleteStories = /* GraphQL */ `
     onDeleteStories {
       id
       tenant
+      icon
       categoriesID
       projectsID
       Highlights {
@@ -607,6 +610,7 @@ export const onCreateCategories = /* GraphQL */ `
         items {
           id
           tenant
+          icon
           categoriesID
           projectsID
           Highlights {
@@ -660,6 +664,7 @@ export const onUpdateCategories = /* GraphQL */ `
         items {
           id
           tenant
+          icon
           categoriesID
           projectsID
           Highlights {
@@ -713,6 +718,7 @@ export const onDeleteCategories = /* GraphQL */ `
         items {
           id
           tenant
+          icon
           categoriesID
           projectsID
           Highlights {
@@ -761,6 +767,7 @@ export const onCreateProjects = /* GraphQL */ `
       id
       tenant
       name
+      icon
       readme
       createdAt
       updatedAt
@@ -782,6 +789,7 @@ export const onCreateProjects = /* GraphQL */ `
         items {
           id
           tenant
+          icon
           categoriesID
           projectsID
           Highlights {
@@ -881,6 +889,7 @@ export const onUpdateProjects = /* GraphQL */ `
       id
       tenant
       name
+      icon
       readme
       createdAt
       updatedAt
@@ -902,6 +911,7 @@ export const onUpdateProjects = /* GraphQL */ `
         items {
           id
           tenant
+          icon
           categoriesID
           projectsID
           Highlights {
@@ -1001,6 +1011,7 @@ export const onDeleteProjects = /* GraphQL */ `
       id
       tenant
       name
+      icon
       readme
       createdAt
       updatedAt
@@ -1022,6 +1033,7 @@ export const onDeleteProjects = /* GraphQL */ `
         items {
           id
           tenant
+          icon
           categoriesID
           projectsID
           Highlights {

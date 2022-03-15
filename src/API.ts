@@ -394,6 +394,7 @@ export type DeleteTranscriptionInput = {
 export type CreateStoriesInput = {
   id?: string | null,
   tenant: string,
+  icon?: string | null,
   categoriesID: string,
   projectsID: string,
   type: string,
@@ -407,6 +408,7 @@ export type CreateStoriesInput = {
 
 export type ModelStoriesConditionInput = {
   tenant?: ModelIDInput | null,
+  icon?: ModelStringInput | null,
   categoriesID?: ModelIDInput | null,
   projectsID?: ModelIDInput | null,
   type?: ModelStringInput | null,
@@ -425,6 +427,7 @@ export type Stories = {
   __typename: "Stories",
   id?: string,
   tenant?: string,
+  icon?: string | null,
   categoriesID?: string,
   projectsID?: string,
   Highlights?: ModelHighlightsConnection,
@@ -442,6 +445,7 @@ export type Stories = {
 export type UpdateStoriesInput = {
   id: string,
   tenant?: string | null,
+  icon?: string | null,
   categoriesID?: string | null,
   projectsID?: string | null,
   type?: string | null,
@@ -505,6 +509,7 @@ export type CreateProjectsInput = {
   id?: string | null,
   tenant: string,
   name: string,
+  icon?: string | null,
   readme?: string | null,
   createdAt?: string | null,
   updatedAt?: string | null,
@@ -513,6 +518,7 @@ export type CreateProjectsInput = {
 export type ModelProjectsConditionInput = {
   tenant?: ModelIDInput | null,
   name?: ModelStringInput | null,
+  icon?: ModelStringInput | null,
   readme?: ModelStringInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
@@ -526,6 +532,7 @@ export type Projects = {
   id?: string,
   tenant?: string,
   name?: string,
+  icon?: string | null,
   readme?: string | null,
   createdAt?: string,
   updatedAt?: string,
@@ -552,6 +559,7 @@ export type UpdateProjectsInput = {
   id: string,
   tenant?: string | null,
   name?: string | null,
+  icon?: string | null,
   readme?: string | null,
   createdAt?: string | null,
   updatedAt?: string | null,
@@ -826,6 +834,7 @@ export type ModelTranscriptionConnection = {
 export type ModelStoriesFilterInput = {
   id?: ModelIDInput | null,
   tenant?: ModelIDInput | null,
+  icon?: ModelStringInput | null,
   categoriesID?: ModelIDInput | null,
   projectsID?: ModelIDInput | null,
   type?: ModelStringInput | null,
@@ -854,6 +863,7 @@ export type ModelProjectsFilterInput = {
   id?: ModelIDInput | null,
   tenant?: ModelIDInput | null,
   name?: ModelStringInput | null,
+  icon?: ModelStringInput | null,
   readme?: ModelStringInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
@@ -1392,6 +1402,7 @@ export type CreateStoriesMutation = {
     __typename: "Stories",
     id: string,
     tenant: string,
+    icon?: string | null,
     categoriesID: string,
     projectsID: string,
     Highlights?:  {
@@ -1482,6 +1493,7 @@ export type UpdateStoriesMutation = {
     __typename: "Stories",
     id: string,
     tenant: string,
+    icon?: string | null,
     categoriesID: string,
     projectsID: string,
     Highlights?:  {
@@ -1572,6 +1584,7 @@ export type DeleteStoriesMutation = {
     __typename: "Stories",
     id: string,
     tenant: string,
+    icon?: string | null,
     categoriesID: string,
     projectsID: string,
     Highlights?:  {
@@ -1670,6 +1683,7 @@ export type CreateCategoriesMutation = {
         __typename: "Stories",
         id: string,
         tenant: string,
+        icon?: string | null,
         categoriesID: string,
         projectsID: string,
         Highlights?:  {
@@ -1733,6 +1747,7 @@ export type UpdateCategoriesMutation = {
         __typename: "Stories",
         id: string,
         tenant: string,
+        icon?: string | null,
         categoriesID: string,
         projectsID: string,
         Highlights?:  {
@@ -1796,6 +1811,7 @@ export type DeleteCategoriesMutation = {
         __typename: "Stories",
         id: string,
         tenant: string,
+        icon?: string | null,
         categoriesID: string,
         projectsID: string,
         Highlights?:  {
@@ -1852,6 +1868,7 @@ export type CreateProjectsMutation = {
     id: string,
     tenant: string,
     name: string,
+    icon?: string | null,
     readme?: string | null,
     createdAt: string,
     updatedAt: string,
@@ -1878,6 +1895,7 @@ export type CreateProjectsMutation = {
         __typename: "Stories",
         id: string,
         tenant: string,
+        icon?: string | null,
         categoriesID: string,
         projectsID: string,
         Highlights?:  {
@@ -1992,6 +2010,7 @@ export type UpdateProjectsMutation = {
     id: string,
     tenant: string,
     name: string,
+    icon?: string | null,
     readme?: string | null,
     createdAt: string,
     updatedAt: string,
@@ -2018,6 +2037,7 @@ export type UpdateProjectsMutation = {
         __typename: "Stories",
         id: string,
         tenant: string,
+        icon?: string | null,
         categoriesID: string,
         projectsID: string,
         Highlights?:  {
@@ -2132,6 +2152,7 @@ export type DeleteProjectsMutation = {
     id: string,
     tenant: string,
     name: string,
+    icon?: string | null,
     readme?: string | null,
     createdAt: string,
     updatedAt: string,
@@ -2158,6 +2179,7 @@ export type DeleteProjectsMutation = {
         __typename: "Stories",
         id: string,
         tenant: string,
+        icon?: string | null,
         categoriesID: string,
         projectsID: string,
         Highlights?:  {
@@ -3021,6 +3043,7 @@ export type GetStoriesQuery = {
     __typename: "Stories",
     id: string,
     tenant: string,
+    icon?: string | null,
     categoriesID: string,
     projectsID: string,
     Highlights?:  {
@@ -3114,6 +3137,7 @@ export type ListStoriesQuery = {
       __typename: "Stories",
       id: string,
       tenant: string,
+      icon?: string | null,
       categoriesID: string,
       projectsID: string,
       Highlights?:  {
@@ -3195,6 +3219,7 @@ export type GetCategoriesQuery = {
         __typename: "Stories",
         id: string,
         tenant: string,
+        icon?: string | null,
         categoriesID: string,
         projectsID: string,
         Highlights?:  {
@@ -3261,6 +3286,7 @@ export type ListCategoriesQuery = {
           __typename: "Stories",
           id: string,
           tenant: string,
+          icon?: string | null,
           categoriesID: string,
           projectsID: string,
           type: string,
@@ -3290,6 +3316,7 @@ export type GetProjectsQuery = {
     id: string,
     tenant: string,
     name: string,
+    icon?: string | null,
     readme?: string | null,
     createdAt: string,
     updatedAt: string,
@@ -3316,6 +3343,7 @@ export type GetProjectsQuery = {
         __typename: "Stories",
         id: string,
         tenant: string,
+        icon?: string | null,
         categoriesID: string,
         projectsID: string,
         Highlights?:  {
@@ -3433,6 +3461,7 @@ export type ListProjectsQuery = {
       id: string,
       tenant: string,
       name: string,
+      icon?: string | null,
       readme?: string | null,
       createdAt: string,
       updatedAt: string,
@@ -3455,6 +3484,7 @@ export type ListProjectsQuery = {
           __typename: "Stories",
           id: string,
           tenant: string,
+          icon?: string | null,
           categoriesID: string,
           projectsID: string,
           type: string,
@@ -4183,6 +4213,7 @@ export type OnCreateStoriesSubscription = {
     __typename: "Stories",
     id: string,
     tenant: string,
+    icon?: string | null,
     categoriesID: string,
     projectsID: string,
     Highlights?:  {
@@ -4268,6 +4299,7 @@ export type OnUpdateStoriesSubscription = {
     __typename: "Stories",
     id: string,
     tenant: string,
+    icon?: string | null,
     categoriesID: string,
     projectsID: string,
     Highlights?:  {
@@ -4353,6 +4385,7 @@ export type OnDeleteStoriesSubscription = {
     __typename: "Stories",
     id: string,
     tenant: string,
+    icon?: string | null,
     categoriesID: string,
     projectsID: string,
     Highlights?:  {
@@ -4446,6 +4479,7 @@ export type OnCreateCategoriesSubscription = {
         __typename: "Stories",
         id: string,
         tenant: string,
+        icon?: string | null,
         categoriesID: string,
         projectsID: string,
         Highlights?:  {
@@ -4504,6 +4538,7 @@ export type OnUpdateCategoriesSubscription = {
         __typename: "Stories",
         id: string,
         tenant: string,
+        icon?: string | null,
         categoriesID: string,
         projectsID: string,
         Highlights?:  {
@@ -4562,6 +4597,7 @@ export type OnDeleteCategoriesSubscription = {
         __typename: "Stories",
         id: string,
         tenant: string,
+        icon?: string | null,
         categoriesID: string,
         projectsID: string,
         Highlights?:  {
@@ -4613,6 +4649,7 @@ export type OnCreateProjectsSubscription = {
     id: string,
     tenant: string,
     name: string,
+    icon?: string | null,
     readme?: string | null,
     createdAt: string,
     updatedAt: string,
@@ -4639,6 +4676,7 @@ export type OnCreateProjectsSubscription = {
         __typename: "Stories",
         id: string,
         tenant: string,
+        icon?: string | null,
         categoriesID: string,
         projectsID: string,
         Highlights?:  {
@@ -4748,6 +4786,7 @@ export type OnUpdateProjectsSubscription = {
     id: string,
     tenant: string,
     name: string,
+    icon?: string | null,
     readme?: string | null,
     createdAt: string,
     updatedAt: string,
@@ -4774,6 +4813,7 @@ export type OnUpdateProjectsSubscription = {
         __typename: "Stories",
         id: string,
         tenant: string,
+        icon?: string | null,
         categoriesID: string,
         projectsID: string,
         Highlights?:  {
@@ -4883,6 +4923,7 @@ export type OnDeleteProjectsSubscription = {
     id: string,
     tenant: string,
     name: string,
+    icon?: string | null,
     readme?: string | null,
     createdAt: string,
     updatedAt: string,
@@ -4909,6 +4950,7 @@ export type OnDeleteProjectsSubscription = {
         __typename: "Stories",
         id: string,
         tenant: string,
+        icon?: string | null,
         categoriesID: string,
         projectsID: string,
         Highlights?:  {
