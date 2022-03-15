@@ -43,5 +43,50 @@
         }
       }
     }
+  },
+  "prod": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-liquid-prod-172521-authRole",
+      "UnauthRoleArn": "arn:aws:iam::043715548265:role/amplify-liquid-prod-172521-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::043715548265:role/amplify-liquid-prod-172521-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-liquid-prod-172521-deployment",
+      "UnauthRoleName": "amplify-liquid-prod-172521-unauthRole",
+      "StackName": "amplify-liquid-prod-172521",
+      "StackId": "arn:aws:cloudformation:us-east-2:043715548265:stack/amplify-liquid-prod-172521/59198180-a3b3-11ec-ab44-0accfbd018ac",
+      "AmplifyAppId": "d1s0decuatxz7a",
+      "APIGatewayAuthURL": "https://s3.amazonaws.com/amplify-liquid-prod-172521-deployment/amplify-cfn-templates/api/APIGatewayAuthStack.json"
+    },
+    "categories": {
+      "auth": {
+        "liquid": {
+          "googleClientId": "1077167489512-o8ruaj2cp90tbijgavan7u2r8fg3q5lb.apps.googleusercontent.com"
+        },
+        "userPoolGroups": {}
+      },
+      "function": {
+        "transcriber": {
+          "deploymentBucketName": "amplify-liquid-prod-172521-deployment",
+          "s3Key": "amplify-builds/transcriber-72613572753372524943-build.zip"
+        },
+        "transcriptor": {
+          "deploymentBucketName": "amplify-liquid-prod-172521-deployment",
+          "s3Key": "amplify-builds/transcriptor-534d752f434e30525041-build.zip",
+          "s3Bucket": "liquid-user-storage"
+        },
+        "liquidPostConfirmation": {
+          "deploymentBucketName": "amplify-liquid-prod-172521-deployment",
+          "s3Key": "amplify-builds/liquidPostConfirmation-723677716c5a66763752-build.zip"
+        },
+        "liquidPreSignup": {
+          "deploymentBucketName": "amplify-liquid-prod-172521-deployment",
+          "s3Key": "amplify-builds/liquidPreSignup-35476d68517553796b67-build.zip"
+        },
+        "liquidassets": {
+          "deploymentBucketName": "amplify-liquid-prod-172521-deployment",
+          "s3Key": "amplify-builds/liquidassets-39707558585450375953-build.zip"
+        }
+      }
+    }
   }
 }

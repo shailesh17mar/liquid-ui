@@ -1,12 +1,15 @@
 import { EuiPageContentBody } from "@elastic/eui";
+import { Annotation } from "main/pages/make-story-details-page";
 import styled from "styled-components";
+import {
+  HIGHLIGHT_COLORS,
+  HIGHLIGHT_TYPES,
+} from "../shared/components/editor/components/highlight-control/color-picker";
 
-interface Props {
-  type: string;
-  top?: number;
+interface BodyProps {
+  annotation: Annotation;
 }
-
-export const StoryDocument = styled(EuiPageContentBody)`
+export const StoryDocument = styled(EuiPageContentBody)<BodyProps>`
   span[data-hc="default"] {
     background: #cbf0f8;
   }
@@ -49,8 +52,18 @@ export const StoryDocument = styled(EuiPageContentBody)`
   span[data-hc="entity"] {
     background: #cbf0f8;
   }
+  ${(props) =>
+    Object.keys(props.annotation).map((id) => {
+      return `span[data-hid="${id}"] { background:${
+        HIGHLIGHT_TYPES[props.annotation[id].type as HIGHLIGHT_COLORS].color
+      } ; }`;
+    })}
 `;
-
+interface Props {
+  type: string;
+  top?: number;
+  // annotations: Annotation;
+}
 export const TagAnnotation = styled.div<Props>`
   position: fixed;
   top: ${(props) => props.top || -8000 + "px"};

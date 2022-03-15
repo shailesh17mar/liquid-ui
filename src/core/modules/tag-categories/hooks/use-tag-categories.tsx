@@ -28,7 +28,7 @@ const retrieveCategories = async (projectId: string) => {
 };
 
 export const useTagCategories = (projectId: string) => {
-  return useQuery(["tag-categories", projectId], () =>
+  return useQuery(["tag-categories-project", projectId], () =>
     retrieveCategories(projectId)
   );
 };

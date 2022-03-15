@@ -95,6 +95,11 @@ export const StoryDetails: React.FC = () => {
   const { data: highlights } = useHighlights({
     storyId: id,
   });
+  const getColor = (color: string) =>
+    Object.keys(HIGHLIGHT_TYPES).find(
+      (highlightType) =>
+        HIGHLIGHT_TYPES[highlightType as HIGHLIGHT_COLORS].color === color
+    )!!;
 
   useEffect(() => {
     if (
@@ -107,20 +112,37 @@ export const StoryDetails: React.FC = () => {
       const annotation = highlights.reduce<Annotation>((acc, highlight) => {
         const tagIds = highlight.Tags || [];
         const selectedTags = tags.filter((tag) => tagIds.includes(tag.id));
+
+        const uniqueColors = new Set(
+          selectedTags.map((option) => option.color)
+        );
+
+        const color =
+          uniqueColors.size > 1
+            ? HIGHLIGHT_COLORS.MIXED
+            : (Array.from(uniqueColors)[0] as HIGHLIGHT_COLORS);
         const annotationTags = selectedTags.map((tag) => {
           return {
             label: tag.label,
             id: tag.id,
-            color: HIGHLIGHT_TYPES[tag.color as HIGHLIGHT_COLORS].color,
+            color:
+              HIGHLIGHT_TYPES[
+                (tag.tagCategory.color || tag.color) as HIGHLIGHT_COLORS
+              ].color,
           };
         });
         acc[highlight.id] = {
-          type: highlight.color,
+          type: color || "default",
           tags: annotationTags,
         };
         return acc;
       }, {});
-      setAnnotation(annotation);
+      setAnnotation((existingAnnotation) => {
+        return {
+          ...annotation,
+          ...existingAnnotation,
+        };
+      });
       setIsInit(true);
     }
   }, [highlights, isInit, setAnnotation, tags]);
@@ -321,6 +343,7 @@ export const StoryDetails: React.FC = () => {
         className="eui-yScroll"
         onScroll={() => updatePositions()}
         paddingSize="none"
+        annotation={annotation}
       >
         <EuiFlexGroup
           justifyContent="spaceAround"

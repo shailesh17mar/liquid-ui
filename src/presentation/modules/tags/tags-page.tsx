@@ -1,14 +1,17 @@
 import {
   DropResult,
+  EuiColorPicker,
+  EuiColorPickerSwatch,
   EuiContextMenuItem,
   EuiContextMenuPanel,
   EuiFlexGroup,
   EuiFlexItem,
   euiPaletteColorBlindBehindText,
   EuiPopover,
+  transparentize,
   useGeneratedHtmlId,
 } from "@elastic/eui";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   EuiDragDropContext,
   EuiDraggable,
@@ -21,19 +24,26 @@ import {
   EuiSpacer,
 } from "@elastic/eui";
 import { useNavigate, useParams } from "react-router-dom";
-import { CreateTagsInput } from "API";
+import { CreateTagsInput, Tags } from "API";
 import { CategoryMenu } from "./components/tag-category-menu";
 import {
   useCreateTagCategory,
   useTagCategories,
+  useUpdateTagCategory,
 } from "core/modules/tag-categories/hooks";
 import { useCreateTag, useTags, useUpdateTag } from "core/modules/tags/hooks";
 import { NewTag } from "./components/new-tag";
 import { Card } from "./tags.styles";
 import { DEFAULT_COLOR_MODE } from "@elastic/eui/src/services/theme/utils";
+import {
+  HIGHLIGHT_COLORS,
+  HIGHLIGHT_TYPES,
+} from "../shared/components/editor/components/highlight-control/color-picker";
+import { useDebouncedCallback } from "use-debounce";
 
 interface IList {
   content: any;
+  color: string;
   id: string;
 }
 
@@ -50,25 +60,43 @@ export const TagsPage = () => {
   const { id } = useParams() as { id: string };
   const { data: categories } = useTagCategories(id);
   const createCategoryMutation = useCreateTagCategory();
+  const updateCategoryMutation = useUpdateTagCategory();
   const updateTagMutation = useUpdateTag();
   const createTagMutation = useCreateTag();
   const { data: tags } = useTags(id, categories && categories.length > 0);
 
+  const swatches = useMemo(
+    () => Object.values(HIGHLIGHT_TYPES).map((highlight) => highlight.color),
+    []
+  );
   useEffect(() => {
     if (!isSeeding && categories && categories.length === 0) {
-      createCategoryMutation.mutate({ name: "Uncategorized", projectsID: id });
+      createCategoryMutation.mutate({
+        name: "Uncategorized",
+        projectsID: id,
+        color: "",
+      });
       setIsSeeding(true);
     }
   }, [categories, createCategoryMutation, id, isSeeding]);
 
+  const handleCategoryUpdate = useDebouncedCallback(async (id, name, color) => {
+    updateCategoryMutation.mutateAsync({
+      id,
+      name,
+      color,
+    });
+  }, 500);
+
   useEffect(() => {
-    const lists = categories?.reduce((acc: any, category) => {
+    const lists = (categories || []).reduce((acc: any, category) => {
       acc[category.id] = tags
         ?.filter((story) => story && story.tagCategory.id === category.id)
         .map((tag) => {
           return {
             content: getTagCard(tag),
             id: tag?.id,
+            color: tag?.color,
           };
         });
       return acc;
@@ -163,19 +191,29 @@ export const TagsPage = () => {
     //Make a call to create story and then redirect
   };
 
-  const getTagCard = (story: any) => (
+  const getTagCard = (story: Required<Tags>) => (
     <Card
       hasBorder
       paddingSize="s"
       layout="horizontal"
       onClick={() => {
-        navigate(`/stories/${story.id}`);
+        // navigate(`/stories/${story.id}`);
       }}
       titleSize="xs"
       title={story.label}
+      color={
+        HIGHLIGHT_TYPES[
+          (story.tagCategory.color || story.color) as HIGHLIGHT_COLORS
+        ].color
+      }
       description={""}
     />
   );
+  const getColor = (color: string) =>
+    Object.keys(HIGHLIGHT_TYPES).find(
+      (highlightType) =>
+        HIGHLIGHT_TYPES[highlightType as HIGHLIGHT_COLORS].color === color
+    )!!;
   return categories && lists && categories.length > 0 ? (
     <EuiFlexGroup responsive={false} gutterSize="none">
       <EuiFlexItem grow={false}>
@@ -195,31 +233,58 @@ export const TagsPage = () => {
                 draggableId={category.id}
                 spacing="l"
               >
-                {() => (
-                  <EuiPanel
-                    hasShadow={false}
-                    hasBorder={false}
-                    paddingSize="s"
-                    style={{
-                      width: 320,
-                      height: "100%",
-                      borderRight: "1px solid #D3DAE6",
-                    }}
-                  >
-                    <EuiFlexGroup
-                      responsive={false}
-                      gutterSize="s"
-                      alignItems="center"
+                {() => {
+                  const categoryColor = category.color
+                    ? HIGHLIGHT_TYPES[category.color as HIGHLIGHT_COLORS].color
+                    : HIGHLIGHT_TYPES[HIGHLIGHT_COLORS.DEFAULT].color;
+                  return (
+                    <EuiPanel
+                      paddingSize="s"
+                      // color="subdued"
+                      hasBorder={false}
+                      hasShadow={false}
+                      style={{
+                        width: 320,
+                        height: "100%",
+                        background: transparentize(categoryColor, 0.1),
+                        border: `solid 1px ${categoryColor}`,
+                      }}
                     >
-                      <EuiFlexItem grow={false}>
-                        <EuiTitle size="xxs">
-                          <h1 color={visColorsBehindText[didx]}>
-                            {category.name}
-                          </h1>
-                        </EuiTitle>
-                      </EuiFlexItem>
-                      <EuiFlexItem></EuiFlexItem>
-                      {/* <EuiFlexItem grow={false}>
+                      <EuiFlexGroup
+                        responsive={false}
+                        alignItems="center"
+                        gutterSize="none"
+                      >
+                        <EuiFlexItem>
+                          <EuiTitle size="xs">
+                            <h1>{category.name}</h1>
+                          </EuiTitle>
+                        </EuiFlexItem>
+                        {
+                          <EuiFlexItem grow={false}>
+                            <EuiColorPicker
+                              disabled={!Boolean(didx)}
+                              style={{ margin: 0 }}
+                              mode="swatch"
+                              swatches={swatches}
+                              onChange={(color: string) =>
+                                handleCategoryUpdate(
+                                  category.id,
+                                  category.name,
+                                  getColor(color)
+                                )
+                              }
+                              color={categoryColor}
+                              button={
+                                <EuiColorPickerSwatch
+                                  color={categoryColor}
+                                  aria-label="Select a new color"
+                                />
+                              }
+                            />
+                          </EuiFlexItem>
+                        }
+                        {/* <EuiFlexItem grow={false}>
                         <EuiPopover
                           id={smallContextMenuPopoverId}
                           button={button}
@@ -231,38 +296,43 @@ export const TagsPage = () => {
                           <EuiContextMenuPanel size="s" items={items} />
                         </EuiPopover>
                       </EuiFlexItem> */}
-                    </EuiFlexGroup>
-                    <EuiSpacer />
-                    <NewTag
-                      onCreate={(label: string) =>
-                        handleCreateTag(category.id, label)
-                      }
-                    />
+                      </EuiFlexGroup>
+                      <EuiSpacer />
+                      <NewTag
+                        onCreate={(label: string) =>
+                          handleCreateTag(category.id, label)
+                        }
+                      />
 
-                    <EuiDroppable
-                      droppableId={category.id}
-                      grow
-                      type="MICRO"
-                      spacing="s"
-                      style={{ flex: "1 0 50%", marginTop: "1rem" }}
-                    >
-                      {(lists[category.id] || []).map((story, idx) => (
-                        <EuiDraggable
-                          key={story.id}
-                          index={idx}
-                          draggableId={story.id}
-                          spacing="none"
-                          style={{
-                            // width: "306px",
-                            marginBottom: "1rem",
-                          }}
-                        >
-                          {story.content}
-                        </EuiDraggable>
-                      ))}
-                    </EuiDroppable>
-                  </EuiPanel>
-                )}
+                      <EuiDroppable
+                        droppableId={category.id}
+                        grow
+                        type="MICRO"
+                        spacing="s"
+                        style={{
+                          flex: "1 0 50%",
+                          marginTop: "1rem",
+                        }}
+                      >
+                        {(lists[category.id] || []).map((story, idx) => (
+                          <EuiDraggable
+                            key={story.id}
+                            index={idx}
+                            draggableId={story.id}
+                            spacing="none"
+                            style={{
+                              background: story.color,
+                              // width: "306px",
+                              marginBottom: "1rem",
+                            }}
+                          >
+                            {story.content}
+                          </EuiDraggable>
+                        ))}
+                      </EuiDroppable>
+                    </EuiPanel>
+                  );
+                }}
               </EuiDraggable>
             ))}
           </EuiDroppable>
@@ -280,9 +350,8 @@ export const TagsPage = () => {
           style={{
             backgroundColor: "#f2f2f3",
           }}
-          grow={false}
           hasShadow={false}
-          hasBorder={false}
+          grow={false}
           paddingSize="s"
         >
           <CategoryMenu />

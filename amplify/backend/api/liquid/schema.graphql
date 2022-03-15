@@ -56,7 +56,7 @@ type Tags @model @auth(rules: [{ allow: groups, groupsField: "tenant" }]) {
   color: String!
   projectsID: ID! @index(name: "byProjects")
   tagCategoryID: ID @index(name: "byTagCategories")
-  tagCategory: TagCategory @belongsTo(fields: ["tagCategoryID"])
+  tagCategory: TagCategory! @belongsTo(fields: ["tagCategoryID"])
   updatedAt: AWSDateTime!
   createdAt: AWSDateTime
 }
@@ -157,7 +157,7 @@ type TagCategory
   id: ID!
   tenant: ID!
   name: String!
-  color: String
+  color: String!
   projectsID: ID! @index(name: "byProjects")
   tags: [Tags] @hasMany(indexName: "byTagCategories", fields: ["id"])
 }

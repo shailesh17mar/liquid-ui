@@ -9,6 +9,7 @@ import {
 } from "@elastic/eui";
 import { useParams } from "react-router-dom";
 import { useCreateTagCategory } from "core/modules/tag-categories/hooks";
+import { HIGHLIGHT_COLORS } from "presentation/modules/shared/components/editor/components/highlight-control/color-picker";
 
 export const CategoryMenu: React.FC = () => {
   const [isPopoverOpen, setPopover] = useState(false);
@@ -40,7 +41,11 @@ export const CategoryMenu: React.FC = () => {
     </EuiButtonIcon>
   );
   const handleCreateCategory = () => {
-    categoryMutation.mutate({ name: categoryName, projectsID: id });
+    categoryMutation.mutate({
+      name: categoryName,
+      projectsID: id,
+      color: HIGHLIGHT_COLORS.DEFAULT,
+    });
     closePopover();
   };
   return (

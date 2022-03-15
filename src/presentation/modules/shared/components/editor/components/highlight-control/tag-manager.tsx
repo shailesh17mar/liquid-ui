@@ -80,6 +80,8 @@ export const TagManager: React.FC<Props> = ({ editor, id, isTranscript }) => {
   const setAnnotation = useSetRecoilState<Annotation>(annotationState);
   const highlightProps = useRecoilValue(highlightAtom);
   const [highlightState, setHighlightState] = useState<Highlights>();
+  const [hasPlaceholderHighlighting, setPlaceholderHighlighting] =
+    useState(false);
   const [color, setColor] = useState(defaultType);
   const [clear, setClear] = useState(false);
   const [categoryColor, setCategoryColor] = useState(
@@ -106,7 +108,9 @@ export const TagManager: React.FC<Props> = ({ editor, id, isTranscript }) => {
   const [newTag, setNewTag] = useState<string>("");
   const [tagCreatedSuccessfully, setTagCreatedSuccessfully] = useState(false);
 
-  const [allOptions, setAllOptions] = useState<any[]>([]);
+  const [allOptions, setAllOptions] = useState<any[]>([
+    { label: "Uncategorized", options: [] },
+  ]);
   const selectedTags = allOptions.filter(
     (option) => option.checked && option.checked === "on"
   );
@@ -128,7 +132,7 @@ export const TagManager: React.FC<Props> = ({ editor, id, isTranscript }) => {
   }, [id]);
 
   useEffect(() => {
-    if (tags && (allOptions.length === 0 || highlight)) {
+    if (tags && (allOptions.length === 0 || highlight) && defaultTagCategory) {
       // const tagIds =
       // highlight && highlight.tagIds ? highlight.tagIds.split("|") : [];
       const tagIds = highlight && highlight.Tags ? highlight.Tags : [];
@@ -139,8 +143,10 @@ export const TagManager: React.FC<Props> = ({ editor, id, isTranscript }) => {
           label: option.label,
           id: option.id,
           color:
-            //@ts-ignore
-            HIGHLIGHT_TYPES[option.tagCategory.color || option.color].color,
+            HIGHLIGHT_TYPES[
+              (option.tagCategory.color || option.color) as HIGHLIGHT_COLORS
+            ].color,
+          // HIGHLIGHT_TYPES[option.color as HIGHLIGHT_COLORS].color,
           category: option.tagCategory.name || "Uncategorized",
         };
         if (checked) {
@@ -245,7 +251,10 @@ export const TagManager: React.FC<Props> = ({ editor, id, isTranscript }) => {
   };
 
   const handleHighlightSelection = () => {
-    if (!highlightState) toggleHighlight(id!!, colorType);
+    if (!highlightState && !hasPlaceholderHighlighting) {
+      setPlaceholderHighlighting(true);
+      toggleHighlight(id!!, colorType);
+    }
   };
 
   const handleInputBlur = () => {
@@ -255,6 +264,7 @@ export const TagManager: React.FC<Props> = ({ editor, id, isTranscript }) => {
     ) {
       editor.commands.unsetTHighlight();
     }
+    setPlaceholderHighlighting(false);
     setTagCreatedSuccessfully(false);
   };
 
@@ -277,12 +287,19 @@ export const TagManager: React.FC<Props> = ({ editor, id, isTranscript }) => {
       allOptions[0].options.push(option);
       // const newOptions = [option, ...tagOptions];
       const selectedTags = [...selectedOptions, option];
+      const uniqueColors = new Set(selectedTags.map((option) => option.color));
+      const highlightColor =
+        uniqueColors.size > 1
+          ? HIGHLIGHT_COLORS.MIXED
+          : (getColor(Array.from(uniqueColors)[0]) as HIGHLIGHT_COLORS);
+
+      toggleHighlight(id!!, highlightColor);
       // const selectedOptions =
       setAnnotation((annotation) => {
         return {
           ...annotation,
           [id!!]: {
-            type: color,
+            type: highlightColor,
             tags: selectedTags,
           },
         } as Annotation;
@@ -318,27 +335,25 @@ export const TagManager: React.FC<Props> = ({ editor, id, isTranscript }) => {
     const id =
       highlightState && highlightState.id ? highlightState.id : nanoid();
     // Don't allow to delete last tag
-    // if (selectedOptions.length === 0) {
-    //   return;
-    // }
+    if (selectedOptions.length === 0) {
+      return;
+    }
     const tagIds = selectedOptions.map(
       (option: any) => option.id as unknown as string
     );
     const uniqueColors = new Set(selectedOptions.map((option) => option.color));
-    if (uniqueColors.size > 1) {
-      toggleHighlight(id, HIGHLIGHT_COLORS.MIXED);
-    } else {
-      toggleHighlight(
-        id,
-        getColor(Array.from(uniqueColors)[0]) as HIGHLIGHT_COLORS
-      );
-    }
+    const highlightColor =
+      uniqueColors.size > 1
+        ? HIGHLIGHT_COLORS.MIXED
+        : (getColor(Array.from(uniqueColors)[0]) as HIGHLIGHT_COLORS);
+    setSelected(selectedOptions);
+    toggleHighlight(id, highlightColor);
     if (!highlightState) {
       setAnnotation((annotation) => {
         return {
           ...annotation,
           [id]: {
-            type: color,
+            type: highlightColor,
             tags: selectedOptions,
           },
         } as Annotation;
@@ -349,15 +364,13 @@ export const TagManager: React.FC<Props> = ({ editor, id, isTranscript }) => {
         return {
           ...annotation,
           [id]: {
-            type: color,
+            type: highlightColor,
             tags: selectedOptions,
           },
         } as Annotation;
       });
-      updateHighlight(color, selectedOptions);
+      updateHighlight(highlightColor, selectedOptions);
     }
-
-    setSelected(selectedOptions);
   };
 
   const handleColorChange = (color: string) => {

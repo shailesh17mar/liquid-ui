@@ -63,7 +63,7 @@ export declare class Tags {
   readonly label: string;
   readonly color: string;
   readonly projectsID: string;
-  readonly tagCategory?: TagCategory;
+  readonly tagCategory: TagCategory;
   readonly updatedAt: string;
   readonly createdAt?: string;
   constructor(init: ModelInit<Tags>);
@@ -74,7 +74,7 @@ export declare class TagCategory {
   readonly id: string;
   readonly tenant: string;
   readonly name: string;
-  readonly color?: string;
+  readonly color: string;
   readonly projectsID: string;
   readonly tags?: (Tags | null)[];
   constructor(init: ModelInit<TagCategory>);

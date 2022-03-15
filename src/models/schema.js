@@ -378,7 +378,7 @@ export const schema = {
                     "type": {
                         "model": "TagCategory"
                     },
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": [],
                     "association": {
                         "connectionType": "BELONGS_TO",
@@ -475,7 +475,7 @@ export const schema = {
                     "name": "color",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "projectsID": {
@@ -1335,5 +1335,5 @@ export const schema = {
         }
     },
     "nonModels": {},
-    "version": "0ed3fb66ad0f882032fb471bafedde53"
+    "version": "e0fd846562a52c44e458056fbdfaef08"
 };

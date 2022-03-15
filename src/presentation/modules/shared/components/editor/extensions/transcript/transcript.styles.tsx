@@ -75,7 +75,7 @@ export const TranscriptContent = styled(NodeViewContent)`
     font-weight: 500;
   }
 
-  span[data-hc="default"] {
+  /* span[data-hc="default"] {
     background: #cbf0f8;
   }
   span[data-hc="mixed"] {
@@ -104,8 +104,8 @@ export const TranscriptContent = styled(NodeViewContent)`
   }
   span[data-hc="workaround"] {
     background: #d7aefb;
-  }
-  span[data-hc="context"] {
+  } */
+  /* span[data-hc="context"] {
     background: #aecbfa;
   }
   span[data-hc="money"] {
@@ -116,7 +116,7 @@ export const TranscriptContent = styled(NodeViewContent)`
   }
   span[data-hc="entity"] {
     background: #cbf0f8;
-  }
+  } */
 
   p.content {
     margin-top: 10px !important;
