@@ -82,7 +82,11 @@ export const Home: React.FC = () => {
                 >
                   <EuiFlexItem grow={false}>
                     <IconContainer>
-                      <EuiIcon color="subdued" type="folderClosed" />
+                      {project.icon ? (
+                        <span style={{ fontSize: 24 }}>{project.icon}</span>
+                      ) : (
+                        <EuiIcon color="subdued" type="folderClosed" />
+                      )}
                     </IconContainer>
                   </EuiFlexItem>
                   <EuiFlexItem>
