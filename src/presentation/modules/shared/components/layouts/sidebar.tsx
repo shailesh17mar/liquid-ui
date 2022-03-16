@@ -5,10 +5,11 @@ import {
   EuiSideNavItemType,
   IconType,
 } from "@elastic/eui";
+import { icon } from "@elastic/eui/src/components/icon/assets/empty";
 import { Projects as Project } from "models";
 import { useEffect, useState } from "react";
 import { Link, matchPath, useLocation, useNavigate } from "react-router-dom";
-import { Logo, SideNav } from "./layout.styles";
+import { Logo, NavIcon, SideNav } from "./layout.styles";
 
 export interface Item {
   label: string;
@@ -17,6 +18,7 @@ export interface Item {
   path: string;
   route: string | string[];
   color: string;
+  filled?: boolean;
 }
 interface Props {
   projects?: Project[];
@@ -81,7 +83,14 @@ export const SideBar: React.FC<Props> = ({ projects, items, hasProjects }) => {
             item.label,
             item.path,
             {
-              icon: <EuiIcon color={item.color} size="l" type={item.icon} />,
+              icon: (
+                <NavIcon
+                  filled={item.filled}
+                  color={item.color}
+                  size="l"
+                  type={item.icon}
+                />
+              ),
             },
             item.route
           )

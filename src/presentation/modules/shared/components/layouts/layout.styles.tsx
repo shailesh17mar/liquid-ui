@@ -1,6 +1,7 @@
 import {
   EuiButtonIcon,
   EuiContextMenuItem,
+  EuiIcon,
   EuiImage,
   EuiPageTemplate,
   EuiSideNav,
@@ -55,3 +56,14 @@ export const SideNav = styled(EuiSideNav)`
 export const Logo = styled(EuiImage)`
   padding-left: 10px;
 `;
+
+interface IconProps {
+  filled?: boolean;
+}
+export const NavIcon = styled(EuiIcon)<IconProps>`
+  fill: ${(props) => (props.filled ? "currentColor" : "none")};
+`;
+
+NavIcon.defaultProps = {
+  filled: true,
+};
