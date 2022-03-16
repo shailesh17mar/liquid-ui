@@ -39,7 +39,7 @@ a {
   border-bottom: 1px solid #d3dae6;
 }
 .euiPageSideBar {
-  min-width: 320px;
+  /* min-width: 320px; */
 }
 /* Placeholder (at the top) */
 .ProseMirror p.is-editor-empty:first-child::before {
