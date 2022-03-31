@@ -8,6 +8,7 @@ export const DeleteButton = styled(EuiButton)`
   position: absolute;
   right: 1rem;
   top: 1rem;
+  z-index: 1;
 `;
 
 export const VideoContainer = styled(NodeViewWrapper)`
@@ -65,4 +66,9 @@ export const VideoPlayerSkeleton = styled.div`
   height: 428px;
   margin: 20px auto;
   margin-bottom: 20px;
+`;
+
+export const TranscriptionButton = styled(EuiButton)`
+  max-width: 300px;
+  margin: 0 auto;
 `;

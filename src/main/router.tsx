@@ -2,7 +2,8 @@ import React, { Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "presentation/modules/shared/components/layouts";
 import { FullPageLoader } from "presentation/modules/shared/components/content-loader/full-page-loader";
-import { TagsPage } from "presentation/modules/tags/tags-page";
+import TagsPage from "./pages/make-tags-page";
+import AnalyticsPage from "./pages/make-analytics-page";
 
 const StoriesPage = React.lazy(() => import("./pages/make-stories-page"));
 const HighlightsPage = React.lazy(() => import("./pages/make-highlights-page"));
@@ -30,6 +31,7 @@ export const Router: React.FC = () => {
             <Route path="highlights" element={<HighlightsPage />} />
             <Route path="tags" element={<TagsPage />} />
             <Route path="insights" element={<>Insights</>} />
+            <Route path="analytics" element={<AnalyticsPage />} />
           </Route>
           <Route
             path="/stories/:id"

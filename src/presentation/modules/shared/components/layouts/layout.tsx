@@ -76,10 +76,10 @@ const makeProjectNavItems = (id: string = "") => [
     color: palette[3],
   },
   {
-    label: "Insights",
+    label: "Analytics",
     icon: IoIosAnalytics,
-    path: `/projects/${id}/insights`,
-    route: "/projects/:id/insights",
+    path: `/projects/${id}/analytics`,
+    route: "/projects/:id/analytics",
     color: palette[4],
   },
 ];

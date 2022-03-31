@@ -27,10 +27,10 @@ export const Page = styled(EuiPageTemplate)`
 
 export const SideNav = styled(EuiSideNav)`
   .euiSideNavItemButton.euiSideNavItemButton--isClickable:not(:disabled) {
-    margin-bottom: 4px;
+    margin-bottom: 2px;
     /* font-size: 1.1rem; */
-    padding: 10px 20px;
-    border-radius: 5px;
+    padding: 8px 16px;
+    border-radius: 3px;
     .euiSideNavItemButton__label {
       text-decoration: none;
     }

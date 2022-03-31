@@ -6,12 +6,12 @@ import Text from "@tiptap/extension-text";
 import { generateJSON, JSONContent, NodeViewProps } from "@tiptap/react";
 import {
   DeleteButton,
+  TranscriptionButton,
   VideoContainer,
   VideoPlayer,
   VideoPlayerSkeleton,
 } from "./video.styles";
 import {
-  EuiButton,
   EuiConfirmModal,
   EuiFieldText,
   EuiFlexGroup,
@@ -33,7 +33,6 @@ import { TranscriptionStatus } from "models";
 import _ from "lodash";
 import { displayTranscript } from "../transcript/transcript-parser";
 
-// var interactiveTranscript: InteractiveTranscript;
 export const Video = (props: NodeViewProps) => {
   const { id } = useParams() as { id: string };
   const uploaderRef = useRef<HTMLInputElement>(null);
@@ -45,7 +44,7 @@ export const Video = (props: NodeViewProps) => {
   const [isDestroyModalVisible, setIsDestroyModalVisible] = useState(false);
   const [videoURL, setVideoURL] = useState<string>();
   const [isTranscribing, setIsTranscribing] = useState(false);
-  const [isFileSelected] = useState(false);
+  const [isFileSelected, setIsFileSelected] = useState(false);
 
   const { data: videoAsset } = useVideoAsset(
     video || "",
@@ -61,6 +60,7 @@ export const Video = (props: NodeViewProps) => {
       video: videoAssetId,
     });
   };
+
   const { upload, progress } = useAssetUpload({
     onSuccess: handleVideoUploadSuccess,
     isVideoAsset: true,
@@ -192,6 +192,7 @@ export const Video = (props: NodeViewProps) => {
     window.removeEventListener("focus", handleFocus);
     const file = e.target.files!![0];
     upload(file);
+    setIsFileSelected(true);
   };
 
   return (
@@ -200,6 +201,7 @@ export const Video = (props: NodeViewProps) => {
         <DeleteButton
           iconType="trash"
           size="s"
+          fill
           color="danger"
           aria-label="Delete Video"
           onClick={showDestroyModal}
@@ -220,6 +222,7 @@ export const Video = (props: NodeViewProps) => {
           </EuiConfirmModal>
         )}
         <EuiFieldText
+          controlOnly
           style={{ display: "none" }}
           type="file"
           inputRef={uploaderRef}
@@ -230,7 +233,7 @@ export const Video = (props: NodeViewProps) => {
 
         {videoURL ? (
           <EuiPanel hasShadow={false}>
-            <EuiFlexGroup direction="column" justifyContent="spaceAround">
+            <EuiFlexGroup direction="column" justifyContent="center">
               <EuiFlexItem grow={false}>
                 <VideoPlayer
                   style={{ width: "100%", height: "auto" }}
@@ -271,13 +274,16 @@ export const Video = (props: NodeViewProps) => {
                   ].includes(
                     videoAsset.transcription.status as TranscriptionStatus
                   )) ? (
-                  <EuiButton fullWidth={false} disabled isLoading>
+                  <TranscriptionButton fullWidth={false} disabled isLoading>
                     Transcribing...
-                  </EuiButton>
+                  </TranscriptionButton>
                 ) : (
-                  <EuiButton fullWidth={false} onClick={handleTranscription}>
+                  <TranscriptionButton
+                    fullWidth={false}
+                    onClick={handleTranscription}
+                  >
                     Start Transcribing
-                  </EuiButton>
+                  </TranscriptionButton>
                 )}
               </EuiFlexItem>
               {/* <EuiButton
@@ -292,7 +298,7 @@ export const Video = (props: NodeViewProps) => {
         ) : (
           <>
             {video && <VideoPlayerSkeleton />}
-            {progress > 0 && !video && (
+            {isFileSelected && !video && progress > 0 && (
               <EuiPanel color="subdued">
                 <EuiText color="subdued">
                   <EuiLoadingSpinner /> &nbsp;

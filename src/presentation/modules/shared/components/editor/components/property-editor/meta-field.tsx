@@ -14,6 +14,8 @@ import {
   EuiSelect,
   EuiTextColor,
   EuiBadge,
+  IconType,
+  EuiIcon,
 } from "@elastic/eui";
 import { Control, Controller, UseFieldArrayUpdate } from "react-hook-form";
 import React, { useState } from "react";
@@ -27,7 +29,11 @@ import { Moment } from "moment";
 import moment from "moment";
 import { CompanyFinder } from "./company-finder";
 import { FormValues } from "./property-editor";
-
+import { MdTextFields, MdOutlineMail, MdBusiness } from "react-icons/md";
+import { BsCalendar2Date } from "react-icons/bs";
+import { AiOutlineNumber } from "react-icons/ai";
+import { HiOutlineSelector, HiOutlineExternalLink } from "react-icons/hi";
+import { SiCurl } from "react-icons/si";
 interface PrimitiveValue {
   value?: string | number;
   selectedOption?: SelectOption;
@@ -44,7 +50,7 @@ export interface ComplexValue {
 }
 
 export interface FIELD_FORM {
-  icon: string;
+  icon: IconType;
   label: string;
   placeholder: string;
   component: React.FC<PrimitiveValue | ComplexValue>;
@@ -54,7 +60,7 @@ const SCHEMA: {
   [key in FIELD_TYPES]: FIELD_FORM;
 } = {
   [FIELD_TYPES.TEXT]: {
-    icon: "editorAlignLeft",
+    icon: MdTextFields,
     label: "Text",
     placeholder: "Property",
     component: (props) => (
@@ -62,7 +68,7 @@ const SCHEMA: {
     ),
   },
   [FIELD_TYPES.NUMBER]: {
-    icon: "number",
+    icon: AiOutlineNumber,
     label: "Number",
     placeholder: "Property",
     component: (props) => (
@@ -70,7 +76,7 @@ const SCHEMA: {
     ),
   },
   [FIELD_TYPES.SELECT]: {
-    icon: "arrowDown",
+    icon: HiOutlineSelector,
     label: "Select",
     placeholder: "Property",
     component: ({ options, ...props }) => (
@@ -83,7 +89,7 @@ const SCHEMA: {
     ),
   },
   [FIELD_TYPES.MULTI_SELECT]: {
-    icon: "list",
+    icon: HiOutlineExternalLink,
     label: "Multi-select",
     placeholder: "Property",
     component: (props) => {
@@ -102,7 +108,7 @@ const SCHEMA: {
     },
   },
   [FIELD_TYPES.COMPANY]: {
-    icon: "list",
+    icon: MdBusiness,
     label: "Company",
     placeholder: "Property",
     component: (props) => {
@@ -110,7 +116,7 @@ const SCHEMA: {
     },
   },
   [FIELD_TYPES.URL]: {
-    icon: "link",
+    icon: SiCurl,
     label: "URL",
     placeholder: "Property",
     component: (props) => (
@@ -123,7 +129,7 @@ const SCHEMA: {
     ),
   },
   [FIELD_TYPES.EMAIL]: {
-    icon: "email",
+    icon: MdOutlineMail,
     label: "Email",
     placeholder: "Property",
     component: (props) => (
@@ -136,7 +142,7 @@ const SCHEMA: {
     ),
   },
   [FIELD_TYPES.DATE]: {
-    icon: "calendar",
+    icon: BsCalendar2Date,
     label: "Date",
     placeholder: "Date Done",
     component: (props) => {
@@ -340,7 +346,7 @@ export const MetaField: React.FC<FieldProps> = ({
       return (
         <EuiContextMenuItem
           key={key}
-          icon={value.icon}
+          icon={<EuiIcon type={value.icon} />}
           onClick={() => {
             setFieldType(key as unknown as FIELD_TYPES);
             closePopover();

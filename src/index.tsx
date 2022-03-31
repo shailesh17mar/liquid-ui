@@ -7,6 +7,7 @@ import "./presentation/fonts/inter.css";
 import "./presentation/styles/index.css";
 import "@uppy/core/dist/style.css";
 import "@uppy/dashboard/dist/style.css";
+
 import App from "./main/app";
 import reportWebVitals from "./reportWebVitals";
 

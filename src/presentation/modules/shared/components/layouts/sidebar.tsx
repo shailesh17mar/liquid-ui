@@ -87,7 +87,7 @@ export const SideBar: React.FC<Props> = ({ projects, items, hasProjects }) => {
                 <NavIcon
                   filled={item.filled}
                   color={item.color}
-                  size="m"
+                  size="l"
                   type={item.icon}
                 />
               ),

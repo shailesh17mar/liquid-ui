@@ -207,3 +207,7 @@ ul[data-type="taskList"] li div {
   z-index: 1;
   background-color: #fff;
 }
+
+.euiPageBody {
+  position: relative;
+}

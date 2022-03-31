@@ -24,10 +24,15 @@ const retrieveStoryById = async (id: string) => {
 
   if (storyResponse.data) {
     const story = storyResponse.data.getStories;
-    if (story?.participants && story?.participants.business) {
+    if (story?.participants) {
+      if (story?.participants.business) {
+        story.participants = {
+          ...story.participants,
+          business: JSON.parse(story.participants.business),
+        };
+      }
       story.participants = {
         ...story.participants,
-        business: JSON.parse(story.participants.business),
         additonalFields: story.participants.additonalFields
           ? JSON.parse(story.participants.additonalFields)
           : {},

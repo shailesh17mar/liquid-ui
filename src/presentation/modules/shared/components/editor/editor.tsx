@@ -16,6 +16,7 @@ import Color from "@tiptap/extension-color";
 import Paragraph from "@tiptap/extension-paragraph";
 import Collaboration from "@tiptap/extension-collaboration";
 import TaskItem from "@tiptap/extension-task-item";
+import Gapcursor from "@tiptap/extension-gapcursor";
 import { MenuBar } from "./components/menu-bar/menu-bar";
 import {
   EuiFlexGroup,
@@ -44,9 +45,10 @@ import {
 import { nanoid } from "nanoid";
 import { HighlightExtension } from "./extensions/transcript/highlight";
 import { BubbleControl } from "./components/bubble-control/bubble-control";
+import _ from "lodash";
 
 const CustomDocument = Document.extend({
-  content: "block+ paragraph",
+  content: `paragraph block* paragraph`,
 });
 
 export const CustomParagraph = Paragraph.extend({
@@ -124,11 +126,10 @@ export const Editor: React.FC<EditorProps> = ({
         class: "editor-image",
       },
     }),
-    // DropCursor,
     TextStyle,
     TimeOffset,
     HighlightExtension,
-    TrailingNode,
+    // TrailingNode,
     Commander.configure({
       suggestion: commands,
     }),
@@ -147,8 +148,13 @@ export const Editor: React.FC<EditorProps> = ({
     VideoExtension,
     ImageExtension,
     CustomParagraph,
+    Gapcursor,
     Placeholder.configure({
+      showOnlyWhenEditable: true,
       placeholder: ({ node }) => {
+        if (node.type.name === "heading") {
+          return "Heading";
+        }
         if (node.type.name === "paragraph") {
           return "Type '/' for commands";
         }
@@ -172,47 +178,23 @@ export const Editor: React.FC<EditorProps> = ({
     content: provider.document,
   });
 
-  // const handleSelection = useDebouncedCallback(() => {
-  //   setIsSelectionComplete(true);
-  // }, 0);
-  // document.addEventListener("selectionchange", (e) => {
-  //   handleSelection();
-  // });
-
-  const handleClickOnContent = (e: MouseEvent) => {
-    if (e.target instanceof Element && e.target.hasAttribute("data-hid")) {
-      let range = document.createRange();
-      const highlightId = e.target.getAttribute("data-hid");
-      const highlightType = e.target.getAttribute("data-hc");
-      var rootNode = e.target.parentNode;
-      if (rootNode) {
-        const selector = `span[data-hid="${highlightId}"]`;
-        const items = rootNode.querySelectorAll(selector);
-        range.setStart(items[0], 0);
-        range.setEnd(items[items.length - 1], 1);
-        const selection = window.getSelection();
-        selection?.removeAllRanges();
-        selection?.addRange(range);
-        setHighlightState({
-          id: highlightId,
-          type: highlightType,
-          startTime: parseInt(items[0].getAttribute("data-m") || "-1"),
-          endTime: parseInt(
-            items[items.length - 1].getAttribute("data-m") || "-1"
-          ),
-        } as HighlightState);
+  editor?.on("focus", () => {
+    if (editor.isActive("highlight")) {
+      const attributes = editor.getAttributes("highlight");
+      if (!_.isEmpty(attributes)) {
+        if (highlightState?.id !== attributes.highlightId) {
+          console.log("testin");
+          setHighlightState({
+            id: attributes.highlightId,
+            type: attributes.highlightCategory,
+          } as HighlightState);
+        }
       }
-      // props.editor.chain().focus().unsetHighlight().run();
-      // let range = document.createRange();
-      // range.selectNodeContents(e.target);
-      // // const highlight = highlights[e.target.id];
-
-      // // range.setStart(highlight.startNode, highlight.startOffset);
-      // // range.setEnd(highlight.endNode, highlight.endOffset);
-      // window.getSelection()?.removeAllRanges();
-      // window.getSelection()?.addRange(range);
     }
-  };
+  });
+
+  // editor.getAttributes('highlight')
+
   const handleSave = useCallback(
     (newDocState) => {
       if (!isUploading) {
@@ -242,17 +224,17 @@ export const Editor: React.FC<EditorProps> = ({
     <>
       {editor && (
         <>
-          <BubbleMenu
+          {/* <BubbleMenu
             shouldShow={({ editor, view, state, oldState, from, to }) => {
               return !editor.isActive("transcriptComponent") && to > from;
             }}
             editor={editor}
           >
             {<BubbleControl editor={editor} />}
-          </BubbleMenu>
+          </BubbleMenu> */}
           <BubbleMenu
             shouldShow={({ from, to }) => {
-              return to > from && to - from > 5;
+              return true;
             }}
             tippyOptions={{
               onHide() {

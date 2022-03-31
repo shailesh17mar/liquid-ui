@@ -25,6 +25,7 @@ export const VideoExtension = Node.create<VideoOptions>({
   group: "block",
 
   atom: true,
+
   parseHTML() {
     return [
       {

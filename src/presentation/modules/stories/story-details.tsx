@@ -158,6 +158,7 @@ export const StoryDetails: React.FC = () => {
   useEffect(() => {
     updatePositions();
   }, [annotation]);
+
   useEffect(() => {
     provider.on("sync", (synced: boolean) => {
       if (!isSynced && synced) {
@@ -172,19 +173,10 @@ export const StoryDetails: React.FC = () => {
       storiesParticipantsId: participant.id,
     });
   };
+
   const updateParticipantMutation = useUpdatePerson();
   const createParticipantMutation = useCreatePerson(handleStoryParticipants);
-  const handleDocumentChange = useCallback(
-    async (id, body) => {
-      if (body) {
-        // updateStoryMutation.mutate({
-        //   id,
-        //   content: body,
-        // });
-      }
-    },
-    [updateStoryMutation]
-  );
+
   const handleTitleChange = useDebouncedCallback(async (id, title) => {
     if (story) {
       const updatedStory = await updateStoryMutation.mutateAsync({
@@ -219,6 +211,7 @@ export const StoryDetails: React.FC = () => {
       }, {}),
     [annotation, annotationRefs.current?.length]
   );
+
   const updatePositions = () => {
     (Object.keys(annotation) as string[]).forEach((id: string, index) => {
       const element = document.querySelector(`span[data-hid="${id}"]`);
@@ -266,16 +259,18 @@ export const StoryDetails: React.FC = () => {
         const { name, email, company, persona, ...additionalFields } =
           participantDetails;
         if (participant) {
-          updateParticipantMutation.mutate({
+          updateParticipantMutation.mutateAsync({
             id: participant.id,
             name,
             email,
             business: JSON.stringify(company),
             persona,
-            additonalFields: JSON.stringify(additionalFields),
+            additonalFields: !_.isEmpty(additionalFields)
+              ? JSON.stringify(additionalFields)
+              : undefined,
           });
         } else {
-          createParticipantMutation.mutate({
+          createParticipantMutation.mutateAsync({
             name,
             email,
             business: JSON.stringify(company),
@@ -284,10 +279,6 @@ export const StoryDetails: React.FC = () => {
           });
         }
       }
-      handleDocumentChange(id, {
-        ...story,
-        Persons: participant as ModelInit<Participant>,
-      });
     },
     2000
   );
@@ -297,12 +288,12 @@ export const StoryDetails: React.FC = () => {
       provider && (
         <Editor
           withHighlighting
-          onSave={handleDocumentChange}
+          onSave={() => {}}
           documentId={id}
           provider={provider}
         />
       ),
-    [handleDocumentChange, id, provider]
+    [id, provider]
   );
 
   const storyProperties = [
@@ -328,7 +319,7 @@ export const StoryDetails: React.FC = () => {
     },
   ].concat(
     //@ts-ignore
-    participant && participant.additonalFields
+    participant && !_.isEmpty(participant.additonalFields)
       ? //@ts-ignore
         Object.keys(participant.additonalFields).map((key: any) => {
           //@ts-ignore
