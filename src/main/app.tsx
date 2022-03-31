@@ -1,5 +1,5 @@
 import { Amplify } from "aws-amplify";
-import { View, Image, withAuthenticator } from "@aws-amplify/ui-react";
+import { withAuthenticator } from "@aws-amplify/ui-react";
 import ReactGA from "react-ga";
 import { QueryClient, QueryClientProvider } from "react-query";
 import "@aws-amplify/ui-react/styles.css";
@@ -8,7 +8,7 @@ import awsConfig from "aws-exports";
 import { Router } from "./router";
 import { RecoilRoot } from "recoil";
 import { AuthProvider } from "presentation/context/auth-context";
-import { EuiProvider } from "@elastic/eui";
+import { EuiThemeProvider } from "@elastic/eui";
 
 const isLocalhost = Boolean(
   window.location.hostname === "localhost" ||
@@ -43,16 +43,33 @@ ReactGA.initialize("UA-221274822-1", {
   testMode: isLocalhost,
 });
 const queryClient = new QueryClient();
-const App: React.FC = () => (
-  <EuiProvider colorMode="light">
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <RecoilRoot>
-          <Router />
-        </RecoilRoot>
-      </AuthProvider>
-    </QueryClientProvider>
-  </EuiProvider>
-);
+const App: React.FC = () => {
+  return (
+    <EuiThemeProvider
+      modify={{
+        colors: {
+          LIGHT: {
+            primary: "#3a86ff",
+            primaryText: "#3a86ff",
+            link: "#3a86ff",
+          },
+          DARK: {
+            primary: "#3a86ff",
+            primaryText: "#3a86ff",
+            link: "#3a86ff",
+          },
+        },
+      }}
+    >
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <RecoilRoot>
+            <Router />
+          </RecoilRoot>
+        </AuthProvider>
+      </QueryClientProvider>
+    </EuiThemeProvider>
+  );
+};
 
 export default withAuthenticator(App);

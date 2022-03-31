@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { euiPaletteColorBlind, EuiBreadcrumbs, EuiIcon } from "@elastic/eui";
+import {
+  euiPaletteColorBlind,
+  EuiBreadcrumbs,
+  EuiIcon,
+  EuiBreadcrumb,
+} from "@elastic/eui";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { Page } from "./layout.styles";
 import { useAuth } from "presentation/context/auth-context";
@@ -16,35 +21,37 @@ import { BsTags } from "react-icons/bs";
 import { AiOutlineHighlight } from "react-icons/ai";
 import { IoIosAnalytics } from "react-icons/io";
 import { FiHome, FiDatabase } from "react-icons/fi";
+import { COLOR_PALETTE } from "../../utils/palette";
 
-const palette = euiPaletteColorBlind({ direction: "both", order: "append" });
-const makeBreadcrumbs = (navigate: (path: string) => void, story: any) => [
-  {
-    text: (
-      <>
-        <EuiIcon type="folderOpen" style={{ marginRight: 5 }} />
-        {story?.projectName}
-      </>
-    ),
+const palette = COLOR_PALETTE;
+const makeBreadcrumbs = (navigate: (path: string) => void, story: any) =>
+  [
+    {
+      text: (
+        <>
+          <EuiIcon type="folderOpen" style={{ marginRight: 5 }} />
+          {story?.projectName}
+        </>
+      ),
 
-    onClick: () => {
-      navigate(`/projects/${story?.projectsID}/stories`);
+      onClick: () => {
+        navigate(`/projects/${story?.projectsID}/stories`);
+      },
     },
-  },
-  {
-    text: story.categoryName,
-    onClick: () => {
-      navigate(`/projects/${story?.projectsID}/stories`);
+    {
+      text: story.categoryName,
+      onClick: () => {
+        navigate(`/projects/${story?.projectsID}/stories`);
+      },
     },
-  },
-  {
-    text: story?.title,
-    color: "primary",
-    onClick: (e: any) => {
-      e.preventDefault();
+    {
+      text: story?.title,
+      color: "primary",
+      onClick: (e: any) => {
+        e.preventDefault();
+      },
     },
-  },
-];
+  ] as EuiBreadcrumb[];
 const makeProjectNavItems = (id: string = "") => [
   {
     label: "About",
