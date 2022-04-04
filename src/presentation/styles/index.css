@@ -8,13 +8,11 @@ body {
   font-size: 16px;
 }
 
-html {
-  font-family: "Inter", sans-serif;
-}
-@supports (font-variation-settings: normal) {
-  html {
-    font-family: "Inter var", sans-serif;
-  }
+html,
+body,
+button,
+a {
+  font-family: "Manrope", sans-serif !important;
 }
 
 #root {

@@ -44,8 +44,8 @@ export const THEME = {
     xxxxl: "64px",
   },
   font: {
-    family: "'Inter', BlinkMacSystemFont, Helvetica, Arial, sans-serif",
-    familyCode: "'Roboto Mono', Menlo, Courier, monospace",
+    family: "'Manrope', BlinkMacSystemFont, Helvetica, Arial, sans-serif",
+    familyCode: "'Manrope', Menlo, Courier, monospace",
     featureSettings: "'calt' 1, 'kern' 1, 'liga' 1",
     baseline: 4,
     lineHeightMultiplier: 1.5,

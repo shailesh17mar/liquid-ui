@@ -814,8 +814,9 @@
   white-space: nowrap;
   max-width: 100%;
   vertical-align: middle;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
-    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
   font-weight: 400;
   letter-spacing: normal;
   -webkit-text-size-adjust: 100%;
@@ -956,8 +957,9 @@
   box-shadow: 0 0 transparent, inset 0 0 0 1px rgba(17, 43, 134, 0.1);
   transition: box-shadow 150ms ease-in, background-image 150ms ease-in,
     background-size 150ms ease-in, background-color 150ms ease-in;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
-    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
   font-weight: 400;
   letter-spacing: normal;
   -webkit-text-size-adjust: 100%;
@@ -2099,8 +2101,9 @@
   white-space: nowrap;
   max-width: 100%;
   vertical-align: middle;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
-    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
   font-weight: 400;
   letter-spacing: normal;
   -webkit-text-size-adjust: 100%;
@@ -2495,8 +2498,9 @@
   white-space: nowrap;
   max-width: 100%;
   vertical-align: middle;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
-    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
   font-weight: 400;
   letter-spacing: normal;
   -webkit-text-size-adjust: 100%;
@@ -2661,8 +2665,9 @@
   white-space: nowrap;
   max-width: 100%;
   vertical-align: middle;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
-    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
   font-weight: 400;
   letter-spacing: normal;
   -webkit-text-size-adjust: 100%;
@@ -3048,8 +3053,9 @@
   white-space: nowrap;
   max-width: 100%;
   vertical-align: middle;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
-    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
   font-weight: 400;
   letter-spacing: normal;
   -webkit-text-size-adjust: 100%;
@@ -4886,8 +4892,9 @@
   box-shadow: 0 0 transparent, inset 0 0 0 1px rgba(17, 43, 134, 0.1);
   transition: box-shadow 150ms ease-in, background-image 150ms ease-in,
     background-size 150ms ease-in, background-color 150ms ease-in;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
-    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
   font-weight: 400;
   letter-spacing: normal;
   -webkit-text-size-adjust: 100%;
@@ -5021,8 +5028,9 @@
   /* 5 */
 }
 .euiComboBox .euiComboBox__input > input {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
-    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
   font-weight: 400;
   letter-spacing: normal;
   -webkit-text-size-adjust: 100%;
@@ -5169,8 +5177,9 @@
   margin: 5px 4px 0 0;
 }
 .euiComboBoxPill--plainText {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
-    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
   font-weight: 400;
   letter-spacing: normal;
   -webkit-text-size-adjust: 100%;
@@ -6356,8 +6365,9 @@
 }
 
 .euiDatePopoverButton {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
-    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
   font-weight: 400;
   letter-spacing: normal;
   -webkit-text-size-adjust: 100%;
@@ -6585,8 +6595,9 @@
 }
 
 .euiSuperDatePicker__prettyFormat {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
-    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
   font-weight: 400;
   letter-spacing: normal;
   -webkit-text-size-adjust: 100%;
@@ -8454,8 +8465,9 @@
   white-space: nowrap;
   max-width: 100%;
   vertical-align: middle;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
-    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
   font-weight: 400;
   letter-spacing: normal;
   -webkit-text-size-adjust: 100%;
@@ -10061,8 +10073,9 @@
   box-shadow: 0 0 transparent, inset 0 0 0 1px rgba(17, 43, 134, 0.1);
   transition: box-shadow 150ms ease-in, background-image 150ms ease-in,
     background-size 150ms ease-in, background-color 150ms ease-in;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
-    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
   font-weight: 400;
   letter-spacing: normal;
   -webkit-text-size-adjust: 100%;
@@ -10252,8 +10265,9 @@
   box-shadow: 0 0 transparent, inset 0 0 0 1px rgba(17, 43, 134, 0.1);
   transition: box-shadow 150ms ease-in, background-image 150ms ease-in,
     background-size 150ms ease-in, background-color 150ms ease-in;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
-    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
   font-weight: 400;
   letter-spacing: normal;
   -webkit-text-size-adjust: 100%;
@@ -10449,8 +10463,9 @@
   box-shadow: 0 0 transparent, inset 0 0 0 1px rgba(17, 43, 134, 0.1);
   transition: box-shadow 150ms ease-in, background-image 150ms ease-in,
     background-size 150ms ease-in, background-color 150ms ease-in;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
-    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
   font-weight: 400;
   letter-spacing: normal;
   -webkit-text-size-adjust: 100%;
@@ -10666,8 +10681,9 @@
   box-shadow: 0 0 transparent, inset 0 0 0 1px rgba(17, 43, 134, 0.1);
   transition: box-shadow 150ms ease-in, background-image 150ms ease-in,
     background-size 150ms ease-in, background-color 150ms ease-in;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
-    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
   font-weight: 400;
   letter-spacing: normal;
   -webkit-text-size-adjust: 100%;
@@ -12569,8 +12585,9 @@
   box-shadow: 0 0 transparent, inset 0 0 0 1px rgba(17, 43, 134, 0.1);
   transition: box-shadow 150ms ease-in, background-image 150ms ease-in,
     background-size 150ms ease-in, background-color 150ms ease-in;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
-    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
   font-weight: 400;
   letter-spacing: normal;
   -webkit-text-size-adjust: 100%;
@@ -12845,8 +12862,9 @@
   box-shadow: 0 0 transparent, inset 0 0 0 1px rgba(17, 43, 134, 0.1);
   transition: box-shadow 150ms ease-in, background-image 150ms ease-in,
     background-size 150ms ease-in, background-color 150ms ease-in;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
-    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
   font-weight: 400;
   letter-spacing: normal;
   -webkit-text-size-adjust: 100%;
@@ -13312,8 +13330,9 @@
   box-shadow: 0 0 transparent, inset 0 0 0 1px rgba(17, 43, 134, 0.1);
   transition: box-shadow 150ms ease-in, background-image 150ms ease-in,
     background-size 150ms ease-in, background-color 150ms ease-in;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
-    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
   font-weight: 400;
   letter-spacing: normal;
   -webkit-text-size-adjust: 100%;
@@ -14277,8 +14296,9 @@
  * 2. If it has a BetaBadge, make sure only the first letter shows
  */
 .euiKeyPadMenuItem {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
-    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
   font-weight: 400;
   letter-spacing: normal;
   -webkit-text-size-adjust: 100%;
@@ -15892,8 +15912,9 @@ button.euiLink {
 }
 
 .euiMarkdownEditorTextArea {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
-    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
   font-weight: 400;
   letter-spacing: normal;
   -webkit-text-size-adjust: 100%;
