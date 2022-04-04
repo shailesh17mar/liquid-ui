@@ -1,26 +1,19 @@
-import {
-  EuiBadge,
-  EuiFlexGroup,
-  EuiFlexItem,
-  EuiPageContentBody,
-} from "@elastic/eui";
+import { EuiBadge, EuiFlexGroup, EuiFlexItem } from "@elastic/eui";
 import { PropertiesEditor } from "../shared/components/editor/components/property-editor/property-editor";
 import { Editor } from "../shared/components/editor/editor";
 import {
   Annotation,
   annotationState,
 } from "main/pages/make-story-details-page";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useRecoilState } from "recoil";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { JSONContent } from "@tiptap/react";
 import { useParams } from "react-router-dom";
-import { Doc } from "yjs";
 import {
   FIELD_TYPES,
   MetaProperty,
 } from "../shared/components/editor/components/property-editor/types";
-import { HighlightType, Persons as Participant, Persons } from "models";
-import { ModelInit } from "@aws-amplify/datastore";
+import { Persons } from "models";
 import { useDebouncedCallback } from "use-debounce";
 import { StoryMetadataProvider } from "./story-context";
 import { useStory, useUpdateStory } from "core/modules/stories/hooks";
@@ -37,10 +30,7 @@ import {
   useUpdateHighlight,
 } from "core/modules/highlights/hooks";
 import { useTags } from "core/modules/tags/hooks";
-import {
-  highlightAtom,
-  HighlightState,
-} from "../shared/components/editor/components/highlight-control/tag-manager";
+import { highlightAtom } from "../shared/components/editor/components/highlight-control/tag-manager";
 import {
   HIGHLIGHT_COLORS,
   HIGHLIGHT_TYPES,
@@ -77,8 +67,6 @@ const DefaultStoryDocument = {
 } as JSONContent;
 // var provider: ;
 
-const doc = new Doc();
-// export const syncType = doc.getXmlFragment("prosemirror");
 export const StoryDetails: React.FC = () => {
   const { user } = useAuth();
   const [isSynced, setIsSynced] = useState(false);

@@ -85,7 +85,7 @@ export const SideBar: React.FC<Props> = ({ projects, items, hasProjects }) => {
             {
               icon: (
                 <NavIcon
-                  filled={item.filled}
+                  $filled={item.filled}
                   color={item.color}
                   size="l"
                   type={item.icon}
@@ -142,13 +142,13 @@ export const SideBar: React.FC<Props> = ({ projects, items, hasProjects }) => {
   return sideNav ? (
     <EuiPageSideBar paddingSize="m">
       <SideNav
-        aria-label="Liquid"
+        aria-label="Nugget"
         heading={
           <Link to="/">
             <Logo size="s" alt="liquid" src="/logo.png" />
           </Link>
         }
-        mobileTitle="Liquid"
+        mobileTitle="Nugget"
         items={sideNav}
       />
     </EuiPageSideBar>

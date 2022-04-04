@@ -1,12 +1,10 @@
 import "./presentation/modules/shared/utils/theme.css";
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
 import "./presentation/fonts/inter.css";
 import "./presentation/styles/index.css";
-import "@uppy/core/dist/style.css";
-import "@uppy/dashboard/dist/style.css";
 
 import App from "./main/app";
 import reportWebVitals from "./reportWebVitals";
@@ -22,13 +20,15 @@ Sentry.init({
   tracesSampleRate: 0,
 });
 
-ReactDOM.render(
+const container = document.getElementById("root");
+//@ts-ignore
+const root = createRoot(container);
+root.render(
   <React.StrictMode>
     <EuiProvider>
       <App />
     </EuiProvider>
-  </React.StrictMode>,
-  document.getElementById("root")
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

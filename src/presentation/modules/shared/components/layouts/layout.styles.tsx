@@ -58,12 +58,12 @@ export const Logo = styled(EuiImage)`
 `;
 
 interface IconProps {
-  filled?: boolean;
+  $filled?: boolean;
 }
 export const NavIcon = styled(EuiIcon)<IconProps>`
-  fill: ${(props) => (props.filled ? "currentColor" : "none")};
+  fill: ${(props) => (props.$filled ? "currentColor" : "none")};
 `;
 
 NavIcon.defaultProps = {
-  filled: true,
+  $filled: true,
 };
