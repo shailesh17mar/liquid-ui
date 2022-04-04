@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { QueryCache } from "react-query";
 import { Auth } from "aws-amplify";
 
@@ -7,23 +7,24 @@ export interface User {
   name: string;
   email: string;
   tenant: string;
-  token: string;
 }
 interface ContextType {
   user: User;
   signOut: () => void;
+  getToken: () => Promise<string>;
 }
 const AuthContext = React.createContext<ContextType | undefined>(undefined);
 const queryCache = new QueryCache();
 
 const AuthProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<any | null>(null);
+  const [token, setToken] = useState<string>();
   useEffect(() => {
     let isUnmounted = false;
     async function setCurrentUser() {
       const currentSession = await Auth.currentSession();
       const userInfo = await Auth.currentUserInfo();
-      const token = currentSession.getAccessToken().getJwtToken();
+      const token = currentSession.getIdToken().getJwtToken();
       const cognitoGroups =
         currentSession.getAccessToken().payload["cognito:groups"];
       const tenant = cognitoGroups[1];
@@ -44,12 +45,19 @@ const AuthProvider: React.FC = ({ children }) => {
     };
   }, []);
 
+  const getToken = async (): Promise<string> => {
+    const currentSession = await Auth.currentSession();
+    const token = currentSession.getAccessToken().getJwtToken();
+    return token;
+  };
+
   const signOut = () => {
     Auth.signOut();
     queryCache.clear();
     setUser(null);
   };
-  const value = { signOut, user };
+
+  const value = { signOut, user, getToken };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 

@@ -68,7 +68,8 @@ const DefaultStoryDocument = {
 // var provider: ;
 
 export const StoryDetails: React.FC = () => {
-  const { user } = useAuth();
+  const { getToken } = useAuth();
+  const [token, setToken] = useState<string>();
   const [isSynced, setIsSynced] = useState(false);
   const [annotation, setAnnotation] = useRecoilState(annotationState);
   const [highlightState, setHighlightState] = useRecoilState(highlightAtom);
@@ -137,15 +138,24 @@ export const StoryDetails: React.FC = () => {
     }
   }, [highlights, isInit, setAnnotation, tags]);
 
+  useEffect(() => {
+    const fetchToken = async () => {
+      const token = await getToken();
+      setToken(token);
+    };
+
+    fetchToken();
+  }, [getToken]);
+
   const provider = useMemo(() => {
-    if (user.token)
+    if (token)
       return new HocuspocusProvider({
         url: process.env.REACT_APP_COLLAB_ENGINE || "ws://localhost:5000",
         name: `story-${id}`,
-        token: user.token,
+        token,
       });
     return null;
-  }, [id, user.token]);
+  }, [id, token]);
 
   useEffect(() => {
     updatePositions();
@@ -321,7 +331,7 @@ export const StoryDetails: React.FC = () => {
       : []
   ) as MetaProperty[];
 
-  return user ? (
+  return provider ? (
     <StoryMetadataProvider value={storyMetadata}>
       <StoryDocument
         className="eui-yScroll"
