@@ -12,7 +12,7 @@ html,
 body,
 button,
 a {
-  font-family: "Manrope", sans-serif !important;
+  font-family: Manrope, sans-serif !important;
 }
 
 #root {
