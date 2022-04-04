@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  PropsWithChildren,
-  ReactChildren,
-  useEffect,
-  useState,
-} from "react";
+import React, { useEffect, useState } from "react";
 import { QueryCache } from "react-query";
 import { Auth } from "aws-amplify";
 
@@ -13,6 +7,7 @@ export interface User {
   name: string;
   email: string;
   tenant: string;
+  token: string;
 }
 interface ContextType {
   user: User;
@@ -28,6 +23,7 @@ const AuthProvider: React.FC = ({ children }) => {
     async function setCurrentUser() {
       const currentSession = await Auth.currentSession();
       const userInfo = await Auth.currentUserInfo();
+      const token = currentSession.getAccessToken().getJwtToken();
       const cognitoGroups =
         currentSession.getAccessToken().payload["cognito:groups"];
       const tenant = cognitoGroups[1];
@@ -36,6 +32,7 @@ const AuthProvider: React.FC = ({ children }) => {
           name: userInfo.attributes.name,
           email: userInfo.attributes.email,
           id: userInfo.id,
+          token,
           tenant,
         } as User);
     }

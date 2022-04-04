@@ -45,6 +45,7 @@ import {
   HIGHLIGHT_COLORS,
   HIGHLIGHT_TYPES,
 } from "../shared/components/editor/components/highlight-control/color-picker";
+import { useAuth } from "presentation/context/auth-context";
 
 const DefaultStoryDocument = {
   type: "doc",
@@ -79,6 +80,7 @@ const DefaultStoryDocument = {
 const doc = new Doc();
 // export const syncType = doc.getXmlFragment("prosemirror");
 export const StoryDetails: React.FC = () => {
+  const { user } = useAuth();
   const [isSynced, setIsSynced] = useState(false);
   const [annotation, setAnnotation] = useRecoilState(annotationState);
   const [highlightState, setHighlightState] = useRecoilState(highlightAtom);
@@ -148,19 +150,21 @@ export const StoryDetails: React.FC = () => {
   }, [highlights, isInit, setAnnotation, tags]);
 
   const provider = useMemo(() => {
-    return new HocuspocusProvider({
-      url: process.env.REACT_APP_COLLAB_ENGINE || "ws://localhost:5000",
-      name: `story-${id}`,
-      token: "token",
-    });
-  }, []);
+    if (user.token)
+      return new HocuspocusProvider({
+        url: process.env.REACT_APP_COLLAB_ENGINE || "ws://localhost:5000",
+        name: `story-${id}`,
+        token: user.token,
+      });
+    return null;
+  }, [id, user.token]);
 
   useEffect(() => {
     updatePositions();
   }, [annotation]);
 
   useEffect(() => {
-    provider.on("sync", (synced: boolean) => {
+    provider?.on("sync", (synced: boolean) => {
       if (!isSynced && synced) {
         setIsSynced(true);
       }
@@ -328,7 +332,8 @@ export const StoryDetails: React.FC = () => {
         })
       : []
   ) as MetaProperty[];
-  return (
+
+  return user ? (
     <StoryMetadataProvider value={storyMetadata}>
       <StoryDocument
         className="eui-yScroll"
@@ -415,6 +420,8 @@ export const StoryDetails: React.FC = () => {
         </EuiFlexGroup>
       </StoryDocument>
     </StoryMetadataProvider>
+  ) : (
+    <ContentLoader />
   );
   // );
 };

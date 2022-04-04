@@ -56,6 +56,7 @@ const makeProjectNavItems = (id: string = "") => [
   {
     label: "About",
     icon: CgReadme,
+    filled: false,
     path: `/projects/${id}`,
     route: "/projects/:id",
     color: palette[0],
