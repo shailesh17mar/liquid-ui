@@ -32,7 +32,6 @@ import { useAuth } from "presentation/context/auth-context";
 import { QuickActionButton } from "./editor.styles";
 import TimeOffset from "./extensions/time-offset";
 import { useRecoilState, useResetRecoilState } from "recoil";
-// import { WebsocketProvider } from "main/factories/websocket-provider";
 import { VideoExtension } from "./extensions/video/extension";
 import { HocuspocusProvider } from "@hocuspocus/provider";
 import {
@@ -229,7 +228,7 @@ export const Editor: React.FC<EditorProps> = ({
           </BubbleMenu> */}
           <BubbleMenu
             shouldShow={({ from, to }) => {
-              return true;
+              return to > from;
             }}
             tippyOptions={{
               onHide() {
