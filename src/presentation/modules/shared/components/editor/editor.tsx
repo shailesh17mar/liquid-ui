@@ -16,7 +16,6 @@ import Color from "@tiptap/extension-color";
 import Paragraph from "@tiptap/extension-paragraph";
 import Collaboration from "@tiptap/extension-collaboration";
 import TaskItem from "@tiptap/extension-task-item";
-import Gapcursor from "@tiptap/extension-gapcursor";
 import { MenuBar } from "./components/menu-bar/menu-bar";
 import {
   EuiFlexGroup,
@@ -31,7 +30,6 @@ import { ImageExtension } from "./extensions/image/extension";
 import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "presentation/context/auth-context";
 import { QuickActionButton } from "./editor.styles";
-import { TrailingNode } from "./extensions/trailing-node/trailing-node";
 import TimeOffset from "./extensions/time-offset";
 import { useRecoilState, useResetRecoilState } from "recoil";
 // import { WebsocketProvider } from "main/factories/websocket-provider";
@@ -44,7 +42,6 @@ import {
 } from "./components/highlight-control/tag-manager";
 import { nanoid } from "nanoid";
 import { HighlightExtension } from "./extensions/transcript/highlight";
-import { BubbleControl } from "./components/bubble-control/bubble-control";
 import _ from "lodash";
 
 const CustomDocument = Document.extend({
@@ -129,7 +126,6 @@ export const Editor: React.FC<EditorProps> = ({
     TextStyle,
     TimeOffset,
     HighlightExtension,
-    // TrailingNode,
     Commander.configure({
       suggestion: commands,
     }),
@@ -148,7 +144,6 @@ export const Editor: React.FC<EditorProps> = ({
     VideoExtension,
     ImageExtension,
     CustomParagraph,
-    Gapcursor,
     Placeholder.configure({
       showOnlyWhenEditable: true,
       placeholder: ({ node }) => {
