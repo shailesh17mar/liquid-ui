@@ -16,38 +16,34 @@ import {
 } from "../../../core/modules/projects/hooks";
 import { useDebouncedCallback } from "use-debounce";
 import { ContentLoader } from "../shared/components/content-loader/content-loader";
-import { HocuspocusProvider } from "@hocuspocus/provider";
+import {
+  HocuspocusProvider,
+  onAuthenticationFailedParameters,
+} from "@hocuspocus/provider";
 import Picker from "emoji-picker-react";
 import { BsEmojiSmile } from "react-icons/bs";
 import { useAuth } from "presentation/context/auth-context";
 
 export const ProjectDetails: React.FC = () => {
   const { getToken } = useAuth();
-  const [token, setToken] = useState<string>();
   const { id } = useParams() as { id: string };
   const { data: project, isLoading } = useProject(id);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
 
   const [chosenEmoji, setChosenEmoji] = useState<string | undefined>();
   const mutation = useUpdateProject();
 
-  useEffect(() => {
-    const fetchToken = async () => {
-      const token = await getToken();
-      setToken(token);
-    };
-    fetchToken();
-  }, [getToken]);
-
   const provider = useMemo(() => {
-    if (token)
-      return new HocuspocusProvider({
-        url: process.env.REACT_APP_COLLAB_ENGINE || "ws://localhost:5000",
-        name: `story-${id}`,
-        token,
-      });
-    return null;
-  }, [id, token]);
+    return new HocuspocusProvider({
+      url: process.env.REACT_APP_COLLAB_ENGINE || "ws://localhost:5000",
+      name: `story-${id}`,
+      token: getToken,
+      onAuthenticationFailed: (data: onAuthenticationFailedParameters) => {
+        if (retryCount < 3) setRetryCount((retryCount) => retryCount + 1);
+      },
+    });
+  }, [getToken, id, retryCount]);
 
   const handleDocumentEditing = async () => {};
   const handleIconChange = (id: string, icon: string) => {
@@ -71,7 +67,7 @@ export const ProjectDetails: React.FC = () => {
   const onButtonClick = () =>
     setIsPopoverOpen((isPopoverOpen) => !isPopoverOpen);
   const closePopover = () => setIsPopoverOpen(false);
-  return provider ? (
+  return (
     <EuiPanel>
       <EuiFlexGroup
         style={{ width: 900, margin: "0 auto" }}
@@ -163,7 +159,5 @@ export const ProjectDetails: React.FC = () => {
         )}
       </EuiFlexGroup>
     </EuiPanel>
-  ) : (
-    <ContentLoader />
   );
 };

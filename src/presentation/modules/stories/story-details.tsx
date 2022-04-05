@@ -7,7 +7,6 @@ import {
 } from "main/pages/make-story-details-page";
 import { useRecoilState } from "recoil";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { JSONContent } from "@tiptap/react";
 import { useParams } from "react-router-dom";
 import {
   FIELD_TYPES,
@@ -23,7 +22,10 @@ import {
 } from "core/modules/participants/hooks";
 import { StoryDocument, TagAnnotation } from "./story.styles";
 import { ContentLoader } from "../shared/components/content-loader/content-loader";
-import { HocuspocusProvider } from "@hocuspocus/provider";
+import {
+  HocuspocusProvider,
+  onAuthenticationFailedParameters,
+} from "@hocuspocus/provider";
 import _ from "lodash";
 import {
   useHighlights,
@@ -37,39 +39,11 @@ import {
 } from "../shared/components/editor/components/highlight-control/color-picker";
 import { useAuth } from "presentation/context/auth-context";
 
-const DefaultStoryDocument = {
-  type: "doc",
-  content: [
-    {
-      type: "heading",
-      attrs: { level: 1 },
-      content: [{ type: "text", text: "It’ll always have a heading" }],
-    },
-    {
-      type: "paragraph",
-      content: [
-        {
-          type: "text",
-          text: "We're a remote company since Day 1. As the team grows, it's vital to learn from our experiments. Slite is the tool we use to do so. It helps us keep in-sync. It helps us grow. Slack/Google Docs just weren’t cutting it for knowledge preservation. The thing that shocked me the most is how teammates have ambient exposure to shared knowledge, without them being notified, or having to search for it. We're a remote company since Day 1. As the team grows, it's vital to learn from our experiments. Slite is the tool we use to do so. It helps us keep in-sync. It helps us grow.",
-        },
-      ],
-    },
-    {
-      type: "paragraph",
-      content: [
-        {
-          type: "text",
-          text: "It took us forever to find the right tool for our company, we tried Evernote, Notion, Google docs, Confluence. But in one way or another, they didn’t work for us. When we tried Slite, we found something that worked great, simple, focused but also flexible. I implemented Slite at our office as a knowledge base for all of our processes and everyone has LOVED it. We now use it for all of our client meeting minutes, as personal notebooks, and training/reference material. It is amazing to have one workspace where we have all documentation from employee onboarding to guides and even technical documentation. I love how it structures documentations and you can find any information from all docs in the workspace.",
-        },
-      ],
-    },
-  ],
-} as JSONContent;
 // var provider: ;
 
 export const StoryDetails: React.FC = () => {
   const { getToken } = useAuth();
-  const [token, setToken] = useState<string>();
+  const [retryCount, setRetryCount] = useState(0);
   const [isSynced, setIsSynced] = useState(false);
   const [annotation, setAnnotation] = useRecoilState(annotationState);
   const [highlightState, setHighlightState] = useRecoilState(highlightAtom);
@@ -86,11 +60,6 @@ export const StoryDetails: React.FC = () => {
   const { data: highlights } = useHighlights({
     storyId: id,
   });
-  const getColor = (color: string) =>
-    Object.keys(HIGHLIGHT_TYPES).find(
-      (highlightType) =>
-        HIGHLIGHT_TYPES[highlightType as HIGHLIGHT_COLORS].color === color
-    )!!;
 
   useEffect(() => {
     if (
@@ -138,31 +107,23 @@ export const StoryDetails: React.FC = () => {
     }
   }, [highlights, isInit, setAnnotation, tags]);
 
-  useEffect(() => {
-    const fetchToken = async () => {
-      const token = await getToken();
-      setToken(token);
-    };
-
-    fetchToken();
-  }, [getToken]);
-
   const provider = useMemo(() => {
-    if (token)
-      return new HocuspocusProvider({
-        url: process.env.REACT_APP_COLLAB_ENGINE || "ws://localhost:5000",
-        name: `story-${id}`,
-        token,
-      });
-    return null;
-  }, [id, token]);
+    return new HocuspocusProvider({
+      url: process.env.REACT_APP_COLLAB_ENGINE || "ws://localhost:5000",
+      name: `story-${id}`,
+      token: getToken,
+      onAuthenticationFailed: (data: onAuthenticationFailedParameters) => {
+        if (retryCount < 3) setRetryCount((retryCount) => retryCount + 1);
+      },
+    });
+  }, [getToken, id, retryCount]);
 
   useEffect(() => {
     updatePositions();
   }, [annotation]);
 
   useEffect(() => {
-    provider?.on("sync", (synced: boolean) => {
+    provider.on("sync", (synced: boolean) => {
       if (!isSynced && synced) {
         setIsSynced(true);
       }
@@ -181,10 +142,6 @@ export const StoryDetails: React.FC = () => {
 
   const handleTitleChange = useDebouncedCallback(async (id, title) => {
     if (story) {
-      const updatedStory = await updateStoryMutation.mutateAsync({
-        id,
-        title,
-      });
     }
   }, 500);
 
@@ -331,7 +288,7 @@ export const StoryDetails: React.FC = () => {
       : []
   ) as MetaProperty[];
 
-  return provider ? (
+  return (
     <StoryMetadataProvider value={storyMetadata}>
       <StoryDocument
         className="eui-yScroll"
@@ -418,8 +375,5 @@ export const StoryDetails: React.FC = () => {
         </EuiFlexGroup>
       </StoryDocument>
     </StoryMetadataProvider>
-  ) : (
-    <ContentLoader />
   );
-  // );
 };

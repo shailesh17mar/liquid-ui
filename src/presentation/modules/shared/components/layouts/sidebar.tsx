@@ -87,7 +87,7 @@ export const SideBar: React.FC<Props> = ({ projects, items, hasProjects }) => {
                 <NavIcon
                   $filled={item.filled}
                   color={item.color}
-                  size="l"
+                  size="m"
                   type={item.icon}
                 />
               ),
@@ -109,11 +109,11 @@ export const SideBar: React.FC<Props> = ({ projects, items, hasProjects }) => {
                     `/projects/${project.id}`,
                     {
                       icon: project.icon ? (
-                        <span style={{ fontSize: 24 }}>{project.icon}</span>
+                        <span style={{ fontSize: 16 }}>{project.icon}</span>
                       ) : (
                         <EuiIcon
                           color="#207af1"
-                          size="l"
+                          size="m"
                           type={"folderClosed"}
                         />
                       ),
