@@ -20,6 +20,16 @@
           "create"
         ]
       }
+    },
+    "/templates/{id}/clone": {
+      "name": "/templates/{id}/clone",
+      "lambdaFunction": "liquidassets",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create"
+        ]
+      }
     }
   }
 }

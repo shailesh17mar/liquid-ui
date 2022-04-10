@@ -746,6 +746,39 @@ export type DeleteTagCategoryInput = {
   id: string,
 };
 
+export type CreateTemplatesInput = {
+  id?: string | null,
+  content?: string | null,
+  tags?: Array< string | null > | null,
+};
+
+export type ModelTemplatesConditionInput = {
+  content?: ModelStringInput | null,
+  tags?: ModelStringInput | null,
+  and?: Array< ModelTemplatesConditionInput | null > | null,
+  or?: Array< ModelTemplatesConditionInput | null > | null,
+  not?: ModelTemplatesConditionInput | null,
+};
+
+export type Templates = {
+  __typename: "Templates",
+  id?: string,
+  content?: string | null,
+  tags?: Array< string | null > | null,
+  createdAt?: string,
+  updatedAt?: string,
+};
+
+export type UpdateTemplatesInput = {
+  id: string,
+  content?: string | null,
+  tags?: Array< string | null > | null,
+};
+
+export type DeleteTemplatesInput = {
+  id: string,
+};
+
 export type ModelPersonsFilterInput = {
   id?: ModelIDInput | null,
   tenant?: ModelIDInput | null,
@@ -942,6 +975,21 @@ export type ModelTagCategoryFilterInput = {
 export type ModelTagCategoryConnection = {
   __typename: "ModelTagCategoryConnection",
   items?:  Array<TagCategory | null >,
+  nextToken?: string | null,
+};
+
+export type ModelTemplatesFilterInput = {
+  id?: ModelIDInput | null,
+  content?: ModelStringInput | null,
+  tags?: ModelStringInput | null,
+  and?: Array< ModelTemplatesFilterInput | null > | null,
+  or?: Array< ModelTemplatesFilterInput | null > | null,
+  not?: ModelTemplatesFilterInput | null,
+};
+
+export type ModelTemplatesConnection = {
+  __typename: "ModelTemplatesConnection",
+  items?:  Array<Templates | null >,
   nextToken?: string | null,
 };
 
@@ -2727,6 +2775,54 @@ export type DeleteTagCategoryMutation = {
   } | null,
 };
 
+export type CreateTemplatesMutationVariables = {
+  input?: CreateTemplatesInput,
+  condition?: ModelTemplatesConditionInput | null,
+};
+
+export type CreateTemplatesMutation = {
+  createTemplates?:  {
+    __typename: "Templates",
+    id: string,
+    content?: string | null,
+    tags?: Array< string | null > | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateTemplatesMutationVariables = {
+  input?: UpdateTemplatesInput,
+  condition?: ModelTemplatesConditionInput | null,
+};
+
+export type UpdateTemplatesMutation = {
+  updateTemplates?:  {
+    __typename: "Templates",
+    id: string,
+    content?: string | null,
+    tags?: Array< string | null > | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteTemplatesMutationVariables = {
+  input?: DeleteTemplatesInput,
+  condition?: ModelTemplatesConditionInput | null,
+};
+
+export type DeleteTemplatesMutation = {
+  deleteTemplates?:  {
+    __typename: "Templates",
+    id: string,
+    content?: string | null,
+    tags?: Array< string | null > | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
 export type GetPersonsQueryVariables = {
   id?: string,
 };
@@ -3829,6 +3925,42 @@ export type ListTagCategoriesQuery = {
         } | null >,
         nextToken?: string | null,
       } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetTemplatesQueryVariables = {
+  id?: string,
+};
+
+export type GetTemplatesQuery = {
+  getTemplates?:  {
+    __typename: "Templates",
+    id: string,
+    content?: string | null,
+    tags?: Array< string | null > | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListTemplatesQueryVariables = {
+  filter?: ModelTemplatesFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListTemplatesQuery = {
+  listTemplates?:  {
+    __typename: "ModelTemplatesConnection",
+    items:  Array< {
+      __typename: "Templates",
+      id: string,
+      content?: string | null,
+      tags?: Array< string | null > | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -5292,6 +5424,39 @@ export type OnDeleteTagCategorySubscription = {
       } | null >,
       nextToken?: string | null,
     } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateTemplatesSubscription = {
+  onCreateTemplates?:  {
+    __typename: "Templates",
+    id: string,
+    content?: string | null,
+    tags?: Array< string | null > | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateTemplatesSubscription = {
+  onUpdateTemplates?:  {
+    __typename: "Templates",
+    id: string,
+    content?: string | null,
+    tags?: Array< string | null > | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteTemplatesSubscription = {
+  onDeleteTemplates?:  {
+    __typename: "Templates",
+    id: string,
+    content?: string | null,
+    tags?: Array< string | null > | null,
     createdAt: string,
     updatedAt: string,
   } | null,

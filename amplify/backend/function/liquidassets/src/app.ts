@@ -36,6 +36,10 @@ app.post("/assets/upload", function (req, res) {
   res.json({ name, uploadURL: url });
 });
 
+app.post("/templates/:id/clone", (req, res) => {
+  res.sendStatus(200);
+});
+
 app.get("/assets/:id", function (req, res) {
   const { id } = req.params;
   const url = s3.getSignedUrl("getObject", {

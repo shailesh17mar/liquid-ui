@@ -42,6 +42,7 @@ import {
 import { nanoid } from "nanoid";
 import { HighlightExtension } from "./extensions/transcript/highlight";
 import _ from "lodash";
+import { UpdateMessage } from "@hocuspocus/provider/dist/packages/provider/src/OutgoingMessages/UpdateMessage";
 
 const CustomDocument = Document.extend({
   content: `paragraph block* paragraph`,
@@ -101,6 +102,90 @@ interface EditorProps {
   onSave: Function;
 }
 
+const defaultStory = {
+  type: "doc",
+  content: [
+    {
+      type: "paragraph",
+      content: [
+        {
+          type: "text",
+          text: "It’ll always have a heading",
+        },
+      ],
+      attrs: { id: null, startTime: null, duration: null, class: null },
+    },
+    {
+      type: "paragraph",
+      content: [
+        {
+          type: "text",
+          text: "We're a remote company since Day 1. As the team grows, it's vital to learn from our experiments. Slite is the tool we use to do so. It helps us keep in-sync. It helps us grow. Slack/Google Docs just weren’t cutting it for knowledge preservation. The thing that shocked me the most is how teammates have ambient exposure to shared knowledge, without them being notified, or having to search for it. We're a remote company since Day 1. As the team grows, it's vital to learn from our experiments. Slite is the tool we use to do so. It helps us keep in-sync. It helps us grow.",
+        },
+      ],
+      attrs: { id: null, startTime: null, duration: null, class: null },
+    },
+    {
+      type: "paragraph",
+      content: [
+        {
+          type: "text",
+          text: "It took us forever to find the right tool for our company, we tried Evernote, Notion, Google docs, Confluence. But in one way or another, they didn’t work for us. When we tried Slite, we found something that worked great, simple, focused but also flexible. I implemented Slite at our office as a knowledge base for all of our processes and everyone has LOVED it. We now use it for all of our client meeting minutes, as personal notebooks, and training/reference material. It is amazing to have one workspace where we have all documentation from employee onboarding to guides and even technical documentation. I love how it structures documentations and you can find any information from all docs in the workspace.",
+        },
+      ],
+      attrs: { id: null, startTime: null, duration: null, class: null },
+    },
+    {
+      type: "paragraph",
+      attrs: { id: null, startTime: null, duration: null, class: null },
+    },
+  ],
+};
+
+export const baseExtensions = [
+  CustomDocument,
+  Underline,
+  TaskList,
+  Image.configure({
+    HTMLAttributes: {
+      class: "editor-image",
+    },
+  }),
+  TextStyle,
+  TimeOffset,
+  HighlightExtension,
+  Commander.configure({
+    suggestion: commands,
+  }),
+  Color.configure({
+    types: ["textStyle"],
+  }),
+  TaskItem.configure({
+    nested: false,
+  }),
+  StarterKit.configure({
+    document: false,
+    history: false,
+    paragraph: false,
+  }),
+  TranscriptExtension,
+  VideoExtension,
+  ImageExtension,
+  CustomParagraph,
+  Placeholder.configure({
+    showOnlyWhenEditable: true,
+    placeholder: ({ node }) => {
+      if (node.type.name === "heading") {
+        return "Heading";
+      }
+      if (node.type.name === "paragraph") {
+        return "Type '/' for commands";
+      }
+      return "";
+    },
+  }),
+];
+
 export const Editor: React.FC<EditorProps> = ({
   provider,
   withHighlighting,
@@ -114,47 +199,7 @@ export const Editor: React.FC<EditorProps> = ({
   const { user } = useAuth();
 
   const extensions = [
-    CustomDocument,
-    Underline,
-    TaskList,
-    Image.configure({
-      HTMLAttributes: {
-        class: "editor-image",
-      },
-    }),
-    TextStyle,
-    TimeOffset,
-    HighlightExtension,
-    Commander.configure({
-      suggestion: commands,
-    }),
-    Color.configure({
-      types: ["textStyle"],
-    }),
-    TaskItem.configure({
-      nested: false,
-    }),
-    StarterKit.configure({
-      document: false,
-      history: false,
-      paragraph: false,
-    }),
-    TranscriptExtension,
-    VideoExtension,
-    ImageExtension,
-    CustomParagraph,
-    Placeholder.configure({
-      showOnlyWhenEditable: true,
-      placeholder: ({ node }) => {
-        if (node.type.name === "heading") {
-          return "Heading";
-        }
-        if (node.type.name === "paragraph") {
-          return "Type '/' for commands";
-        }
-        return "";
-      },
-    }),
+    ...baseExtensions,
     Collaboration.configure({
       document: provider.document,
     }),
@@ -187,6 +232,13 @@ export const Editor: React.FC<EditorProps> = ({
     }
   });
 
+  useEffect(() => {
+    if (editor) {
+      setTimeout(() => {
+        editor.commands.setContent(defaultStory);
+      }, 5000);
+    }
+  }, [editor]);
   // editor.getAttributes('highlight')
 
   const handleSave = useCallback(

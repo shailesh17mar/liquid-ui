@@ -1355,3 +1355,36 @@ export const onDeleteTagCategory = /* GraphQL */ `
     }
   }
 `;
+export const onCreateTemplates = /* GraphQL */ `
+  subscription OnCreateTemplates {
+    onCreateTemplates {
+      id
+      content
+      tags
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateTemplates = /* GraphQL */ `
+  subscription OnUpdateTemplates {
+    onUpdateTemplates {
+      id
+      content
+      tags
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteTemplates = /* GraphQL */ `
+  subscription OnDeleteTemplates {
+    onDeleteTemplates {
+      id
+      content
+      tags
+      createdAt
+      updatedAt
+    }
+  }
+`;

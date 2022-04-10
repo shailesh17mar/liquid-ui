@@ -20,6 +20,7 @@ type Persons @model @auth(rules: [{ allow: groups, groupsField: "tenant" }]) {
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
   business: AWSJSON
+  templateId: ID
 }
 
 type Insights @model @auth(rules: [{ allow: groups, groupsField: "tenant" }]) {
@@ -27,6 +28,7 @@ type Insights @model @auth(rules: [{ allow: groups, groupsField: "tenant" }]) {
   tenant: ID!
   projectsID: ID! @index(name: "byProjects")
   content: AWSJSON
+  templateId: ID
 }
 
 type Highlights
@@ -47,6 +49,7 @@ type Highlights
   endTime: Int
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
+  templateId: ID
 }
 
 type Tags @model @auth(rules: [{ allow: groups, groupsField: "tenant" }]) {
@@ -59,6 +62,7 @@ type Tags @model @auth(rules: [{ allow: groups, groupsField: "tenant" }]) {
   tagCategory: TagCategory! @belongsTo(fields: ["tagCategoryID"])
   updatedAt: AWSDateTime!
   createdAt: AWSDateTime
+  templateId: ID
 }
 
 type Transcription
@@ -73,6 +77,7 @@ type Transcription
   Highlights: [Highlights]
     @hasMany(indexName: "byTranscription", fields: ["id"])
   status: TranscriptionStatus!
+  templateId: ID
 }
 
 type Stories @model @auth(rules: [{ allow: groups, groupsField: "tenant" }]) {
@@ -89,6 +94,7 @@ type Stories @model @auth(rules: [{ allow: groups, groupsField: "tenant" }]) {
   content: AWSJSON
   transcription: Transcription @hasOne
   participants: Persons @hasOne
+  templateId: ID
 }
 
 type Categories
@@ -99,6 +105,7 @@ type Categories
   name: String!
   projectsID: ID! @index(name: "byProjects")
   Stories: [Stories] @hasMany(indexName: "byCategories", fields: ["id"])
+  templateId: ID
 }
 
 type Projects @model @auth(rules: [{ allow: groups, groupsField: "tenant" }]) {
@@ -114,6 +121,7 @@ type Projects @model @auth(rules: [{ allow: groups, groupsField: "tenant" }]) {
   Tags: [Tags] @hasMany(indexName: "byProjects", fields: ["id"])
   Highlights: [Highlights] @hasMany(indexName: "byProjects", fields: ["id"])
   Insights: [Insights] @hasMany(indexName: "byProjects", fields: ["id"])
+  templateId: ID
 }
 
 type Workspaces
@@ -151,6 +159,7 @@ type VodAsset
   title: String!
   transcription: Transcription @hasOne
   video: String!
+  templateId: ID
 }
 
 type TagCategory
@@ -162,4 +171,11 @@ type TagCategory
   color: String!
   projectsID: ID! @index(name: "byProjects")
   tags: [Tags] @hasMany(indexName: "byTagCategories", fields: ["id"])
+  templateId: ID
+}
+
+type Templates @model @auth(rules: [{ allow: private, operations: [read] }]) {
+  id: ID!
+  content: AWSJSON
+  tags: [String]
 }

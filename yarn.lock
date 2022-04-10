@@ -15576,6 +15576,13 @@ y-prosemirror@^1.0.14:
   dependencies:
     lib0 "^0.2.42"
 
+y-prosemirror@^1.0.17:
+  version "1.0.17"
+  resolved "https://registry.yarnpkg.com/y-prosemirror/-/y-prosemirror-1.0.17.tgz#bf247464eaa38dd16bbd4d751746bb31e8b5f668"
+  integrity sha512-cY76QdWY4I2hN1D/8cij0iN0JFtbmYLu0ItzE+hyqGnI3p0NRD1nzxvfvJnuhJYusptEyfqsgjcf60xDKhTxhQ==
+  dependencies:
+    lib0 "^0.2.42"
+
 y-protocols@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/y-protocols/-/y-protocols-1.0.5.tgz#91d574250060b29fcac8f8eb5e276fbad594245e"

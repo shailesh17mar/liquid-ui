@@ -961,3 +961,32 @@ export const listTagCategories = /* GraphQL */ `
     }
   }
 `;
+export const getTemplates = /* GraphQL */ `
+  query GetTemplates($id: ID!) {
+    getTemplates(id: $id) {
+      id
+      content
+      tags
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listTemplates = /* GraphQL */ `
+  query ListTemplates(
+    $filter: ModelTemplatesFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTemplates(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        content
+        tags
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;

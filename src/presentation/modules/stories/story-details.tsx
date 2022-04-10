@@ -1,6 +1,7 @@
 import { EuiBadge, EuiFlexGroup, EuiFlexItem } from "@elastic/eui";
+import * as Y from "yjs";
 import { PropertiesEditor } from "../shared/components/editor/components/property-editor/property-editor";
-import { Editor } from "../shared/components/editor/editor";
+import { baseExtensions, Editor } from "../shared/components/editor/editor";
 import {
   Annotation,
   annotationState,
@@ -38,8 +39,52 @@ import {
   HIGHLIGHT_TYPES,
 } from "../shared/components/editor/components/highlight-control/color-picker";
 import { useAuth } from "presentation/context/auth-context";
+import { prosemirrorJSONToYDoc } from "y-prosemirror";
+import { getSchema } from "@tiptap/react";
 
-// var provider: ;
+export const defaultStory = {
+  type: "doc",
+  content: [
+    {
+      type: "paragraph",
+      content: [
+        {
+          type: "text",
+          text: "It’ll always have a heading",
+        },
+      ],
+      attrs: { id: null, startTime: null, duration: null, class: null },
+    },
+    {
+      type: "paragraph",
+      content: [
+        {
+          type: "text",
+          text: "We're a remote company since Day 1. As the team grows, it's vital to learn from our experiments. Slite is the tool we use to do so. It helps us keep in-sync. It helps us grow. Slack/Google Docs just weren’t cutting it for knowledge preservation. The thing that shocked me the most is how teammates have ambient exposure to shared knowledge, without them being notified, or having to search for it. We're a remote company since Day 1. As the team grows, it's vital to learn from our experiments. Slite is the tool we use to do so. It helps us keep in-sync. It helps us grow.",
+        },
+      ],
+      attrs: { id: null, startTime: null, duration: null, class: null },
+    },
+    {
+      type: "paragraph",
+      content: [
+        {
+          type: "text",
+          text: "It took us forever to find the right tool for our company, we tried Evernote, Notion, Google docs, Confluence. But in one way or another, they didn’t work for us. When we tried Slite, we found something that worked great, simple, focused but also flexible. I implemented Slite at our office as a knowledge base for all of our processes and everyone has LOVED it. We now use it for all of our client meeting minutes, as personal notebooks, and training/reference material. It is amazing to have one workspace where we have all documentation from employee onboarding to guides and even technical documentation. I love how it structures documentations and you can find any information from all docs in the workspace.",
+        },
+      ],
+      attrs: { id: null, startTime: null, duration: null, class: null },
+    },
+    {
+      type: "paragraph",
+      attrs: { id: null, startTime: null, duration: null, class: null },
+    },
+  ],
+};
+
+const schema = getSchema(baseExtensions);
+const doc = new Y.Doc();
+const ydoc = prosemirrorJSONToYDoc(schema, defaultStory);
 
 export const StoryDetails: React.FC = () => {
   const { getToken } = useAuth();
@@ -110,6 +155,7 @@ export const StoryDetails: React.FC = () => {
   const provider = useMemo(() => {
     return new HocuspocusProvider({
       url: process.env.REACT_APP_COLLAB_ENGINE || "ws://localhost:5000",
+      document: doc,
       name: `story-${id}`,
       token: getToken,
       onAuthenticationFailed: (data: onAuthenticationFailedParameters) => {
@@ -121,7 +167,11 @@ export const StoryDetails: React.FC = () => {
   useEffect(() => {
     updatePositions();
   }, [annotation]);
-
+  // setTimeout(() => {
+  //   const defaultDoc = Y.encodeStateAsUpdate(ydoc);
+  //   // Y.applyUpdate(doc, defaultDoc);
+  //   provider.documentUpdateHandler(defaultDoc, {});
+  // }, 3000);
   useEffect(() => {
     provider.on("sync", (synced: boolean) => {
       if (!isSynced && synced) {

@@ -1595,3 +1595,45 @@ export const deleteTagCategory = /* GraphQL */ `
     }
   }
 `;
+export const createTemplates = /* GraphQL */ `
+  mutation CreateTemplates(
+    $input: CreateTemplatesInput!
+    $condition: ModelTemplatesConditionInput
+  ) {
+    createTemplates(input: $input, condition: $condition) {
+      id
+      content
+      tags
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateTemplates = /* GraphQL */ `
+  mutation UpdateTemplates(
+    $input: UpdateTemplatesInput!
+    $condition: ModelTemplatesConditionInput
+  ) {
+    updateTemplates(input: $input, condition: $condition) {
+      id
+      content
+      tags
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteTemplates = /* GraphQL */ `
+  mutation DeleteTemplates(
+    $input: DeleteTemplatesInput!
+    $condition: ModelTemplatesConditionInput
+  ) {
+    deleteTemplates(input: $input, condition: $condition) {
+      id
+      content
+      tags
+      createdAt
+      updatedAt
+    }
+  }
+`;
