@@ -17,6 +17,7 @@ export const createPersons = /* GraphQL */ `
       createdAt
       updatedAt
       business
+      templateId
     }
   }
 `;
@@ -35,6 +36,7 @@ export const updatePersons = /* GraphQL */ `
       createdAt
       updatedAt
       business
+      templateId
     }
   }
 `;
@@ -53,6 +55,7 @@ export const deletePersons = /* GraphQL */ `
       createdAt
       updatedAt
       business
+      templateId
     }
   }
 `;
@@ -66,6 +69,7 @@ export const createInsights = /* GraphQL */ `
       tenant
       projectsID
       content
+      templateId
       createdAt
       updatedAt
     }
@@ -81,6 +85,7 @@ export const updateInsights = /* GraphQL */ `
       tenant
       projectsID
       content
+      templateId
       createdAt
       updatedAt
     }
@@ -96,6 +101,7 @@ export const deleteInsights = /* GraphQL */ `
       tenant
       projectsID
       content
+      templateId
       createdAt
       updatedAt
     }
@@ -122,6 +128,7 @@ export const createHighlights = /* GraphQL */ `
       endTime
       createdAt
       updatedAt
+      templateId
     }
   }
 `;
@@ -146,6 +153,7 @@ export const updateHighlights = /* GraphQL */ `
       endTime
       createdAt
       updatedAt
+      templateId
     }
   }
 `;
@@ -170,6 +178,7 @@ export const deleteHighlights = /* GraphQL */ `
       endTime
       createdAt
       updatedAt
+      templateId
     }
   }
 `;
@@ -201,14 +210,17 @@ export const createTags = /* GraphQL */ `
             tagCategoryID
             updatedAt
             createdAt
+            templateId
           }
           nextToken
         }
+        templateId
         createdAt
         updatedAt
       }
       updatedAt
       createdAt
+      templateId
     }
   }
 `;
@@ -240,14 +252,17 @@ export const updateTags = /* GraphQL */ `
             tagCategoryID
             updatedAt
             createdAt
+            templateId
           }
           nextToken
         }
+        templateId
         createdAt
         updatedAt
       }
       updatedAt
       createdAt
+      templateId
     }
   }
 `;
@@ -279,14 +294,17 @@ export const deleteTags = /* GraphQL */ `
             tagCategoryID
             updatedAt
             createdAt
+            templateId
           }
           nextToken
         }
+        templateId
         createdAt
         updatedAt
       }
       updatedAt
       createdAt
+      templateId
     }
   }
 `;
@@ -319,10 +337,12 @@ export const createTranscription = /* GraphQL */ `
           endTime
           createdAt
           updatedAt
+          templateId
         }
         nextToken
       }
       status
+      templateId
       createdAt
       updatedAt
     }
@@ -357,10 +377,12 @@ export const updateTranscription = /* GraphQL */ `
           endTime
           createdAt
           updatedAt
+          templateId
         }
         nextToken
       }
       status
+      templateId
       createdAt
       updatedAt
     }
@@ -395,10 +417,12 @@ export const deleteTranscription = /* GraphQL */ `
           endTime
           createdAt
           updatedAt
+          templateId
         }
         nextToken
       }
       status
+      templateId
       createdAt
       updatedAt
     }
@@ -432,6 +456,7 @@ export const createStories = /* GraphQL */ `
           endTime
           createdAt
           updatedAt
+          templateId
         }
         nextToken
       }
@@ -464,10 +489,12 @@ export const createStories = /* GraphQL */ `
             endTime
             createdAt
             updatedAt
+            templateId
           }
           nextToken
         }
         status
+        templateId
         createdAt
         updatedAt
       }
@@ -481,7 +508,9 @@ export const createStories = /* GraphQL */ `
         createdAt
         updatedAt
         business
+        templateId
       }
+      templateId
       storiesTranscriptionId
       storiesParticipantsId
     }
@@ -515,6 +544,7 @@ export const updateStories = /* GraphQL */ `
           endTime
           createdAt
           updatedAt
+          templateId
         }
         nextToken
       }
@@ -547,10 +577,12 @@ export const updateStories = /* GraphQL */ `
             endTime
             createdAt
             updatedAt
+            templateId
           }
           nextToken
         }
         status
+        templateId
         createdAt
         updatedAt
       }
@@ -564,7 +596,9 @@ export const updateStories = /* GraphQL */ `
         createdAt
         updatedAt
         business
+        templateId
       }
+      templateId
       storiesTranscriptionId
       storiesParticipantsId
     }
@@ -598,6 +632,7 @@ export const deleteStories = /* GraphQL */ `
           endTime
           createdAt
           updatedAt
+          templateId
         }
         nextToken
       }
@@ -630,10 +665,12 @@ export const deleteStories = /* GraphQL */ `
             endTime
             createdAt
             updatedAt
+            templateId
           }
           nextToken
         }
         status
+        templateId
         createdAt
         updatedAt
       }
@@ -647,7 +684,9 @@ export const deleteStories = /* GraphQL */ `
         createdAt
         updatedAt
         business
+        templateId
       }
+      templateId
       storiesTranscriptionId
       storiesParticipantsId
     }
@@ -686,6 +725,7 @@ export const createCategories = /* GraphQL */ `
             transcription
             content
             status
+            templateId
             createdAt
             updatedAt
           }
@@ -699,12 +739,15 @@ export const createCategories = /* GraphQL */ `
             createdAt
             updatedAt
             business
+            templateId
           }
+          templateId
           storiesTranscriptionId
           storiesParticipantsId
         }
         nextToken
       }
+      templateId
       createdAt
       updatedAt
     }
@@ -743,6 +786,7 @@ export const updateCategories = /* GraphQL */ `
             transcription
             content
             status
+            templateId
             createdAt
             updatedAt
           }
@@ -756,12 +800,15 @@ export const updateCategories = /* GraphQL */ `
             createdAt
             updatedAt
             business
+            templateId
           }
+          templateId
           storiesTranscriptionId
           storiesParticipantsId
         }
         nextToken
       }
+      templateId
       createdAt
       updatedAt
     }
@@ -800,6 +847,7 @@ export const deleteCategories = /* GraphQL */ `
             transcription
             content
             status
+            templateId
             createdAt
             updatedAt
           }
@@ -813,12 +861,15 @@ export const deleteCategories = /* GraphQL */ `
             createdAt
             updatedAt
             business
+            templateId
           }
+          templateId
           storiesTranscriptionId
           storiesParticipantsId
         }
         nextToken
       }
+      templateId
       createdAt
       updatedAt
     }
@@ -846,6 +897,7 @@ export const createProjects = /* GraphQL */ `
           Stories {
             nextToken
           }
+          templateId
           createdAt
           updatedAt
         }
@@ -874,6 +926,7 @@ export const createProjects = /* GraphQL */ `
             transcription
             content
             status
+            templateId
             createdAt
             updatedAt
           }
@@ -887,7 +940,9 @@ export const createProjects = /* GraphQL */ `
             createdAt
             updatedAt
             business
+            templateId
           }
+          templateId
           storiesTranscriptionId
           storiesParticipantsId
         }
@@ -907,11 +962,13 @@ export const createProjects = /* GraphQL */ `
             name
             color
             projectsID
+            templateId
             createdAt
             updatedAt
           }
           updatedAt
           createdAt
+          templateId
         }
         nextToken
       }
@@ -932,6 +989,7 @@ export const createProjects = /* GraphQL */ `
           endTime
           createdAt
           updatedAt
+          templateId
         }
         nextToken
       }
@@ -941,11 +999,13 @@ export const createProjects = /* GraphQL */ `
           tenant
           projectsID
           content
+          templateId
           createdAt
           updatedAt
         }
         nextToken
       }
+      templateId
     }
   }
 `;
@@ -971,6 +1031,7 @@ export const updateProjects = /* GraphQL */ `
           Stories {
             nextToken
           }
+          templateId
           createdAt
           updatedAt
         }
@@ -999,6 +1060,7 @@ export const updateProjects = /* GraphQL */ `
             transcription
             content
             status
+            templateId
             createdAt
             updatedAt
           }
@@ -1012,7 +1074,9 @@ export const updateProjects = /* GraphQL */ `
             createdAt
             updatedAt
             business
+            templateId
           }
+          templateId
           storiesTranscriptionId
           storiesParticipantsId
         }
@@ -1032,11 +1096,13 @@ export const updateProjects = /* GraphQL */ `
             name
             color
             projectsID
+            templateId
             createdAt
             updatedAt
           }
           updatedAt
           createdAt
+          templateId
         }
         nextToken
       }
@@ -1057,6 +1123,7 @@ export const updateProjects = /* GraphQL */ `
           endTime
           createdAt
           updatedAt
+          templateId
         }
         nextToken
       }
@@ -1066,11 +1133,13 @@ export const updateProjects = /* GraphQL */ `
           tenant
           projectsID
           content
+          templateId
           createdAt
           updatedAt
         }
         nextToken
       }
+      templateId
     }
   }
 `;
@@ -1096,6 +1165,7 @@ export const deleteProjects = /* GraphQL */ `
           Stories {
             nextToken
           }
+          templateId
           createdAt
           updatedAt
         }
@@ -1124,6 +1194,7 @@ export const deleteProjects = /* GraphQL */ `
             transcription
             content
             status
+            templateId
             createdAt
             updatedAt
           }
@@ -1137,7 +1208,9 @@ export const deleteProjects = /* GraphQL */ `
             createdAt
             updatedAt
             business
+            templateId
           }
+          templateId
           storiesTranscriptionId
           storiesParticipantsId
         }
@@ -1157,11 +1230,13 @@ export const deleteProjects = /* GraphQL */ `
             name
             color
             projectsID
+            templateId
             createdAt
             updatedAt
           }
           updatedAt
           createdAt
+          templateId
         }
         nextToken
       }
@@ -1182,6 +1257,7 @@ export const deleteProjects = /* GraphQL */ `
           endTime
           createdAt
           updatedAt
+          templateId
         }
         nextToken
       }
@@ -1191,11 +1267,13 @@ export const deleteProjects = /* GraphQL */ `
           tenant
           projectsID
           content
+          templateId
           createdAt
           updatedAt
         }
         nextToken
       }
+      templateId
     }
   }
 `;
@@ -1373,14 +1451,17 @@ export const createVodAsset = /* GraphQL */ `
             endTime
             createdAt
             updatedAt
+            templateId
           }
           nextToken
         }
         status
+        templateId
         createdAt
         updatedAt
       }
       video
+      templateId
       createdAt
       updatedAt
       vodAssetTranscriptionId
@@ -1420,14 +1501,17 @@ export const updateVodAsset = /* GraphQL */ `
             endTime
             createdAt
             updatedAt
+            templateId
           }
           nextToken
         }
         status
+        templateId
         createdAt
         updatedAt
       }
       video
+      templateId
       createdAt
       updatedAt
       vodAssetTranscriptionId
@@ -1467,14 +1551,17 @@ export const deleteVodAsset = /* GraphQL */ `
             endTime
             createdAt
             updatedAt
+            templateId
           }
           nextToken
         }
         status
+        templateId
         createdAt
         updatedAt
       }
       video
+      templateId
       createdAt
       updatedAt
       vodAssetTranscriptionId
@@ -1506,14 +1593,17 @@ export const createTagCategory = /* GraphQL */ `
             name
             color
             projectsID
+            templateId
             createdAt
             updatedAt
           }
           updatedAt
           createdAt
+          templateId
         }
         nextToken
       }
+      templateId
       createdAt
       updatedAt
     }
@@ -1544,14 +1634,17 @@ export const updateTagCategory = /* GraphQL */ `
             name
             color
             projectsID
+            templateId
             createdAt
             updatedAt
           }
           updatedAt
           createdAt
+          templateId
         }
         nextToken
       }
+      templateId
       createdAt
       updatedAt
     }
@@ -1582,14 +1675,17 @@ export const deleteTagCategory = /* GraphQL */ `
             name
             color
             projectsID
+            templateId
             createdAt
             updatedAt
           }
           updatedAt
           createdAt
+          templateId
         }
         nextToken
       }
+      templateId
       createdAt
       updatedAt
     }

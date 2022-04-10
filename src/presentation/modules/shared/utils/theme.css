@@ -54,7 +54,7 @@
     box-shadow: 0 0 0 2px rgba(0, 119, 204, 0);
   }
   100% {
-    box-shadow: 0 0 0 2px #3a86ff;
+    box-shadow: 0 0 0 2px #3778ff;
   }
 }
 
@@ -63,7 +63,7 @@
     box-shadow: 0 0 0 2px rgba(0, 119, 204, 0);
   }
   100% {
-    box-shadow: 0 0 0 2px #3a86ff;
+    box-shadow: 0 0 0 2px #3778ff;
   }
 }
 
@@ -72,7 +72,7 @@
     box-shadow: 0 0 0 10px rgba(0, 119, 204, 0);
   }
   100% {
-    box-shadow: 0 0 0 4px #3a86ff;
+    box-shadow: 0 0 0 4px #3778ff;
   }
 }
 
@@ -81,7 +81,7 @@
     box-shadow: 0 0 0 10px rgba(0, 119, 204, 0);
   }
   100% {
-    box-shadow: 0 0 0 4px #3a86ff;
+    box-shadow: 0 0 0 4px #3778ff;
   }
 }
 
@@ -642,7 +642,7 @@
   transition: transform 90ms ease-in-out, -webkit-transform 90ms ease-in-out;
 }
 .react-datepicker__day:hover {
-  color: #3a86ff;
+  color: #3778ff;
   background-color: #f2f8ff;
   text-decoration: underline;
 }
@@ -653,7 +653,7 @@
   }
 }
 .react-datepicker__day--today {
-  color: #3a86ff;
+  color: #3778ff;
   font-weight: 700;
 }
 .react-datepicker__day--outside-month {
@@ -666,7 +666,7 @@
 }
 .react-datepicker__day--in-range,
 .react-datepicker__day--in-range:hover {
-  color: #3a86ff;
+  color: #3778ff;
   background-color: #f2f8ff;
 }
 .react-datepicker__day--in-range:not(.react-datepicker__day--selected):not(:hover),
@@ -689,7 +689,7 @@
 .react-datepicker__day--in-selecting-range,
 .react-datepicker__day--selected:hover,
 .react-datepicker__day--in-selecting-range:hover {
-  background-color: #3a86ff;
+  background-color: #3778ff;
   color: #fff;
 }
 .react-datepicker__day--in-selecting-range:not(.react-datepicker__day--in-range) {
@@ -889,7 +889,7 @@
 }
 .react-datepicker__time-list-item--selected,
 .react-datepicker__time-list-item--selected:hover {
-  background-color: #3a86ff;
+  background-color: #3778ff;
   color: #fff;
 }
 
@@ -1191,7 +1191,7 @@
 .react-datepicker__year-option--selected_year:hover,
 .react-datepicker__month-option--selected_month,
 .react-datepicker__month-option--selected_month:hover {
-  background-color: #3a86ff;
+  background-color: #3778ff;
   color: #fff;
 }
 
@@ -1842,7 +1842,7 @@
 }
 
 .euiBetaBadge--accent {
-  background: #c443a86ff;
+  background: #c443778ff;
   color: #fff;
 }
 .euiBetaBadge--accent.euiBetaBadge-isClickable {
@@ -1865,7 +1865,7 @@
   text-align: center;
   transition: all 150ms ease-in;
   cursor: default;
-  background: #c443a86ff;
+  background: #c443778ff;
   color: #fff;
 }
 
@@ -1891,7 +1891,7 @@
   content: "";
   width: 100%;
   height: 2px;
-  background-color: #3a86ff;
+  background-color: #3778ff;
   -webkit-animation: euiBasicTableLoading 1000ms linear;
   animation: euiBasicTableLoading 1000ms linear;
   -webkit-animation-iteration-count: infinite;
@@ -2177,7 +2177,7 @@
   fill: currentColor;
 }
 .euiButton.euiButton-isDisabled .euiButtonContent__spinner {
-  border-color: #3a86ff currentColor currentColor currentColor;
+  border-color: #3778ff currentColor currentColor currentColor;
 }
 .euiButton.euiButton-isDisabled.euiButton--fill {
   color: #717782;
@@ -2198,12 +2198,12 @@
 }
 
 .euiButton--primary {
-  color: #3a86ff;
-  border-color: #3a86ff;
+  color: #3778ff;
+  border-color: #3778ff;
 }
 .euiButton--primary.euiButton--fill {
-  background-color: #3a86ff;
-  border-color: #3a86ff;
+  background-color: #3778ff;
+  border-color: #3778ff;
   color: #fff;
 }
 .euiButton--primary.euiButton--fill:not([class*="isDisabled"]):hover,
@@ -2226,7 +2226,7 @@
 }
 
 .euiButton--accent {
-  color: #c443a86ff;
+  color: #c443778ff;
   border-color: #f04e98;
 }
 .euiButton--accent.euiButton--fill {
@@ -2576,7 +2576,7 @@
   fill: currentColor;
 }
 .euiButtonEmpty:disabled .euiButtonContent__spinner {
-  border-color: #3a86ff currentColor currentColor currentColor;
+  border-color: #3778ff currentColor currentColor currentColor;
 }
 .euiButtonEmpty:disabled:focus {
   background-color: transparent;
@@ -2602,7 +2602,7 @@
 }
 
 .euiButtonEmpty--primary {
-  color: #3a86ff;
+  color: #3778ff;
 }
 .euiButtonEmpty--primary:focus {
   background-color: rgba(0, 113, 194, 0.1);
@@ -2733,7 +2733,7 @@
   fill: currentColor;
 }
 .euiButtonIcon.euiButtonIcon-isDisabled .euiButtonContent__spinner {
-  border-color: #3a86ff currentColor currentColor currentColor;
+  border-color: #3778ff currentColor currentColor currentColor;
 }
 .euiButtonIcon.euiButtonIcon-isDisabled.euiButtonIcon--fill {
   color: #717782;
@@ -2764,12 +2764,12 @@
 }
 
 .euiButtonIcon--primary {
-  color: #3a86ff;
-  border-color: #3a86ff;
+  color: #3778ff;
+  border-color: #3778ff;
 }
 .euiButtonIcon--primary.euiButtonIcon--fill {
-  background-color: #3a86ff;
-  border-color: #3a86ff;
+  background-color: #3778ff;
+  border-color: #3778ff;
   color: #fff;
 }
 .euiButtonIcon--primary.euiButtonIcon--fill:not([class*="isDisabled"]):hover,
@@ -2792,7 +2792,7 @@
 }
 
 .euiButtonIcon--accent {
-  color: #c443a86ff;
+  color: #c443778ff;
   border-color: #f04e98;
 }
 .euiButtonIcon--accent.euiButtonIcon--fill {
@@ -3103,7 +3103,7 @@
 }
 .euiButtonGroupButton.euiButtonGroupButton-isDisabled
   .euiButtonContent__spinner {
-  border-color: #3a86ff currentColor currentColor currentColor;
+  border-color: #3778ff currentColor currentColor currentColor;
 }
 .euiButtonGroupButton.euiButtonGroupButton-isDisabled.euiButtonGroupButton-isSelected {
   color: #717782;
@@ -3117,11 +3117,11 @@
   border-color: #abb4c4;
 }
 .euiButtonGroupButton.euiButtonGroupButton--primary:not([class*="isDisabled"]) {
-  color: #3a86ff;
+  color: #3778ff;
 }
 .euiButtonGroupButton.euiButtonGroupButton--primary:not([class*="isDisabled"]).euiButtonGroupButton-isSelected {
-  background-color: #3a86ff;
-  border-color: #3a86ff;
+  background-color: #3778ff;
+  border-color: #3778ff;
   color: #fff;
 }
 .euiButtonGroupButton.euiButtonGroupButton--primary:not([class*="isDisabled"]).euiButtonGroupButton-isSelected:hover,
@@ -3136,7 +3136,7 @@
   background-color: rgba(0, 119, 204, 0.1);
 }
 .euiButtonGroupButton.euiButtonGroupButton--accent:not([class*="isDisabled"]) {
-  color: #c443a86ff;
+  color: #c443778ff;
 }
 .euiButtonGroupButton.euiButtonGroupButton--accent:not([class*="isDisabled"]).euiButtonGroupButton-isSelected {
   background-color: #f04e98;
@@ -3371,7 +3371,7 @@
   .euiButtonGroupButton:not([class*="isDisabled"]):focus,
 .euiButtonGroup--compressed
   .euiButtonGroupButton:not([class*="isDisabled"]):focus-within {
-  outline: 2px solid #3a86ff;
+  outline: 2px solid #3778ff;
 }
 
 /**
@@ -3505,7 +3505,7 @@
 }
 
 .euiCallOut--primary {
-  border-color: #3a86ff;
+  border-color: #3778ff;
   background-color: #e6f1fa;
 }
 .euiCallOut--primary .euiCallOutHeader__icon {
@@ -3803,7 +3803,7 @@
 }
 
 .euiCard--isSelectable--primary.euiCard-isSelected:not(.euiCard-isDisabled) {
-  border-color: #3a86ff !important;
+  border-color: #3778ff !important;
 }
 
 .euiCard--isSelectable--success.euiCard-isSelected:not(.euiCard-isDisabled) {
@@ -3900,7 +3900,7 @@
   transition: border-color 250ms ease-in;
 }
 .euiCheckableCard:not(.euiCheckableCard-isDisabled).euiCheckableCard-isChecked {
-  border-color: #3a86ff;
+  border-color: #3778ff;
 }
 
 .euiCheckableCard__label {
@@ -3993,7 +3993,7 @@
 }
 .euiCodeBlock .euiCodeBlock__line--isHighlighted .euiCodeBlock__lineText {
   background: rgba(0, 119, 204, 0.1);
-  border-left: 2px solid #3a86ff;
+  border-left: 2px solid #3778ff;
 }
 .euiCodeBlock .euiCodeBlock__code {
   font-family: "Roboto Mono", Consolas, Menlo, Courier, monospace;
@@ -4589,16 +4589,16 @@
   outline: none;
 }
 .euiHue__range:focus::-webkit-slider-thumb {
-  box-shadow: 0 0 0 2px #3a86ff;
-  border-color: #3a86ff;
+  box-shadow: 0 0 0 2px #3778ff;
+  border-color: #3778ff;
 }
 .euiHue__range:focus::-moz-range-thumb {
-  box-shadow: 0 0 0 2px #3a86ff;
-  border-color: #3a86ff;
+  box-shadow: 0 0 0 2px #3778ff;
+  border-color: #3778ff;
 }
 .euiHue__range:focus::-ms-thumb {
-  box-shadow: 0 0 0 2px #3a86ff;
-  border-color: #3a86ff;
+  box-shadow: 0 0 0 2px #3778ff;
+  border-color: #3778ff;
 }
 
 .euiSaturation {
@@ -4647,12 +4647,12 @@
   outline: none;
 }
 .euiSaturation:focus .euiSaturation__indicator {
-  box-shadow: 0 0 0 2px #3a86ff;
-  border-color: #3a86ff;
+  box-shadow: 0 0 0 2px #3778ff;
+  border-color: #3778ff;
 }
 
 .euiColorStops:not(.euiColorStops-isDisabled):focus {
-  outline: 2px solid #3a86ff;
+  outline: 2px solid #3778ff;
 }
 
 .euiColorStops__addContainer {
@@ -5054,8 +5054,8 @@
   background-color: white;
   background-image: linear-gradient(
     to top,
-    #3a86ff,
-    #3a86ff 2px,
+    #3778ff,
+    #3778ff 2px,
     transparent 2px,
     transparent 100%
   );
@@ -5067,8 +5067,8 @@
   background-color: white;
   background-image: linear-gradient(
     to top,
-    #3a86ff,
-    #3a86ff 2px,
+    #3778ff,
+    #3778ff 2px,
     transparent 2px,
     transparent 100%
   );
@@ -5280,7 +5280,7 @@
 }
 .euiComboBoxOption.euiComboBoxOption-isFocused {
   cursor: pointer;
-  color: #3a86ff;
+  color: #3778ff;
   background-color: rgba(0, 119, 204, 0.1);
 }
 .euiComboBoxOption.euiComboBoxOption-isDisabled {
@@ -5987,8 +5987,8 @@
 }
 .euiControlBar__tab.euiControlBar__tab--active {
   background-color: #fafbfd;
-  box-shadow: inset 0 4px 0 #3a86ff;
-  color: #3a86ff;
+  box-shadow: inset 0 4px 0 #3778ff;
+  color: #3778ff;
 }
 
 .euiControlBar__controls .euiLink.euiLink--primary {
@@ -6411,8 +6411,8 @@
 .euiDatePopoverButton-isSelected {
   background-image: linear-gradient(
     to top,
-    #3a86ff,
-    #3a86ff 2px,
+    #3778ff,
+    #3778ff 2px,
     transparent 2px,
     transparent 100%
   );
@@ -6809,7 +6809,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  border: 2px solid #3a86ff;
+  border: 2px solid #3778ff;
   border-radius: 4px;
   z-index: 2;
   pointer-events: none;
@@ -6826,7 +6826,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  border: 2px solid #3a86ff;
+  border: 2px solid #3778ff;
   border-radius: 4px;
   z-index: 2;
   pointer-events: none;
@@ -7017,7 +7017,7 @@
   top: 0;
   bottom: 0;
   width: 3px;
-  background-color: #3a86ff;
+  background-color: #3778ff;
 }
 .euiDataGridColumnResizer:hover,
 .euiDataGridColumnResizer:active {
@@ -7072,7 +7072,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  border: 2px solid #3a86ff;
+  border: 2px solid #3778ff;
   border-radius: 4px;
   z-index: 2;
   pointer-events: none;
@@ -8390,12 +8390,12 @@
 }
 
 .euiExpression--primary.euiExpression-isActive {
-  border-bottom-color: #3a86ff;
-  border-color: #3a86ff;
+  border-bottom-color: #3778ff;
+  border-color: #3778ff;
 }
 
 .euiExpression--primary .euiExpression__description {
-  color: #3a86ff;
+  color: #3778ff;
 }
 
 .euiExpression--success:focus {
@@ -8442,12 +8442,12 @@
 }
 
 .euiExpression--accent.euiExpression-isActive {
-  border-bottom-color: #c443a86ff;
-  border-color: #c443a86ff;
+  border-bottom-color: #c443778ff;
+  border-color: #c443778ff;
 }
 
 .euiExpression--accent .euiExpression__description {
-  color: #c443a86ff;
+  color: #c443778ff;
 }
 
 /**
@@ -8776,7 +8776,7 @@
 .euiFilterSelectItem:focus,
 .euiFilterSelectItem-isFocused {
   background-color: rgba(0, 119, 204, 0.1);
-  color: #3a86ff;
+  color: #3778ff;
 }
 
 .euiFilterSelectItem__content {
@@ -9938,13 +9938,13 @@
   top: 3px;
 }
 .euiCheckbox .euiCheckbox__input:checked + .euiCheckbox__square {
-  border-color: #3a86ff;
-  background-color: #3a86ff;
+  border-color: #3778ff;
+  background-color: #3778ff;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='8' viewBox='0 0 10 8'%3E%3Cpath d='M.375 2.625L3.375 5.625M3.375 5.625L8.625.375' fill='none' fill-rule='evenodd' stroke='rgb%28255, 255, 255%29' stroke-linecap='round' stroke-width='1.5' transform='translate(.5 1)'/%3E%3C/svg%3E");
 }
 .euiCheckbox .euiCheckbox__input:indeterminate + .euiCheckbox__square {
-  border-color: #3a86ff;
-  background-color: #3a86ff;
+  border-color: #3778ff;
+  background-color: #3778ff;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6' viewBox='0 0 6 6'%3E%3Crect width='6' height='6' fill='rgb%28255, 255, 255%29' fill-rule='evenodd'/%3E%3C/svg%3E");
 }
 .euiCheckbox .euiCheckbox__input[disabled] {
@@ -9976,7 +9976,7 @@
 .euiCheckbox .euiCheckbox__input:focus + .euiCheckbox__square {
   outline: 2px solid currentColor;
   outline-offset: 2px;
-  border-color: #3a86ff;
+  border-color: #3778ff;
 }
 .euiCheckbox .euiCheckbox__input:focus + .euiCheckbox__square:focus-visible {
   outline-style: auto;
@@ -10134,8 +10134,8 @@
   background-color: white;
   background-image: linear-gradient(
     to top,
-    #3a86ff,
-    #3a86ff 2px,
+    #3778ff,
+    #3778ff 2px,
     transparent 2px,
     transparent 100%
   );
@@ -10203,8 +10203,8 @@
   background-color: white;
   background-image: linear-gradient(
     to top,
-    #3a86ff,
-    #3a86ff 2px,
+    #3778ff,
+    #3778ff 2px,
     transparent 2px,
     transparent 100%
   );
@@ -10327,8 +10327,8 @@
   background-color: white;
   background-image: linear-gradient(
     to top,
-    #3a86ff,
-    #3a86ff 2px,
+    #3778ff,
+    #3778ff 2px,
     transparent 2px,
     transparent 100%
   );
@@ -10396,8 +10396,8 @@
   background-color: white;
   background-image: linear-gradient(
     to top,
-    #3a86ff,
-    #3a86ff 2px,
+    #3778ff,
+    #3778ff 2px,
     transparent 2px,
     transparent 100%
   );
@@ -10527,8 +10527,8 @@
   background-color: white;
   background-image: linear-gradient(
     to top,
-    #3a86ff,
-    #3a86ff 2px,
+    #3778ff,
+    #3778ff 2px,
     transparent 2px,
     transparent 100%
   );
@@ -10596,8 +10596,8 @@
   background-color: white;
   background-image: linear-gradient(
     to top,
-    #3a86ff,
-    #3a86ff 2px,
+    #3778ff,
+    #3778ff 2px,
     transparent 2px,
     transparent 100%
   );
@@ -10745,8 +10745,8 @@
   background-color: white;
   background-image: linear-gradient(
     to top,
-    #3a86ff,
-    #3a86ff 2px,
+    #3778ff,
+    #3778ff 2px,
     transparent 2px,
     transparent 100%
   );
@@ -10814,8 +10814,8 @@
   background-color: white;
   background-image: linear-gradient(
     to top,
-    #3a86ff,
-    #3a86ff 2px,
+    #3778ff,
+    #3778ff 2px,
     transparent 2px,
     transparent 100%
   );
@@ -11102,8 +11102,8 @@
   background-color: white;
   background-image: linear-gradient(
     to top,
-    #3a86ff,
-    #3a86ff 2px,
+    #3778ff,
+    #3778ff 2px,
     transparent 2px,
     transparent 100%
   );
@@ -11118,8 +11118,8 @@
   background-color: white;
   background-image: linear-gradient(
     to top,
-    #3a86ff,
-    #3a86ff 2px,
+    #3778ff,
+    #3778ff 2px,
     transparent 2px,
     transparent 100%
   );
@@ -11341,7 +11341,7 @@
   background-color: #e9edf3;
 }
 .euiFormControlLayout--group .euiButtonIcon:focus-visible {
-  outline: 2px solid #3a86ff;
+  outline: 2px solid #3778ff;
   outline-offset: -2px;
 }
 .euiFormControlLayout--group .euiToolTipAnchor > .euiIcon {
@@ -11731,7 +11731,7 @@
   /* 1 */
 }
 .euiFormLabel.euiFormLabel-isFocused {
-  color: #3a86ff;
+  color: #3778ff;
   /* 1 */
 }
 .euiFormLabel[for] {
@@ -11884,8 +11884,8 @@
   top: 3px;
 }
 .euiRadio .euiRadio__input:checked + .euiRadio__circle {
-  border-color: #3a86ff;
-  background-color: #3a86ff;
+  border-color: #3778ff;
+  background-color: #3778ff;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6' viewBox='0 0 6 6'%3E%3Ccircle cx='8' cy='11' r='3' fill='rgb%28255, 255, 255%29' fill-rule='evenodd' transform='translate(-5 -8)'/%3E%3C/svg%3E");
 }
 .euiRadio .euiRadio__input[disabled] {
@@ -11909,7 +11909,7 @@
 .euiRadio .euiRadio__input:focus + .euiRadio__circle {
   outline: 2px solid currentColor;
   outline-offset: 2px;
-  border-color: #3a86ff;
+  border-color: #3778ff;
 }
 .euiRadio .euiRadio__input:focus + .euiRadio__circle:focus-visible {
   outline-style: auto;
@@ -11993,7 +11993,7 @@
   background-color: #d3dae6;
 }
 .euiRangeHighlight__progress--hasFocus {
-  background-color: #3a86ff;
+  background-color: #3778ff;
 }
 .euiRangeHighlight--hasTicks {
   top: 7px;
@@ -12197,15 +12197,15 @@
 }
 .euiRangeSlider:focus-visible::-webkit-slider-thumb,
 .euiRangeSlider--hasFocus::-webkit-slider-thumb {
-  box-shadow: 0 0 0 2px #3a86ff;
+  box-shadow: 0 0 0 2px #3778ff;
 }
 .euiRangeSlider:focus-visible::-moz-range-thumb,
 .euiRangeSlider--hasFocus::-moz-range-thumb {
-  box-shadow: 0 0 0 2px #3a86ff;
+  box-shadow: 0 0 0 2px #3778ff;
 }
 .euiRangeSlider:focus-visible::-ms-thumb,
 .euiRangeSlider--hasFocus::-ms-thumb {
-  box-shadow: 0 0 0 2px #3a86ff;
+  box-shadow: 0 0 0 2px #3778ff;
 }
 .euiRangeSlider:focus-visible ~ .euiRangeThumb,
 .euiRangeSlider--hasFocus ~ .euiRangeThumb {
@@ -12213,27 +12213,27 @@
 }
 .euiRangeSlider:focus-visible::-webkit-slider-runnable-track,
 .euiRangeSlider--hasFocus::-webkit-slider-runnable-track {
-  background-color: #3a86ff;
-  border-color: #3a86ff;
+  background-color: #3778ff;
+  border-color: #3778ff;
 }
 .euiRangeSlider:focus-visible::-moz-range-track,
 .euiRangeSlider--hasFocus::-moz-range-track {
-  background-color: #3a86ff;
-  border-color: #3a86ff;
+  background-color: #3778ff;
+  border-color: #3778ff;
 }
 .euiRangeSlider:focus-visible::-ms-fill-lower,
 .euiRangeSlider--hasFocus::-ms-fill-lower {
-  background-color: #3a86ff;
-  border-color: #3a86ff;
+  background-color: #3778ff;
+  border-color: #3778ff;
 }
 .euiRangeSlider:focus-visible::-ms-fill-upper,
 .euiRangeSlider--hasFocus::-ms-fill-upper {
-  background-color: #3a86ff;
-  border-color: #3a86ff;
+  background-color: #3778ff;
+  border-color: #3778ff;
 }
 .euiRangeSlider:focus-visible ~ .euiRangeHighlight .euiRangeHighlight__progress,
 .euiRangeSlider--hasFocus ~ .euiRangeHighlight .euiRangeHighlight__progress {
-  background-color: #3a86ff;
+  background-color: #3778ff;
 }
 .euiRangeSlider:focus-visible ~ .euiRangeTooltip .euiRangeTooltip__value,
 .euiRangeSlider--hasFocus ~ .euiRangeTooltip .euiRangeTooltip__value {
@@ -12330,7 +12330,7 @@
 .euiRangeThumb:focus {
   outline: 2px solid currentColor;
   outline-offset: 2px;
-  border-color: #3a86ff;
+  border-color: #3778ff;
 }
 .euiRangeThumb:focus:focus-visible {
   outline-style: auto;
@@ -12400,7 +12400,7 @@
 .euiRangeTick:enabled:hover,
 .euiRangeTick:focus,
 .euiRangeTick--selected {
-  color: #3a86ff;
+  color: #3778ff;
 }
 .euiRangeTick--selected {
   font-weight: 500;
@@ -12657,8 +12657,8 @@
   background-color: white;
   background-image: linear-gradient(
     to top,
-    #3a86ff,
-    #3a86ff 2px,
+    #3778ff,
+    #3778ff 2px,
     transparent 2px,
     transparent 100%
   );
@@ -12726,8 +12726,8 @@
   background-color: white;
   background-image: linear-gradient(
     to top,
-    #3a86ff,
-    #3a86ff 2px,
+    #3778ff,
+    #3778ff 2px,
     transparent 2px,
     transparent 100%
   );
@@ -12937,8 +12937,8 @@
   background-color: white;
   background-image: linear-gradient(
     to top,
-    #3a86ff,
-    #3a86ff 2px,
+    #3778ff,
+    #3778ff 2px,
     transparent 2px,
     transparent 100%
   );
@@ -13006,8 +13006,8 @@
   background-color: white;
   background-image: linear-gradient(
     to top,
-    #3a86ff,
-    #3a86ff 2px,
+    #3778ff,
+    #3778ff 2px,
     transparent 2px,
     transparent 100%
   );
@@ -13074,8 +13074,8 @@
   background-color: white;
   background-image: linear-gradient(
     to top,
-    #3a86ff,
-    #3a86ff 2px,
+    #3778ff,
+    #3778ff 2px,
     transparent 2px,
     transparent 100%
   );
@@ -13108,7 +13108,7 @@
 .euiSwitch .euiSwitch__button:focus .euiSwitch__track {
   outline: 2px solid currentColor;
   outline-offset: 2px;
-  border-color: #3a86ff;
+  border-color: #3778ff;
 }
 .euiSwitch .euiSwitch__button:focus .euiSwitch__track:focus-visible {
   outline-style: auto;
@@ -13154,7 +13154,7 @@
   pointer-events: none;
   width: 44px;
   height: 20px;
-  background-color: #3a86ff;
+  background-color: #3778ff;
   display: inline-block;
   position: relative;
   border-radius: 20px;
@@ -13317,7 +13317,7 @@
 .euiSwitch.euiSwitch--mini
   .euiSwitch__button[aria-checked="true"]
   .euiSwitch__thumb {
-  border-color: #3a86ff;
+  border-color: #3778ff;
 }
 
 .euiTextArea {
@@ -13392,8 +13392,8 @@
   background-color: white;
   background-image: linear-gradient(
     to top,
-    #3a86ff,
-    #3a86ff 2px,
+    #3778ff,
+    #3778ff 2px,
     transparent 2px,
     transparent 100%
   );
@@ -13461,8 +13461,8 @@
   background-color: white;
   background-image: linear-gradient(
     to top,
-    #3a86ff,
-    #3a86ff 2px,
+    #3778ff,
+    #3778ff 2px,
     transparent 2px,
     transparent 100%
   );
@@ -13960,7 +13960,7 @@
 }
 
 .euiIcon--primary {
-  color: #3a86ff;
+  color: #3778ff;
 }
 
 .euiIcon--success {
@@ -14076,7 +14076,7 @@
   transition: all 150ms cubic-bezier(0.694, 0.0482, 0.335, 1);
 }
 .euiImage .euiImage__button:focus {
-  outline: 2px solid #3a86ff;
+  outline: 2px solid #3778ff;
 }
 .euiImage .euiImage__button:hover .euiImage__icon {
   visibility: visible;
@@ -14429,8 +14429,8 @@
 .euiKeyPadMenuItem--checkable.euiKeyPadMenuItem-isSelected:not(.euiKeyPadMenuItem-isDisabled):focus,
 .euiKeyPadMenuItem--checkable.euiKeyPadMenuItem-isSelected:not(.euiKeyPadMenuItem-isDisabled):focus-within {
   background-color: rgba(0, 119, 204, 0.1);
-  color: #3a86ff;
-  border-color: #3a86ff;
+  color: #3778ff;
+  border-color: #3778ff;
 }
 
 .euiLink {
@@ -14488,7 +14488,7 @@
   outline: none;
 }
 .euiLink.euiLink--primary {
-  color: #3a86ff;
+  color: #3778ff;
 }
 .euiLink.euiLink--primary:hover,
 .euiLink.euiLink--primary:focus,
@@ -14530,7 +14530,7 @@
   outline: none;
 }
 .euiLink.euiLink--accent {
-  color: #c443a86ff;
+  color: #c443778ff;
 }
 .euiLink.euiLink--accent:hover,
 .euiLink.euiLink--accent:focus,
@@ -14756,7 +14756,7 @@ button.euiLink {
 }
 .euiListGroupItem--primary .euiListGroupItem__text:not(:disabled),
 .euiListGroupItem--primary .euiListGroupItem__button:not(:disabled) {
-  color: #3a86ff;
+  color: #3778ff;
 }
 .euiListGroupItem--text .euiListGroupItem__text:not(:disabled),
 .euiListGroupItem--text .euiListGroupItem__button:not(:disabled) {
@@ -15382,7 +15382,7 @@ button.euiLink {
   height: 32px;
   border-radius: 50%;
   border: solid 2px #d3dae6;
-  border-color: #3a86ff #d3dae6 #d3dae6 #d3dae6;
+  border-color: #3778ff #d3dae6 #d3dae6 #d3dae6;
 }
 @media screen and (prefers-reduced-motion: no-preference) {
   .euiLoadingSpinner {
@@ -15496,8 +15496,8 @@ button.euiLink {
 .euiMarkdownEditorDropZone--isDragging .euiMarkdownEditorTextArea:focus {
   background-image: linear-gradient(
     to top,
-    #3a86ff,
-    #3a86ff 2px,
+    #3778ff,
+    #3778ff 2px,
     transparent 2px,
     transparent 100%
   ) !important;
@@ -15977,8 +15977,8 @@ button.euiLink {
   background-color: white;
   background-image: linear-gradient(
     to top,
-    #3a86ff,
-    #3a86ff 2px,
+    #3778ff,
+    #3778ff 2px,
     transparent 2px,
     transparent 100%
   );
@@ -16333,7 +16333,7 @@ button.euiLink {
   display: flex;
 }
 .euiNotificationEvent__title.euiLink {
-  color: #3a86ff;
+  color: #3778ff;
 }
 .euiNotificationEvent__title--isRead {
   color: #69707d !important;
@@ -16405,7 +16405,7 @@ button.euiLink {
   color: #69707d;
 }
 .euiNotificationEventMessages__accordionButton {
-  color: #3a86ff;
+  color: #3778ff;
 }
 .euiNotificationEventMessages__accordionContent > * {
   padding-top: 8px;
@@ -16499,7 +16499,7 @@ button.euiLink {
   font-weight: 600;
 }
 .euiPagination__compressedText > span:first-of-type {
-  color: #3a86ff;
+  color: #3778ff;
 }
 
 .euiPagination__list {
@@ -16521,7 +16521,7 @@ button.euiLink {
   font-weight: 700;
 }
 .euiPaginationButton-isActive.euiPaginationButton-isActive {
-  color: #3a86ff;
+  color: #3778ff;
 }
 .euiPaginationButton-isActive.euiPaginationButton-isActive
   .euiButtonEmpty__content {
@@ -17684,19 +17684,19 @@ button.euiLink {
 }
 
 .euiProgress--primary.euiProgress--native::-webkit-progress-value {
-  background-color: #3a86ff;
+  background-color: #3778ff;
 }
 
 .euiProgress--primary.euiProgress--native::-moz-progress-bar {
-  background-color: #3a86ff;
+  background-color: #3778ff;
 }
 
 .euiProgress--primary.euiProgress--indeterminate:before {
-  background-color: #3a86ff;
+  background-color: #3778ff;
 }
 
 .euiProgress__data--primary .euiProgress__valueText {
-  color: #3a86ff;
+  color: #3778ff;
 }
 
 .euiProgress--success.euiProgress--native::-webkit-progress-value {
@@ -17760,7 +17760,7 @@ button.euiLink {
 }
 
 .euiProgress__data--accent .euiProgress__valueText {
-  color: #c443a86ff;
+  color: #c443778ff;
 }
 
 .euiProgress--subdued.euiProgress--native::-webkit-progress-value {
@@ -18205,7 +18205,7 @@ button.euiLink {
 }
 .euiResizableButton:focus:not(:disabled):before,
 .euiResizableButton:focus:not(:disabled):after {
-  background-color: #3a86ff;
+  background-color: #3778ff;
   transition: width 150ms ease, height 150ms ease, -webkit-transform 150ms ease;
   transition: width 150ms ease, height 150ms ease, transform 150ms ease;
   transition: width 150ms ease, height 150ms ease, transform 150ms ease,
@@ -18958,7 +18958,7 @@ button.euiLink {
 }
 .euiSelectableListItem-isFocused:not([aria-disabled="true"]),
 .euiSelectableListItem:hover:not([aria-disabled="true"]) {
-  color: #3a86ff;
+  color: #3778ff;
   background-color: rgba(0, 119, 204, 0.1);
 }
 .euiSelectableListItem-isFocused:not([aria-disabled="true"])
@@ -19134,7 +19134,7 @@ button.euiLink {
   color: #69707d;
 }
 .euiStat .euiStat__title--primary {
-  color: #3a86ff;
+  color: #3778ff;
 }
 .euiStat .euiStat__title--success {
   color: #007e77;
@@ -19143,7 +19143,7 @@ button.euiLink {
   color: #bd271e;
 }
 .euiStat .euiStat__title--accent {
-  color: #c443a86ff;
+  color: #c443778ff;
 }
 
 .euiStat .euiStat__title-isLoading {
@@ -19201,7 +19201,7 @@ button.euiLink {
   border-radius: 32px;
   text-align: center;
   color: #fff;
-  background-color: #3a86ff;
+  background-color: #3778ff;
   font-size: 14px;
   font-weight: 500;
 }
@@ -19218,7 +19218,7 @@ button.euiLink {
   border-radius: 24px;
   text-align: center;
   color: #fff;
-  background-color: #3a86ff;
+  background-color: #3778ff;
   font-size: 12px;
   font-weight: 500;
 }
@@ -19242,7 +19242,7 @@ button.euiLink {
 }
 .euiStepNumber.euiStepNumber-isHollow {
   background-color: transparent;
-  border: 2px solid #3a86ff;
+  border: 2px solid #3778ff;
 }
 .euiStepNumber.euiStepNumber-isHollow .euiStepNumber__number {
   display: none;
@@ -19442,7 +19442,7 @@ button.euiLink {
 .euiStepHorizontal-isComplete::before,
 .euiStepHorizontal-isComplete::after {
   height: 2px;
-  background-color: #3a86ff;
+  background-color: #3778ff;
 }
 
 .euiStepHorizontal-isSelected
@@ -19453,7 +19453,7 @@ button.euiLink {
 
 .euiStepHorizontal-isSelected::before {
   height: 2px;
-  background-color: #3a86ff;
+  background-color: #3778ff;
 }
 
 @media only screen and (max-width: 574px) {
@@ -20078,11 +20078,11 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
 .euiTableHeaderButton:hover .euiTableCellContent__text,
 .euiTableHeaderButton:focus .euiTableCellContent__text {
   text-decoration: underline;
-  color: #3a86ff;
+  color: #3778ff;
 }
 .euiTableHeaderButton:hover .euiTableSortIcon,
 .euiTableHeaderButton:focus .euiTableSortIcon {
-  fill: #3a86ff;
+  fill: #3778ff;
 }
 
 .euiTableSortIcon {
@@ -21006,11 +21006,11 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
   outline-offset: -2px;
 }
 .euiTab.euiTab-isSelected {
-  box-shadow: inset 0 -2px 0 #3a86ff;
+  box-shadow: inset 0 -2px 0 #3778ff;
 }
 .euiTab.euiTab-isSelected,
 .euiTab.euiTab-isSelected .euiTab__content {
-  color: #3a86ff !important;
+  color: #3778ff !important;
 }
 .euiTab.euiTab-isDisabled,
 .euiTab.euiTab-isDisabled .euiTab__content {
@@ -21349,11 +21349,11 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
   opacity: 1;
 }
 .euiToast__closeButton:focus svg {
-  fill: #3a86ff;
+  fill: #3778ff;
 }
 
 .euiToast--primary {
-  border-top: 2px solid #3a86ff;
+  border-top: 2px solid #3778ff;
 }
 
 .euiToast--success {
@@ -22496,7 +22496,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
 }
 
 .euiTextColor--accent {
-  color: #c443a86ff;
+  color: #c443778ff;
 }
 
 .euiTextColor--warning {
@@ -22569,7 +22569,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
 }
 
 .euiButton--primary {
-  color: #3a86ff;
+  color: #3778ff;
   background-color: #f2f8ff;
 }
 .euiButton--primary:not([class*="isDisabled"]):hover,
@@ -22585,7 +22585,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
 .euiButton--primary.euiButton--fill:not([class*="isDisabled"]),
 .euiButton--primary.euiButton--fill:not([class*="isDisabled"]):hover,
 .euiButton--primary.euiButton--fill:not([class*="isDisabled"]):focus {
-  background-color: #3a86ff;
+  background-color: #3778ff;
 }
 
 .euiButton--accent {
@@ -22733,7 +22733,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
 }
 
 .euiButtonIcon--primary:not(.euiButtonIcon--empty) {
-  color: #3a86ff;
+  color: #3778ff;
   background-color: #f2f8ff;
 }
 .euiButtonIcon--primary:not(.euiButtonIcon--empty):not([class*="isDisabled"]):hover,
@@ -22749,7 +22749,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
 .euiButtonIcon--primary:not(.euiButtonIcon--empty).euiButtonIcon--fill:not([class*="isDisabled"]),
 .euiButtonIcon--primary:not(.euiButtonIcon--empty).euiButtonIcon--fill:not([class*="isDisabled"]):hover,
 .euiButtonIcon--primary:not(.euiButtonIcon--empty).euiButtonIcon--fill:not([class*="isDisabled"]):focus {
-  background-color: #3a86ff;
+  background-color: #3778ff;
 }
 
 .euiButtonIcon--accent:not(.euiButtonIcon--empty) {
@@ -22978,7 +22978,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
 
 .euiButtonGroup--medium .euiButtonGroupButton--primary,
 .euiButtonGroup--small .euiButtonGroupButton--primary {
-  color: #3a86ff;
+  color: #3778ff;
   background-color: #f2f8ff;
 }
 .euiButtonGroup--medium
@@ -23131,7 +23131,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
   .euiButtonGroupButton--primary:not([class*="isDisabled"]):focus,
 .euiButtonGroup--compressed
   .euiButtonGroupButton--primary:not([class*="isDisabled"]):focus-within {
-  outline-color: #3a86ff;
+  outline-color: #3778ff;
 }
 .euiButtonGroup--compressed
   .euiButtonGroupButton--primary:not([class*="isDisabled"]):focus:focus-visible,
@@ -23294,7 +23294,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
     0 1px 5px -2px rgba(0, 0, 0, 0.2);
 }
 .euiColorStopThumb.euiRangeThumb:not(:disabled):focus {
-  box-shadow: 0 0 0 2px #3a86ff;
+  box-shadow: 0 0 0 2px #3778ff;
   outline: none;
 }
 .euiColorStopThumb.euiRangeThumb:not(:disabled):focus:not(:focus-visible) {
@@ -23312,7 +23312,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
   outline: none;
 }
 .euiColorStops:not(.euiColorStops-isDisabled):focus .euiRangeTrack::after {
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.8), 0 0 0 3px #3a86ff;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.8), 0 0 0 3px #3778ff;
 }
 
 .euiColorStops:not(.euiColorStops-isDisabled):focus:not(:focus-visible)
@@ -23615,12 +23615,12 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
 }
 
 .euiRadio .euiRadio__input:focus + .euiRadio__circle {
-  outline: 2px solid #3a86ff;
+  outline: 2px solid #3778ff;
   outline-offset: 2px;
 }
 
 .euiRadio .euiRadio__input:focus:focus-visible + .euiRadio__circle {
-  outline: 2px solid #3a86ff;
+  outline: 2px solid #3778ff;
   outline-offset: 2px;
 }
 
@@ -23629,12 +23629,12 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
 }
 
 .euiCheckbox .euiCheckbox__input:focus + .euiCheckbox__square {
-  outline: 2px solid #3a86ff;
+  outline: 2px solid #3778ff;
   outline-offset: 2px;
 }
 
 .euiCheckbox .euiCheckbox__input:focus:focus-visible + .euiCheckbox__square {
-  outline: 2px solid #3a86ff;
+  outline: 2px solid #3778ff;
   outline-offset: 2px;
 }
 
@@ -23692,7 +23692,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
   background-color: rgba(52, 55, 65, 0.2);
 }
 .euiHeaderBreadcrumbs .euiBreadcrumb__content.euiLink {
-  color: #3a86ff;
+  color: #3778ff;
   background-color: #f2f8ff;
 }
 .euiHeaderBreadcrumbs
@@ -23832,15 +23832,15 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
   outline: none;
 }
 .euiHue__range:focus::-webkit-slider-thumb {
-  box-shadow: 0 0 0 2px #3a86ff;
+  box-shadow: 0 0 0 2px #3778ff;
   border: 3px solid #fff;
 }
 .euiHue__range:focus::-moz-range-thumb {
-  box-shadow: 0 0 0 2px #3a86ff;
+  box-shadow: 0 0 0 2px #3778ff;
   border: 3px solid #fff;
 }
 .euiHue__range:focus::-ms-thumb {
-  box-shadow: 0 0 0 2px #3a86ff;
+  box-shadow: 0 0 0 2px #3778ff;
   border: 3px solid #fff;
 }
 .euiHue__range:focus:not(:focus-visible)::-webkit-slider-thumb {
@@ -24061,8 +24061,8 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
 }
 .euiRangeDraggable:focus ~ .euiRangeThumb {
   border: 2px solid #fff;
-  box-shadow: 0 0 0 2px #3a86ff;
-  background-color: #3a86ff;
+  box-shadow: 0 0 0 2px #3778ff;
+  background-color: #3778ff;
 }
 
 .euiRangeDraggable:focus:not(:focus-visible) ~ .euiRangeThumb {
@@ -24076,8 +24076,8 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
 }
 .euiRangeDraggable:focus-visible ~ .euiRangeThumb {
   border: 2px solid #fff;
-  box-shadow: 0 0 0 2px #3a86ff;
-  background-color: #3a86ff;
+  box-shadow: 0 0 0 2px #3778ff;
+  background-color: #3778ff;
 }
 
 .euiRangeHighlight {
@@ -24089,7 +24089,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
   border-color: #69707d;
 }
 .euiRangeHighlight__progress--hasFocus {
-  background-color: #3a86ff;
+  background-color: #3778ff;
 }
 .euiRangeHighlight--compressed {
   top: calc(50% - 2px);
@@ -24152,18 +24152,18 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
 }
 .euiRangeSlider:focus::-webkit-slider-thumb {
   border: 2px solid #fff;
-  box-shadow: 0 0 0 2px #3a86ff;
-  background-color: #3a86ff;
+  box-shadow: 0 0 0 2px #3778ff;
+  background-color: #3778ff;
 }
 .euiRangeSlider:focus::-moz-range-thumb {
   border: 2px solid #fff;
-  box-shadow: 0 0 0 2px #3a86ff;
-  background-color: #3a86ff;
+  box-shadow: 0 0 0 2px #3778ff;
+  background-color: #3778ff;
 }
 .euiRangeSlider:focus::-ms-thumb {
   border: 2px solid #fff;
-  box-shadow: 0 0 0 2px #3a86ff;
-  background-color: #3a86ff;
+  box-shadow: 0 0 0 2px #3778ff;
+  background-color: #3778ff;
 }
 .euiRangeSlider:focus::-webkit-slider-runnable-track {
   background-color: transparent;
@@ -24178,7 +24178,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
   background-color: transparent;
 }
 .euiRangeSlider:focus ~ .euiRangeHighlight .euiRangeHighlight__progress {
-  background-color: #3a86ff;
+  background-color: #3778ff;
 }
 .euiRangeSlider:focus:not(:focus-visible)::-webkit-slider-thumb {
   box-shadow: 0 0 0 1px #fff, 0 2px 2px -1px rgba(0, 0, 0, 0.2),
@@ -24227,8 +24227,8 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
 }
 .euiRangeThumb:focus {
   border: 2px solid #fff;
-  box-shadow: 0 0 0 2px #3a86ff;
-  background-color: #3a86ff;
+  box-shadow: 0 0 0 2px #3778ff;
+  background-color: #3778ff;
   outline: none;
 }
 .euiRangeThumb:focus:focus-visible {
@@ -24265,7 +24265,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
 .euiRangeTick:enabled:hover,
 .euiRangeTick:focus,
 .euiRangeTick--selected {
-  color: #3a86ff;
+  color: #3778ff;
 }
 
 .euiRangeTick--selected {
@@ -24407,7 +24407,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
 }
 
 .euiStepNumber {
-  outline-color: #3a86ff;
+  outline-color: #3778ff;
 }
 .euiStepNumber .euiStepNumber__icon {
   position: relative;
@@ -24422,7 +24422,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
   stroke-width: 0.5px;
 }
 .euiStepNumber--default {
-  background-color: #3a86ff;
+  background-color: #3778ff;
   color: #fff;
   outline-color: #000 !important;
 }
@@ -24464,7 +24464,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
 .euiStepHorizontal::before,
 .euiStepHorizontal::after {
   height: 2px;
-  background-color: #3a86ff;
+  background-color: #3778ff;
   background-color: #d3dae6;
 }
 
@@ -24487,7 +24487,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
 
 .euiStepHorizontal:focus:not(.euiStepHorizontal-isDisabled)
   .euiStepHorizontal__number:not(:focus-visible) {
-  outline: 2px solid #3a86ff;
+  outline: 2px solid #3778ff;
 }
 
 .euiTab,
@@ -24574,7 +24574,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
 
 .euiTabs .euiTab-isSelected,
 .euiTabs--condensed.euiTabs .euiTab-isSelected {
-  color: #3a86ff;
+  color: #3778ff;
 }
 .euiTabs .euiTab-isSelected:hover,
 .euiTabs .euiTab-isSelected:focus,
@@ -24709,7 +24709,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
 }
 
 .euiToast--primary {
-  border-top: 2px solid #3a86ff;
+  border-top: 2px solid #3778ff;
 }
 
 .euiToast--success {

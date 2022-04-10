@@ -3,8 +3,17 @@
   "permissions": {
     "auth": {
       "liquid": [
-        "read"
+        "create",
+        "read",
+        "update",
+        "delete"
       ]
     }
-  }
+  },
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "env",
+      "environmentVariableName": "env"
+    }
+  ]
 }

@@ -282,7 +282,16 @@
                 "s3:GetObjectVersion"
               ],
               "Resource": [
-                "arn:aws:s3:::liquid-user-storage/*"
+                {
+                  "Fn::Sub": [
+                    "arn:aws:s3:::liquid-${env}-storage/*",
+                    {
+                      "env": {
+                        "Ref": "env"
+                      }
+                    }
+                  ]
+                }
               ],
               "Effect": "Allow"
             }

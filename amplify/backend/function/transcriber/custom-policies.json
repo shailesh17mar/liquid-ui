@@ -1,6 +1,6 @@
 [
   {
     "Action": ["s3:GetObject", "s3:GetObjectVersion"],
-    "Resource": ["arn:aws:s3:::liquid-user-storage/*"]
+    "Resource": ["arn:aws:s3:::liquid-${env}-storage/*"]
   }
 ]
