@@ -173,9 +173,3 @@ type TagCategory
   tags: [Tags] @hasMany(indexName: "byTagCategories", fields: ["id"])
   templateId: ID
 }
-
-type Templates @model @auth(rules: [{ allow: private, operations: [read] }]) {
-  id: ID!
-  content: AWSJSON
-  tags: [String]
-}

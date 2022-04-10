@@ -183,13 +183,6 @@
           "attributes": [
             "UserPoolId"
           ]
-        },
-        {
-          "category": "api",
-          "resourceName": "liquid",
-          "attributes": [
-            "GraphQLAPIIdOutput"
-          ]
         }
       ]
     }

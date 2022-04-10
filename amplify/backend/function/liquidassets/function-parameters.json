@@ -2,21 +2,18 @@
   "lambdaLayers": [],
   "permissions": {
     "auth": {
-      "liquid": ["create", "read", "update", "delete"]
-    },
-    "storage": {
-      "Persons:@model(appsync)": ["create", "read", "update", "delete"],
-      "Insights:@model(appsync)": ["create", "read", "update", "delete"],
-      "Highlights:@model(appsync)": ["create", "read", "update", "delete"],
-      "Tags:@model(appsync)": ["create", "read", "update", "delete"],
-      "Transcription:@model(appsync)": ["create", "read", "update", "delete"],
-      "Stories:@model(appsync)": ["create", "read", "update", "delete"],
-      "Categories:@model(appsync)": ["create", "read", "update", "delete"],
-      "Projects:@model(appsync)": ["create", "read", "update"],
-      "Workspaces:@model(appsync)": ["create", "read", "update", "delete"],
-      "VodAsset:@model(appsync)": ["create", "read", "update", "delete"],
-      "TagCategory:@model(appsync)": ["create", "read", "update", "delete"],
-      "Templates:@model(appsync)": ["create", "read", "update", "delete"]
+      "liquid": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
     }
-  }
+  },
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "env",
+      "environmentVariableName": "env"
+    }
+  ]
 }
