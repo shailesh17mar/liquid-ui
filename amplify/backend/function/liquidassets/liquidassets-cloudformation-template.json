@@ -395,14 +395,14 @@
                   }
                 ]
               ]
+            },
+            "environment": {
+              "Ref": "environment"
             }
           }
         },
         "Role": {
-          "Fn::GetAtt": [
-            "LambdaExecutionRole",
-            "Arn"
-          ]
+          "Fn::GetAtt": ["LambdaExecutionRole", "Arn"]
         },
         "Runtime": "nodejs14.x",
         "Layers": [],
@@ -436,22 +436,16 @@
             {
               "Effect": "Allow",
               "Principal": {
-                "Service": [
-                  "lambda.amazonaws.com"
-                ]
+                "Service": ["lambda.amazonaws.com"]
               },
-              "Action": [
-                "sts:AssumeRole"
-              ]
+              "Action": ["sts:AssumeRole"]
             }
           ]
         }
       }
     },
     "lambdaexecutionpolicy": {
-      "DependsOn": [
-        "LambdaExecutionRole"
-      ],
+      "DependsOn": ["LambdaExecutionRole"],
       "Type": "AWS::IAM::Policy",
       "Properties": {
         "PolicyName": "lambda-execution-policy",
@@ -492,9 +486,7 @@
       }
     },
     "AmplifyResourcesPolicy": {
-      "DependsOn": [
-        "LambdaExecutionRole"
-      ],
+      "DependsOn": ["LambdaExecutionRole"],
       "Type": "AWS::IAM::Policy",
       "Properties": {
         "PolicyName": "amplify-lambda-execution-policy",
@@ -1368,13 +1360,8 @@
           "Version": "2012-10-17",
           "Statement": [
             {
-              "Action": [
-                "s3:*",
-                "s3-object-lambda:*"
-              ],
-              "Resource": [
-                "arn:aws:s3:::liquid-user-storage/*"
-              ],
+              "Action": ["s3:*", "s3-object-lambda:*"],
+              "Resource": ["arn:aws:s3:::liquid-${env}-storage/*"],
               "Effect": "Allow"
             }
           ]
@@ -1396,10 +1383,7 @@
     },
     "Arn": {
       "Value": {
-        "Fn::GetAtt": [
-          "LambdaFunction",
-          "Arn"
-        ]
+        "Fn::GetAtt": ["LambdaFunction", "Arn"]
       }
     },
     "Region": {

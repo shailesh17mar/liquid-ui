@@ -6,7 +6,7 @@ import { json } from "body-parser";
 import { authorize } from "./authorizer";
 const s3 = new AWS.S3();
 
-const BUCKET = "liquid-user-storage";
+const BUCKET = `liquid-${process.env.ENV}-storage`;
 const EXPIRY_IN_SECONDS = 60 * 60 * 5;
 
 // declare a new express app
