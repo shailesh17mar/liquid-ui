@@ -10,6 +10,7 @@ import {
   VideoContainer,
   VideoPlayer,
   VideoPlayerSkeleton,
+  VideoPlayerWrapper,
 } from "./video.styles";
 import {
   EuiConfirmModal,
@@ -37,6 +38,7 @@ export const Video = (props: NodeViewProps) => {
   const { id } = useParams() as { id: string };
   const uploaderRef = useRef<HTMLInputElement>(null);
   const { video, transcriptId } = props.node.attrs;
+  const [containsTranscript, setContainsTranscript] = useState(false);
 
   const [isTranscriptionOwner, setIsTranscriptionOwner, remove] =
     useLocalStorage(`doc-${id}`, false);
@@ -51,6 +53,20 @@ export const Video = (props: NodeViewProps) => {
     Boolean(video),
     isTranscribing
   );
+
+  useEffect(() => {
+    if (transcriptId) {
+      const content = props.editor.getJSON();
+      if (content.content) {
+        const containsTranscript = content.content.some(
+          (content) =>
+            content.type === "transcriptComponent" &&
+            content.attrs?.transcriptId === transcriptId
+        );
+        setContainsTranscript(containsTranscript);
+      }
+    }
+  }, [props.editor, transcriptId]);
 
   const transcriptCreateMutation = useCreateTranscription();
   const videoAssetUpdateMutation = useUpdateVideoAsset();
@@ -93,7 +109,6 @@ export const Video = (props: NodeViewProps) => {
         `/assets/${videoAsset?.video}`,
         {}
       );
-
       setVideoURL(url);
     }
     if (videoAsset?.video) {
@@ -110,6 +125,7 @@ export const Video = (props: NodeViewProps) => {
     props.editor.commands.focus("end");
 
     props.editor.commands.setTranscript({ transcriptId: id }, transcriptJson);
+    //remove existing transcript
   };
 
   useEffect(() => {
@@ -157,8 +173,8 @@ export const Video = (props: NodeViewProps) => {
   };
 
   const handleTranscription = async () => {
-    if (videoURL) {
-      if (videoAsset && !videoAsset?.transcription) {
+    if (videoURL && videoAsset) {
+      if (!videoAsset.transcription) {
         const transcript = await transcriptCreateMutation.mutateAsync({
           video: videoAsset.video,
           status: TranscriptionStatus.ENQUEUED,
@@ -168,6 +184,8 @@ export const Video = (props: NodeViewProps) => {
           id: video,
           vodAssetTranscriptionId: transcript?.id,
         });
+        setIsTranscriptionOwner(true);
+      } else {
         setIsTranscriptionOwner(true);
       }
     } else throw new Error("No video to transcribe");
@@ -235,57 +253,68 @@ export const Video = (props: NodeViewProps) => {
           <EuiPanel hasShadow={false}>
             <EuiFlexGroup direction="column" justifyContent="center">
               <EuiFlexItem grow={false}>
-                <VideoPlayer
-                  style={{ width: "100%", height: "auto" }}
-                  width="100%"
-                  url={videoURL}
-                  // config={{
-                  //   file: {
-                  //     hlsOptions: {
-                  //       xhrSetup: function xhrSetup(xhr: any, url: string) {
-                  //         xhr.setRequestHeader(
-                  //           "Access-Control-Allow-Headers",
-                  //           "Content-Type, Accept, X-Requested-With"
-                  //         );
-                  //         // xhr.setRequestHeader(
-                  //         //   "Access-Control-Allow-Origin",
-                  //         //   "http://localhost:3000"
-                  //         // );
-                  //         xhr.setRequestHeader(
-                  //           "Access-Control-Allow-Credentials",
-                  //           "true"
-                  //         );
-                  //         xhr.open("GET", url + token);
-                  //       },
-                  //     },
-                  //   },
-                  // }}
-                  playbackRate={1.0}
-                  controls
-                  onError={(e: any) => console.log("onError", e)}
-                />
+                <VideoPlayerWrapper>
+                  <VideoPlayer
+                    width="100%"
+                    height="auto"
+                    url={videoURL}
+                    // config={{
+                    //   file: {
+                    //     hlsOptions: {
+                    //       xhrSetup: function xhrSetup(xhr: any, url: string) {
+                    //         xhr.setRequestHeader(
+                    //           "Access-Control-Allow-Headers",
+                    //           "Content-Type, Accept, X-Requested-With"
+                    //         );
+                    //         // xhr.setRequestHeader(
+                    //         //   "Access-Control-Allow-Origin",
+                    //         //   "http://localhost:3000"
+                    //         // );
+                    //         xhr.setRequestHeader(
+                    //           "Access-Control-Allow-Credentials",
+                    //           "true"
+                    //         );
+                    //         xhr.open("GET", url + token);
+                    //       },
+                    //     },
+                    //   },
+                    // }}
+                    playbackRate={1.0}
+                    controls
+                    onError={(e: any) => console.log("onError", e)}
+                  />
+                </VideoPlayerWrapper>
               </EuiFlexItem>
-              <EuiFlexItem>
-                {isTranscribing ||
-                (videoAsset?.transcription &&
-                  [
-                    TranscriptionStatus.INPROGRESS,
-                    TranscriptionStatus.ENQUEUED,
-                  ].includes(
-                    videoAsset.transcription.status as TranscriptionStatus
-                  )) ? (
-                  <TranscriptionButton fullWidth={false} disabled isLoading>
-                    Transcribing...
-                  </TranscriptionButton>
-                ) : (
-                  <TranscriptionButton
-                    fullWidth={false}
-                    onClick={handleTranscription}
-                  >
-                    Start Transcribing
-                  </TranscriptionButton>
-                )}
-              </EuiFlexItem>
+              {!containsTranscript && (
+                <EuiFlexItem>
+                  {isTranscribing ||
+                  (videoAsset?.transcription &&
+                    [
+                      TranscriptionStatus.INPROGRESS,
+                      TranscriptionStatus.ENQUEUED,
+                    ].includes(
+                      videoAsset.transcription.status as TranscriptionStatus
+                    )) ? (
+                    <TranscriptionButton fullWidth={false} disabled isLoading>
+                      Transcribing...
+                    </TranscriptionButton>
+                  ) : !transcriptId ? (
+                    <TranscriptionButton
+                      fullWidth={false}
+                      onClick={handleTranscription}
+                    >
+                      Start Transcribing
+                    </TranscriptionButton>
+                  ) : (
+                    <TranscriptionButton
+                      fullWidth={false}
+                      onClick={handleTranscription}
+                    >
+                      Retry
+                    </TranscriptionButton>
+                  )}
+                </EuiFlexItem>
+              )}
               {/* <EuiButton
               onClick={() => {
                 // interactiveTranscript = new InteractiveTranscript();

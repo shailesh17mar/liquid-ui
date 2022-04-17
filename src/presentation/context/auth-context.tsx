@@ -16,7 +16,10 @@ interface ContextType {
 const AuthContext = React.createContext<ContextType | undefined>(undefined);
 const queryCache = new QueryCache();
 
-const AuthProvider: React.FC = ({ children }) => {
+interface Props {
+  children: React.ReactNode;
+}
+const AuthProvider: React.FC<Props> = ({ children }) => {
   const [user, setUser] = useState<any | null>(null);
   const [token, setToken] = useState<string>();
   useEffect(() => {
@@ -25,9 +28,9 @@ const AuthProvider: React.FC = ({ children }) => {
       const currentSession = await Auth.currentSession();
       const userInfo = await Auth.currentUserInfo();
       const token = currentSession.getIdToken().getJwtToken();
-      const cognitoGroups =
-        currentSession.getAccessToken().payload["cognito:groups"];
-      const tenant = cognitoGroups[1];
+      // const cognitoGroups =
+      // currentSession.getAccessToken().payload["cognito:groups"];
+      const tenant = userInfo.attributes.email.split("@")[1];
       !isUnmounted &&
         setUser({
           name: userInfo.attributes.name,

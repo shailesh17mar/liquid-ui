@@ -10,7 +10,7 @@ export const CompanyFinder: React.FC<ComplexValue> = (props) => {
     []
   );
 
-  const onSearchChange = useCallback((searchValue) => {
+  const onSearchChange = useCallback((searchValue: string) => {
     setLoading(true);
     setOptions([]);
 

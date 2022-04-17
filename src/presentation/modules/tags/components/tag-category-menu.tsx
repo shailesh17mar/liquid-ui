@@ -41,7 +41,7 @@ export const CategoryMenu: React.FC = () => {
     </EuiButtonIcon>
   );
   const handleCreateCategory = () => {
-    categoryMutation.mutate({
+    categoryMutation.mutateAsync({
       name: categoryName,
       projectsID: id,
       color: HIGHLIGHT_COLORS.DEFAULT,

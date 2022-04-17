@@ -4,7 +4,6 @@ import { API } from "aws-amplify";
 import { TagCategory } from "API";
 import { listTagCategories } from "graphql/queries";
 import { useQuery } from "react-query";
-import Moment from "moment";
 
 const retrieveCategories = async (projectId: string) => {
   const categoriesResponse = (await API.graphql({

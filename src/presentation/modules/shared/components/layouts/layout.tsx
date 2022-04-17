@@ -6,7 +6,7 @@ import {
   EuiBreadcrumb,
 } from "@elastic/eui";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
-import { Page } from "./layout.styles";
+import { Breadcrumbs, Page } from "./layout.styles";
 import { useAuth } from "presentation/context/auth-context";
 import { CreateProjectModal } from "../create-project-modal/create-project-modal";
 import { SideBar } from "./sidebar";
@@ -193,14 +193,14 @@ export const Layout: React.FC<Props> = ({ isProjectLayout, isStoryPage }) => {
         />
       )}
       {isStoryPage && story && category ? (
-        <EuiBreadcrumbs
+        <Breadcrumbs
           breadcrumbs={makeBreadcrumbs(navigate, {
             ...story,
             categoryName: category.name,
             projectName: currentProject?.name,
           })}
           truncate={false}
-          aria-label="An example of EuiBreadcrumbs"
+          aria-label="Navigation"
         />
       ) : null}
       <Outlet />

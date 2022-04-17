@@ -29,7 +29,9 @@ export const UserMenu: React.FC = () => {
     <EuiPopover
       id={profileContextMenuPopoverId}
       button={
-        <EuiButtonEmpty onClick={() => setIsPopoverOpen(!isPopoverOpen)}>
+        <EuiButtonEmpty
+          onClick={() => setIsPopoverOpen((isPopoverOpen) => !isPopoverOpen)}
+        >
           <EuiAvatar name={user.name}></EuiAvatar>
         </EuiButtonEmpty>
       }

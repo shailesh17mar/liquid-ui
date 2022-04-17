@@ -28,7 +28,7 @@ export const useCreateTagCategory = (
     {
       onSuccess: (category, variables) => {
         if (Boolean(category)) {
-          queryClient.invalidateQueries(["tag-categories"]);
+          queryClient.invalidateQueries(["tag-categories-project"]);
           if (callback) callback(category as TagCategory);
         }
       },

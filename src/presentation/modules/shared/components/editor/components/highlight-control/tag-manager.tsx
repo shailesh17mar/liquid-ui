@@ -132,7 +132,7 @@ export const TagManager: React.FC<Props> = ({ editor, id, isTranscript }) => {
   }, [id]);
 
   useEffect(() => {
-    if (tags && (allOptions.length === 0 || highlight) && defaultTagCategory) {
+    if (tags && (allOptions.length === 1 || highlight) && defaultTagCategory) {
       // const tagIds =
       // highlight && highlight.tagIds ? highlight.tagIds.split("|") : [];
       const tagIds = highlight && highlight.Tags ? highlight.Tags : [];
@@ -170,7 +170,14 @@ export const TagManager: React.FC<Props> = ({ editor, id, isTranscript }) => {
       setSelected(selectedTags);
       // setTagOptions(options);
     }
-  }, [highlight, tags, id, allOptions.length, highlightState?.id]);
+  }, [
+    highlight,
+    defaultTagCategory,
+    tags,
+    id,
+    allOptions.length,
+    highlightState?.id,
+  ]);
 
   const createHighlight = async (
     id: string,

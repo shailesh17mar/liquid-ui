@@ -45,8 +45,8 @@ export const PropertiesEditor: React.FC<Props> = ({ properties, onChange }) => {
   });
 
   const handleSave = useCallback(
-    (properties) => {
-      onChange(properties);
+    (properties: any) => {
+      if (properties) onChange(properties);
     },
     [onChange]
   );
@@ -123,7 +123,7 @@ export const PropertiesEditor: React.FC<Props> = ({ properties, onChange }) => {
       <EuiButton
         size="s"
         fullWidth={false}
-        color="text"
+        color="primary"
         onClick={onAddButtonClick}
         style={{ marginLeft: 32 }}
       >

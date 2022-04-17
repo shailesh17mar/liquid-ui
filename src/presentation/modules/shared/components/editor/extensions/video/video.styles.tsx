@@ -6,15 +6,15 @@ import styled from "styled-components";
 export const DeleteButton = styled(EuiButton)`
   visibility: hidden;
   position: absolute;
-  right: 1rem;
-  top: 1rem;
+  right: 2rem;
+  top: 2rem;
   z-index: 1;
 `;
 
 export const VideoContainer = styled(NodeViewWrapper)`
   margin: 1rem 0;
   position: relative;
-  /* border: 1px solid #d3dae6; */
+  border: 1px solid #d3dae6;
   border-radius: 0.5rem;
 
   .label {
@@ -40,8 +40,19 @@ export const VideoContainer = styled(NodeViewWrapper)`
   }
 `;
 
+export const VideoPlayerWrapper = styled.div`
+  position: relative;
+  padding-top: 56.25%; /* 720 / 1280 = 0.5625 */
+  border-radius: 8px;
+  height: 450px;
+  overflow: hidden;
+`;
+
 export const VideoPlayer = styled(ReactPlayer)`
   margin: 0 auto;
+  position: absolute;
+  top: 0;
+  left: 0;
 `;
 
 export const Color = styled.span`

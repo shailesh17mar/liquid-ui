@@ -30,6 +30,7 @@ export const useUpdateTagCategory = () => {
     {
       onSettled: (data, variables) => {
         queryClient.invalidateQueries(["tag-categories-project"]);
+        queryClient.invalidateQueries(["tags"]);
       },
       onError: (error) => {
         throw error;

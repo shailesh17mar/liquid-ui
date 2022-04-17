@@ -46,14 +46,15 @@ export const ActionMenu: React.FC<Props> = ({ onAddProject }) => {
       button={
         <HeaderActionButton
           aria-label="Action Menu"
-          display="fill"
           iconType="plus"
+          size="s"
           color="primary"
           onClick={() => setIsPopoverOpen(!isPopoverOpen)}
-        />
+        >
+          Create new
+        </HeaderActionButton>
       }
       isOpen={isPopoverOpen}
-      anchorPosition="downRight"
       closePopover={handleClosePopover}
       panelPaddingSize="none"
     >

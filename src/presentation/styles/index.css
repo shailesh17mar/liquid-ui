@@ -5,7 +5,7 @@ body {
   margin: 0;
   padding: 0;
   font-weight: normal;
-  font-size: 16px;
+  font-size: 16px !important;
 }
 
 html,
@@ -208,4 +208,19 @@ ul[data-type="taskList"] li div {
 
 .euiPageBody {
   position: relative;
+}
+
+[data-amplify-authenticator] {
+  --amplify-components-authenticator-modal-background-color: #f5f7fa;
+  --amplify-components-authenticator-router-box-shadow: 0 0.9px 4px -1px rgb(0 0 0 / 8%), 0 2.6px 8px -1px rgb(0 0 0 / 6%), 0 5.7px 12px -1px rgb(0 0 0 / 5%), 0 15px 15px -1px rgb(0 0 0 / 4%);
+  --amplify-components-button-primary-background-color:  #3778ff;
+  --amplify-components-button-link-color: #3778ff;
+  --amplify-components-tabs-item-active-color:#3778ff;
+  --amplify-components-tabs-item-active-border-color:#3778ff;
+  --amplify-components-button-primary-hover-background-color: #fed65b;
+  --amplify-components-button-primary-hover-color: #000;
+  --amplify-components-button-hover-background-color:#f2f8ff ;
+  --amplify-components-button-hover-border-color: #3778ff;
+  border-radius:8px;
+
 }

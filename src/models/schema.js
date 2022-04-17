@@ -65,6 +65,13 @@ export const schema = {
                     "type": "AWSJSON",
                     "isRequired": false,
                     "attributes": []
+                },
+                "templateId": {
+                    "name": "templateId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
                 }
             },
             "syncable": true,
@@ -124,6 +131,13 @@ export const schema = {
                     "name": "content",
                     "isArray": false,
                     "type": "AWSJSON",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "templateId": {
+                    "name": "templateId",
+                    "isArray": false,
+                    "type": "ID",
                     "isRequired": false,
                     "attributes": []
                 }
@@ -276,6 +290,13 @@ export const schema = {
                     "type": "AWSDateTime",
                     "isRequired": true,
                     "attributes": []
+                },
+                "templateId": {
+                    "name": "templateId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
                 }
             },
             "syncable": true,
@@ -398,6 +419,13 @@ export const schema = {
                     "type": "AWSDateTime",
                     "isRequired": false,
                     "attributes": []
+                },
+                "templateId": {
+                    "name": "templateId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
                 }
             },
             "syncable": true,
@@ -498,6 +526,13 @@ export const schema = {
                         "connectionType": "HAS_MANY",
                         "associatedWith": "tagCategory"
                     }
+                },
+                "templateId": {
+                    "name": "templateId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
                 }
             },
             "syncable": true,
@@ -604,6 +639,13 @@ export const schema = {
                         "enum": "TranscriptionStatus"
                     },
                     "isRequired": true,
+                    "attributes": []
+                },
+                "templateId": {
+                    "name": "templateId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
                     "attributes": []
                 }
             },
@@ -751,6 +793,13 @@ export const schema = {
                         "targetName": "storiesParticipantsId"
                     }
                 },
+                "templateId": {
+                    "name": "templateId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "storiesTranscriptionId": {
                     "name": "storiesTranscriptionId",
                     "isArray": false,
@@ -857,6 +906,13 @@ export const schema = {
                         "connectionType": "HAS_MANY",
                         "associatedWith": "categoriesID"
                     }
+                },
+                "templateId": {
+                    "name": "templateId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
                 }
             },
             "syncable": true,
@@ -1018,6 +1074,13 @@ export const schema = {
                         "connectionType": "HAS_MANY",
                         "associatedWith": "projectsID"
                     }
+                },
+                "templateId": {
+                    "name": "templateId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
                 }
             },
             "syncable": true,
@@ -1288,6 +1351,13 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "templateId": {
+                    "name": "templateId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "vodAssetTranscriptionId": {
                     "name": "vodAssetTranscriptionId",
                     "isArray": false,
@@ -1349,5 +1419,5 @@ export const schema = {
         }
     },
     "nonModels": {},
-    "version": "40df75addee73bbdc6e70bd0ee094b0c"
+    "version": "c323ba76c1399366679f8e0fc635d417"
 };

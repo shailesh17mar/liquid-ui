@@ -1,4 +1,6 @@
 import {
+  EuiBreadcrumbs,
+  EuiButton,
   EuiButtonIcon,
   EuiContextMenuItem,
   EuiIcon,
@@ -18,9 +20,10 @@ export const InnerContainer = styled.div`
   padding-top: 40px;
 `;
 
-export const HeaderActionButton = styled(EuiButtonIcon)`
-  margin-top: 8px;
+export const HeaderActionButton = styled(EuiButton)`
+  margin-top: 6px;
 `;
+
 export const Page = styled(EuiPageTemplate)`
   background-color: #fff;
 `;
@@ -28,7 +31,6 @@ export const Page = styled(EuiPageTemplate)`
 export const SideNav = styled(EuiSideNav)`
   .euiSideNavItemButton.euiSideNavItemButton--isClickable:not(:disabled) {
     margin-bottom: 2px;
-    /* font-size: 1.1rem; */
     padding: 8px 16px;
     border-radius: 3px;
     .euiSideNavItemButton__label {
@@ -37,7 +39,6 @@ export const SideNav = styled(EuiSideNav)`
   }
   .euiSideNavItemButton .euiSideNavItemButton__label {
     /* font-weight: 500; */
-    /* font-size: 1.1rem; */
   }
   .euiSideNavItemButton.euiSideNavItemButton-isSelected {
     color: #0061a6;
@@ -54,7 +55,8 @@ export const SideNav = styled(EuiSideNav)`
 `;
 
 export const Logo = styled(EuiImage)`
-  padding-left: 10px;
+  padding-right: 10px;
+  width: 64px;
 `;
 
 interface IconProps {
@@ -67,3 +69,8 @@ export const NavIcon = styled(EuiIcon)<IconProps>`
 NavIcon.defaultProps = {
   $filled: true,
 };
+
+export const Breadcrumbs = styled(EuiBreadcrumbs)`
+  border-bottom: 1px solid #d3dae6;
+  padding-bottom: 16px;
+`;

@@ -9,6 +9,7 @@ const StoryContext = React.createContext<Story | undefined>(undefined);
 
 interface AuthProviderProps {
   value: any;
+  children: React.ReactNode;
 }
 const StoryMetadataProvider: React.FC<AuthProviderProps> = ({
   children,

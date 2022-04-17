@@ -113,6 +113,15 @@ export const Highlights: React.FC = () => {
       );
       const highlightType =
         HIGHLIGHT_TYPES[highlight.color as HIGHLIGHT_COLORS];
+      const uniqueColors = new Set(
+        highlightTags.map((option) => option.tagCategory.color || option.color)
+      );
+
+      const color =
+        uniqueColors.size > 1
+          ? HIGHLIGHT_COLORS.MIXED
+          : (Array.from(uniqueColors)[0] as HIGHLIGHT_COLORS);
+
       if (highlightType)
         rows.push({
           content: (
@@ -120,7 +129,7 @@ export const Highlights: React.FC = () => {
               <span
                 style={{
                   backgroundColor: transparentize(
-                    HIGHLIGHT_TYPES[highlight.color as HIGHLIGHT_COLORS].color,
+                    HIGHLIGHT_TYPES[color].color,
                     0.3
                   ),
                   paddingTop: "4px",
@@ -135,8 +144,9 @@ export const Highlights: React.FC = () => {
               {highlightTags.map((tag) => (
                 <EuiBadge
                   color={
-                    HIGHLIGHT_TYPES[tag.color as HIGHLIGHT_COLORS].color ||
-                    "default"
+                    HIGHLIGHT_TYPES[
+                      (tag.tagCategory.color || tag.color) as HIGHLIGHT_COLORS
+                    ].color || "default"
                   }
                   key={`${tag.id}.${index}`}
                 >

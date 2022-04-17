@@ -68,7 +68,7 @@
       "function": {
         "transcriber": {
           "deploymentBucketName": "amplify-liquid-prod-172521-deployment",
-          "s3Key": "amplify-builds/transcriber-72613572753372524943-build.zip"
+          "s3Key": "amplify-builds/transcriber-3832326c4c37764f4641-build.zip"
         },
         "transcriptor": {
           "deploymentBucketName": "amplify-liquid-prod-172521-deployment",
@@ -85,8 +85,8 @@
         },
         "liquidassets": {
           "deploymentBucketName": "amplify-liquid-prod-172521-deployment",
-          "s3Key": "amplify-builds/liquidassets-39707558585450375953-build.zip",
-          "environment": "prod"
+          "s3Key": "amplify-builds/liquidassets-5132755a5774666a6e56-build.zip",
+          "env": "prod"
         }
       }
     }

@@ -13,7 +13,7 @@ import {
   transparentize,
   useGeneratedHtmlId,
 } from "@elastic/eui";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useReducer, useState } from "react";
 import {
   EuiDragDropContext,
   EuiDraggable,
@@ -42,6 +42,7 @@ import {
   HIGHLIGHT_TYPES,
 } from "../shared/components/editor/components/highlight-control/color-picker";
 import { useDebouncedCallback } from "use-debounce";
+import { setPropsForRestrictedPageWidth } from "@elastic/eui/src/components/page/_restrict_width";
 
 interface IList {
   content: any;
@@ -59,6 +60,7 @@ const DEFAULT_CATEGORY = "default";
 export const Tags = () => {
   const navigate = useNavigate();
   const [isSeeding, setIsSeeding] = useState(false);
+  const [hasUpdates, setHasUpdates] = useState(true);
   const [lists, setLists] = useState<{ [id: string]: IList[] }>();
   const [editingTitle, setEditingTitle] = useState<number>(-1);
   const { id } = useParams() as { id: string };
@@ -190,18 +192,22 @@ export const Tags = () => {
     }
   };
 
-  const handleCreateTag = (categoryId: string, label: string) => {
+  const handleCreateTag = (
+    categoryId: string,
+    color: string,
+    label: string
+  ) => {
     createTagMutation.mutateAsync({
       label,
       projectsID: id,
       tagCategoryID: categoryId,
+      color: color,
     } as CreateTagsInput);
     //Make a call to create story and then redirect
   };
 
   const getTagCard = (story: Required<Tag>) => (
     <Card
-      hasBorder
       paddingSize="s"
       layout="horizontal"
       onClick={() => {
@@ -223,102 +229,106 @@ export const Tags = () => {
         HIGHLIGHT_TYPES[highlightType as HIGHLIGHT_COLORS].color === color
     )!!;
   return categories && lists && categories.length > 0 ? (
-    <EuiFlexGroup responsive={false} gutterSize="none">
-      <EuiFlexItem grow={false}>
-        <EuiDragDropContext onDragEnd={onDragEnd}>
-          <EuiDroppable
-            droppableId="COMPLEX_DROPPABLE_PARENT"
-            type="MACRO"
-            direction="horizontal"
-            spacing="l"
-            grow
-            style={{ display: "flex" }}
-          >
-            {categories.map((category, didx) => (
-              <EuiDraggable
-                key={category.id}
-                index={didx}
-                draggableId={category.id}
-                spacing="l"
-              >
-                {() => {
-                  const categoryColor = category.color
-                    ? HIGHLIGHT_TYPES[category.color as HIGHLIGHT_COLORS].color
-                    : HIGHLIGHT_TYPES[HIGHLIGHT_COLORS.DEFAULT].color;
-                  return (
-                    <EuiPanel
-                      paddingSize="s"
-                      // color="subdued"
-                      hasBorder={false}
-                      hasShadow={false}
-                      style={{
-                        width: 320,
-                        height: "100%",
-                        background: transparentize(categoryColor, 0.1),
-                        border: `solid 1px ${categoryColor}`,
-                      }}
-                    >
-                      <EuiFlexGroup
-                        responsive={false}
-                        alignItems="center"
-                        gutterSize="s"
+    <EuiFlexGroup gutterSize="none" style={{ overflowX: "auto" }}>
+      <EuiFlexGroup gutterSize="none">
+        <EuiFlexItem grow={false}>
+          <EuiDragDropContext onDragEnd={onDragEnd}>
+            <EuiDroppable
+              droppableId="COMPLEX_DROPPABLE_PARENT"
+              type="MACRO"
+              direction="horizontal"
+              spacing="l"
+              grow
+              style={{ display: "flex" }}
+            >
+              {categories.map((category, didx) => (
+                <EuiDraggable
+                  key={category.id}
+                  index={didx}
+                  draggableId={category.id}
+                  spacing="l"
+                >
+                  {() => {
+                    const categoryColor = category.color
+                      ? HIGHLIGHT_TYPES[category.color as HIGHLIGHT_COLORS]
+                          .color
+                      : HIGHLIGHT_TYPES[HIGHLIGHT_COLORS.GREY].color;
+                    return (
+                      <EuiPanel
+                        paddingSize="s"
+                        // color="subdued"
+                        hasBorder={false}
+                        hasShadow={false}
+                        style={{
+                          width: 320,
+                          height: "100%",
+                          background: transparentize(categoryColor, 0.3),
+                          border: `solid 1px ${categoryColor}`,
+                        }}
                       >
-                        <EuiFlexItem>
-                          {editingTitle === didx ? (
-                            <EuiOutsideClickDetector
-                              onOutsideClick={() => {
-                                setEditingTitle(-1);
-                              }}
-                            >
-                              <EuiFieldText
-                                placeholder={category.name}
-                                onKeyDown={(e) => {
-                                  if (e.key === "Enter") {
-                                    e.preventDefault();
-                                    handleCategoryUpdate(
-                                      category.id,
-                                      //@ts-ignore
-                                      e.target.value,
-                                      getColor(categoryColor)
-                                    );
-                                    setEditingTitle(-1);
-                                  }
+                        <EuiFlexGroup
+                          responsive={false}
+                          alignItems="center"
+                          gutterSize="s"
+                        >
+                          <EuiFlexItem>
+                            {editingTitle === didx ? (
+                              <EuiOutsideClickDetector
+                                onOutsideClick={() => {
+                                  setEditingTitle(-1);
                                 }}
-                              />
-                            </EuiOutsideClickDetector>
-                          ) : (
-                            <EuiTitle size="xs">
-                              <h2 onClick={() => didx && setEditingTitle(didx)}>
-                                {category.name}
-                              </h2>
-                            </EuiTitle>
-                          )}
-                        </EuiFlexItem>
-                        {
-                          <EuiFlexItem grow={false}>
-                            <EuiColorPicker
-                              disabled={!Boolean(didx)}
-                              style={{ margin: 0 }}
-                              mode="swatch"
-                              swatches={swatches}
-                              onChange={(color: string) =>
-                                handleCategoryUpdate(
-                                  category.id,
-                                  category.name,
-                                  getColor(color)
-                                )
-                              }
-                              color={categoryColor}
-                              button={
-                                <EuiColorPickerSwatch
-                                  color={categoryColor}
-                                  aria-label="Select a new color"
+                              >
+                                <EuiFieldText
+                                  placeholder={category.name}
+                                  onKeyDown={(e) => {
+                                    if (e.key === "Enter") {
+                                      e.preventDefault();
+                                      handleCategoryUpdate(
+                                        category.id,
+                                        //@ts-ignore
+                                        e.target.value,
+                                        getColor(categoryColor)
+                                      );
+                                      setEditingTitle(-1);
+                                    }
+                                  }}
                                 />
-                              }
-                            />
+                              </EuiOutsideClickDetector>
+                            ) : (
+                              <EuiTitle size="xs">
+                                <h2
+                                  onClick={() => didx && setEditingTitle(didx)}
+                                >
+                                  {category.name}
+                                </h2>
+                              </EuiTitle>
+                            )}
                           </EuiFlexItem>
-                        }
-                        {/* <EuiFlexItem grow={false}>
+                          {
+                            <EuiFlexItem grow={false}>
+                              <EuiColorPicker
+                                disabled={!Boolean(didx)}
+                                style={{ margin: 0 }}
+                                mode="swatch"
+                                swatches={swatches}
+                                onChange={(color: string) =>
+                                  handleCategoryUpdate(
+                                    category.id,
+                                    category.name,
+                                    getColor(color)
+                                  )
+                                }
+                                color={categoryColor}
+                                button={
+                                  <EuiColorPickerSwatch
+                                    color={categoryColor}
+                                    aria-label="Select a new color"
+                                  />
+                                }
+                              />
+                            </EuiFlexItem>
+                          }
+                          {/* <EuiFlexItem grow={false}>
                         <EuiPopover
                           id={smallContextMenuPopoverId}
                           button={button}
@@ -330,67 +340,68 @@ export const Tags = () => {
                           <EuiContextMenuPanel size="s" items={items} />
                         </EuiPopover>
                       </EuiFlexItem> */}
-                      </EuiFlexGroup>
-                      <EuiSpacer />
-                      <NewTag
-                        onCreate={(label: string) =>
-                          handleCreateTag(category.id, label)
-                        }
-                      />
+                        </EuiFlexGroup>
+                        <EuiSpacer />
+                        <NewTag
+                          onCreate={(label: string) =>
+                            handleCreateTag(category.id, category.color, label)
+                          }
+                        />
 
-                      <EuiDroppable
-                        droppableId={category.id}
-                        grow
-                        type="MICRO"
-                        spacing="s"
-                        style={{
-                          flex: "1 0 50%",
-                          marginTop: "1rem",
-                        }}
-                      >
-                        {(lists[category.id] || []).map((story, idx) => (
-                          <EuiDraggable
-                            key={story.id}
-                            index={idx}
-                            draggableId={story.id}
-                            spacing="none"
-                            style={{
-                              background: story.color,
-                              // width: "306px",
-                              marginBottom: "1rem",
-                            }}
-                          >
-                            {story.content}
-                          </EuiDraggable>
-                        ))}
-                      </EuiDroppable>
-                    </EuiPanel>
-                  );
-                }}
-              </EuiDraggable>
-            ))}
-          </EuiDroppable>
-        </EuiDragDropContext>
-      </EuiFlexItem>
-      <EuiFlexItem
-        style={{
-          width: "306px",
-          height: "324px",
-          padding: "16px 0",
-        }}
-        grow={false}
-      >
-        <EuiPanel
+                        <EuiDroppable
+                          droppableId={category.id}
+                          grow
+                          type="MICRO"
+                          spacing="s"
+                          style={{
+                            flex: "1 0 50%",
+                            marginTop: "1rem",
+                          }}
+                        >
+                          {(lists[category.id] || []).map((story, idx) => (
+                            <EuiDraggable
+                              key={story.id}
+                              index={idx}
+                              draggableId={story.id}
+                              spacing="none"
+                              style={{
+                                background: story.color,
+                                // width: "306px",
+                                marginBottom: "1rem",
+                              }}
+                            >
+                              {story.content}
+                            </EuiDraggable>
+                          ))}
+                        </EuiDroppable>
+                      </EuiPanel>
+                    );
+                  }}
+                </EuiDraggable>
+              ))}
+            </EuiDroppable>
+          </EuiDragDropContext>
+        </EuiFlexItem>
+        <EuiFlexItem
           style={{
-            backgroundColor: "#f2f2f3",
+            width: "306px",
+            height: "324px",
+            padding: "16px 0",
           }}
-          hasShadow={false}
           grow={false}
-          paddingSize="s"
         >
-          <CategoryMenu />
-        </EuiPanel>
-      </EuiFlexItem>
+          <EuiPanel
+            style={{
+              backgroundColor: "#f2f2f3",
+            }}
+            hasShadow={false}
+            grow={false}
+            paddingSize="s"
+          >
+            <CategoryMenu />
+          </EuiPanel>
+        </EuiFlexItem>
+      </EuiFlexGroup>
     </EuiFlexGroup>
   ) : null;
 };

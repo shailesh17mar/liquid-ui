@@ -1,4 +1,5 @@
 import {
+  EuiButton,
   EuiButtonEmpty,
   EuiCode,
   EuiFieldText,
@@ -21,6 +22,7 @@ export const NewTag: React.FC<Props> = ({ onCreate }) => {
       append={
         <EuiButtonEmpty
           size="xs"
+          color="primary"
           onClick={() => {
             onCreate(tag);
             setTag("");

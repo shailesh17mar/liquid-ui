@@ -18,6 +18,7 @@ export enum HIGHLIGHT_COLORS {
   CONTEXT = "context",
   MONEY = "money",
   MIXED = "mixed",
+  GREY = "grey",
 }
 
 export const HIGHLIGHT_TYPES: {
@@ -26,6 +27,10 @@ export const HIGHLIGHT_TYPES: {
   [HIGHLIGHT_COLORS.DEFAULT]: {
     color: "#cbf0f8",
     label: "Default",
+  },
+  [HIGHLIGHT_COLORS.GREY]: {
+    color: "#F2F2F3",
+    label: "Grey",
   },
   [HIGHLIGHT_COLORS.EXCITED]: {
     color: "#fbbc04",

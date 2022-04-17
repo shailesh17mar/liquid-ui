@@ -102,46 +102,6 @@ interface EditorProps {
   onSave: Function;
 }
 
-const defaultStory = {
-  type: "doc",
-  content: [
-    {
-      type: "paragraph",
-      content: [
-        {
-          type: "text",
-          text: "It’ll always have a heading",
-        },
-      ],
-      attrs: { id: null, startTime: null, duration: null, class: null },
-    },
-    {
-      type: "paragraph",
-      content: [
-        {
-          type: "text",
-          text: "We're a remote company since Day 1. As the team grows, it's vital to learn from our experiments. Slite is the tool we use to do so. It helps us keep in-sync. It helps us grow. Slack/Google Docs just weren’t cutting it for knowledge preservation. The thing that shocked me the most is how teammates have ambient exposure to shared knowledge, without them being notified, or having to search for it. We're a remote company since Day 1. As the team grows, it's vital to learn from our experiments. Slite is the tool we use to do so. It helps us keep in-sync. It helps us grow.",
-        },
-      ],
-      attrs: { id: null, startTime: null, duration: null, class: null },
-    },
-    {
-      type: "paragraph",
-      content: [
-        {
-          type: "text",
-          text: "It took us forever to find the right tool for our company, we tried Evernote, Notion, Google docs, Confluence. But in one way or another, they didn’t work for us. When we tried Slite, we found something that worked great, simple, focused but also flexible. I implemented Slite at our office as a knowledge base for all of our processes and everyone has LOVED it. We now use it for all of our client meeting minutes, as personal notebooks, and training/reference material. It is amazing to have one workspace where we have all documentation from employee onboarding to guides and even technical documentation. I love how it structures documentations and you can find any information from all docs in the workspace.",
-        },
-      ],
-      attrs: { id: null, startTime: null, duration: null, class: null },
-    },
-    {
-      type: "paragraph",
-      attrs: { id: null, startTime: null, duration: null, class: null },
-    },
-  ],
-};
-
 export const baseExtensions = [
   CustomDocument,
   Underline,
@@ -232,31 +192,22 @@ export const Editor: React.FC<EditorProps> = ({
     }
   });
 
-  useEffect(() => {
-    if (editor) {
-      setTimeout(() => {
-        editor.commands.setContent(defaultStory);
-      }, 5000);
-    }
-  }, [editor]);
-  // editor.getAttributes('highlight')
+  // const handleSave = useCallback(
+  //   (newDocState) => {
+  //     if (!isUploading) {
+  //       // onSave(documentId, JSON.stringify(newDocState));
+  //       // const meta = provider.doc.getMap("meta");
+  //       // meta.set("lastSaved", Date.now());
+  //     }
+  //   },
+  //   [isUploading]
+  // );
 
-  const handleSave = useCallback(
-    (newDocState) => {
-      if (!isUploading) {
-        // onSave(documentId, JSON.stringify(newDocState));
-        // const meta = provider.doc.getMap("meta");
-        // meta.set("lastSaved", Date.now());
-      }
-    },
-    [isUploading]
-  );
+  // const handleSaveDebounced = useDebouncedCallback(handleSave, TIMEOUT);
 
-  const handleSaveDebounced = useDebouncedCallback(handleSave, TIMEOUT);
-
-  useEffect(() => {
-    handleSaveDebounced(docState);
-  }, [handleSaveDebounced, docState]);
+  // useEffect(() => {
+  //   handleSaveDebounced(docState);
+  // }, [handleSaveDebounced, docState]);
 
   const handleVideoClick = () => {
     editor?.chain().focus().initVideo().run();

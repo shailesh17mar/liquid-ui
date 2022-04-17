@@ -45,22 +45,7 @@ ReactGA.initialize("UA-221274822-1", {
 const queryClient = new QueryClient();
 const App: React.FC = () => {
   return (
-    <EuiThemeProvider
-      modify={{
-        colors: {
-          LIGHT: {
-            primary: "#3a86ff",
-            primaryText: "#3a86ff",
-            link: "#3a86ff",
-          },
-          DARK: {
-            primary: "#3a86ff",
-            primaryText: "#3a86ff",
-            link: "#3a86ff",
-          },
-        },
-      }}
-    >
+    <EuiThemeProvider>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <RecoilRoot>
