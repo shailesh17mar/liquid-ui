@@ -186,6 +186,7 @@ export const Video = (props: NodeViewProps) => {
         });
         setIsTranscriptionOwner(true);
       } else {
+        console.log("Testing transcription");
         props.updateAttributes({
           video,
         });

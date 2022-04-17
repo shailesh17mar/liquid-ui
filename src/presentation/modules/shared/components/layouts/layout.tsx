@@ -24,6 +24,7 @@ import { FiHome, FiDatabase } from "react-icons/fi";
 import { COLOR_PALETTE } from "../../utils/palette";
 
 const palette = COLOR_PALETTE;
+
 const makeBreadcrumbs = (navigate: (path: string) => void, story: any) =>
   [
     {
@@ -52,6 +53,7 @@ const makeBreadcrumbs = (navigate: (path: string) => void, story: any) =>
       },
     },
   ] as EuiBreadcrumb[];
+
 const makeProjectNavItems = (id: string = "") => [
   {
     label: "About",
@@ -91,6 +93,7 @@ const makeProjectNavItems = (id: string = "") => [
     color: palette[4],
   },
 ];
+
 const MainNavItems = [
   {
     label: "Home",
