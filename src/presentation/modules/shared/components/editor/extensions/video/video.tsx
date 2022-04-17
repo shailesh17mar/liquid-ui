@@ -186,6 +186,9 @@ export const Video = (props: NodeViewProps) => {
         });
         setIsTranscriptionOwner(true);
       } else {
+        props.updateAttributes({
+          video,
+        });
         setIsTranscriptionOwner(true);
       }
     } else throw new Error("No video to transcribe");
