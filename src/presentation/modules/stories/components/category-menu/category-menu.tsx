@@ -8,8 +8,7 @@ import {
   useGeneratedHtmlId,
 } from "@elastic/eui";
 import { useParams } from "react-router-dom";
-import { useCreateTagCategory } from "core/modules/tag-categories/hooks";
-import { HIGHLIGHT_COLORS } from "presentation/modules/shared/components/editor/components/highlight-control/color-picker";
+import { useCreateCategory } from "core/modules/categories/hooks";
 
 export const CategoryMenu: React.FC = () => {
   const [isPopoverOpen, setPopover] = useState(false);
@@ -19,7 +18,7 @@ export const CategoryMenu: React.FC = () => {
     prefix: "customContextMenuPopover",
   });
   const { id } = useParams() as { id: string };
-  const categoryMutation = useCreateTagCategory();
+  const categoryMutation = useCreateCategory();
 
   const handleOpenPopover = () => {
     setPopover(!isPopoverOpen);
@@ -44,7 +43,6 @@ export const CategoryMenu: React.FC = () => {
     categoryMutation.mutate({
       name: categoryName,
       projectsID: id,
-      color: HIGHLIGHT_COLORS.DEFAULT,
     });
     closePopover();
   };

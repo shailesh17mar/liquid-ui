@@ -41,13 +41,13 @@ export const SideNav = styled(EuiSideNav)`
     /* font-weight: 500; */
   }
   .euiSideNavItemButton.euiSideNavItemButton-isSelected {
-    color: #0061a6;
-    background-color: rgba(0, 119, 204, 0.2);
+    color: #3778ff;
+    background-color: #e8f0fe;
     font-weight: 500;
   }
   .euiSideNavItemButton.euiSideNavItemButton--isClickable:not(:disabled):hover {
-    color: #0061a6;
-    background-color: rgba(0, 119, 204, 0.1);
+    color: #3778ff;
+    background-color: #e8f0fe;
     .euiSideNavItemButton__label {
       text-decoration: none;
     }

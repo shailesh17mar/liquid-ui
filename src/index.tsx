@@ -23,11 +23,9 @@ const container = document.getElementById("root");
 //@ts-ignore
 const root = createRoot(container);
 root.render(
-  <React.StrictMode>
-    <EuiProvider>
-      <App />
-    </EuiProvider>
-  </React.StrictMode>
+  <EuiProvider>
+    <App />
+  </EuiProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

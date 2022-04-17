@@ -1,7 +1,10 @@
-import { ListCategoriesQuery, ModelCategoriesFilterInput } from "API";
+import {
+  Categories,
+  ListCategoriesQuery,
+  ModelCategoriesFilterInput,
+} from "API";
 import { API } from "aws-amplify";
 import { listCategories } from "graphql/queries";
-import { Categories } from "models";
 import { useQuery } from "react-query";
 
 const retrieveCategories = async (projectId: string) => {
@@ -16,7 +19,12 @@ const retrieveCategories = async (projectId: string) => {
     data: ListCategoriesQuery;
   };
   if (categoriesResponse.data && categoriesResponse.data.listCategories) {
-    return categoriesResponse.data.listCategories.items as Categories[];
+    return (
+      categoriesResponse.data.listCategories.items as Required<Categories>[]
+    ).sort(
+      (a, b) =>
+        new Date(a.createdAt).valueOf() - new Date(b.createdAt).valueOf()
+    );
   }
 };
 

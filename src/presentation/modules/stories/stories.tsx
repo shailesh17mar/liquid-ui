@@ -333,7 +333,8 @@ export const Stories: React.FC = () => {
                       <EuiSpacer />
                       <EuiButton
                         size="s"
-                        color="text"
+                        color="primary"
+                        fill
                         fullWidth
                         onClick={() => handleAddStory(category.id)}
                       >

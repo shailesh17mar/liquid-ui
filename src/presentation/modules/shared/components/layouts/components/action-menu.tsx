@@ -48,6 +48,7 @@ export const ActionMenu: React.FC<Props> = ({ onAddProject }) => {
           aria-label="Action Menu"
           iconType="plus"
           size="s"
+          fill
           color="primary"
           onClick={() => setIsPopoverOpen(!isPopoverOpen)}
         >
