@@ -1,10 +1,11 @@
 import {
   DropResult,
+  EuiFieldText,
   EuiColorPicker,
   EuiColorPickerSwatch,
   EuiContextMenuItem,
   EuiContextMenuPanel,
-  EuiFieldText,
+  EuiTextArea,
   EuiFlexGroup,
   EuiFlexItem,
   EuiOutsideClickDetector,
@@ -206,23 +207,41 @@ export const Tags = () => {
     //Make a call to create story and then redirect
   };
 
-  const getTagCard = (story: Required<Tag>) => (
-    <Card
-      paddingSize="s"
-      layout="horizontal"
-      onClick={() => {
-        // navigate(`/stories/${story.id}`);
-      }}
-      titleSize="xs"
-      title={story.label}
-      color={
-        HIGHLIGHT_TYPES[
-          (story.tagCategory.color || story.color) as HIGHLIGHT_COLORS
-        ].color
-      }
-      description={""}
-    />
-  );
+  const handleTagUpdate = useDebouncedCallback((id: string, label: string) => {
+    updateTagMutation.mutate({
+      id,
+      label,
+    });
+  }, 500);
+
+  const getTagCard = (story: Required<Tag>) => {
+    const value = story.label;
+    return (
+      <Card
+        paddingSize="s"
+        layout="horizontal"
+        onClick={() => {
+          // navigate(`/stories/${story.id}`);
+        }}
+        titleSize="xs"
+        title={""}
+        color={
+          HIGHLIGHT_TYPES[
+            (story.tagCategory.color || story.color) as HIGHLIGHT_COLORS
+          ].color
+        }
+        description={""}
+      >
+        <input
+          defaultValue={story.label}
+          size={value.length}
+          onChange={(e) => {
+            handleTagUpdate(story.id, e.target.value);
+          }}
+        />
+      </Card>
+    );
+  };
   const getColor = (color: string) =>
     Object.keys(HIGHLIGHT_TYPES).find(
       (highlightType) =>

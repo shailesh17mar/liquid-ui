@@ -6,16 +6,24 @@ interface Props {
 }
 export const Card = styled(EuiCard)<Props>`
   & .euiCard__titleButton {
-    font-weight: 500;
-    font-size: 14px;
-    background: ${(props) => props.color};
-    padding-left: 6px;
-    padding-right: 6px;
-    border-radius: 6px;
-    border: solid 1px ${(props) => props.color};
+    display: none;
   }
   & .euiCard__content {
     color: ${(props) => props.color};
+  }
+
+  & .euiCard__children {
+    margin-top: 0px;
+  }
+
+  & input {
+    font-weight: 400;
+    font-size: 14px;
+    padding: 6px;
+    border-radius: 6px;
+    border: none;
+    /* border: solid 1px ${(props) => props.color}; */
+    background: ${(props) => props.color};
   }
   background-color: #fff;
   box-shadow: 0 0.9px 4px -1px rgb(0 0 0 / 8%), 0 2.6px 8px -1px rgb(0 0 0 / 6%),
