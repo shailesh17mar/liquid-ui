@@ -118,7 +118,9 @@ export const Highlights: React.FC = () => {
       );
 
       const color =
-        uniqueColors.size > 1
+        uniqueColors.size === 0
+          ? HIGHLIGHT_COLORS.DEFAULT
+          : uniqueColors.size > 1
           ? HIGHLIGHT_COLORS.MIXED
           : (Array.from(uniqueColors)[0] as HIGHLIGHT_COLORS);
 

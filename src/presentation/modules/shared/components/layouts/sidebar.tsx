@@ -63,10 +63,7 @@ export const SideBar: React.FC<Props> = ({ projects, items, hasProjects }) => {
       return {
         id: slugify(name),
         name,
-        isSelected:
-          route !== undefined
-            ? selectedItemName === name || Boolean(match)
-            : false,
+        isSelected: route !== undefined ? Boolean(match) : false,
         onClick: () => {
           selectItem(name);
           if (to) navigate(to);

@@ -1,4 +1,4 @@
-import { EuiButton, EuiButtonIcon } from "@elastic/eui";
+import { EuiButton } from "@elastic/eui";
 import { NodeViewWrapper } from "@tiptap/react";
 import ReactPlayer from "react-player";
 import styled from "styled-components";
