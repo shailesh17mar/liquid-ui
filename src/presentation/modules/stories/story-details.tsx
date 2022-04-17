@@ -147,6 +147,10 @@ export const StoryDetails: React.FC = () => {
 
   const handleTitleChange = useDebouncedCallback(async (id, title) => {
     if (story) {
+      updateStoryMutation.mutate({
+        id,
+        title,
+      });
     }
   }, 500);
 
