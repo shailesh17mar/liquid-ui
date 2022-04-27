@@ -39,7 +39,7 @@
         },
         "liquidassets": {
           "deploymentBucketName": "amplify-liquid-lab-185828-deployment",
-          "s3Key": "amplify-builds/liquidassets-5132755a5774666a6e56-build.zip",
+          "s3Key": "amplify-builds/liquidassets-744c2b53436971394573-build.zip",
           "env": "lab"
         }
       }

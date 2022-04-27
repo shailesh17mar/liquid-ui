@@ -8,6 +8,56 @@
         "update",
         "delete"
       ]
+    },
+    "storage": {
+      "Persons:@model(appsync)": [
+        "create",
+        "read"
+      ],
+      "Insights:@model(appsync)": [
+        "create",
+        "read"
+      ],
+      "Highlights:@model(appsync)": [
+        "create",
+        "read"
+      ],
+      "Tags:@model(appsync)": [
+        "create",
+        "read"
+      ],
+      "Transcription:@model(appsync)": [
+        "create",
+        "read"
+      ],
+      "Stories:@model(appsync)": [
+        "create",
+        "read"
+      ],
+      "Categories:@model(appsync)": [
+        "create",
+        "read"
+      ],
+      "Projects:@model(appsync)": [
+        "create",
+        "read"
+      ],
+      "Workspaces:@model(appsync)": [
+        "create",
+        "read"
+      ],
+      "Organisations:@model(appsync)": [
+        "create",
+        "read"
+      ],
+      "VodAsset:@model(appsync)": [
+        "create",
+        "read"
+      ],
+      "TagCategory:@model(appsync)": [
+        "create",
+        "read"
+      ]
     }
   },
   "environmentVariableList": [

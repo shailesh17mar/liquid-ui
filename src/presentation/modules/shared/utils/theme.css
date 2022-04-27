@@ -654,7 +654,7 @@
 }
 .react-datepicker__day--today {
   color: #3778ff;
-  font-weight: 700;
+  font-weight: 600;
 }
 .react-datepicker__day--outside-month {
   color: #69707d;
@@ -1777,7 +1777,7 @@
   box-shadow: inset 0 0 0 1px #d3dae6;
   vertical-align: super;
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   line-height: 24px;
@@ -3272,7 +3272,7 @@
 .euiButtonGroupButton__textShift::after {
   display: block;
   content: attr(data-text);
-  font-weight: 700;
+  font-weight: 600;
   height: 0;
   overflow: hidden;
   visibility: hidden;
@@ -3487,7 +3487,7 @@
   font-size: 16px;
   font-size: 1.14286rem;
   line-height: 1.71429rem;
-  font-weight: 700;
+  font-weight: 600;
   font-weight: 400;
   margin-bottom: 0;
 }
@@ -3500,7 +3500,7 @@
   font-size: 14px;
   font-size: 1rem;
   line-height: 1.71429rem;
-  font-weight: 700;
+  font-weight: 600;
   font-weight: 400;
 }
 
@@ -3874,7 +3874,7 @@
   overflow: hidden;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-  font-weight: 700;
+  font-weight: 600;
 }
 .euiCardSelect--text:enabled {
   background-color: #f5f7fa !important;
@@ -4207,7 +4207,7 @@
 }
 .euiCodeBlock .token.important,
 .euiCodeBlock .token.bold {
-  font-weight: 700;
+  font-weight: 600;
 }
 .euiCodeBlock .token.url-reference,
 .euiCodeBlock .token.url .token.url {
@@ -4326,7 +4326,7 @@
 }
 .euiCode .token.important,
 .euiCode .token.bold {
-  font-weight: 700;
+  font-weight: 600;
 }
 .euiCode .token.url-reference,
 .euiCode .token.url .token.url {
@@ -5325,7 +5325,7 @@
   padding: 11px 8px 4px;
   /* 1 */
   width: 100%;
-  font-weight: 700;
+  font-weight: 600;
   color: #000;
 }
 
@@ -5619,7 +5619,7 @@
   font-size: 14px;
   font-size: 1rem;
   line-height: 1.71429rem;
-  font-weight: 700;
+  font-weight: 600;
   padding: 12px;
   border-bottom: 1px solid #d3dae6;
   padding: 12px;
@@ -5639,7 +5639,7 @@
   font-size: 14px;
   font-size: 1rem;
   line-height: 1.71429rem;
-  font-weight: 700;
+  font-weight: 600;
   padding: 12px;
   border-bottom: 1px solid #d3dae6;
   padding: 6px 8px;
@@ -6777,7 +6777,7 @@
   font-size: 14px;
   font-size: 1rem;
   line-height: 1.71429rem;
-  font-weight: 700;
+  font-weight: 600;
   padding: 6px;
   -webkit-flex: 0 0 auto;
   flex: 0 0 auto;
@@ -6849,7 +6849,7 @@
   display: -webkit-flex;
   display: flex;
   width: 100%;
-  font-weight: 700;
+  font-weight: 600;
   outline: none;
 }
 .euiDataGridHeaderCell:not(.euiDataGridHeaderCell--controlColumn)
@@ -6884,7 +6884,7 @@
 }
 
 .euiDataGridHeader__action--selected {
-  font-weight: 700 !important;
+  font-weight: 600 !important;
 }
 
 .euiDataGrid--bordersNone.euiDataGrid--bordersHorizontal .euiDataGridHeader {
@@ -6971,7 +6971,7 @@
   -webkit-flex: 0 0 auto;
   flex: 0 0 auto;
   position: relative;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .euiDataGrid--stickyFooter .euiDataGridFooter {
@@ -7578,7 +7578,7 @@
   font-size: 16px;
   font-size: 1.14286rem;
   line-height: 1.71429rem;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.5;
   margin-top: 16px;
 }
@@ -7615,7 +7615,7 @@
   font-size: 16px;
   font-size: 1.14286rem;
   line-height: 1.71429rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .euiDescriptionList.euiDescriptionList--row.euiDescriptionList--compressed
@@ -7627,7 +7627,7 @@
   font-size: 14px;
   font-size: 1rem;
   line-height: 1.71429rem;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.5;
 }
 
@@ -7656,7 +7656,7 @@
   font-size: 14px;
   font-size: 1rem;
   line-height: 1.71429rem;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.5;
 }
 
@@ -7689,7 +7689,7 @@
   font-size: 16px;
   font-size: 1.14286rem;
   line-height: 1.71429rem;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.5;
   width: 50%;
   padding-right: 8px;
@@ -7730,7 +7730,7 @@
   font-size: 16px;
   font-size: 1.14286rem;
   line-height: 1.71429rem;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.5;
 }
 .euiDescriptionList.euiDescriptionList--column.euiDescriptionList--compressed
@@ -7744,7 +7744,7 @@
   font-size: 14px;
   font-size: 1rem;
   line-height: 1.71429rem;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.5;
 }
 .euiDescriptionList.euiDescriptionList--column.euiDescriptionList--compressed
@@ -7776,7 +7776,7 @@
   font-size: 14px;
   font-size: 1rem;
   line-height: 1.71429rem;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.5;
 }
 
@@ -7819,7 +7819,7 @@
     font-size: 16px;
     font-size: 1.14286rem;
     line-height: 1.71429rem;
-    font-weight: 700;
+    font-weight: 600;
   }
 }
 
@@ -7862,7 +7862,7 @@
     font-size: 16px;
     font-size: 1.14286rem;
     line-height: 1.71429rem;
-    font-weight: 700;
+    font-weight: 600;
   }
 }
 
@@ -8545,13 +8545,13 @@
 .euiFacetButton__text::after {
   display: block;
   content: attr(data-text);
-  font-weight: 700;
+  font-weight: 600;
   height: 0;
   overflow: hidden;
   visibility: hidden;
 }
 .euiFacetButton--isSelected .euiFacetButton__text {
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .euiFacetButton__icon {
@@ -8700,7 +8700,7 @@
 }
 
 .euiFilterButton-hasActiveFilters {
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .euiFilterButton--hasIcon .euiButtonEmpty__content {
@@ -8740,7 +8740,7 @@
 .euiFilterButton__textShift::after {
   display: block;
   content: attr(data-text);
-  font-weight: 700;
+  font-weight: 600;
   height: 0;
   overflow: hidden;
   visibility: hidden;
@@ -11198,7 +11198,7 @@
 }
 
 .euiFilePicker--large.euiFilePicker-hasFiles .euiFilePicker__promptText {
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .euiForm__error {
@@ -13658,7 +13658,7 @@
   font-size: 22px;
   font-size: 1.57143rem;
   line-height: 2.28571rem;
-  font-weight: 700;
+  font-weight: 600;
   padding-left: 16px;
   font-weight: 300;
 }
@@ -13679,7 +13679,7 @@
     font-size: 16px;
     font-size: 1.14286rem;
     line-height: 1.71429rem;
-    font-weight: 700;
+    font-weight: 600;
     font-weight: 400;
   }
 }
@@ -13711,7 +13711,7 @@
   font-size: 16px;
   font-size: 1.14286rem;
   line-height: 1.71429rem;
-  font-weight: 700;
+  font-weight: 600;
   margin-bottom: 8px;
 }
 .euiHeaderAlert .euiHeaderAlert__text {
@@ -16099,7 +16099,7 @@ button.euiLink {
   font-size: 27px;
   font-size: 1.92857rem;
   line-height: 2.28571rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .euiModalBody {
@@ -16328,7 +16328,7 @@ button.euiLink {
   font-size: 16px;
   font-size: 1.14286rem;
   line-height: 1.71429rem;
-  font-weight: 700;
+  font-weight: 600;
   display: -webkit-flex;
   display: flex;
 }
@@ -16518,7 +16518,7 @@ button.euiLink {
 }
 
 .euiPaginationButton-isActive {
-  font-weight: 700;
+  font-weight: 600;
 }
 .euiPaginationButton-isActive.euiPaginationButton-isActive {
   color: #3778ff;
@@ -17489,7 +17489,7 @@ button.euiLink {
   font-size: 14px;
   font-size: 1rem;
   line-height: 1.71429rem;
-  font-weight: 700;
+  font-weight: 600;
   padding: 12px;
   border-bottom: 1px solid #d3dae6;
 }
@@ -18644,7 +18644,7 @@ button.euiLink {
 }
 .euiSideNavItemButton.euiSideNavItemButton-isSelected {
   color: #006bb8;
-  font-weight: 700;
+  font-weight: 600;
 }
 .euiSideNavItemButton.euiSideNavItemButton-isSelected
   .euiSideNavItemButton__label {
@@ -18714,7 +18714,7 @@ button.euiLink {
   font-size: 16px;
   font-size: 1.14286rem;
   line-height: 1.71429rem;
-  font-weight: 700;
+  font-weight: 600;
   color: inherit;
 }
 .euiSideNavItem--root > .euiSideNavItem__items {
@@ -18802,7 +18802,7 @@ button.euiLink {
     -100px 0 0 0 rgba(211, 218, 230, 0.3);
 }
 .euiSideNavItem--emphasized > .euiSideNavItemButton {
-  font-weight: 700;
+  font-weight: 600;
 }
 .euiSideNavItem--emphasized .euiSideNavItem--emphasized {
   background: transparent;
@@ -18933,7 +18933,7 @@ button.euiLink {
   font-size: 12px;
   font-size: 0.85714rem;
   line-height: 1.14286rem;
-  font-weight: 700;
+  font-weight: 600;
   display: -webkit-flex;
   display: flex;
   -webkit-align-items: center;
@@ -19430,7 +19430,7 @@ button.euiLink {
   font-size: 16px;
   font-size: 1.14286rem;
   line-height: 1.71429rem;
-  font-weight: 700;
+  font-weight: 600;
   margin-top: 8px;
   font-weight: 400;
   text-align: center;
@@ -20051,7 +20051,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
   font-size: 14px;
   font-size: 1rem;
   line-height: 1.71429rem;
-  font-weight: 700;
+  font-weight: 600;
   font-weight: 500;
   border-top: none;
 }
@@ -21120,7 +21120,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
   font-size: 12px;
   font-size: 0.85714rem;
   line-height: 1.14286rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .euiTitle--xxsmall {
@@ -21131,7 +21131,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
   font-size: 14px;
   font-size: 1rem;
   line-height: 1.71429rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .euiTitle--xsmall {
@@ -21142,7 +21142,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
   font-size: 16px;
   font-size: 1.14286rem;
   line-height: 1.71429rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .euiTitle--small {
@@ -21153,7 +21153,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
   font-size: 22px;
   font-size: 1.57143rem;
   line-height: 2.28571rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .euiTitle--medium {
@@ -21164,7 +21164,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
   font-size: 27px;
   font-size: 1.92857rem;
   line-height: 2.28571rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .euiTitle--large {
@@ -21175,7 +21175,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
   font-size: 34px;
   font-size: 2.42857rem;
   line-height: 2.85714rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 /**
@@ -21407,7 +21407,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
   font-size: 16px;
   font-size: 1.14286rem;
   line-height: 1.71429rem;
-  font-weight: 700;
+  font-weight: 600;
   font-weight: 300;
 }
 
@@ -21687,7 +21687,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
   /* 1 */
 }
 .euiToolTip .euiToolTip__title {
-  font-weight: 700;
+  font-weight: 600;
   border-bottom: solid 1px #595959;
   padding-bottom: 4px;
   margin-bottom: 4px;
@@ -21939,7 +21939,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
   font-size: 34px;
   font-size: 2.42857rem;
   line-height: 2.85714rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 .euiText h2 {
   overflow-wrap: break-word !important;
@@ -21949,7 +21949,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
   font-size: 27px;
   font-size: 1.92857rem;
   line-height: 2.28571rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 .euiText h3 {
   overflow-wrap: break-word !important;
@@ -21959,7 +21959,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
   font-size: 22px;
   font-size: 1.57143rem;
   line-height: 2.28571rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 .euiText h4,
 .euiText dt {
@@ -21970,7 +21970,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
   font-size: 16px;
   font-size: 1.14286rem;
   line-height: 1.71429rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 .euiText h5 {
   overflow-wrap: break-word !important;
@@ -21980,7 +21980,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
   font-size: 14px;
   font-size: 1rem;
   line-height: 1.71429rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 .euiText h6 {
   overflow-wrap: break-word !important;
@@ -21990,7 +21990,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
   font-size: 12px;
   font-size: 0.85714rem;
   line-height: 1.14286rem;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
 }
 .euiText h1,
@@ -23270,7 +23270,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
 
 .euiCode {
   border-radius: 4px;
-  font-weight: 700;
+  font-weight: 600;
   color: #7c609e;
 }
 
@@ -23790,7 +23790,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
   font-size: 14px;
   font-size: 1rem;
   line-height: 1.71429rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .euiHeader--default + .euiHeader--default {
@@ -24397,7 +24397,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
   font-size: 14px;
   font-size: 1rem;
   line-height: 1.71429rem;
-  font-weight: 700;
+  font-weight: 600;
   color: inherit;
 }
 
@@ -24458,7 +24458,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
 }
 
 .euiStepHorizontal__title {
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .euiStepHorizontal::before,
@@ -24503,7 +24503,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
   font-size: 14px;
   font-size: 1rem;
   line-height: 1.71429rem;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 40px;
 }
 .euiTab + .euiTab,
@@ -24528,7 +24528,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
   font-size: 12px;
   font-size: 0.85714rem;
   line-height: 1.14286rem;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 32px;
 }
 .euiTabs--small .euiTab + .euiTab,
@@ -24549,7 +24549,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
   font-size: 16px;
   font-size: 1.14286rem;
   line-height: 1.71429rem;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 48px;
 }
 .euiTabs--large .euiTab + .euiTab,
@@ -24725,7 +24725,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
 }
 
 .euiToastHeader__title {
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .euiToken--square {

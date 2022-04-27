@@ -701,6 +701,7 @@ export const createCategories = /* GraphQL */ `
       id
       tenant
       name
+      color
       projectsID
       Stories {
         items {
@@ -762,6 +763,7 @@ export const updateCategories = /* GraphQL */ `
       id
       tenant
       name
+      color
       projectsID
       Stories {
         items {
@@ -823,6 +825,7 @@ export const deleteCategories = /* GraphQL */ `
       id
       tenant
       name
+      color
       projectsID
       Stories {
         items {
@@ -893,6 +896,7 @@ export const createProjects = /* GraphQL */ `
           id
           tenant
           name
+          color
           projectsID
           Stories {
             nextToken
@@ -1027,6 +1031,7 @@ export const updateProjects = /* GraphQL */ `
           id
           tenant
           name
+          color
           projectsID
           Stories {
             nextToken
@@ -1161,6 +1166,7 @@ export const deleteProjects = /* GraphQL */ `
           id
           tenant
           name
+          color
           projectsID
           Stories {
             nextToken

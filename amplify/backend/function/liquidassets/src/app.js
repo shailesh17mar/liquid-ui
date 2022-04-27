@@ -6,6 +6,7 @@ const nanoid_1 = require("nanoid");
 const middleware_1 = require("aws-serverless-express/middleware");
 const body_parser_1 = require("body-parser");
 const authorizer_1 = require("./authorizer");
+const templates_1 = require("./templates");
 const s3 = new AWS.S3();
 const BUCKET = `liquid-${process.env.ENV}-storage`;
 const EXPIRY_IN_SECONDS = 60 * 60 * 5;
@@ -32,7 +33,8 @@ app.post("/assets/upload", function (req, res) {
     });
     res.json({ name, uploadURL: url });
 });
-app.post("/templates/:id/clone", (req, res) => {
+app.post("/templates/:id/clone", async (req, res) => {
+    await (0, templates_1.cloneTemplate)(req.params.id, req.tenant);
     res.sendStatus(200);
 });
 app.get("/assets/:id", function (req, res) {

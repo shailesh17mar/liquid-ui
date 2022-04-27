@@ -445,6 +445,7 @@ export const getCategories = /* GraphQL */ `
       id
       tenant
       name
+      color
       projectsID
       Stories {
         items {
@@ -508,6 +509,7 @@ export const listCategories = /* GraphQL */ `
         id
         tenant
         name
+        color
         projectsID
         Stories {
           items {
@@ -550,6 +552,7 @@ export const getProjects = /* GraphQL */ `
           id
           tenant
           name
+          color
           projectsID
           Stories {
             nextToken
@@ -686,6 +689,7 @@ export const listProjects = /* GraphQL */ `
             id
             tenant
             name
+            color
             projectsID
             templateId
             createdAt

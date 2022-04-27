@@ -4,6 +4,7 @@ import { nanoid } from "nanoid";
 import { eventContext } from "aws-serverless-express/middleware";
 import { json } from "body-parser";
 import { authorize } from "./authorizer";
+import { cloneTemplate } from "./templates";
 const s3 = new AWS.S3();
 
 const BUCKET = `liquid-${process.env.ENV}-storage`;
@@ -36,7 +37,8 @@ app.post("/assets/upload", function (req, res) {
   res.json({ name, uploadURL: url });
 });
 
-app.post("/templates/:id/clone", (req, res) => {
+app.post("/templates/:id/clone", async (req, res) => {
+  await cloneTemplate(req.params.id, req.tenant);
   res.sendStatus(200);
 });
 

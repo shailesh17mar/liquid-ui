@@ -160,7 +160,7 @@ export const Video = (props: NodeViewProps) => {
     };
     if (
       videoAsset?.transcription?.status === TranscriptionStatus.COMPLETED &&
-      !transcriptId &&
+      !containsTranscript &&
       isTranscriptionOwner
     ) {
       setIsTranscribing(false);
@@ -312,9 +312,10 @@ export const Video = (props: NodeViewProps) => {
                   ) : (
                     <TranscriptionButton
                       fullWidth={false}
+                      disabled={isTranscribing}
                       onClick={handleTranscription}
                     >
-                      Retry
+                      {isTranscribing ? "Retrying" : "Retry"}
                     </TranscriptionButton>
                   )}
                 </EuiFlexItem>

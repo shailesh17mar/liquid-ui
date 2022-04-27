@@ -103,6 +103,7 @@ type Categories
   id: ID!
   tenant: ID!
   name: String!
+  color: String
   projectsID: ID! @index(name: "byProjects")
   Stories: [Stories] @hasMany(indexName: "byCategories", fields: ["id"])
   templateId: ID
@@ -121,7 +122,7 @@ type Projects @model @auth(rules: [{ allow: groups, groupsField: "tenant" }]) {
   Tags: [Tags] @hasMany(indexName: "byProjects", fields: ["id"])
   Highlights: [Highlights] @hasMany(indexName: "byProjects", fields: ["id"])
   Insights: [Insights] @hasMany(indexName: "byProjects", fields: ["id"])
-  templateId: ID
+  templateId: ID @index(name: "byTemplates")
 }
 
 type Workspaces
