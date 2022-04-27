@@ -125,6 +125,7 @@ export declare class Categories {
   readonly id: string;
   readonly tenant: string;
   readonly name: string;
+  readonly color?: string | null;
   readonly projectsID: string;
   readonly Stories?: (Stories | null)[] | null;
   readonly templateId?: string | null;

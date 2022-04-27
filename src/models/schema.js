@@ -886,6 +886,13 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "color": {
+                    "name": "color",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "projectsID": {
                     "name": "projectsID",
                     "isArray": false,
@@ -1089,6 +1096,15 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byTemplates",
+                        "fields": [
+                            "templateId"
+                        ]
+                    }
                 },
                 {
                     "type": "auth",
@@ -1419,5 +1435,5 @@ export const schema = {
         }
     },
     "nonModels": {},
-    "version": "c323ba76c1399366679f8e0fc635d417"
+    "version": "960977390e3908bef8a242a9ec1824f4"
 };

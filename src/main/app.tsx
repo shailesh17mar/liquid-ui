@@ -1,4 +1,4 @@
-import { Amplify } from "aws-amplify";
+import { Amplify, Hub } from "aws-amplify";
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import ReactGA from "react-ga";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -8,7 +8,7 @@ import awsConfig from "aws-exports";
 import { Router } from "./router";
 import { RecoilRoot } from "recoil";
 import { AuthProvider } from "presentation/context/auth-context";
-import { EuiThemeProvider } from "@elastic/eui";
+import { EuiProvider, EuiThemeProvider } from "@elastic/eui";
 
 const isLocalhost = Boolean(
   window.location.hostname === "localhost" ||
@@ -37,23 +37,46 @@ const updatedAwsConfig = {
       : productionRedirectSignOut,
   },
 };
+Hub.listen("auth", ({ payload: { event, data } }) => {
+  switch (event) {
+    case "signIn_failure":
+      setTimeout(() => {
+        const existingToast = document.querySelector(".auth-error");
+        if (!existingToast) {
+          const toast = document.createElement("div");
+          toast.classList.add("auth-error");
+          toast.innerText = "Please use your business email";
+          const socialButton = document.querySelector(
+            ".federated-sign-in-button"
+          );
+          if (socialButton && socialButton.parentNode) {
+            socialButton.parentNode.insertBefore(toast, socialButton);
+          }
+        }
+      }, 500);
+      break;
+  }
+});
 Amplify.configure(updatedAwsConfig);
 
 ReactGA.initialize("UA-221274822-1", {
   testMode: isLocalhost,
 });
 const queryClient = new QueryClient();
+
 const App: React.FC = () => {
   return (
-    <EuiThemeProvider>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <RecoilRoot>
-            <Router />
-          </RecoilRoot>
-        </AuthProvider>
-      </QueryClientProvider>
-    </EuiThemeProvider>
+    <EuiProvider>
+      <EuiThemeProvider>
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            <RecoilRoot>
+              <Router />
+            </RecoilRoot>
+          </AuthProvider>
+        </QueryClientProvider>
+      </EuiThemeProvider>
+    </EuiProvider>
   );
 };
 

@@ -490,6 +490,7 @@ export type CreateCategoriesInput = {
   id?: string | null,
   tenant: string,
   name: string,
+  color?: string | null,
   projectsID: string,
   templateId?: string | null,
 };
@@ -497,6 +498,7 @@ export type CreateCategoriesInput = {
 export type ModelCategoriesConditionInput = {
   tenant?: ModelIDInput | null,
   name?: ModelStringInput | null,
+  color?: ModelStringInput | null,
   projectsID?: ModelIDInput | null,
   templateId?: ModelIDInput | null,
   and?: Array< ModelCategoriesConditionInput | null > | null,
@@ -509,6 +511,7 @@ export type Categories = {
   id?: string,
   tenant?: string,
   name?: string,
+  color?: string | null,
   projectsID?: string,
   Stories?: ModelStoriesConnection,
   templateId?: string | null,
@@ -526,6 +529,7 @@ export type UpdateCategoriesInput = {
   id: string,
   tenant?: string | null,
   name?: string | null,
+  color?: string | null,
   projectsID?: string | null,
   templateId?: string | null,
 };
@@ -899,6 +903,7 @@ export type ModelCategoriesFilterInput = {
   id?: ModelIDInput | null,
   tenant?: ModelIDInput | null,
   name?: ModelStringInput | null,
+  color?: ModelStringInput | null,
   projectsID?: ModelIDInput | null,
   templateId?: ModelIDInput | null,
   and?: Array< ModelCategoriesFilterInput | null > | null,
@@ -1765,6 +1770,7 @@ export type CreateCategoriesMutation = {
     id: string,
     tenant: string,
     name: string,
+    color?: string | null,
     projectsID: string,
     Stories?:  {
       __typename: "ModelStoriesConnection",
@@ -1833,6 +1839,7 @@ export type UpdateCategoriesMutation = {
     id: string,
     tenant: string,
     name: string,
+    color?: string | null,
     projectsID: string,
     Stories?:  {
       __typename: "ModelStoriesConnection",
@@ -1901,6 +1908,7 @@ export type DeleteCategoriesMutation = {
     id: string,
     tenant: string,
     name: string,
+    color?: string | null,
     projectsID: string,
     Stories?:  {
       __typename: "ModelStoriesConnection",
@@ -1980,6 +1988,7 @@ export type CreateProjectsMutation = {
         id: string,
         tenant: string,
         name: string,
+        color?: string | null,
         projectsID: string,
         Stories?:  {
           __typename: "ModelStoriesConnection",
@@ -2131,6 +2140,7 @@ export type UpdateProjectsMutation = {
         id: string,
         tenant: string,
         name: string,
+        color?: string | null,
         projectsID: string,
         Stories?:  {
           __typename: "ModelStoriesConnection",
@@ -2282,6 +2292,7 @@ export type DeleteProjectsMutation = {
         id: string,
         tenant: string,
         name: string,
+        color?: string | null,
         projectsID: string,
         Stories?:  {
           __typename: "ModelStoriesConnection",
@@ -3382,6 +3393,7 @@ export type GetCategoriesQuery = {
     id: string,
     tenant: string,
     name: string,
+    color?: string | null,
     projectsID: string,
     Stories?:  {
       __typename: "ModelStoriesConnection",
@@ -3453,6 +3465,7 @@ export type ListCategoriesQuery = {
       id: string,
       tenant: string,
       name: string,
+      color?: string | null,
       projectsID: string,
       Stories?:  {
         __typename: "ModelStoriesConnection",
@@ -3503,6 +3516,7 @@ export type GetProjectsQuery = {
         id: string,
         tenant: string,
         name: string,
+        color?: string | null,
         projectsID: string,
         Stories?:  {
           __typename: "ModelStoriesConnection",
@@ -3657,6 +3671,7 @@ export type ListProjectsQuery = {
           id: string,
           tenant: string,
           name: string,
+          color?: string | null,
           projectsID: string,
           templateId?: string | null,
           createdAt: string,
@@ -4712,6 +4727,7 @@ export type OnCreateCategoriesSubscription = {
     id: string,
     tenant: string,
     name: string,
+    color?: string | null,
     projectsID: string,
     Stories?:  {
       __typename: "ModelStoriesConnection",
@@ -4775,6 +4791,7 @@ export type OnUpdateCategoriesSubscription = {
     id: string,
     tenant: string,
     name: string,
+    color?: string | null,
     projectsID: string,
     Stories?:  {
       __typename: "ModelStoriesConnection",
@@ -4838,6 +4855,7 @@ export type OnDeleteCategoriesSubscription = {
     id: string,
     tenant: string,
     name: string,
+    color?: string | null,
     projectsID: string,
     Stories?:  {
       __typename: "ModelStoriesConnection",
@@ -4912,6 +4930,7 @@ export type OnCreateProjectsSubscription = {
         id: string,
         tenant: string,
         name: string,
+        color?: string | null,
         projectsID: string,
         Stories?:  {
           __typename: "ModelStoriesConnection",
@@ -5058,6 +5077,7 @@ export type OnUpdateProjectsSubscription = {
         id: string,
         tenant: string,
         name: string,
+        color?: string | null,
         projectsID: string,
         Stories?:  {
           __typename: "ModelStoriesConnection",
@@ -5204,6 +5224,7 @@ export type OnDeleteProjectsSubscription = {
         id: string,
         tenant: string,
         name: string,
+        color?: string | null,
         projectsID: string,
         Stories?:  {
           __typename: "ModelStoriesConnection",

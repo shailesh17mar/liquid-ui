@@ -644,6 +644,7 @@ export const onCreateCategories = /* GraphQL */ `
       id
       tenant
       name
+      color
       projectsID
       Stories {
         items {
@@ -702,6 +703,7 @@ export const onUpdateCategories = /* GraphQL */ `
       id
       tenant
       name
+      color
       projectsID
       Stories {
         items {
@@ -760,6 +762,7 @@ export const onDeleteCategories = /* GraphQL */ `
       id
       tenant
       name
+      color
       projectsID
       Stories {
         items {
@@ -827,6 +830,7 @@ export const onCreateProjects = /* GraphQL */ `
           id
           tenant
           name
+          color
           projectsID
           Stories {
             nextToken
@@ -958,6 +962,7 @@ export const onUpdateProjects = /* GraphQL */ `
           id
           tenant
           name
+          color
           projectsID
           Stories {
             nextToken
@@ -1089,6 +1094,7 @@ export const onDeleteProjects = /* GraphQL */ `
           id
           tenant
           name
+          color
           projectsID
           Stories {
             nextToken
