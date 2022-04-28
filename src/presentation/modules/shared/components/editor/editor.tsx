@@ -182,7 +182,6 @@ export const Editor: React.FC<EditorProps> = ({
       const attributes = editor.getAttributes("highlight");
       if (!_.isEmpty(attributes)) {
         if (highlightState?.id !== attributes.highlightId) {
-          console.log("testin");
           setHighlightState({
             id: attributes.highlightId,
             type: attributes.highlightCategory,
