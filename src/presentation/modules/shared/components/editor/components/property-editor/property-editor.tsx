@@ -3,31 +3,14 @@ import {
   EuiFlexGroup,
   EuiFlexItem,
   EuiSpacer,
-  euiPaletteColorBlindBehindText,
-  EuiDraggable,
-  EuiDragDropContext,
-  EuiDroppable,
   EuiPanel,
-  EuiIcon,
 } from "@elastic/eui";
 import { useForm, useFieldArray } from "react-hook-form";
 import React, { useCallback, useEffect } from "react";
-import { FIELD_TYPES, MetaProperty } from "./types";
+import { FIELD_TYPES, FormValues, MetaProperty, SCHEMA } from "./types";
 import { MetaField } from "./meta-field";
-import { DraggableLocation } from "@elastic/eui/src/components/drag_and_drop";
-import { DragHandle, Dragula } from "./property-editor.styles";
 import { useDebouncedCallback } from "use-debounce";
 
-export interface FormValues {
-  properties: MetaProperty[];
-}
-
-const colors = euiPaletteColorBlindBehindText();
-
-/*
-Default person field
-When name is provided create an entry
-*/
 interface Props {
   properties: MetaProperty[];
   onChange: (properties: MetaProperty[]) => void;
@@ -39,7 +22,7 @@ export const PropertiesEditor: React.FC<Props> = ({ properties, onChange }) => {
     },
   });
 
-  const { fields, update, append, remove, move } = useFieldArray({
+  const { fields, update, append, remove } = useFieldArray({
     name: "properties",
     control,
   });
@@ -50,82 +33,51 @@ export const PropertiesEditor: React.FC<Props> = ({ properties, onChange }) => {
     },
     [onChange]
   );
-  const handleSaveDebounced = useDebouncedCallback(handleSave, 1000);
+
+  const handleSaveDebounced = useDebouncedCallback(handleSave, 500);
+
   useEffect(() => {
-    const subscription = watch((value) =>
-      handleSaveDebounced(value.properties)
-    );
+    const subscription = watch((value) => {
+      handleSaveDebounced(value.properties);
+    });
     return () => subscription.unsubscribe();
   }, [handleSaveDebounced, watch]);
 
-  const onAddButtonClick = () => {
+  const handleAddProperty = () => {
     append({
       type: FIELD_TYPES.TEXT,
+      label: `${SCHEMA[FIELD_TYPES.TEXT].placeholder} ${fields.length}`,
+      position: fields.length,
     });
   };
-  const onDragEnd = ({
-    source,
-    destination,
-  }: {
-    source?: DraggableLocation;
-    destination?: DraggableLocation;
-  }) => {
-    if (source && destination) {
-      move(source.index, destination.index);
-    }
-  };
 
-  const onSubmit = (data: FormValues) => console.log(data);
+  const onSubmit = (data: FormValues) => {};
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <EuiFlexGroup direction="column">
-        <EuiDragDropContext onDragEnd={onDragEnd}>
-          <EuiDroppable droppableId="CUSTOM_HANDLE_DROPPABLE_AREA" spacing="l">
-            {fields.map((field, index) => (
-              <EuiDraggable
-                spacing="m"
-                key={field.id}
+        {fields.map((field, index) => (
+          <EuiPanel key={field.id} hasShadow={false} paddingSize="m">
+            <EuiFlexItem>
+              <MetaField
+                form={{
+                  control,
+                  update,
+                  remove: () => remove(index),
+                }}
                 index={index}
-                draggableId={field.id}
-                customDragHandle={true}
-              >
-                {(provided) => (
-                  <EuiPanel hasShadow={false} paddingSize="s">
-                    <Dragula>
-                      <EuiFlexItem grow={false}>
-                        <DragHandle
-                          {...provided.dragHandleProps}
-                          aria-label="Drag Handle"
-                        >
-                          <EuiIcon size="m" type="grab" title="Drag to move" />
-                        </DragHandle>
-                      </EuiFlexItem>
-                      <EuiFlexItem>
-                        <MetaField
-                          form={{
-                            control,
-                            update,
-                            remove: () => remove(index),
-                          }}
-                          index={index}
-                          property={field}
-                        />
-                      </EuiFlexItem>
-                    </Dragula>
-                  </EuiPanel>
-                )}
-              </EuiDraggable>
-            ))}
-          </EuiDroppable>
-        </EuiDragDropContext>
+                property={field}
+              />
+            </EuiFlexItem>
+          </EuiPanel>
+        ))}
       </EuiFlexGroup>
       <EuiSpacer />
       <EuiButton
         size="s"
         fullWidth={false}
         color="primary"
-        onClick={onAddButtonClick}
-        style={{ marginLeft: 32 }}
+        onClick={handleAddProperty}
       >
         Add a field
       </EuiButton>

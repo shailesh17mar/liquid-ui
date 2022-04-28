@@ -1,7 +1,6 @@
 import { EuiBadge, EuiFlexGroup, EuiFlexItem } from "@elastic/eui";
-import * as Y from "yjs";
 import { PropertiesEditor } from "../shared/components/editor/components/property-editor/property-editor";
-import { baseExtensions, Editor } from "../shared/components/editor/editor";
+import { Editor } from "../shared/components/editor/editor";
 import {
   Annotation,
   annotationState,
@@ -23,10 +22,7 @@ import {
 } from "core/modules/participants/hooks";
 import { StoryDocument, TagAnnotation } from "./story.styles";
 import { ContentLoader } from "../shared/components/content-loader/content-loader";
-import {
-  HocuspocusProvider,
-  onAuthenticationFailedParameters,
-} from "@hocuspocus/provider";
+import { HocuspocusProvider } from "@hocuspocus/provider";
 import _ from "lodash";
 import {
   useHighlights,
@@ -39,8 +35,6 @@ import {
   HIGHLIGHT_TYPES,
 } from "../shared/components/editor/components/highlight-control/color-picker";
 import { useAuth } from "presentation/context/auth-context";
-
-const doc = new Y.Doc();
 
 export const StoryDetails: React.FC = () => {
   const { getToken } = useAuth();
@@ -113,7 +107,7 @@ export const StoryDetails: React.FC = () => {
       url: process.env.REACT_APP_COLLAB_ENGINE || "ws://localhost:5000",
       name: `story-${id}`,
       token: getToken,
-      onAuthenticationFailed: (data: onAuthenticationFailedParameters) => {
+      onAuthenticationFailed: () => {
         if (retryCount < 3) setRetryCount((retryCount) => retryCount + 1);
       },
     });
@@ -199,6 +193,7 @@ export const StoryDetails: React.FC = () => {
       }
     : null;
 
+  // How to make sure the sorting index is maintained
   const handleMetadataChange = useDebouncedCallback(
     async (properties: MetaProperty[]): Promise<void> => {
       const participantDetails = properties.reduce(
@@ -248,7 +243,7 @@ export const StoryDetails: React.FC = () => {
         }
       }
     },
-    2000
+    1000
   );
 
   const StoryEditor = useMemo(
@@ -269,33 +264,41 @@ export const StoryDetails: React.FC = () => {
       label: "Name",
       type: FIELD_TYPES.TEXT,
       value: participant?.name,
+      position: 0,
     },
     {
       label: "Email",
       type: FIELD_TYPES.EMAIL,
       value: participant?.email,
+      position: 1,
     },
     {
       label: "Company",
       type: FIELD_TYPES.COMPANY,
       selectedOptions: participant?.business,
+      position: 2,
     },
     {
       label: "Persona",
       type: FIELD_TYPES.TEXT,
       value: participant?.persona,
+      position: 3,
     },
-  ].concat(
-    //@ts-ignore
-    participant && !_.isEmpty(participant.additonalFields)
-      ? //@ts-ignore
-        Object.keys(participant.additonalFields).map((key: any) => {
-          //@ts-ignore
-          const property = participant.additonalFields[key];
-          return property as unknown as MetaProperty;
-        })
-      : []
-  ) as MetaProperty[];
+  ]
+    .concat(
+      //@ts-ignore
+      participant && !_.isEmpty(participant.additonalFields)
+        ? //@ts-ignore
+          Object.keys(participant.additonalFields).map((key: any) => {
+            //@ts-ignore
+            const property = participant.additonalFields[key];
+            return property as unknown as MetaProperty;
+          })
+        : []
+    )
+    .sort(function (a, b) {
+      return a.position - b.position;
+    }) as MetaProperty[];
 
   return (
     <StoryMetadataProvider value={storyMetadata}>
