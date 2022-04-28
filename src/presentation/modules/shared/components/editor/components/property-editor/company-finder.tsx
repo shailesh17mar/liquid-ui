@@ -1,7 +1,6 @@
 import { EuiComboBox, EuiHealth } from "@elastic/eui";
 import { useState, useCallback, useEffect } from "react";
-import { ComplexValue } from "./meta-field";
-import { ComboBoxOption } from "./types";
+import { ComboBoxOption, ComplexValue } from "./types";
 
 export const CompanyFinder: React.FC<ComplexValue> = (props) => {
   const { selectedOptions, onChange, onBlur } = props;
