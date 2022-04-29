@@ -8,7 +8,6 @@ import {
   JSONContent,
 } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { useDebouncedCallback } from "use-debounce";
 import TaskList from "@tiptap/extension-task-list";
 import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
 import Image from "@tiptap/extension-image";
@@ -27,7 +26,7 @@ import { Commander } from "./extensions/commander/commander";
 import TextStyle from "@tiptap/extension-text-style";
 import { TranscriptExtension } from "./extensions/transcript/extension";
 import { ImageExtension } from "./extensions/image/extension";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { useAuth } from "presentation/context/auth-context";
 import { QuickActionButton } from "./editor.styles";
 import TimeOffset from "./extensions/time-offset";
@@ -42,10 +41,9 @@ import {
 import { nanoid } from "nanoid";
 import { HighlightExtension } from "./extensions/transcript/highlight";
 import _ from "lodash";
-import { UpdateMessage } from "@hocuspocus/provider/dist/packages/provider/src/OutgoingMessages/UpdateMessage";
 
 const CustomDocument = Document.extend({
-  content: `paragraph block* paragraph`,
+  content: `block* paragraph`,
 });
 
 export const CustomParagraph = Paragraph.extend({
