@@ -101,7 +101,7 @@ interface EditorProps {
 }
 
 export const baseExtensions = [
-  CustomDocument,
+  Document,
   Underline,
   TaskList,
   Image.configure({

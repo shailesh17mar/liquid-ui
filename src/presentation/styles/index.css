@@ -49,9 +49,27 @@ a {
 }
 
 .ProseMirror ul,
-ol {
-  list-style: disc;
-  padding: 0 2rem;
+.ProseMirror ol {
+  list-style:disc;
+  padding-left: 16px;
+  margin-top:30px;
+}
+
+.ProseMirror ol li::marker, 
+.ProseMirror ul li::marker {
+   font-size: 18px;
+   line-height:18px;
+ }
+
+.ProseMirror li p {
+  margin-top:6px;
+  margin-bottom:0px;
+  margin-left: 8px;
+}
+
+.ProseMirror li:first-child p {
+  margin:0px;
+  margin-left: 8px;
 }
 
 .ProseMirror ol {
@@ -99,17 +117,28 @@ ol {
 
 ul[data-type="taskList"] {
   list-style: none;
-  padding: 8px 0;
-  margin: 1px 0;
+  margin: 0;
+  margin-top: 30px;
+  padding-left:0;
+  margin-left:-6px;
 }
+
 
 ul[data-type="taskList"] p {
   margin: 0;
   line-height: 20px;
 }
+
+ul[data-type="taskList"] li:first-child p {
+  margin-left:4px;
+}
+ul[data-type="taskList"] li p {
+  margin-left:4px;
+}
 ul[data-type="taskList"] li {
   display: flex;
   margin-bottom: 12px;
+  line-height:18px;
 }
 ul[data-type="taskList"] li label {
   flex: 0 0 auto;
