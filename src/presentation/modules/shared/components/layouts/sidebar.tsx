@@ -142,7 +142,7 @@ export const SideBar: React.FC<Props> = ({ projects, items, hasProjects }) => {
         aria-label="Nugget"
         heading={
           <Link to="/">
-            <Logo size="s" alt="liquid" src="/logo.png" />
+            <Logo size="fullWidth" alt="Nugget" src="/biglogo.png" />
           </Link>
         }
         mobileTitle="Nugget"

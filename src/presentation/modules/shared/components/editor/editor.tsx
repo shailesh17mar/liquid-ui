@@ -15,6 +15,10 @@ import Color from "@tiptap/extension-color";
 import Paragraph from "@tiptap/extension-paragraph";
 import Collaboration from "@tiptap/extension-collaboration";
 import TaskItem from "@tiptap/extension-task-item";
+import Table from "@tiptap/extension-table";
+import TableRow from "@tiptap/extension-table-row";
+import TableCell from "@tiptap/extension-table-cell";
+import TableHeader from "@tiptap/extension-table-header";
 import { MenuBar } from "./components/menu-bar/menu-bar";
 import {
   EuiFlexGroup,
@@ -41,9 +45,11 @@ import {
 import { nanoid } from "nanoid";
 import { HighlightExtension } from "./extensions/transcript/highlight";
 import _ from "lodash";
+import { TrailingNode } from "./components/trailing-node";
+import { BubbleControl } from "./components/bubble-control/bubble-control";
 
 const CustomDocument = Document.extend({
-  content: `block* paragraph`,
+  content: `block+`,
 });
 
 export const CustomParagraph = Paragraph.extend({
@@ -112,6 +118,7 @@ export const baseExtensions = [
   TextStyle,
   TimeOffset,
   HighlightExtension,
+  TrailingNode,
   Commander.configure({
     suggestion: commands,
   }),
@@ -142,6 +149,12 @@ export const baseExtensions = [
       return "";
     },
   }),
+  Table.configure({
+    resizable: true,
+  }),
+  TableRow,
+  TableHeader,
+  TableCell,
 ];
 
 export const Editor: React.FC<EditorProps> = ({
@@ -218,14 +231,14 @@ export const Editor: React.FC<EditorProps> = ({
     <>
       {editor && (
         <>
-          {/* <BubbleMenu
+          <BubbleMenu
             shouldShow={({ editor, view, state, oldState, from, to }) => {
-              return !editor.isActive("transcriptComponent") && to > from;
+              return editor.isActive("table");
             }}
             editor={editor}
           >
             {<BubbleControl editor={editor} />}
-          </BubbleMenu> */}
+          </BubbleMenu>
           <BubbleMenu
             shouldShow={({ from, to }) => {
               return to > from;

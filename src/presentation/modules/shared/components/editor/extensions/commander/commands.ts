@@ -8,6 +8,7 @@ import {
 import tippy from "tippy.js";
 import { Instance, Props } from "tippy.js";
 import { CommandList } from "./command-list";
+import { AiOutlineTable } from "react-icons/ai";
 
 export default {
   items: ({ query }: { query: string; editor: Editor }) => {
@@ -81,6 +82,20 @@ export default {
         icon: "minus",
         command: ({ editor, range }: { editor: Editor; range: Range }) => {
           editor.chain().focus().setHorizontalRule().run();
+        },
+      },
+      {
+        title: "Table",
+        icon: AiOutlineTable,
+        command: ({ editor, range }: { editor: Editor; range: Range }) => {
+          editor
+            .chain()
+            .focus()
+            .insertTable({
+              rows: 2,
+              cols: 2,
+            })
+            .run();
         },
       },
       {

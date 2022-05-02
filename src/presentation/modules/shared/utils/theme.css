@@ -713,7 +713,7 @@
 }
 .react-datepicker__day--disabled.react-datepicker__day--selected,
 .react-datepicker__day--disabled.react-datepicker__day--selected:hover {
-  color: #bd271e;
+  color: #F32013;
   background-color: rgba(189, 39, 30, 0.2);
 }
 
@@ -2311,12 +2311,12 @@
 }
 
 .euiButton--danger {
-  color: #bd271e;
-  border-color: #bd271e;
+  color: #F32013;
+  border-color: #F32013;
 }
 .euiButton--danger.euiButton--fill {
-  background-color: #bd271e;
-  border-color: #bd271e;
+  background-color: #F32013;
+  border-color: #F32013;
   color: #fff;
 }
 .euiButton--danger.euiButton--fill:not([class*="isDisabled"]):hover,
@@ -2609,7 +2609,7 @@
 }
 
 .euiButtonEmpty--danger {
-  color: #bd271e;
+  color: #F32013;
 }
 .euiButtonEmpty--danger:focus {
   background-color: rgba(189, 39, 30, 0.1);
@@ -2877,12 +2877,12 @@
 }
 
 .euiButtonIcon--danger {
-  color: #bd271e;
-  border-color: #bd271e;
+  color: #F32013;
+  border-color: #F32013;
 }
 .euiButtonIcon--danger.euiButtonIcon--fill {
-  background-color: #bd271e;
-  border-color: #bd271e;
+  background-color: #F32013;
+  border-color: #F32013;
   color: #fff;
 }
 .euiButtonIcon--danger.euiButtonIcon--fill:not([class*="isDisabled"]):hover,
@@ -3193,11 +3193,11 @@
   background-color: rgba(254, 197, 20, 0.1);
 }
 .euiButtonGroupButton.euiButtonGroupButton--danger:not([class*="isDisabled"]) {
-  color: #bd271e;
+  color: #F32013;
 }
 .euiButtonGroupButton.euiButtonGroupButton--danger:not([class*="isDisabled"]).euiButtonGroupButton-isSelected {
-  background-color: #bd271e;
-  border-color: #bd271e;
+  background-color: #F32013;
+  border-color: #F32013;
   color: #fff;
 }
 .euiButtonGroupButton.euiButtonGroupButton--danger:not([class*="isDisabled"]).euiButtonGroupButton-isSelected:hover,
@@ -3538,14 +3538,14 @@
 }
 
 .euiCallOut--danger {
-  border-color: #bd271e;
+  border-color: #F32013;
   background-color: #f8e9e9;
 }
 .euiCallOut--danger .euiCallOutHeader__icon {
-  fill: #bd271e;
+  fill: #F32013;
 }
 .euiCallOut--danger .euiCallOutHeader__title {
-  color: #bd271e;
+  color: #F32013;
 }
 
 /**
@@ -3811,7 +3811,7 @@
 }
 
 .euiCard--isSelectable--danger.euiCard-isSelected:not(.euiCard-isDisabled) {
-  border-color: #bd271e !important;
+  border-color: #F32013 !important;
 }
 
 .euiCard--isSelectable--ghost.euiCard-isSelected:not(.euiCard-isDisabled) {
@@ -4193,8 +4193,8 @@
   color: #3b7d6a;
 }
 .euiCodeBlock .token.prefix.deleted {
-  box-shadow: -4px 0 #bd271e;
-  color: #bd271e;
+  box-shadow: -4px 0 #F32013;
+  color: #F32013;
 }
 .euiCodeBlock .token.selector .token.class {
   color: inherit;
@@ -4312,8 +4312,8 @@
   color: #3b7d6a;
 }
 .euiCode .token.prefix.deleted {
-  box-shadow: -4px 0 #bd271e;
-  color: #bd271e;
+  box-shadow: -4px 0 #F32013;
+  color: #F32013;
 }
 .euiCode .token.selector .token.class {
   color: inherit;
@@ -5079,8 +5079,8 @@
 .euiComboBox.euiComboBox-isInvalid .euiComboBox__inputWrap {
   background-image: linear-gradient(
     to top,
-    #bd271e,
-    #bd271e 2px,
+    #F32013,
+    #F32013 2px,
     transparent 2px,
     transparent 100%
   );
@@ -6433,14 +6433,14 @@
 }
 .euiDatePopoverButton-isInvalid {
   background-color: #f8e9e9;
-  color: #bd271e;
+  color: #F32013;
 }
 .euiDatePopoverButton-isInvalid:focus,
 .euiDatePopoverButton-isInvalid.euiDatePopoverButton-isSelected {
   background-image: linear-gradient(
     to top,
-    #bd271e,
-    #bd271e 2px,
+    #F32013,
+    #F32013 2px,
     transparent 2px,
     transparent 100%
   );
@@ -8429,12 +8429,12 @@
 }
 
 .euiExpression--danger.euiExpression-isActive {
-  border-bottom-color: #bd271e;
-  border-color: #bd271e;
+  border-bottom-color: #F32013;
+  border-color: #F32013;
 }
 
 .euiExpression--danger .euiExpression__description {
-  color: #bd271e;
+  color: #F32013;
 }
 
 .euiExpression--accent:focus {
@@ -10123,8 +10123,8 @@
 .euiFieldNumber:invalid {
   background-image: linear-gradient(
     to top,
-    #bd271e,
-    #bd271e 2px,
+    #F32013,
+    #F32013 2px,
     transparent 2px,
     transparent 100%
   );
@@ -10192,8 +10192,8 @@
 .euiFieldNumber--compressed:invalid {
   background-image: linear-gradient(
     to top,
-    #bd271e,
-    #bd271e 2px,
+    #F32013,
+    #F32013 2px,
     transparent 2px,
     transparent 100%
   );
@@ -10316,8 +10316,8 @@
 .euiFieldPassword:invalid {
   background-image: linear-gradient(
     to top,
-    #bd271e,
-    #bd271e 2px,
+    #F32013,
+    #F32013 2px,
     transparent 2px,
     transparent 100%
   );
@@ -10385,8 +10385,8 @@
 .euiFieldPassword--compressed:invalid {
   background-image: linear-gradient(
     to top,
-    #bd271e,
-    #bd271e 2px,
+    #F32013,
+    #F32013 2px,
     transparent 2px,
     transparent 100%
   );
@@ -10516,8 +10516,8 @@
 .euiFieldSearch:invalid {
   background-image: linear-gradient(
     to top,
-    #bd271e,
-    #bd271e 2px,
+    #F32013,
+    #F32013 2px,
     transparent 2px,
     transparent 100%
   );
@@ -10585,8 +10585,8 @@
 .euiFieldSearch--compressed:invalid {
   background-image: linear-gradient(
     to top,
-    #bd271e,
-    #bd271e 2px,
+    #F32013,
+    #F32013 2px,
     transparent 2px,
     transparent 100%
   );
@@ -10734,8 +10734,8 @@
 .euiFieldText:invalid {
   background-image: linear-gradient(
     to top,
-    #bd271e,
-    #bd271e 2px,
+    #F32013,
+    #F32013 2px,
     transparent 2px,
     transparent 100%
   );
@@ -10803,8 +10803,8 @@
 .euiFieldText--compressed:invalid {
   background-image: linear-gradient(
     to top,
-    #bd271e,
-    #bd271e 2px,
+    #F32013,
+    #F32013 2px,
     transparent 2px,
     transparent 100%
   );
@@ -10864,8 +10864,8 @@
 .euiFieldText.euiFieldText-isInvalid {
   background-image: linear-gradient(
     to top,
-    #bd271e,
-    #bd271e 2px,
+    #F32013,
+    #F32013 2px,
     transparent 2px,
     transparent 100%
   );
@@ -11021,8 +11021,8 @@
 .euiFilePicker-isInvalid .euiFilePicker__prompt {
   background-image: linear-gradient(
     to top,
-    #bd271e,
-    #bd271e 2px,
+    #F32013,
+    #F32013 2px,
     transparent 2px,
     transparent 100%
   );
@@ -11682,7 +11682,7 @@
   font-size: 0.85714rem;
   line-height: 1.14286rem;
   padding-top: 4px;
-  color: #bd271e;
+  color: #F32013;
 }
 
 .euiFormLegend {
@@ -11727,7 +11727,7 @@
   transition: all 150ms cubic-bezier(0.694, 0.0482, 0.335, 1);
 }
 .euiFormLabel.euiFormLabel-isInvalid {
-  color: #bd271e;
+  color: #F32013;
   /* 1 */
 }
 .euiFormLabel.euiFormLabel-isFocused {
@@ -12646,8 +12646,8 @@
 .euiSelect:invalid {
   background-image: linear-gradient(
     to top,
-    #bd271e,
-    #bd271e 2px,
+    #F32013,
+    #F32013 2px,
     transparent 2px,
     transparent 100%
   );
@@ -12715,8 +12715,8 @@
 .euiSelect--compressed:invalid {
   background-image: linear-gradient(
     to top,
-    #bd271e,
-    #bd271e 2px,
+    #F32013,
+    #F32013 2px,
     transparent 2px,
     transparent 100%
   );
@@ -12926,8 +12926,8 @@
 .euiSuperSelectControl:invalid {
   background-image: linear-gradient(
     to top,
-    #bd271e,
-    #bd271e 2px,
+    #F32013,
+    #F32013 2px,
     transparent 2px,
     transparent 100%
   );
@@ -12995,8 +12995,8 @@
 .euiSuperSelectControl--compressed:invalid {
   background-image: linear-gradient(
     to top,
-    #bd271e,
-    #bd271e 2px,
+    #F32013,
+    #F32013 2px,
     transparent 2px,
     transparent 100%
   );
@@ -13053,8 +13053,8 @@
 .euiSuperSelectControl-isInvalid {
   background-image: linear-gradient(
     to top,
-    #bd271e,
-    #bd271e 2px,
+    #F32013,
+    #F32013 2px,
     transparent 2px,
     transparent 100%
   );
@@ -13381,8 +13381,8 @@
 .euiTextArea:invalid {
   background-image: linear-gradient(
     to top,
-    #bd271e,
-    #bd271e 2px,
+    #F32013,
+    #F32013 2px,
     transparent 2px,
     transparent 100%
   );
@@ -13450,8 +13450,8 @@
 .euiTextArea--compressed:invalid {
   background-image: linear-gradient(
     to top,
-    #bd271e,
-    #bd271e 2px,
+    #F32013,
+    #F32013 2px,
     transparent 2px,
     transparent 100%
   );
@@ -13952,7 +13952,7 @@
 }
 
 .euiIcon--danger {
-  color: #bd271e;
+  color: #F32013;
 }
 
 .euiIcon--ghost {
@@ -14572,7 +14572,7 @@
   outline: none;
 }
 .euiLink.euiLink--danger {
-  color: #bd271e;
+  color: #F32013;
 }
 .euiLink.euiLink--danger:hover,
 .euiLink.euiLink--danger:focus,
@@ -15514,8 +15514,8 @@ button.euiLink {
 .euiMarkdownEditorDropZone--hasError .euiMarkdownEditorTextArea:focus {
   background-image: linear-gradient(
     to top,
-    #bd271e,
-    #bd271e 2px,
+    #F32013,
+    #F32013 2px,
     transparent 2px,
     transparent 100%
   ) !important;
@@ -15687,22 +15687,22 @@ button.euiLink {
 }
 
 .euiMarkdownFormat .euiTextColor--danger .euiMarkdownFormat__blockquote {
-  border-left-color: #bd271e;
+  border-left-color: #F32013;
 }
 
 .euiMarkdownFormat .euiTextColor--danger .euiHorizontalRule {
-  background-color: #bd271e;
-  color: #bd271e;
+  background-color: #F32013;
+  color: #F32013;
 }
 
 .euiMarkdownFormat .euiTextColor--danger .euiMarkdownFormat__table {
-  border-left: 1px solid #bd271e;
+  border-left: 1px solid #F32013;
 }
 
 .euiMarkdownFormat .euiTextColor--danger .euiMarkdownFormat__table th,
 .euiMarkdownFormat .euiTextColor--danger .euiMarkdownFormat__table td {
-  border-top: 1px solid #bd271e;
-  border-bottom: 1px solid #bd271e;
+  border-top: 1px solid #F32013;
+  border-bottom: 1px solid #F32013;
 }
 .euiMarkdownFormat
   .euiTextColor--danger
@@ -15712,11 +15712,11 @@ button.euiLink {
   .euiTextColor--danger
   .euiMarkdownFormat__table
   td:last-child {
-  border-right: 1px solid #bd271e;
+  border-right: 1px solid #F32013;
 }
 
 .euiMarkdownFormat .euiTextColor--danger .euiMarkdownFormat__table tr {
-  border-top: 1px solid #bd271e;
+  border-top: 1px solid #F32013;
 }
 
 .euiMarkdownFormat .euiTextColor--ghost .euiMarkdownFormat__blockquote {
@@ -17732,19 +17732,19 @@ button.euiLink {
 }
 
 .euiProgress--danger.euiProgress--native::-webkit-progress-value {
-  background-color: #bd271e;
+  background-color: #F32013;
 }
 
 .euiProgress--danger.euiProgress--native::-moz-progress-bar {
-  background-color: #bd271e;
+  background-color: #F32013;
 }
 
 .euiProgress--danger.euiProgress--indeterminate:before {
-  background-color: #bd271e;
+  background-color: #F32013;
 }
 
 .euiProgress__data--danger .euiProgress__valueText {
-  color: #bd271e;
+  color: #F32013;
 }
 
 .euiProgress--accent.euiProgress--native::-webkit-progress-value {
@@ -19140,7 +19140,7 @@ button.euiLink {
   color: #007e77;
 }
 .euiStat .euiStat__title--danger {
-  color: #bd271e;
+  color: #F32013;
 }
 .euiStat .euiStat__title--accent {
   color: #c443778ff;
@@ -19252,7 +19252,7 @@ button.euiLink {
   background-color: #fff9e8;
 }
 .euiStepNumber--danger {
-  color: #bd271e;
+  color: #F32013;
   background-color: #f8e9e9;
 }
 .euiStepNumber--disabled {
@@ -21097,7 +21097,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
 }
 
 .euiTextDiff del {
-  color: #bd271e;
+  color: #F32013;
 }
 
 .euiTextDiff ins {
@@ -21365,7 +21365,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
 }
 
 .euiToast--danger {
-  border-top: 2px solid #bd271e;
+  border-top: 2px solid #F32013;
 }
 
 /**
@@ -22504,7 +22504,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
 }
 
 .euiTextColor--danger {
-  color: #bd271e;
+  color: #F32013;
 }
 
 .euiTextColor--ghost {
@@ -22665,7 +22665,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
 .euiButton--danger.euiButton--fill:not([class*="isDisabled"]),
 .euiButton--danger.euiButton--fill:not([class*="isDisabled"]):hover,
 .euiButton--danger.euiButton--fill:not([class*="isDisabled"]):focus {
-  background-color: #bd271e;
+  background-color: #F32013;
 }
 
 .euiButton--subdued {
@@ -22829,7 +22829,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
 .euiButtonIcon--danger:not(.euiButtonIcon--empty).euiButtonIcon--fill:not([class*="isDisabled"]),
 .euiButtonIcon--danger:not(.euiButtonIcon--empty).euiButtonIcon--fill:not([class*="isDisabled"]):hover,
 .euiButtonIcon--danger:not(.euiButtonIcon--empty).euiButtonIcon--fill:not([class*="isDisabled"]):focus {
-  background-color: #bd271e;
+  background-color: #F32013;
 }
 
 .euiButtonIcon--subdued:not(.euiButtonIcon--empty) {
@@ -23195,7 +23195,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
   .euiButtonGroupButton--danger:not([class*="isDisabled"]):focus,
 .euiButtonGroup--compressed
   .euiButtonGroupButton--danger:not([class*="isDisabled"]):focus-within {
-  outline-color: #bd271e;
+  outline-color: #F32013;
 }
 .euiButtonGroup--compressed
   .euiButtonGroupButton--danger:not([class*="isDisabled"]):focus:focus-visible,
@@ -24437,7 +24437,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
   outline-color: #000 !important;
 }
 .euiStepNumber--danger {
-  background-color: #bd271e;
+  background-color: #F32013;
   color: #fff;
   outline-color: #000 !important;
 }
@@ -24721,7 +24721,7 @@ button.euiSuggestItem:focus .euiSuggestItem__label {
 }
 
 .euiToast--danger {
-  border-top: 2px solid #bd271e;
+  border-top: 2px solid #F32013;
 }
 
 .euiToastHeader__title {

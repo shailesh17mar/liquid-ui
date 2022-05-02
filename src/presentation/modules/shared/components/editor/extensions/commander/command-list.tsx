@@ -10,6 +10,7 @@ import {
 import { Editor } from "@tiptap/react";
 import { Range } from "@tiptap/core";
 import { useState } from "react";
+import { CommandContainer } from "./command-list.styles";
 
 interface CommandItem {
   title: string;
@@ -59,7 +60,7 @@ export const CommandList = (props: Record<string, any>) => {
   );
 
   return (
-    <>
+    <CommandContainer>
       <EuiPopover
         id={smallContextMenuPopoverId}
         isOpen={isPopoverOpen}
@@ -73,18 +74,20 @@ export const CommandList = (props: Record<string, any>) => {
             placeholder: "Start typing...",
             compressed: true,
           }}
+          height={300}
+          listProps={{ bordered: false }}
           singleSelection={true}
           onChange={(options: any) => onSelect(options)}
           options={items}
         >
           {(list, search) => (
-            <div style={{ width: 240 }}>
-              <EuiPopoverTitle paddingSize="s">{search}</EuiPopoverTitle>
+            <div style={{ width: 248, minHeight: 300 }}>
+              <EuiPopoverTitle paddingSize="m">{search}</EuiPopoverTitle>
               {list}
             </div>
           )}
         </EuiSelectable>
       </EuiPopover>
-    </>
+    </CommandContainer>
   );
 };
