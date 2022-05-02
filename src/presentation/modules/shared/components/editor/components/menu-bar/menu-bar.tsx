@@ -1,6 +1,7 @@
 import { EuiFlexGroup, EuiFlexItem } from "@elastic/eui";
 import { Editor } from "@tiptap/react";
 import { MenuButton, MenuIconButton } from "./menu-bar.styles";
+import { AiOutlineTable } from "react-icons/ai";
 
 interface MenuBarProps {
   editor: Editor | null;
@@ -10,7 +11,7 @@ export const MenuBar: React.FC<MenuBarProps> = ({ editor }) => {
     return null;
   }
   return (
-    <EuiFlexGroup gutterSize="xs">
+    <EuiFlexGroup gutterSize="s">
       <EuiFlexItem grow={false}>
         <MenuButton
           color="text"
@@ -146,6 +147,27 @@ export const MenuBar: React.FC<MenuBarProps> = ({ editor }) => {
           onClick={() => editor.chain().focus().toggleTaskList().run()}
           isSelected={editor.isActive("taskList")}
           aria-label="Task List"
+        />
+      </EuiFlexItem>
+      <EuiFlexItem grow={false}>
+        <MenuIconButton
+          color="text"
+          iconType={AiOutlineTable}
+          iconSize="l"
+          display="base"
+          size="s"
+          onClick={() =>
+            editor
+              .chain()
+              .focus()
+              .insertTable({
+                rows: 2,
+                cols: 2,
+              })
+              .run()
+          }
+          isSelected={editor.isActive("table")}
+          aria-label="Insert table"
         />
       </EuiFlexItem>
     </EuiFlexGroup>

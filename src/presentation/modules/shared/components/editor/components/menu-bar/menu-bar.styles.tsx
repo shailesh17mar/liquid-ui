@@ -8,13 +8,16 @@ export const MenuButton = styled(EuiButton)`
   > .euiButton__content {
     padding: 0;
   }
-  background: rgba(105, 112, 125, 0.03);
+  background: #fff;
+  border: 1px solid #d3dae6;
 `;
 
 export const MenuIconButton = styled(EuiButtonIcon)`
   &.euiButtonIcon--text {
-    background-color: rgba(105, 112, 125, 0.03);
+    background-color: #fff;
   }
+  min-width: 40px;
+  border: 1px solid #d3dae6;
 `;
 
 export const vr = styled.div`
