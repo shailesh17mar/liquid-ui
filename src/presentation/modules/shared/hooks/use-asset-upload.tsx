@@ -7,7 +7,7 @@ interface Props {
   onSuccess: (id: string) => void;
 }
 export const useAssetUpload = ({ onSuccess, isVideoAsset }: Props) => {
-  const [progress, setProgress] = useState(1);
+  const [progress, setProgress] = useState(0);
   const [assetUrl] = useState<string | undefined>();
   const videoAssetMutation = useCreateVideoAsset();
 
@@ -48,8 +48,10 @@ export const useAssetUpload = ({ onSuccess, isVideoAsset }: Props) => {
     const uploadTarget = await API.post("assets", "/assets/upload", {
       body: {
         contentType,
+        name: file.name,
       },
     });
+    setProgress(1);
     await uploadToS3(uploadTarget.uploadURL, file, (progress: number) => {
       setProgress(Math.round(progress));
     });

@@ -1,14 +1,7 @@
-import { NodeViewProps, NodeViewWrapper } from "@tiptap/react";
+import { NodeViewProps } from "@tiptap/react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { API, Storage } from "aws-amplify";
-import {
-  EuiImage,
-  EuiLoadingSpinner,
-  EuiPanel,
-  EuiProgress,
-  EuiText,
-} from "@elastic/eui";
-import { nanoid } from "nanoid";
+import { API } from "aws-amplify";
+import { EuiImage, EuiLoadingSpinner, EuiPanel, EuiText } from "@elastic/eui";
 import { ImageContainer } from "./image.styles";
 import { useAssetUpload } from "../../../../hooks/use-asset-upload";
 

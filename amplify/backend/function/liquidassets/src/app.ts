@@ -25,7 +25,7 @@ app.use(function (req, res, next) {
 app.use(authorize);
 
 app.post("/assets/upload", function (req, res) {
-  const metadata: { contentType: string } = req.body;
+  const metadata: { name: string; contentType: string } = req.body;
   const id = nanoid();
   const name = `${id}.${metadata.contentType.split("/")[1]}`;
   const url = s3.getSignedUrl("putObject", {
@@ -33,6 +33,7 @@ app.post("/assets/upload", function (req, res) {
     Key: `${req.tenant}/${name}`,
     Expires: EXPIRY_IN_SECONDS,
     ContentType: metadata.contentType,
+    Metadata: metadata,
   });
   res.json({ name, uploadURL: url });
 });
@@ -42,14 +43,19 @@ app.post("/templates/:id/clone", async (req, res) => {
   res.sendStatus(200);
 });
 
-app.get("/assets/:id", function (req, res) {
+app.get("/assets/:id", async function (req, res) {
   const { id } = req.params;
+  const params = {
+    Bucket: BUCKET,
+    Key: `${req.tenant}/${id}`,
+  };
+  const { Metadata } = await s3.headObject(params).promise();
   const url = s3.getSignedUrl("getObject", {
     Bucket: BUCKET,
     Key: `${req.tenant}/${id}`,
     Expires: EXPIRY_IN_SECONDS,
   });
-  res.json({ url });
+  res.json({ url, metadata: Metadata });
 });
 
 app.listen(3000, function () {
