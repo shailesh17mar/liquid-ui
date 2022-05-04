@@ -33,11 +33,13 @@ import { useCreateTranscription } from "core/modules/transcripts/hooks";
 import { TranscriptionStatus } from "models";
 import _ from "lodash";
 import { displayTranscript } from "../transcript/transcript-parser";
+import ReactPlayer from "react-player";
 
 export const Video = (props: NodeViewProps) => {
   const { id } = useParams() as { id: string };
   const uploaderRef = useRef<HTMLInputElement>(null);
   const { video, transcriptId } = props.node.attrs;
+  const [contentType, setContentType] = useState<string>();
   const [containsTranscript, setContainsTranscript] = useState(false);
 
   const [isTranscriptionOwner, setIsTranscriptionOwner, remove] =
@@ -104,11 +106,12 @@ export const Video = (props: NodeViewProps) => {
 
   useEffect(() => {
     async function fetchVideoUrl() {
-      const { url } = await API.get(
+      const { url, metadata } = await API.get(
         "assets",
         `/assets/${videoAsset?.video}`,
         {}
       );
+      if (metadata.contenttype.includes("video")) setContentType("video");
       setVideoURL(url);
     }
     if (videoAsset?.video) {
@@ -125,7 +128,6 @@ export const Video = (props: NodeViewProps) => {
     props.editor.commands.focus("end");
 
     props.editor.commands.setTranscript({ transcriptId: id }, transcriptJson);
-    //remove existing transcript
   };
 
   useEffect(() => {
@@ -247,7 +249,7 @@ export const Video = (props: NodeViewProps) => {
           style={{ display: "none" }}
           type="file"
           inputRef={uploaderRef}
-          accept="video/*"
+          accept="video/*,audio/*"
           onClick={handleFileTrigger}
           onChange={handleFileUpload}
         />
@@ -256,10 +258,42 @@ export const Video = (props: NodeViewProps) => {
           <EuiPanel hasShadow={false}>
             <EuiFlexGroup direction="column" justifyContent="center">
               <EuiFlexItem grow={false}>
-                <VideoPlayerWrapper>
-                  <VideoPlayer
+                {contentType === "video" ? (
+                  <VideoPlayerWrapper>
+                    <VideoPlayer
+                      width="100%"
+                      height="auto"
+                      url={videoURL}
+                      // config={{
+                      //   file: {
+                      //     hlsOptions: {
+                      //       xhrSetup: function xhrSetup(xhr: any, url: string) {
+                      //         xhr.setRequestHeader(
+                      //           "Access-Control-Allow-Headers",
+                      //           "Content-Type, Accept, X-Requested-With"
+                      //         );
+                      //         // xhr.setRequestHeader(
+                      //         //   "Access-Control-Allow-Origin",
+                      //         //   "http://localhost:3000"
+                      //         // );
+                      //         xhr.setRequestHeader(
+                      //           "Access-Control-Allow-Credentials",
+                      //           "true"
+                      //         );
+                      //         xhr.open("GET", url + token);
+                      //       },
+                      //     },
+                      //   },
+                      // }}
+                      playbackRate={1.0}
+                      controls
+                      onError={(e: any) => console.log("onError", e)}
+                    />
+                  </VideoPlayerWrapper>
+                ) : (
+                  <ReactPlayer
+                    height={50}
                     width="100%"
-                    height="auto"
                     url={videoURL}
                     // config={{
                     //   file: {
@@ -286,7 +320,7 @@ export const Video = (props: NodeViewProps) => {
                     controls
                     onError={(e: any) => console.log("onError", e)}
                   />
-                </VideoPlayerWrapper>
+                )}
               </EuiFlexItem>
               {!containsTranscript && (
                 <EuiFlexItem>

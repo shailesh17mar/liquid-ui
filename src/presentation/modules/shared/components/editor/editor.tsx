@@ -30,9 +30,9 @@ import { Commander } from "./extensions/commander/commander";
 import TextStyle from "@tiptap/extension-text-style";
 import { TranscriptExtension } from "./extensions/transcript/extension";
 import { ImageExtension } from "./extensions/image/extension";
+import { FileExtension } from "./extensions/file/extension";
 import { useState } from "react";
 import { useAuth } from "presentation/context/auth-context";
-import { QuickActionButton } from "./editor.styles";
 import TimeOffset from "./extensions/time-offset";
 import { useRecoilState, useResetRecoilState } from "recoil";
 import { VideoExtension } from "./extensions/video/extension";
@@ -47,10 +47,7 @@ import { HighlightExtension } from "./extensions/transcript/highlight";
 import _ from "lodash";
 import { TrailingNode } from "./components/trailing-node";
 import { BubbleControl } from "./components/bubble-control/bubble-control";
-
-const CustomDocument = Document.extend({
-  content: `block+`,
-});
+import { BottomBar } from "./components/bottom-bar";
 
 export const CustomParagraph = Paragraph.extend({
   addAttributes() {
@@ -107,7 +104,10 @@ interface EditorProps {
 }
 
 export const baseExtensions = [
-  CustomDocument,
+  Document,
+  StarterKit.configure({
+    paragraph: false,
+  }),
   Underline,
   TaskList,
   Image.configure({
@@ -128,14 +128,10 @@ export const baseExtensions = [
   TaskItem.configure({
     nested: false,
   }),
-  StarterKit.configure({
-    document: false,
-    history: false,
-    paragraph: false,
-  }),
   TranscriptExtension,
   VideoExtension,
   ImageExtension,
+  FileExtension,
   CustomParagraph,
   Placeholder.configure({
     showOnlyWhenEditable: true,
@@ -280,40 +276,7 @@ export const Editor: React.FC<EditorProps> = ({
           <EditorContent editor={editor} />
         </EuiFlexItem>
         <EuiFlexItem grow={false}>
-          <EuiFlexGroup>
-            <EuiFlexItem grow={false}>
-              <QuickActionButton
-                iconType="videoPlayer"
-                color="primary"
-                onClick={handleVideoClick}
-              >
-                Video
-              </QuickActionButton>
-            </EuiFlexItem>
-            <EuiFlexItem grow={false}>
-              <QuickActionButton
-                iconType="image"
-                color="danger"
-                onClick={handleImageClick}
-              >
-                Image
-              </QuickActionButton>
-            </EuiFlexItem>
-            {/* <EuiFlexItem grow={false}>
-              <QuickActionButton iconType="paperClip" color="warning">
-                File
-              </QuickActionButton>
-            </EuiFlexItem> */}
-            {/* <EuiFlexItem grow={false}>
-              <QuickActionButton
-                color="success"
-                iconType="editorTable"
-                role="button"
-              >
-                Table
-              </QuickActionButton>
-            </EuiFlexItem> */}
-          </EuiFlexGroup>
+          {editor && <BottomBar editor={editor} />}
         </EuiFlexItem>
       </EuiFlexGroup>
     </>
