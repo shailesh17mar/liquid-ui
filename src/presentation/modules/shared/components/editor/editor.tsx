@@ -107,7 +107,10 @@ interface EditorProps {
 }
 
 export const baseExtensions = [
-  CustomDocument,
+  Document,
+  StarterKit.configure({
+    paragraph: false,
+  }),
   Underline,
   TaskList,
   Image.configure({
@@ -128,11 +131,7 @@ export const baseExtensions = [
   TaskItem.configure({
     nested: false,
   }),
-  StarterKit.configure({
-    document: false,
-    history: false,
-    paragraph: false,
-  }),
+
   TranscriptExtension,
   VideoExtension,
   ImageExtension,
